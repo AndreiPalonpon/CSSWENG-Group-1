@@ -101,6 +101,25 @@ header p {
     vertical-align: middle;
 }
 
+header .nav-links {
+    position: absolute;
+    display: flex;
+    gap: 20px;
+    right: 40px;
+    transform: translateY(-55px);
+}
+
+header .nav-links a {
+    color: var(--color2);
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px;
+}
+
+header .nav-links a:hover {
+    color: var(--color1);
+}
+
 hr.vertical-solid {
     border: none;
     border-left: 1px solid black;

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Program Lists</title>
+    <title>LPPWDFI | Program Lists</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../public/css/program-list-style.css">
@@ -24,9 +24,12 @@
                     </div>
                 </div>
 
-                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="../views/dashboard.html">Dashboard</a></li>
+                <li><a href="../views/program-list.html">Programs</a></li>
+
+                <!--
                 <li class="dropdown">
-                    <a href="#programs" class="dropdown-toggle" data-toggle="dropdown">Programs<span class="caret"></span></a>
+                    <a href="../views/program-list.html" class="dropdown-toggle" data-toggle="dropdown">Programs<span class="caret"></span></a>
                     <ul class="dropdown-menu animated fadeInLeft" role="menu">
                         <li><a href="#pictures">Program 1</a></li>
                         <li><a href="#videos">Program 2</a></li>
@@ -35,6 +38,8 @@
                         <li><a href="#awards">Program 4</a></li>
                     </ul>
                 </li>
+                --->
+
                 <li><a href="#beneficiary">Beneficiary</a></li>
                 <li><a href="#benefactor">Benefactor</a></li>
                 <li><a href="#inventory">Inventory</a></li>
@@ -49,13 +54,17 @@
             <header class="bg-gradient">
                 <div class="container d-flex align-items-center">
                     <div class="menu-icon mr-3" id="menu-toggle">&#9776;</div>
-                    <img src="../images/LPPWDFI-Logo.png" alt="Logo" class="logo mr-3">
+                    <a href="../views/dashboard.html">
+                        <img src="../images/LPPWDFI-Logo.png" alt="Logo" class="logo mr-3">
+                    </a>
                     <div>
                         <h1 class="org-name">Programs</h1>
                     </div>
                 </div>
                 <div class="header-right">
-                    <button class="btn create-btn">Create</button>
+                    <a href="../views/create-programs.html">
+                        <button class="btn create-btn">Create</button>
+                    </a>
                 </div>
             </header>
         </div>
