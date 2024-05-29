@@ -84,11 +84,25 @@ header .container {
     align-items: center;
 }
 
-.org-name {
-    font-size: 25px;
-    font-weight: bold;
-    margin: 0;
-    display: inline-block;
+.header-right {
+    font-family: 'Garet', sans-serif;
+    font-weight: bolder;
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
+}
+
+.header-right .create-btn {
+    background-color: var(--color3);
+    color: var(--color2);
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-780%);
 }
 
 header p {
@@ -99,6 +113,13 @@ header p {
     margin-left: 50px;
     margin-top: -10px;
     vertical-align: middle;
+}
+
+.org-name {
+    font-size: 25px;
+    font-weight: bold;
+    margin: 0;
+    display: inline-block;
 }
 
 hr.vertical-solid {
@@ -114,7 +135,6 @@ hr.vertical-solid {
 }
 
 .bg-half-gradient {
-    background: url(../images/Bg-gradient.png);
     padding: 20px;
     background-size: cover;
     color: var(--color1);
@@ -134,139 +154,15 @@ hr.vertical-solid {
     font-size: 28px;
 }
 
-
-/*-------------------------------*/
-
-
-/*     Search styles            */
-
-
-/*-------------------------------*/
-
-.search-container {
-    display: flex;
-    justify-content: center;
-    position: relative;
+.main-content {
+    padding: 20px;
 }
 
-.search-container .input-group {
-    width: 100%;
-    max-width: 600px;
-    margin-bottom: 30px;
-    display: flex;
-    justify-content: center;
-}
-
-.search-container input::placeholder {
-    font-family: 'Garet', sans-serif;
-    text-align: left;
-    padding-left: 8px;
-}
-
-.search-container input {
-    border-radius: 25px 0 0 25px !important;
-    position: relative;
-    outline: none;
-    width: 100%;
-    height: auto;
-    padding-right: 10px;
-    box-sizing: border-box;
-    text-align: left;
-    padding-left: 10px;
-}
-
-.search-container button {
-    border-radius: 0 25px 25px 0 !important;
-    background-color: var(--color1);
-    border: 0.5px solid rgb(188, 187, 187);
-    outline: none;
-}
-
-.bi.bi-search {
-    font-size: 23px;
-    color: var(--color2);
-}
-
-
-/*-------------------------------*/
-
-
-/*     Cards styles             */
-
-
-/*-------------------------------*/
-
-.card {
-    box-shadow: 0 0 10px rgba(0.5, 0.5, 0.5, 0.25);
-    position: relative;
-    z-index: 20;
-    border-radius: 1rem;
-    height: auto;
-    width: 90%;
-    padding: 5px;
-    overflow: hidden;
-    background-color: var(--color1);
-    border: 1px solid transparent;
-    transition: background-color 0.3s ease;
-}
-
-.card:hover {
-    background-color: rgb(231, 229, 229);
-}
-
-.card img {
-    width: 50px;
-    height: 50px;
-}
-
-.card h5 {
-    color: var(--color2);
-    margin: 10px 0;
-    font-size: 18px;
-}
-
-.card p {
-    color: #777;
-}
-
-.grid-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-    padding: 10px;
-}
-
-@media (min-width: 768px) {
-    .grid-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (min-width: 1024px) {
-    .grid-container {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-.card-title {
-    color: var(--color1);
+.main-title {
+    font-size: 28px;
     font-weight: bold;
-    margin-top: 1rem;
-}
-
-.card-text {
-    font-family: 'Garet', sans-serif;
-    font-weight: lighter;
-    margin-top: 1rem;
-    color: #a0aec0;
-    line-height: 1.5;
-    font-size: 0.875rem;
-}
-
-.nav .open>a,
-.nav .open>a:hover,
-.nav .open>a:focus {
-    background-color: transparent;
+    margin-bottom: 20px;
+    margin-left: 20px;
 }
 
 
@@ -459,4 +355,62 @@ hr.vertical-solid {
 
 .dropdown-menu.show {
     top: 0;
+}
+
+
+/*-------------------------------*/
+
+
+/*              Main             */
+
+
+/*-------------------------------*/
+
+.button-group {
+    font-family: 'Garet', sans-serif;
+    font-weight: bold;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    position: absolute;
+    right: 40px;
+    transform: translateY(-130%);
+}
+
+.button-group .btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: var(--color5);
+    color: var(--color1);
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.button-group .filter-btn i {
+    font-size: 16px;
+}
+
+
+/*-------------------------------*/
+
+
+/*     Table                    */
+
+
+/*-------------------------------*/
+
+.table-container {
+    font-family: 'Telegraf', sans-serif;
+    padding: 0 20px;
+    margin-top: 50px;
+}
+
+.table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
 }
