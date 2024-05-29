@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="wrapper">
+        <div class="overlay"></div>
+
+        <!-- Sidebar -->
+        <nav class="navbar navbar-inverse fixed-top" id="sidebar-wrapper" role="navigation">
+            <ul class="nav sidebar-nav">
+                <div class="sidebar-header">
+                    <div class="sidebar-brand">
+                        <a href="#">Admin</a>
+                        <hr class="navbar-solid">
+                    </div>
+                </div>
+
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li class="dropdown">
+                    <a href="#programs" class="dropdown-toggle" data-toggle="dropdown">Programs<span class="caret"></span></a>
+                    <ul class="dropdown-menu animated fadeInLeft" role="menu">
+                        <li><a href="#pictures">Program 1</a></li>
+                        <li><a href="#videos">Program 2</a></li>
+                        <li><a href="#books">Program 3</a></li>
+                        <li><a href="#art">Program 4</a></li>
+                        <li><a href="#awards">Program 4</a></li>
+                    </ul>
+                </li>
+                <li><a href="#beneficiary">Beneficiary</a></li>
+                <li><a href="#benefactor">Benefactor</a></li>
+                <li><a href="#inventory">Inventory</a></li>
+                <li><a href="#settings">Settings</a></li>
+                <li class="logout-link"><a href="#logout"><i class="bi bi-box-arrow-right"></i>  Logout</a></li>
+            </ul>
+        </nav>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- BODY -->
+        <div class="bg-half-gradient">
+            <header class="bg-gradient">
+                <div class="container d-flex align-items-center">
+                    <div class="menu-icon mr-3" id="menu-toggle">&#9776;</div>
+                    <img src="../CSSWENG-G1-1/Branding-Guidelines/LPPWDFI-Logo.png" alt="Logo" class="logo mr-3">
+                    <div>
+                        <h1 class="org-name">LPPWDFI</h1>
+                        <p class="mb-0">Las Pinas Persons With<br>Disabilities Federation Inc.</p>
+                    </div>
+                    <hr class="vertical-solid">
+                </div>
+            </header>
+
+            <div class="container">
+                <main class="container text-center mt-5">
+                    <h2 class="welcome-title">Welcome to your Dashboard!</h2>
+                    <div class="search-container my-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search for anything....">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button">
+                                <i class="bi bi-search"></i>
+                            </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <img src="../CSSWENG-G1-1/Branding-Guidelines/program-icon.png" alt="Programs" class="mb-3">
+                                    <h5 class="card-title">Programs</h5>
+                                    <p class="card-text">View or create appointments</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <img src="../CSSWENG-G1-1/Branding-Guidelines/beneficiary-icon.png" alt="Beneficiary" class="mb-3">
+                                    <h5 class="card-title">Beneficiary</h5>
+                                    <p class="card-text">View or create appointments</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <img src="../CSSWENG-G1-1/Branding-Guidelines/benfactor-icon.png" alt="Benefactor" class="mb-3">
+                                    <h5 class="card-title">Benefactor</h5>
+                                    <p class="card-text">View or create appointments</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <img src="../CSSWENG-G1-1/Branding-Guidelines/inventory-icon.png" alt="Inventory" class="mb-3">
+                                    <h5 class="card-title">Inventory</h5>
+                                    <p class="card-text">View or create appointments</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <img src="../CSSWENG-G1-1/Branding-Guidelines/summary-icon.png" alt="Summary" class="mb-3">
+                                    <h5 class="card-title">Summary</h5>
+                                    <p class="card-text">View or create appointments</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <img src="../CSSWENG-G1-1/Branding-Guidelines/settings-icon.png" alt="Settings" class="mb-3">
+                                    <h5 class="card-title">Settings</h5>
+                                    <p class="card-text">View or create appointments</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.getElementById("menu-toggle").addEventListener("click", function() {
+            document.getElementById("wrapper").classList.toggle("toggled");
+        });
+    </script>
+</body>
+
+</html>
