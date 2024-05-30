@@ -154,6 +154,7 @@
     }
     
     .main-title {
+        font-family: 'Garet', sans-serif;
         font-size: 28px;
         font-weight: bold;
         margin-bottom: 20px;
@@ -405,6 +406,7 @@
     /*-------------------------------*/
     
     .form-row {
+        font-family: 'Telegraf', sans-serif;
         padding: 20px;
     }
     
