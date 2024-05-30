@@ -58,7 +58,9 @@
                         <img src="../images/LPPWDFI-Logo.png" alt="Logo" class="logo mr-3">
                     </a>
                     <div>
-                        <h1 class="org-name">Programs</h1>
+                        <a href="../views/program-list.html">
+                            <h1 class="org-name">Programs</h1>
+                        </a>
                     </div>
                 </div>
 
@@ -71,61 +73,33 @@
             <form action="">
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="firstName">First Name</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="First Name">
+                        <label for="firstName">Program Name</label>
+                        <input type="text" class="form-control" id="programName" placeholder="Program Name">
                     </div>
 
-                    <div class="form-group col-md-5">
-                        <label for="barangay">Barangay</label>
-                        <input type="text" class="form-control" id="barangay" placeholder="Barangay">
-                    </div>
                     <div class="form-group col-md-6">
-                        <label for="lastName">Last Name</label>
-                        <input type="text" class="form-control" id="lastName" placeholder="Last Name">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="disabilityType">Type of Disability</label>
-                        <select id="disabilityType" class="form-control">
+                        <label for="programType">Type of Program</label>
+                        <select id="programType" class="form-control">
                             <option selected>Choose...</option>
                             <option>...</option>
                         </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="dob">Date of Birth</label>
-                        <input type="date" class="form-control" id="dob">
+                        <label for="frequency">Frequency</label>
+                        <select id="frequency" class="form-control">
+                            <option selected>Choose...</option>
+                            <option>...</option>
+                        </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="healthCondition">Health Condition</label>
-                        <input type="text" class="form-control" id="healthCondition" placeholder="Health Condition">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>Gender</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gender" id="male" value="male">
-                            <label class="form-check-label" for="male">Male</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gender" id="female" value="female">
-                            <label class="form-check-label" for="female">Female</label>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="assistanceType">Type of Assistance Requested</label>
+                        <label for="assistanceType">Assistance Type</label>
                         <select id="assistanceType" class="form-control">
                             <option selected>Choose...</option>
                             <option>...</option>
                         </select>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label for="contactNumber">Contact Number</label>
-                        <input type="text" class="form-control" id="contactNumber" placeholder="Contact Number">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="pwdId">PWD ID Card Number</label>
-                        <input type="text" class="form-control" id="pwdId" placeholder="PWD ID Card Number">
-                    </div>
                 </div>
-                <button type="submit" class="btn create-btn">Create</button>
+                <button type="submit" class="btn create-new-btn">Create</button>
             </form>
         </main>
 
