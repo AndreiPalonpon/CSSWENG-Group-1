@@ -7,6 +7,11 @@ const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 //mongoose.connect() //Connect.
 
+const Program = require("./models/program");
+const Beneficiary = require("./models/beneficiary");
+const Benefactor = require("./models/benefactor");
+const Inventory = require("./models/inventory");
+
 const programsRouter = require("./routes/programs");
 const beneficiaryRouter = require("./routes/beneficiaries");
 const benefactorRouter = require("./routes/programs");
