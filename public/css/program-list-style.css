@@ -68,6 +68,9 @@
     }
     
     header {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
         background-size: cover;
         color: var(--color2);
         padding: 10px 0;
@@ -97,7 +100,7 @@
         cursor: pointer;
         position: absolute;
         right: 40px;
-        top: 50%;
+        top: 43%;
         transform: translateY(-780%);
     }
     
