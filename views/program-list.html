@@ -73,8 +73,19 @@
             </div>
             <h2 class="main-title">Program Lists</h2>
             <div class="button-group">
-                <button class="btn filter-btn">
-                    <i class="fas fa-filter"></i> Filter</button>
+
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Filter
+                  </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="#">Program Name</a></li>
+                    <li><a class="dropdown-item" href="#">Date Last Updated</a></li>
+                    <li><a class="dropdown-item" href="#">Date Program Created</a></li>
+                    <li><a class="dropdown-item" href="#">Type of Program</a></li>
+                    <li><a class="dropdown-item" href="#">Frequency</a></li>
+                    <li><a class="dropdown-item" href="#">Assistance Type</a></li>
+                </ul>
+
                 <button class="btn export-btn">Export</button>
             </div>
 
@@ -153,28 +164,30 @@
                     <a class="page-link" href="#" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                                </ul>
+                                </nav>
 
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script>
-            document.getElementById("menu-toggle").addEventListener("click", function() {
-                document.getElementById("wrapper").classList.toggle("toggled");
-                document.querySelector(".main-content").classList.toggle("toggled");
-                document.querySelector(".header-right").classList.toggle("toggled");
-            });
-        </script>
+                                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+                                <!-- Bootstrap JS -->
+                                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+                                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+                                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                                <script>
+                                    document.getElementById("menu-toggle").addEventListener("click", function() {
+                                        document.getElementById("wrapper").classList.toggle("toggled");
+                                        document.querySelector(".main-content").classList.toggle("toggled");
+                                        document.querySelector(".header-right").classList.toggle("toggled");
+                                    });
+                                </script>
 </body>
 
 </html>
