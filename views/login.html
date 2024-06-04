@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="/public/css/login.css">
+    <script src="/public/js/login.js"></script>
 </head>
 
 <body>
@@ -16,9 +17,11 @@
         <div class="right-side">
             <div class="login-box">
                 <h1>Hello, welcome back!</h1>
-                <label for="password">Enter Password:</label>
-                <input type="password" placeholder="Password">
-                <button>SIGN-IN</button>
+                <form id="loginForm" onsubmit="return getPassword();">
+                    <label for="password">Enter Password:</label>
+                    <input type="password" id="password" placeholder="Password">
+                    <button type="submit">SIGN-IN</button>
+                </form>
             </div>
         </div>
     </div>
