@@ -5,7 +5,12 @@ const express = require("express");
 //Connecting to MongoDB.
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
-//mongoose.connect() //Connect.
+const mongoDB = "mongodb+srv://andreipalonpon:Ftlpn7UeDQfci6uG@appcluster.00tewof.mongodb.net/?retryWrites=true&w=majority&appName=AppCluster";
+
+main().catch((err) => console.log(err));
+async function main() {
+  await mongoose.connect(mongoDB);
+}
 
 const Program = require("./models/program");
 const Beneficiary = require("./models/beneficiary");
