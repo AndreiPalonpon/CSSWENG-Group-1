@@ -56,7 +56,6 @@
     html {
         height: 100%;
     }
-
     /*-------------------------------*/
     /*     Header Styles        */
     /*-------------------------------*/
@@ -100,7 +99,7 @@
         cursor: pointer;
         position: absolute;
         right: 40px;
-        top: 43%;
+        top: 50%;
         transform: translateY(-780%);
     }
     
