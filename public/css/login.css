@@ -88,6 +88,7 @@ body {
 }
 
 .login-box input[type="password"] {
+    border: 2px solid black;
     width: 100%;
     padding: 15px;
     margin: 10px 10px 50px 10px;
