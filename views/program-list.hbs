@@ -275,26 +275,124 @@
                     programInfo.innerHTML += row;
                 });
 
-                document.querySelectorAll('.viewBtn').forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        const id = parseInt(e.currentTarget.getAttribute('data-id'));
-                        readInfo(id);
-                    });
-                });
+                /*PAGINATION*/
+                let currentPage = 1;
+                const rowsPerPage = 5;
 
-                document.querySelectorAll('.editBtn').forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        const id = parseInt(e.currentTarget.getAttribute('data-id'));
-                        editInfo(id);
-                    });
-                });
+                function displayPagination(totalRows) {
+                    const pagination = document.querySelector('.pagination');
+                    const totalPages = Math.ceil(totalRows / rowsPerPage);
 
-                document.querySelectorAll('.deleteBtn').forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        const id = parseInt(e.currentTarget.getAttribute('data-id'));
-                        deleteInfo(id);
+                    pagination.innerHTML =
+                        `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                            <a class="page-link" href="#" aria-label="Previous" id="prevButton">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>`;
+
+                    for (let i = 1; i <= totalPages; i++) {
+                        pagination.innerHTML += `
+                            <li class="page-item ${currentPage === i ? 'active' : ''}">
+                                    <a class="page-link paginationButton" href="#">${i}</a>
+                            </li>`;
+                    }
+
+                    pagination.innerHTML += `
+                        <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                            <a class="page-link" href="#" aria-label="Next" id="nextButton">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>`;
+
+                    document.getElementById("prevButton").addEventListener("click", prevPage);
+                    document.getElementById("nextButton").addEventListener("click", nextPage);
+
+                    const paginationButtons = document.getElementsByClassName("paginationButton");
+                    for (let i = 0; i < paginationButtons.length; i++) {
+                        paginationButtons[i].addEventListener("click", function(event) {
+                            event.preventDefault();
+                            goToPage(parseInt(this.textContent));
+                        });
+                    }
+                }
+
+                function displayRows(rows, page = 1) {
+                    const start = (page - 1) * rowsPerPage;
+                    const end = start + rowsPerPage;
+                    const paginatedRows = rows.slice(start, end);
+                    programInfo.innerHTML = '';
+
+                    paginatedRows.forEach((program, index) => {
+                        const row = `
+                            <tr>
+                                <td>${start + index + 1}</td>
+                                <td>${program.programName}</td>
+                                <td>${program.lastUpdated}</td>
+                                <td>${program.dateCreated}</td>
+                                <td>${capitalizeFirstLetter(program.programType)}</td>
+                                <td>${capitalizeFirstLetter(program.frequency)}</td>
+                                <td>${capitalizeFirstLetter(program.assistanceType)}</td>
+                                <td>
+                                    <button class="viewBtn" data-id="${program.id}"><i class="bi bi-eye"></i></button>
+                                    <button class="editBtn" data-id="${program.id}"><i class="bi bi-pencil"></i></button>
+                                    <button class="deleteBtn" data-id="${program.id}"><i class="bi bi-trash"></i></button>
+                                </td>
+                            </tr>
+                        `;
+                        programInfo.innerHTML += row;
                     });
-                });
+
+                    function capitalizeFirstLetter(string) {
+                        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+                    }
+
+                    document.querySelectorAll('.viewBtn').forEach(button => {
+                        button.addEventListener('click', (e) => {
+                            const id = parseInt(e.currentTarget.getAttribute('data-id'));
+                            readInfo(id);
+                        });
+                    });
+
+                    document.querySelectorAll('.editBtn').forEach(button => {
+                        button.addEventListener('click', (e) => {
+                            const id = parseInt(e.currentTarget.getAttribute('data-id'));
+                            editInfo(id);
+                        });
+                    });
+
+                    document.querySelectorAll('.deleteBtn').forEach(button => {
+                        button.addEventListener('click', (e) => {
+                            const id = parseInt(e.currentTarget.getAttribute('data-id'));
+                            deleteInfo(id);
+                        });
+                    });
+                }
+
+                function prevPage() {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        displayRows(getData, currentPage);
+                        displayPagination(getData.length);
+                    }
+                }
+
+                function nextPage() {
+                    const totalPages = Math.ceil(getData.length / rowsPerPage);
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        displayRows(getData, currentPage);
+                        displayPagination(getData.length);
+                    }
+                }
+
+                function goToPage(page) {
+                    currentPage = page;
+                    displayRows(getData, currentPage);
+                    displayPagination(getData.length);
+                }
+
+                displayRows(getData, currentPage);
+                displayPagination(getData.length);
             }
 
             function readInfo(id) {
