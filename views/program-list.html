@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LPPWDFI | Program Lists</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../public/css/program-list-style.css">
+</head>
+
+<body>
+    <div id="wrapper">
+        <div class="overlay dark_bg"></div>
+        <!-- Modal Background -->
+
+        <!-- Sidebar -->
+        <nav class="navbar navbar-inverse fixed-top" id="sidebar-wrapper" role="navigation">
+            <ul class="nav sidebar-nav">
+                <div class="sidebar-header">
+                    <div class="sidebar-brand">
+                        <a href="#">Admin</a>
+                        <hr class="navbar-solid">
+                    </div>
+                </div>
+
+                <li><a href="../views/dashboard.html">Dashboard</a></li>
+                <li><a href="../views/program-list.html">Programs</a></li>
+                <li><a href="#beneficiary">Beneficiary</a></li>
+                <li><a href="#benefactor">Benefactor</a></li>
+                <li><a href="#inventory">Inventory</a></li>
+                <li><a href="#settings">Settings</a></li>
+                <li class="logout-link"><a href="#logout"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+            </ul>
+        </nav>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- HEADER -->
+        <div class="bg-half-gradient">
+            <header class="bg-gradient">
+                <div class="container d-flex align-items-center">
+                    <div class="menu-icon mr-3" id="menu-toggle">&#9776;</div>
+                    <a href="../views/dashboard.html">
+                        <img src="../images/LPPWDFI-Logo.png" alt="Logo" class="logo mr-3">
+                    </a>
+                    <div>
+                        <h1 class="org-name">Programs</h1>
+                    </div>
+                </div>
+
+                <div class="addProgramBtn">
+                    <button>Create</button>
+                </div>
+            </header>
+        </div>
+
+        <!--MODAL FORM-->
+        <div class="popup">
+            <header>
+                <h2 class="modalTitle">Fill the Form</h2>
+                <span class="closeBtn">&times;</span>
+            </header>
+            <form id="programForm">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="programName">Program Name</label>
+                        <input type="text" class="form-control" id="programName" placeholder="Program Name" required>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="programType">Type of Program</label>
+                        <select id="programType" class="form-control" required>
+                            <option value="" selected disabled>Choose...</option>
+                            <option value="type1">Type 1</option>
+                            <option value="type2">Type 2</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="frequency">Frequency</label>
+                        <select id="frequency" class="form-control" required>
+                            <option value="" selected disabled>Choose...</option>
+                            <option value="daily">Daily</option>
+                            <option value="weekly">Weekly</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="assistanceType">Assistance Type</label>
+                        <select id="assistanceType" class="form-control" required>
+                            <option value="" selected disabled>Choose...</option>
+                            <option value="financial">Financial</option>
+                            <option value="medical">Medical</option>
+                        </select>
+                    </div>
+                </div>
+                <input type="submit" class="submitBtn" value="Submit">
+            </form>
+        </div>
+
+        <!--2nd Header-->
+        <main class="main-content">
+            <h2 class="main-title">Program Lists</h2>
+            <div class="button-group">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="filterDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    Filter
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="filterDropdownButton">
+                    <input class="form-control" id="myInput" type="text" placeholder="Search..">
+                    <li><a class="dropdown-item" href="#">Program Name</a></li>
+                    <li><a class="dropdown-item" href="#">Date Last Updated</a></li>
+                    <li><a class="dropdown-item" href="#">Date Program Created</a></li>
+                    <li><a class="dropdown-item" href="#">Type of Program</a></li>
+                    <li><a class="dropdown-item" href="#">Frequency</a></li>
+                    <li><a class="dropdown-item" href="#">Assistance Type</a></li>
+                </ul>
+                <div id="dynamicFiltersContainer"></div>
+                <button class="btn export-btn">Export</button>
+            </div>
+
+            <!---TABLE LISTS-->
+            <div class="table-container">
+                <table class="table table-bordered table-hover">
+                    <caption>List of Programs</caption>
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Program Name</th>
+                            <th scope="col">Last Updated</th>
+                            <th scope="col">Date Program Created</th>
+                            <th scope="col">Type of Program</th>
+                            <th scope="col">Frequency</th>
+                            <th scope="col">Assistance Type</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="programInfo">
+                        <!-- Program rows will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+        <nav aria-label="page-navigation">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- JQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            document.getElementById("menu-toggle").addEventListener("click", function() {
+                document.getElementById("wrapper").classList.toggle("toggled");
+                document.querySelector(".main-content").classList.toggle("toggled");
+                document.querySelector(".header-right").classList.toggle("toggled");
+            });
+
+            $(document).ready(function() {
+                $("#myInput").on("keyup", function() {
+                    var value = $(this).val().toLowerCase();
+                    $(".dropdown-menu li").filter(function() {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                });
+            });
+
+            var newMemberAddBtn = document.querySelector('.addProgramBtn button'),
+                darkBg = document.querySelector('.dark_bg'),
+                popupForm = document.querySelector('.popup'),
+                crossBtn = document.querySelector('.closeBtn'),
+                submitBtn = document.querySelector('.submitBtn'),
+                modalTitle = document.querySelector('.modalTitle'),
+                form = document.querySelector('#programForm'),
+                programInfo = document.querySelector('.programInfo');
+
+            let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
+            let getData = [...originalData];
+
+            let isEdit = false,
+                editId;
+
+            newMemberAddBtn.addEventListener('click', () => {
+                isEdit = false;
+                submitBtn.innerHTML = "Submit";
+                modalTitle.innerHTML = "Fill the Form";
+                form.reset();
+                darkBg.classList.add('active');
+                popupForm.classList.add('active');
+            });
+
+            crossBtn.addEventListener('click', () => {
+                darkBg.classList.remove('active');
+                popupForm.classList.remove('active');
+                form.reset();
+            });
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const program = {
+                    id: Date.now(),
+                    programName: form.programName.value,
+                    programType: form.programType.value,
+                    frequency: form.frequency.value,
+                    assistanceType: form.assistanceType.value,
+                    dateCreated: new Date().toLocaleDateString(),
+                    lastUpdated: new Date().toLocaleDateString()
+                };
+
+                if (!isEdit) {
+                    originalData.push(program);
+                } else {
+                    originalData[editId] = program;
+                }
+                localStorage.setItem('programs', JSON.stringify(originalData));
+                getData = [...originalData];
+                showInfo();
+                darkBg.classList.remove('active');
+                popupForm.classList.remove('active');
+                form.reset();
+            });
+
+            function showInfo() {
+                programInfo.innerHTML = '';
+                getData.forEach((program, index) => {
+                    let row = `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${program.programName}</td>
+                            <td>${program.lastUpdated}</td>
+                            <td>${program.dateCreated}</td>
+                            <td>${program.programType}</td>
+                            <td>${program.frequency}</td>
+                            <td>${program.assistanceType}</td>
+                            <td>
+                                <button onclick="readInfo(${program.id})"><i class="bi bi-eye"></i></button>
+                                <button onclick="editInfo(${program.id})"><i class="bi bi-pencil"></i></button>
+                                <button onclick="deleteInfo(${program.id})"><i class="bi bi-trash"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                    programInfo.innerHTML += row;
+                });
+            }
+
+            function readInfo(id) {
+                const program = getData.find(item => item.id === id);
+                if (program) {
+                    form.programName.value = program.programName;
+                    form.programType.value = program.programType;
+                    form.frequency.value = program.frequency;
+                    form.assistanceType.value = program.assistanceType;
+                    modalTitle.innerHTML = "View Program";
+                    formInputFields.forEach(input => input.disabled = true);
+                    submitBtn.style.display = "none";
+                    darkBg.classList.add('active');
+                    popupForm.classList.add('active');
+                }
+            }
+
+            function editInfo(id) {
+                isEdit = true;
+                editId = getData.findIndex(item => item.id === id);
+                const program = getData[editId];
+                if (program) {
+                    form.programName.value = program.programName;
+                    form.programType.value = program.programType;
+                    form.frequency.value = program.frequency;
+                    form.assistanceType.value = program.assistanceType;
+                    modalTitle.innerHTML = "Edit Program";
+                    formInputFields.forEach(input => input.disabled = false);
+                    submitBtn.style.display = "block";
+                    submitBtn.innerHTML = "Update";
+                    darkBg.classList.add('active');
+                    popupForm.classList.add('active');
+                }
+            }
+
+            function deleteInfo(id) {
+                if (confirm("Are you sure you want to delete this program?")) {
+                    originalData = originalData.filter(item => item.id !== id);
+                    localStorage.setItem('programs', JSON.stringify(originalData));
+                    getData = [...originalData];
+                    showInfo();
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', showInfo);
+        </script>
+</body>
+
+</html>
