@@ -135,6 +135,17 @@
                     </thead>
                     <tbody class="programInfo">
                         <!-- Program rows will be populated here -->
+                        {{#each programs}}
+                        <tr>
+                            <th scope="row">{{@index}}</th>
+                            <td><a href="">{{this.name}}</a></td>
+                            <td>{{this.recent_update_date}}</td>
+                            <td>{{this.creation_date}}</td>
+                            <td>{{this.program_type}}</td>
+                            <td>{{this.frequency}}</td>
+                            <td>{{this.assistance_type}}</td>
+                        </tr>
+                        {{/each}}
                     </tbody>
                 </table>
             </div>

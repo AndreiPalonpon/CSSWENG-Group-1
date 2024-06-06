@@ -62,7 +62,7 @@ router.get('/', asyncHandler(async (req, res, next) => {
                                      .exec();
 
     //res.send(allPrograms);
-    res.render("program-list", { programs: allPrograms, moment: moment });
+    res.render("program-list", { programs: allPrograms });
 }));
 
 //GET request for one program.
