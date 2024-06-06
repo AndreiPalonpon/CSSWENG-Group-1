@@ -164,6 +164,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="../public/js/app.js"></script>
         <script>
             document.getElementById("menu-toggle").addEventListener("click", function() {
                 document.getElementById("wrapper").classList.toggle("toggled");
@@ -187,6 +188,7 @@
                 submitBtn = document.querySelector('.submitBtn'),
                 modalTitle = document.querySelector('.modalTitle'),
                 form = document.querySelector('#programForm'),
+                formInputFields = document.querySelectorAll('#programForm input, #programForm select'),
                 programInfo = document.querySelector('.programInfo');
 
             let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
@@ -200,6 +202,8 @@
                 submitBtn.innerHTML = "Submit";
                 modalTitle.innerHTML = "Fill the Form";
                 form.reset();
+                formInputFields.forEach(input => input.disabled = false);
+                submitBtn.style.display = "block";
                 darkBg.classList.add('active');
                 popupForm.classList.add('active');
             });
@@ -208,18 +212,21 @@
                 darkBg.classList.remove('active');
                 popupForm.classList.remove('active');
                 form.reset();
+                submitBtn.style.display = "block";
+                formInputFields.forEach(input => input.disabled = false);
             });
 
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
+                const now = new Date();
                 const program = {
                     id: Date.now(),
                     programName: form.programName.value,
                     programType: form.programType.value,
                     frequency: form.frequency.value,
                     assistanceType: form.assistanceType.value,
-                    dateCreated: new Date().toLocaleDateString(),
-                    lastUpdated: new Date().toLocaleDateString()
+                    dateCreated: now.toLocaleDateString(),
+                    lastUpdated: now.toLocaleDateString() + ' ' + now.toLocaleTimeString()
                 };
 
                 if (!isEdit) {
@@ -248,13 +255,34 @@
                             <td>${program.frequency}</td>
                             <td>${program.assistanceType}</td>
                             <td>
-                                <button onclick="readInfo(${program.id})"><i class="bi bi-eye"></i></button>
-                                <button onclick="editInfo(${program.id})"><i class="bi bi-pencil"></i></button>
-                                <button onclick="deleteInfo(${program.id})"><i class="bi bi-trash"></i></button>
+                                <button class="viewBtn" data-id="${program.id}"><i class="bi bi-eye"></i></button>
+                                <button class="editBtn" data-id="${program.id}"><i class="bi bi-pencil"></i></button>
+                                <button class="deleteBtn" data-id="${program.id}"><i class="bi bi-trash"></i></button>
                             </td>
                         </tr>
                     `;
                     programInfo.innerHTML += row;
+                });
+
+                document.querySelectorAll('.viewBtn').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const id = parseInt(e.currentTarget.getAttribute('data-id'));
+                        readInfo(id);
+                    });
+                });
+
+                document.querySelectorAll('.editBtn').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const id = parseInt(e.currentTarget.getAttribute('data-id'));
+                        editInfo(id);
+                    });
+                });
+
+                document.querySelectorAll('.deleteBtn').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const id = parseInt(e.currentTarget.getAttribute('data-id'));
+                        deleteInfo(id);
+                    });
                 });
             }
 
