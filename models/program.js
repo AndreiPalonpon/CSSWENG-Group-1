@@ -27,6 +27,10 @@ const ProgramSchema = new Schema({
         required: true,
         enum: ["Educational", "Financial", "Medical",]
     },
+
+    //Add virtual method for date format.
 });
+
+
 
 module.exports = mongoose.model("Program", ProgramSchema, 'programs');
