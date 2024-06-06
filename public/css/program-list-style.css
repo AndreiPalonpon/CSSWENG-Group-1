@@ -104,6 +104,8 @@ header .container {
 }
 
 .addProgramBtn button {
+    font-family: 'Garet', sans-serif;
+    font-weight: bold;
     background-color: var(--color3);
     color: var(--color2);
     border-radius: 20px;
@@ -467,6 +469,8 @@ hr.vertical-solid {
 }
 
 .button-group .btn {
+    font-family: 'Garet', sans-serif;
+    font-weight: bold;
     display: flex;
     align-items: center;
     gap: 5px;
@@ -478,18 +482,14 @@ hr.vertical-solid {
     cursor: pointer;
 }
 
-.dropdown-menu {
-    background-color: var(--color5);
-    color: var(--color1);
+.dropdown-toggle {
+    color: inherit;
+    text-decoration: none;
 }
 
-.dropdown-item {
-    color: var(--color1);
-}
-
-.dropdown-item:hover {
-    background-color: #F3F5FF;
-    color: var(--color2);
+.dropdown-toggle:hover {
+    color: inherit;
+    text-decoration: none;
 }
 
 

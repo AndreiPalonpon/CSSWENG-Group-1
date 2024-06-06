@@ -101,19 +101,6 @@
         <main class="main-content">
             <h2 class="main-title">Program Lists</h2>
             <div class="button-group">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="filterDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    Filter
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="filterDropdownButton">
-                    <input class="form-control" id="myInput" type="text" placeholder="Search..">
-                    <li><a class="dropdown-item" href="#">Program Name</a></li>
-                    <li><a class="dropdown-item" href="#">Date Last Updated</a></li>
-                    <li><a class="dropdown-item" href="#">Date Program Created</a></li>
-                    <li><a class="dropdown-item" href="#">Type of Program</a></li>
-                    <li><a class="dropdown-item" href="#">Frequency</a></li>
-                    <li><a class="dropdown-item" href="#">Assistance Type</a></li>
-                </ul>
-                <div id="dynamicFiltersContainer"></div>
                 <button class="btn export-btn">Export</button>
             </div>
 
@@ -124,12 +111,111 @@
                     <thead class="thead-light">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Program Name</th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="typeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Program Name
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="typeDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                                <label class="form-check-label" for="flexRadioDefault1">
+                                                    A-Z
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                                                <label class="form-check-label" for="flexRadioDefault2">
+                                                    Z-A
+                                                </label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
                             <th scope="col">Last Updated</th>
                             <th scope="col">Date Program Created</th>
-                            <th scope="col">Type of Program</th>
-                            <th scope="col">Frequency</th>
-                            <th scope="col">Assistance Type</th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="typeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Type of Program
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="typeDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="type1" id="type1Check">
+                                                <label class="form-check-label" for="type1Check">
+                                                    Type 1
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="type2" id="type2Check">
+                                                <label class="form-check-label" for="type2Check">
+                                                    Type 2
+                                                </label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
+
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="typeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Frequency
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="typeDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="type1" id="type1Check">
+                                                <label class="form-check-label" for="type1Check">
+                                                    Type 1
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="type2" id="type2Check">
+                                                <label class="form-check-label" for="type2Check">
+                                                    Type 2
+                                                </label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
+                            </th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="typeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Assistance Type
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="typeDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="type1" id="type1Check">
+                                                <label class="form-check-label" for="type1Check">
+                                                    Type 1
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="type2" id="type2Check">
+                                                <label class="form-check-label" for="type2Check">
+                                                    Type 2
+                                                </label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
+                            </th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
