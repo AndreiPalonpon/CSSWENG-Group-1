@@ -5,4 +5,4 @@ const InventoryScheme = new Schema({
     
 });
 
-module.exports = mongoose.model("Inventory", InventoryScheme);
+module.exports = mongoose.model("Inventory", InventoryScheme, "inventories");

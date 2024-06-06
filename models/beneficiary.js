@@ -50,4 +50,4 @@ BeneficiaryScheme.virtual("name").get(function () {
     return fullName;
 });
 
-module.exports = mongoose.model("Beneficiary", BeneficiaryScheme);
+module.exports = mongoose.model("Beneficiary", BeneficiaryScheme, "beneficiaries");

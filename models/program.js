@@ -5,11 +5,11 @@ const ProgramSchema = new Schema({
     name: String,
     recent_update_date: { 
         type: Date,
-        required: true 
+        default: Date.now
     },
     creation_date: { 
         type: Date ,
-        required: true
+        default: Date.now
     },
     program_type: {
         type: String,
@@ -29,4 +29,4 @@ const ProgramSchema = new Schema({
     },
 });
 
-module.exports = mongoose.model("Program", ProgramSchema);
+module.exports = mongoose.model("Program", ProgramSchema, 'programs');

@@ -5,4 +5,4 @@ const BenefactorScheme = new Schema({
     
 });
 
-module.exports = mongoose.model("Benefactor", BenefactorScheme);
+module.exports = mongoose.model("Benefactor", BenefactorScheme, "benefactors");

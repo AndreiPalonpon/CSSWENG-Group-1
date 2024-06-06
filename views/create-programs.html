@@ -70,7 +70,7 @@
         <main class="main-content">
             <h2 class="main-title">Add New Program</h2>
 
-            <form action="">
+            <form action="/programs/create" method="post">
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="firstName">Program Name</label>
@@ -81,21 +81,29 @@
                         <label for="programType">Type of Program</label>
                         <select id="programType" class="form-control">
                             <option selected>Choose...</option>
-                            <option>...</option>
+                            <option>Assistance</option>
+                            <option>Initiative</option>
+                            <option>Service</option>
+                            <option>Program</option>
                         </select>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="frequency">Frequency</label>
                         <select id="frequency" class="form-control">
                             <option selected>Choose...</option>
-                            <option>...</option>
+                            <option>Monthly</option>
+                            <option>Quarterly</option>
+                            <option>Semi-Annual</option>
+                            <option>Yearly</option>
                         </select>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="assistanceType">Assistance Type</label>
                         <select id="assistanceType" class="form-control">
                             <option selected>Choose...</option>
-                            <option>...</option>
+                            <option>Educational</option>
+                            <option>Financial</option>
+                            <option>Medical</option>
                         </select>
                     </div>
                 </div>
