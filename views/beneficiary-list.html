@@ -97,10 +97,9 @@
                         <label for="barangay">Barangay</label>
                         <select id="barangay" class="form-control" required>
                             <option value="" selected disabled>Choose...</option>
-                            <option value="daily">Daily</option>
-                            <option value="weekly">Weekly</option>
                         </select>
                     </div>
+
 
                     <div class="form-group col-md-6">
                         <label for="disabilityType">Disability Type</label>
@@ -228,27 +227,10 @@
                             </th>
                             <th scope="col">
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="frequencyDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="dropdown-toggle" id="barangayDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                         Barangay
                                     </a>
-                                    <ul class="dropdown-menu" aria-labelledby="frequencyDropdown">
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="daily" id="dailyCheck" name="frequencyFilter">
-                                                <label class="form-check-label" for="dailyCheck">
-                                                    Daily
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="weekly" id="weeklyCheck" name="frequencyFilter">
-                                                <label class="form-check-label" for="weeklyCheck">
-                                                    Weekly
-                                                </label>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                    <ul class="dropdown-menu" aria-labelledby="barangayDropdown" id="barangayDropdownMenu"></ul>
                                 </div>
                             </th>
                             <th scope="col">
@@ -518,8 +500,8 @@
                                 <td>${program.gender}</td>
                                 <td>${program.contactNo}</td>
                                 <td>${program.barangay}</td>
-                                <td>${program.disabilityType}</td>
-                                <td>${program.comorbidities}</td>
+                                <td>${capitalizeFirstLetter(program.disabilityType)}</td>
+                                <td>${capitalizeFirstLetter(program.comorbidities)}</td>
                                 <td>${program.pwdIdCardNo}</td>
                                 <td>
                                     <button class="viewBtn" data-id="${program.id}"><i class="bi bi-eye"></i></button>
@@ -530,6 +512,10 @@
                         `;
                         programInfo.innerHTML += row;
                     });
+
+                    function capitalizeFirstLetter(string) {
+                        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+                    }
                 }
 
                 function addEventListeners() {
@@ -744,6 +730,53 @@
                     if (contactNoInput.value.length > 14) {
                         contactNoInput.value = contactNoInput.value.slice(0, 14);
                     }
+                });
+            });
+
+            /*Barangay Dropdown*/
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const barangays = [
+                    "ALMANZA UNO",
+                    "B. F. INTERNATIONAL/CAA",
+                    "DANIEL FAJARDO",
+                    "ILAYA",
+                    "MANUYO UNO",
+                    "MANUYO DOS",
+                    "PAMPLONA UNO",
+                    "PAMPLONA DOS",
+                    "PAMPLONA TRES",
+                    "PILAR",
+                    "PULANGLUPA UNO",
+                    "PULANGLUPA DOS",
+                    "TALON UNO",
+                    "TALON DOS",
+                    "TALON TRES",
+                    "TALON KUATRO",
+                    "TALON SINGKO"
+                ];
+
+                const barangaySelect = document.getElementById('barangay');
+                const barangayDropdownMenu = document.getElementById('barangayDropdownMenu');
+
+                barangays.forEach((barangay, index) => {
+                    // Populate select dropdown
+                    const option = document.createElement('option');
+                    option.value = barangay;
+                    option.textContent = barangay;
+                    barangaySelect.appendChild(option);
+
+                    // Populate checkbox list
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="${barangay}" id="barangayCheck${index}" name="barangayFilter">
+                            <label class="form-check-label" for="barangayCheck${index}">
+                                ${barangay}
+                            </label>
+                        </div>
+                    `;
+                    barangayDropdownMenu.appendChild(listItem);
                 });
             });
         </script>
