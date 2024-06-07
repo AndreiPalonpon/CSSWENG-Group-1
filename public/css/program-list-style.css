@@ -141,7 +141,7 @@ header .container {
     border: 1px solid var(--dark6);
     background: var(--color3);
     border-radius: 5px;
-    margin-left: 510px;
+    margin-left: 550px;
 }
 
 .popup .submitBtn:hover {
