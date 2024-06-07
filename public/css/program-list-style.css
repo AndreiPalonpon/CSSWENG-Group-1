@@ -559,3 +559,41 @@ hr.vertical-solid {
 .page-item {
     margin: 0 0;
 }
+
+
+/*-------------------------------*/
+
+
+/*          Beneficiary          */
+
+
+/*-------------------------------*/
+
+.popup footer .submitBeneficiaryBtn {
+    padding: 9px 14px;
+    color: var(--dark8);
+    font-size: 16px;
+    cursor: pointer;
+    pointer-events: auto;
+    outline: none;
+    border: 1px solid var(--dark6);
+    background: var(--dark4);
+    border-radius: 5px;
+}
+
+.popup .submitBeneficiaryBtn {
+    padding: 9px 14px;
+    color: var(--color2);
+    font-size: 16px;
+    cursor: pointer;
+    pointer-events: auto;
+    outline: none;
+    border: 1px solid var(--dark6);
+    background: var(--color3);
+    border-radius: 5px;
+    margin-left: 650px;
+}
+
+.popup .submitBeneficiaryBtn:hover {
+    background: darkorange;
+}
