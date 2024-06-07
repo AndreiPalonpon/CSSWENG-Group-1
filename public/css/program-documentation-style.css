@@ -1,0 +1,123 @@
+/* styles.css */
+
+.container {
+    width: 80%;
+    margin-top: 20px;
+}
+
+.card-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.cards-documentation {
+    display: flex;
+    gap: 20px;
+}
+
+.cardDocumentation {
+    position: relative;
+    min-width: 300px;
+    max-width: 300px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    scroll-snap-align: start;
+}
+
+.cardDocumentation img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.cardDocumentation p {
+    margin-top: 10px;
+}
+
+.cardDocumentation-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.cardDocumentation-buttons button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+.edit-button {
+    background-color: #28a745;
+    color: white;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+#showFormButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+
+#showFormButton:hover {
+    background-color: #0056b3;
+}
+
+.add-card-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.add-card-form input, .add-card-form textarea, .add-card-form button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.add-card-form button {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+.add-card-form button:hover {
+    background-color: #0056b3;
+}
+
+#cancelButton {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+#cancelButton:hover {
+    background-color: #5a6268;
+}
