@@ -150,24 +150,18 @@
                             <!-- Dropdown for sorting by first name -->
                             <th scope="col">
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="firstNameDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            First Name
-        </a>
+                                    <a class="dropdown-toggle" id="firstNameDropdown" data-bs-toggle="dropdown" aria-expanded="false">First Name</a>
                                     <ul class="dropdown-menu" aria-labelledby="firstNameDropdown">
                                         <li>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" name="nameSort" value="az" data-criterion="firstName" id="firstNameSortAZ">
-                                                <label class="form-check-label" for="firstNameSortAZ">
-                        A-Z
-                    </label>
+                                                <label class="form-check-label" for="firstNameSortAZ">A-Z</label>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" name="nameSort" value="za" data-criterion="firstName" id="firstNameSortZA">
-                                                <label class="form-check-label" for="firstNameSortZA">
-                        Z-A
-                    </label>
+                                                <label class="form-check-label" for="firstNameSortZA">Z-A</label>
                                             </div>
                                         </li>
                                     </ul>
@@ -177,57 +171,74 @@
                             <!-- Dropdown for sorting by last name -->
                             <th scope="col">
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="lastNameDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            Last Name
-        </a>
+                                    <a class="dropdown-toggle" id="lastNameDropdown" data-bs-toggle="dropdown" aria-expanded="false">Last Name</a>
                                     <ul class="dropdown-menu" aria-labelledby="lastNameDropdown">
                                         <li>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" name="nameSort" value="az" data-criterion="lastName" id="lastNameSortAZ">
-                                                <label class="form-check-label" for="lastNameSortAZ">
-                        A-Z
-                    </label>
+                                                <label class="form-check-label" for="lastNameSortAZ">A-Z</label>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" name="nameSort" value="za" data-criterion="lastName" id="lastNameSortZA">
-                                                <label class="form-check-label" for="lastNameSortZA">
-                        Z-A
-                    </label>
+                                                <label class="form-check-label" for="lastNameSortZA">Z-A</label>
                                             </div>
                                         </li>
                                     </ul>
                                 </div>
                             </th>
 
-                            <th scope="col">DOB</th>
-                            <th scope="col">Gender</th>
+                            <!-- Dropdown for sorting by Date of Birth -->
                             <th scope="col">
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="typeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Contact No.
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="typeDropdown">
+                                    <a class="dropdown-toggle" id="dobDropdown" data-bs-toggle="dropdown" aria-expanded="false">DOB</a>
+                                    <ul class="dropdown-menu" aria-labelledby="dobDropdown">
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="type1" id="type1Check" name="typeFilter">
-                                                <label class="form-check-label" for="type1Check">
-                                                    Type 1
-                                                </label>
+                                                <input class="form-check-input" type="radio" name="dobSort" value="asc" id="dobSortAsc">
+                                                <label class="form-check-label" for="dobSortAsc">Ascending</label>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="type2" id="type2Check" name="typeFilter">
-                                                <label class="form-check-label" for="type2Check">
-                                                    Type 2
-                                                </label>
+                                                <input class="form-check-input" type="radio" name="dobSort" value="desc" id="dobSortDesc">
+                                                <label class="form-check-label" for="dobSortDesc">Descending</label>
                                             </div>
                                         </li>
                                     </ul>
                                 </div>
                             </th>
+
+                            <!-- Dropdown for filtering by Gender -->
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="genderDropdown" data-bs-toggle="dropdown" aria-expanded="false">Gender</a>
+                                    <ul class="dropdown-menu" aria-labelledby="genderDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="genderFilter" value="all" id="genderAll" checked>
+                                                <label class="form-check-label" for="genderAll">All</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="genderFilter" value="male" id="genderMale">
+                                                <label class="form-check-label" for="genderMale">Male</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="genderFilter" value="female" id="genderFemale">
+                                                <label class="form-check-label" for="genderFemale">Female</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
+
+                            <th scope="col">Contact No.</th>
+
                             <th scope="col">
                                 <div class="dropdown">
                                     <a class="dropdown-toggle" id="barangayDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -236,6 +247,7 @@
                                     <ul class="dropdown-menu" aria-labelledby="barangayDropdown" id="barangayDropdownMenu"></ul>
                                 </div>
                             </th>
+
                             <th scope="col">
                                 <div class="dropdown">
                                     <a class="dropdown-toggle" id="assistanceDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -400,7 +412,6 @@
 
                 form.addEventListener('submit', (e) => {
                     e.preventDefault();
-                    const now = new Date();
                     const program = {
                         id: Date.now(),
                         firstName: form.firstName.value,
@@ -426,6 +437,7 @@
                     popupForm.classList.remove('active');
                     form.reset();
                 });
+
 
                 function showInfo() {
                     displayRows(getData, currentPage);
@@ -545,6 +557,20 @@
                             displayPagination(getData.length);
                         });
                     });
+
+                    document.querySelectorAll('input[name="dobSort"]').forEach((element) => {
+                        element.addEventListener('change', sortDOB);
+                    });
+
+
+                    document.querySelectorAll('input[name="genderFilter"]').forEach((element) => {
+                        element.addEventListener('change', filterGender);
+                    });
+
+                    document.querySelectorAll('input[name="barangayFilter"]').forEach((checkbox) => {
+                        checkbox.addEventListener('change', filterBarangay);
+                    });
+
                 }
 
                 function prevPage() {
@@ -636,6 +662,47 @@
                     });
                     showInfo();
                 }
+
+                function sortDOB() {
+                    const selectedSort = document.querySelector('input[name="dobSort"]:checked').value;
+                    getData.sort((a, b) => {
+                        const dateA = new Date(a.dob);
+                        const dateB = new Date(b.dob);
+                        if (selectedSort === 'asc') {
+                            return dateA - dateB;
+                        } else {
+                            return dateB - dateA;
+                        }
+                    });
+                    showInfo();
+                }
+
+                function filterGender() {
+                    const selectedGender = document.querySelector('input[name="genderFilter"]:checked').value;
+
+                    if (selectedGender === 'all') {
+                        getData = [...originalData]; // Reset to original data
+                    } else {
+                        getData = originalData.filter(item => item.gender.toLowerCase() === selectedGender);
+                    }
+
+                    showInfo();
+                }
+
+                function filterBarangay() {
+                    let filteredData = [...originalData];
+                    const selectedBarangays = Array.from(document.querySelectorAll('input[name="barangayFilter"]:checked')).map(check => check.value);
+
+                    if (selectedBarangays.length === 0) {
+                        filteredData = [...originalData];
+                    } else {
+                        filteredData = filteredData.filter(program => selectedBarangays.includes(program.barangay));
+                    }
+
+                    getData = [...filteredData];
+                    showInfo();
+                }
+
 
                 function filterData() {
                     let filteredData = [...originalData];
@@ -751,7 +818,6 @@
                 const barangayDropdownMenu = document.getElementById('barangayDropdownMenu');
 
                 barangays.forEach((barangay, index) => {
-                    // Populate select dropdown
                     const option = document.createElement('option');
                     option.value = barangay;
                     option.textContent = barangay;

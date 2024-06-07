@@ -599,3 +599,17 @@ hr.vertical-solid {
 .popup .submitBeneficiaryBtn:hover {
     background: darkorange;
 }
+
+
+/*-------------------------------*/
+
+
+/*          Barangay              */
+
+
+/*-------------------------------*/
+
+#barangayDropdownMenu {
+    max-height: 200px;
+    overflow-y: auto;
+}
