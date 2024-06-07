@@ -124,16 +124,12 @@
                             <option value="other">Other</option>
                         </select>
                     </div>
-
                     <div class="form-group col-md-6">
                         <label for="pwdIdCardNo">PWD Card ID No.</label>
                         <input type="text" class="form-control" id="pwdIdCardNo" placeholder="PWD Card ID No." required>
                     </div>
-
-
-
                 </div>
-                <input type="submit" class="submitBtn" value="Submit">
+                <input type="submit" class="submitBeneficiaryBtn" value="Submit">
             </form>
         </div>
 
@@ -141,7 +137,7 @@
         <main class="main-content">
             <h2 class="main-title">Beneficiary Lists</h2>
             <div class="button-group">
-                <button class="btn export-btn" onclick="exportTableToCSV('programs.csv')">Export to CSV</button>
+                <button class="btn export-btn" onclick="exportTableToCSV('Beneficiaries.csv')">Export to CSV</button>
             </div>
 
             <!---TABLE LISTS-->
@@ -397,7 +393,7 @@
                     darkBg = document.querySelector('.dark_bg'),
                     popupForm = document.querySelector('.popup'),
                     crossBtn = document.querySelector('.closeBtn'),
-                    submitBtn = document.querySelector('.submitBtn'),
+                    submitBeneficiaryBtn = document.querySelector('.submitBeneficiaryBtn'),
                     modalTitle = document.querySelector('.modalTitle'),
                     form = document.querySelector('#programForm'),
                     formInputFields = document.querySelectorAll('#programForm input, #programForm select'),
@@ -412,11 +408,11 @@
 
                 newMemberAddBtn.addEventListener('click', () => {
                     isEdit = false;
-                    submitBtn.innerHTML = "Submit";
+                    submitBeneficiaryBtn.innerHTML = "Submit";
                     modalTitle.innerHTML = "Fill the Form";
                     form.reset();
                     formInputFields.forEach(input => input.disabled = false);
-                    submitBtn.style.display = "block";
+                    submitBeneficiaryBtn.style.display = "block";
                     darkBg.classList.add('active');
                     popupForm.classList.add('active');
                 });
@@ -425,7 +421,7 @@
                     darkBg.classList.remove('active');
                     popupForm.classList.remove('active');
                     form.reset();
-                    submitBtn.style.display = "block";
+                    submitBeneficiaryBtn.style.display = "block";
                     formInputFields.forEach(input => input.disabled = false);
                 });
 
@@ -613,7 +609,7 @@
                         form.pwdIdCardNo.value = program.pwdIdCardNo;
                         modalTitle.innerHTML = "View Beneficiary";
                         formInputFields.forEach(input => input.disabled = true);
-                        submitBtn.style.display = "none";
+                        submitBeneficiaryBtn.style.display = "none";
                         darkBg.classList.add('active');
                         popupForm.classList.add('active');
                     }
@@ -635,8 +631,8 @@
                         form.pwdIdCardNo.value = program.pwdIdCardNo;
                         modalTitle.innerHTML = "Edit Beneficiary";
                         formInputFields.forEach(input => input.disabled = false);
-                        submitBtn.style.display = "block";
-                        submitBtn.innerHTML = "Update";
+                        submitBeneficiaryBtn.style.display = "block";
+                        submitBeneficiaryBtn.innerHTML = "Update";
                         darkBg.classList.add('active');
                         popupForm.classList.add('active');
                     }
