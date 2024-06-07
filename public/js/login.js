@@ -13,7 +13,7 @@ function getPassword() {
     for (var i = 0; i < login.length; i++) {
         if (password == login[i].password) {
             console.log("Login Successful");
-            window.location.href = 'dashboard.html'; 
+            window.location.href = '/';
             return false; // Prevent form submission
         }
     }
