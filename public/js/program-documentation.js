@@ -10,13 +10,13 @@ document.addEventListener('DOMContentLoaded', function () {
     let isEditing = false;
     let currentEditingCard = null;
 
-    // Show the form when the "Add Documentation" button is clicked
+    
     showFormButton.addEventListener('click', () => {
         addCardForm.style.display = 'flex';
         showFormButton.style.display = 'none';
     });
 
-    // Handle form submission to add or edit a card
+    
     addCardButton.addEventListener('click', () => {
         const file = imageInput.files[0];
         const description = descriptionInput.value;
@@ -25,12 +25,12 @@ document.addEventListener('DOMContentLoaded', function () {
             const reader = new FileReader();
             reader.onload = function (e) {
                 if (isEditing && currentEditingCard) {
-                    // Update the existing card
+                    
                     updateCard(currentEditingCard, e.target.result, description);
                 } else {
-                    // Create a new card
+                    
                     const card = document.createElement('div');
-                    card.className = 'cardDocumentation'; // Updated class name
+                    card.className = 'cardDocumentation'; 
                     card.innerHTML = `
                         <img src="${e.target.result}" alt="Card Image">
                         ${description ? `<p>${description}</p>` : ''}
@@ -43,12 +43,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     addCardEventListeners(card);
                 }
 
-                // Clear and reset the form
+                
                 resetForm();
             };
             reader.readAsDataURL(file);
         } else if (isEditing && currentEditingCard) {
-            // Update the existing card without changing the image
+            
             updateCard(currentEditingCard, null, description);
             resetForm();
         } else {
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Reset the form and state
+    
     cancelButton.addEventListener('click', resetForm);
 
     function resetForm() {
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
         currentEditingCard = null;
     }
 
-    // Add event listeners to the edit and delete buttons on a card
+    
     function addCardEventListeners(card) {
         const editButton = card.querySelector('.edit-button');
         const deleteButton = card.querySelector('.delete-button');
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const img = card.querySelector('img');
             const p = card.querySelector('p');
 
-            // Prefill the form with the current card's image and description
+            
             if (img) imageInput.files[0] = null;
             if (p) descriptionInput.value = p.innerText;
 
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Update the existing card with new image and/or description
+    
     function updateCard(card, imageSrc, description) {
         if (imageSrc) {
             const img = card.querySelector('img');
@@ -122,12 +122,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Variables for dragging functionality
+   
     let isDown = false;
     let startX;
     let scrollLeft;
 
-    // Handle mouse down event for dragging
+    
     cardsContainer.addEventListener('mousedown', (e) => {
         isDown = true;
         cardsContainer.classList.add('active');
@@ -135,19 +135,19 @@ document.addEventListener('DOMContentLoaded', function () {
         scrollLeft = cardsContainer.scrollLeft;
     });
 
-    // Handle mouse leave event to stop dragging
+    
     cardsContainer.addEventListener('mouseleave', () => {
         isDown = false;
         cardsContainer.classList.remove('active');
     });
 
-    // Handle mouse up event to stop dragging
+    
     cardsContainer.addEventListener('mouseup', () => {
         isDown = false;
         cardsContainer.classList.remove('active');
     });
 
-    // Handle mouse move event to scroll the container
+    
     cardsContainer.addEventListener('mousemove', (e) => {
         if (!isDown) return;
         e.preventDefault();
