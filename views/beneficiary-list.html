@@ -147,57 +147,60 @@
                     <thead class="thead-light">
                         <tr>
                             <th scope="col">#</th>
+                            <!-- Dropdown for sorting by first name -->
                             <th scope="col">
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="nameDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                        First Name
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="nameDropdown">
+                                    <a class="dropdown-toggle" id="firstNameDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            First Name
+        </a>
+                                    <ul class="dropdown-menu" aria-labelledby="firstNameDropdown">
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="nameSort" value="az" id="nameSortAZ">
-                                                <label class="form-check-label" for="nameSortAZ">
-                                                    A-Z
-                                                </label>
+                                                <input class="form-check-input" type="radio" name="nameSort" value="az" data-criterion="firstName" id="firstNameSortAZ">
+                                                <label class="form-check-label" for="firstNameSortAZ">
+                        A-Z
+                    </label>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="nameSort" value="za" id="nameSortZA">
-                                                <label class="form-check-label" for="nameSortZA">
-                                                    Z-A
-                                                </label>
+                                                <input class="form-check-input" type="radio" name="nameSort" value="za" data-criterion="firstName" id="firstNameSortZA">
+                                                <label class="form-check-label" for="firstNameSortZA">
+                        Z-A
+                    </label>
                                             </div>
                                         </li>
                                     </ul>
                                 </div>
                             </th>
 
+                            <!-- Dropdown for sorting by last name -->
                             <th scope="col">
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="nameDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Last Name
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="nameDropdown">
+                                    <a class="dropdown-toggle" id="lastNameDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Last Name
+        </a>
+                                    <ul class="dropdown-menu" aria-labelledby="lastNameDropdown">
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="nameSort" value="az" id="nameSortAZ">
-                                                <label class="form-check-label" for="nameSortAZ">
-                                                    A-Z
-                                                </label>
+                                                <input class="form-check-input" type="radio" name="nameSort" value="az" data-criterion="lastName" id="lastNameSortAZ">
+                                                <label class="form-check-label" for="lastNameSortAZ">
+                        A-Z
+                    </label>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="nameSort" value="za" id="nameSortZA">
-                                                <label class="form-check-label" for="nameSortZA">
-                                                    Z-A
-                                                </label>
+                                                <input class="form-check-input" type="radio" name="nameSort" value="za" data-criterion="lastName" id="lastNameSortZA">
+                                                <label class="form-check-label" for="lastNameSortZA">
+                        Z-A
+                    </label>
                                             </div>
                                         </li>
                                     </ul>
                                 </div>
                             </th>
+
                             <th scope="col">DOB</th>
                             <th scope="col">Gender</th>
                             <th scope="col">
@@ -620,12 +623,15 @@
                 }
 
                 function sortData() {
-                    const selectedSort = document.querySelector('input[name="nameSort"]:checked').value;
+                    const selectedSortElement = document.querySelector('input[name="nameSort"]:checked');
+                    const selectedSort = selectedSortElement.value;
+                    const criterion = selectedSortElement.getAttribute('data-criterion');
+
                     getData.sort((a, b) => {
                         if (selectedSort === 'az') {
-                            return a.firstName.localeCompare(b.firstName);
+                            return a[criterion].localeCompare(b[criterion]);
                         } else {
-                            return b.firstName.localeCompare(a.firstName);
+                            return b[criterion].localeCompare(a[criterion]);
                         }
                     });
                     showInfo();
