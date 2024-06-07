@@ -1,5 +1,4 @@
 const createError = require('http-errors');
-const path = require("path");
 const express = require("express");
 
 //Connecting to MongoDB.
@@ -11,6 +10,10 @@ main().catch((err) => console.log(err));
 async function main() {
   await mongoose.connect(mongoDB);
 }
+
+const path = require("path");
+const cookieParser = require('cookie-parser');
+const logger = require('morgan')
 
 const Program = require("./models/program");
 const Beneficiary = require("./models/beneficiary");
@@ -24,8 +27,10 @@ const benefactorRouter = require("./routes/programs");
 const inventoryRouter = require("./routes/programs");
 
 const app = new express();
+app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded( {extended: true})); 
+app.use(express.urlencoded( {extended: true}));
+app.use(cookieParser()); 
 app.use(express.static(__dirname + '/public'));
 
 //Setting up routers.

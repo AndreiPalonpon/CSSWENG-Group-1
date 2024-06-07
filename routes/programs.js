@@ -1,5 +1,6 @@
 const express = require("express");
 const asyncHandler = require("express-async-handler");
+const json = require("json");
 const Program = require("../models/program");
 
 const router = express.Router();    
@@ -49,12 +50,12 @@ router.post('/:id/delete', asyncHandler(async (req, res, next) => {
 
 //GET request to list all programs.
 router.get('/', asyncHandler(async (req, res, next) => {
-    const allPrograms = await Program.find()
-                                     .sort({ name: 1 })
-                                     .exec();
+    const query = await Program.findOne().exec();
+    const program = JSON.stringify(query);
 
     //res.send(allPrograms);
-    res.render("program-list", { programs: allPrograms });
+    //console.log(program);
+    res.render("program-list", { program: program });
 }));
 
 //GET request for one program.
