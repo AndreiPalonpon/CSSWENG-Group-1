@@ -278,8 +278,8 @@
                     modalTitle = document.querySelector('.modalTitle'),
                     form = document.querySelector('#programForm'),
                     formInputFields = document.querySelectorAll('#programForm input, #programForm select'),
-                    programInfo = document.querySelector('.programInfo');
-                resetFiltersButton = document.getElementById('resetFiltersButton');
+                    programInfo = document.querySelector('.programInfo'),
+                    resetFiltersButton = document.getElementById('resetFiltersButton');
 
                 let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
                 let getData = [...originalData];
@@ -324,6 +324,7 @@
                     } else {
                         originalData[editId] = program;
                     }
+
                     localStorage.setItem('programs', JSON.stringify(originalData));
                     getData = [...originalData];
                     showInfo();
@@ -350,21 +351,24 @@
                             <a class="page-link" href="#" aria-label="Previous" id="prevButton">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
-                        </li>`;
+                        </li>
+                        `;
 
                     for (let i = 1; i <= totalPages; i++) {
                         pagination.innerHTML += `
-                            <li class="page-item ${currentPage === i ? 'active' : ''}">
-                                <a class="page-link paginationButton" href="#">${i}</a>
-                            </li>`;
+                        <li class="page-item ${currentPage === i ? 'active' : ''}">
+                            <a class="page-link paginationButton" href="#">${i}</a>
+                        </li>
+                        `;
                     }
 
                     pagination.innerHTML += `
-                        <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-                            <a class="page-link" href="#" aria-label="Next" id="nextButton">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>`;
+                    <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                        <a class="page-link" href="#" aria-label="Next" id="nextButton">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    `;
 
                     document.getElementById("prevButton").addEventListener("click", prevPage);
                     document.getElementById("nextButton").addEventListener("click", nextPage);
@@ -382,27 +386,27 @@
                     const start = (page - 1) * rowsPerPage;
                     const end = start + rowsPerPage;
                     const paginatedRows = rows.slice(start, end);
+                    const programInfo = document.querySelector('.programInfo');
                     programInfo.innerHTML = '';
-
                     paginatedRows.forEach((program, index) => {
                         const row = `
-                            <tr>
-                                <td>${start + index + 1}</td>
-                                <td>${program.programName}</td>
-                                <td>${program.lastUpdated}</td>
-                                <td>${program.dateCreated}</td>
-                                <td>${capitalizeFirstLetter(program.programType)}</td>
-                                <td>${capitalizeFirstLetter(program.frequency)}</td>
-                                <td>${capitalizeFirstLetter(program.assistanceType)}</td>
-                                <td>
-                                    <button class="viewBtn" data-id="${program.id}"><i class="bi bi-eye"></i></button>
-                                    <button class="editBtn" data-id="${program.id}"><i class="bi bi-pencil"></i></button>
-                                    <button class="deleteBtn" data-id="${program.id}"><i class="bi bi-trash"></i></button>
-                                </td>
-                            </tr>
-                        `;
-                        programInfo.innerHTML += row;
-                    });
+                <tr>
+                    <td>${start + index + 1}</td>
+                    <td>${program.programName}</td>
+                    <td>${program.lastUpdated}</td>
+                    <td>${program.dateCreated}</td>
+                    <td>${capitalizeFirstLetter(program.programType)}</td>
+                    <td>${capitalizeFirstLetter(program.frequency)}</td>
+                    <td>${capitalizeFirstLetter(program.assistanceType)}</td>
+                    <td>
+                        <button class="viewBtn" data-id="${program.id}"><i class="bi bi-eye"></i></button>
+                        <button class="editBtn" data-id="${program.id}"><i class="bi bi-pencil"></i></button>
+                        <button class="deleteBtn" data-id="${program.id}"><i class="bi bi-trash"></i></button>
+                    </td>
+                </tr>
+                `;
+                    programInfo.innerHTML += row;
+                });
 
                     function capitalizeFirstLetter(string) {
                         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -417,20 +421,24 @@
                         });
                     });
 
+                    document.querySelectorAll('.viewBtn').forEach(button => {
+                        button.addEventListener('click', (e) => {
+                            const id = parseInt(e.currentTarget.getAttribute('data-id'));
+                            readInfo(id);
+                        });
+                    });
                     document.querySelectorAll('.editBtn').forEach(button => {
                         button.addEventListener('click', (e) => {
                             const id = parseInt(e.currentTarget.getAttribute('data-id'));
                             editInfo(id);
                         });
                     });
-
                     document.querySelectorAll('.deleteBtn').forEach(button => {
                         button.addEventListener('click', (e) => {
                             const id = parseInt(e.currentTarget.getAttribute('data-id'));
                             deleteInfo(id);
                         });
                     });
-
                     // Event listeners for sorting and filtering
                     document.querySelectorAll('input[name="nameSort"]').forEach(radio => {
                         radio.addEventListener('change', () => {
@@ -439,7 +447,6 @@
                             displayPagination(getData.length);
                         });
                     });
-
                     document.querySelectorAll('input[name="typeFilter"], input[name="frequencyFilter"], input[name="assistanceFilter"]').forEach(checkbox => {
                         checkbox.addEventListener('change', () => {
                             filterData();
@@ -449,7 +456,8 @@
                     });
                 }
 
-                function prevPage() {
+                function prevPage(event) {
+                    event.preventDefault();
                     if (currentPage > 1) {
                         currentPage--;
                         displayRows(getData, currentPage);
@@ -457,7 +465,8 @@
                     }
                 }
 
-                function nextPage() {
+                function nextPage(event) {
+                    event.preventDefault();
                     const totalPages = Math.ceil(getData.length / rowsPerPage);
                     if (currentPage < totalPages) {
                         currentPage++;
@@ -528,8 +537,8 @@
 
                 function filterData() {
                     let filteredData = [...originalData];
-
                     const selectedTypes = Array.from(document.querySelectorAll('input[name="typeFilter"]:checked')).map(check => check.value);
+
                     if (selectedTypes.length > 0) {
                         filteredData = filteredData.filter(program => selectedTypes.includes(program.programType));
                     }
@@ -543,7 +552,7 @@
                     if (selectedAssistances.length > 0) {
                         filteredData = filteredData.filter(program => selectedAssistances.includes(program.assistanceType));
                     }
-
+                    
                     getData = filteredData;
                     showInfo();
                 }
@@ -552,7 +561,6 @@
                     document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
                         input.checked = false;
                     });
-
                     getData = [...originalData];
                     showInfo();
                 });
@@ -566,7 +574,6 @@
             function downloadCSV(csv, filename) {
                 let csvFile;
                 let downloadLink;
-
                 csvFile = new Blob([csv], {
                     type: 'text/csv'
                 });
@@ -593,6 +600,7 @@
                 }
                 downloadCSV(csv.join('\n'), filename);
             }
+            
         </script>
 </body>
 
