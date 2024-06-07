@@ -50,12 +50,13 @@ router.post('/:id/delete', asyncHandler(async (req, res, next) => {
 
 //GET request to list all programs.
 router.get('/', asyncHandler(async (req, res, next) => {
-    const query = await Program.findOne().exec();
-    const program = JSON.stringify(query);
+    const programs = await Program.find()
+                                  .sort({ name: 1 })
+                                  .exec();
 
     //res.send(allPrograms);
-    //console.log(program);
-    res.render("program-list", { program: program });
+    console.log(programs);
+    res.render("program-list", { programs: programs });
 }));
 
 //GET request for one program.

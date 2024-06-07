@@ -113,8 +113,6 @@
             <!---TABLE LISTS-->
             <div class="table-container">
                 <button id="resetFiltersButton" class="btn btn-secondary">Reset Filters</button>
-                <h3>{{program}}</h3>
-                <h3>{{program/name}}</h3>
                 <table class="table table-bordered table-hover">
                     <caption>List of Programs</caption>
                     <thead class="thead-light">
@@ -227,16 +225,17 @@
                     </thead>
                     <tbody class="programInfo">
                         <!-- Program rows will be populated here -->
+                        {{#each programs}}
                         <tr>
-                            <td>1</td>
-                            <td><a href="">Program 1</a></td>
+                            <td>{{@index}}</td>
+                            <td><a href="">{{this.name}}</a></td>
                             <td>01-10-2024</td>
                             <td>01-10-2024</td>
-                            {{program}}
-                            <td>Assistance</td>
-                            <td>Frequency</td>
-                            <td>Medical</td>
+                            <td>{{this.program_type}}</td>
+                            <td>{{this.frequency}}</td>
+                            <td>{{this.assistance_type}}</td>
                         </tr>
+                        {{/each}}
                     </tbody>
                 </table>
             </div>
