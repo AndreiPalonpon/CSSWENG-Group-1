@@ -411,7 +411,6 @@
                     e.preventDefault();
                     const now = new Date();
                     const program = {
-                        id: Date.now(),
                         firstName: form.firstName.value,
                         lastName: form.lastName.value,
                         dob: form.dob.value,
@@ -420,9 +419,7 @@
                         barangay: form.barangay.value,
                         disabilityType: form.disabilityType.value,
                         comorbidities: form.comorbidities.value,
-                        pwdIdCardNo: form.pwdIdCardNo.value,
-                        dateCreated: now.toLocaleDateString(),
-                        lastUpdated: now.toLocaleDateString() + ' ' + now.toLocaleTimeString()
+                        pwdIdCardNo: form.pwdIdCardNo.value
                     };
 
                     if (!isEdit) {
