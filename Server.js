@@ -21,6 +21,7 @@ const Benefactor = require("./models/benefactor");
 const Inventory = require("./models/inventory");
 
 const indexRouter = require("./routes/index");
+const loginRouter = require("./routes/login")
 const programsRouter = require("./routes/programs");
 const beneficiaryRouter = require("./routes/beneficiaries");
 const benefactorRouter = require("./routes/programs");
@@ -35,6 +36,7 @@ app.use(express.static(__dirname + '/public'));
 
 //Setting up routers.
 app.use("/", indexRouter);
+app.use("/login", loginRouter);
 app.use("/programs", programsRouter);
 app.use("/beneficiaries", beneficiaryRouter);
 app.use("/benefactors", benefactorRouter);
