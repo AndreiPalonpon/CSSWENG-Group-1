@@ -96,14 +96,16 @@ header .container {
 
 /*-------------------------------*/
 
-.addProgramBtn {
+.addProgramBtn,
+.addPeopleBtn  {
     margin-bottom: 15px;
     position: absolute;
     right: 48px;
     transform: translateY(50%);
 }
 
-.addProgramBtn button {
+.addProgramBtn button,
+.addPeopleBtn button {
     font-family: 'Garet', sans-serif;
     font-weight: bold;
     background-color: var(--color3);
@@ -114,7 +116,8 @@ header .container {
     border: none;
 }
 
-.addProgramBtn button:hover {
+.addProgramBtn button:hover,
+.addPeopleBtn button:hover {
     background: darkorange;
 }
 
