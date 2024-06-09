@@ -26,6 +26,7 @@ const programsRouter = require("./routes/programs");
 const beneficiaryRouter = require("./routes/beneficiaries");
 const benefactorRouter = require("./routes/programs");
 const inventoryRouter = require("./routes/programs");
+const peopleRouter = require("./routes/people");
 
 const app = new express();
 app.use(logger('dev'));
@@ -41,6 +42,7 @@ app.use("/programs", programsRouter);
 app.use("/beneficiaries", beneficiaryRouter);
 app.use("/benefactors", benefactorRouter);
 app.use("/inventory", inventoryRouter);
+app.use("/people", peopleRouter);
 
 const hbs = require("hbs");
 app.set('view engine', 'hbs');
