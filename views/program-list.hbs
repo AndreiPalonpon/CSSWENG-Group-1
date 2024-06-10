@@ -228,13 +228,13 @@
                         {{#each programs}}
                         <tr>
                             <td>{{@index}}</td>
-                            <td><a href="">{{this.name}}</a></td>
+                            <td><a href="/views/people-list.html">{{this.name}}</a></td>
                             <td>01-10-2024</td>
                             <td>01-10-2024</td>
                             <td>{{this.program_type}}</td>
                             <td>{{this.frequency}}</td>
                             <td>{{this.assistance_type}}</td>
-                        </tr>
+                            </tr>
                         {{/each}}
                     </tbody>
                 </table>
@@ -392,7 +392,7 @@
                         const row = `
                 <tr>
                     <td>${start + index + 1}</td>
-                    <td>${program.programName}</td>
+                    <td><a href="/people">${program.programName}<a></td>
                     <td>${program.lastUpdated}</td>
                     <td>${program.dateCreated}</td>
                     <td>${capitalizeFirstLetter(program.programType)}</td>
