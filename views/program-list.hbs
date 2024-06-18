@@ -223,14 +223,14 @@
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="programInfo">
+                    <tbody>
                         <!-- Program rows will be populated here -->
                         {{#each programs}}
                         <tr>
                             <td>{{@index}}</td>
                             <td><a href="/views/people-list.html">{{this.name}}</a></td>
-                            <td>01-10-2024</td>
-                            <td>01-10-2024</td>
+                            <td>{{this.recent_update_date}}</td>
+                            <td>{{this.creation_date}}</td>
                             <td>{{this.program_type}}</td>
                             <td>{{this.frequency}}</td>
                             <td>{{this.assistance_type}}</td>
@@ -565,7 +565,7 @@
                     showInfo();
                 });
 
-                displayRows(getData, currentPage);
+                //displayRows(getData, currentPage);
                 displayPagination(getData.length);
                 addEventListeners();
             });
