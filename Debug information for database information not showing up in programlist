@@ -1,0 +1,30 @@
+Debugging progress
+Leads
+
+-Removed: class="programInfo" in tbody tag at around line 226
+-Result: 3 empty rows appeared
+
+-Added: log helper for td this.programitem calls.
+-Result: printed out actual value of variables that matched the database entries.
+
+-Removed: "this." tags in the table cells
+-Result: nothing changed, however log still prints actual values "this." tag might not be needed
+
+-Removed: log handlebars helper
+-Result: fixed bug
+
+Tried and no changes
+Removed all of the script portion in: "program-list.hbs"
+Removed jquery script at around line 251
+Added class to add custom css to program details.
+
+Additional notes
+Exported to csv and was empty suggesting that values were not properly passed
+Inspecting elements also shows the td tags being empty
+Something might be wrong with how we are passing the values
+
+PROBABLE SOLUTION:
+class="programInfo" was probably the thing linking the javascript at the top which was allowing us to use the create form and diverted access away from the actual server connection
+
+Log function probably just diverted values to print into the console and it was actually working
+
