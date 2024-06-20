@@ -13,15 +13,19 @@ router.get('/create', asyncHandler(async (req, res, next) => {
 //Not tested.
 //POST request for creating program.
 router.post('/create', asyncHandler(async (req, res, next) => {
+    console.log(req.body);
+    
     const programName = req.body.programName;
     const programType = req.body.programType;
     const frequency = req.body.frequency;
-    const assitanceType = req.body.assistanceType;
+    const assistanceType = req.body.assistanceType;
+
+    console.log(programName, programType, frequency, assistanceType);
 
     const newProgram = new Program({ name: programName,
                                      program_type: programType,
                                      frequency: frequency,
-                                     assitance_type: assitanceType
+                                     assitance_type: assistanceType
                                   });
     await newProgram.save();
 
