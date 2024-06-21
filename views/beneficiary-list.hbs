@@ -331,12 +331,20 @@
                         {{#each programs}}
                         <tr>
                             <th scope="row">{{@index}}</th>
-                            <td><a href="">{{this.name}}</a></td>
-                            <td>{{this.recent_update_date}}</td>
-                            <td>{{this.creation_date}}</td>
-                            <td>{{this.program_type}}</td>
-                            <td>{{this.frequency}}</td>
-                            <td>{{this.assistance_type}}</td>
+                            <td>{{this.firstName}}</td>
+                            <td>{{this.lastName}}</td>
+                            <td>{{this.dob}}</td>
+                            <td>{{this.gender}}</td>
+                            <td>{{this.contactNo}}</td>
+                            <td>{{this.barangay}}</td>
+                            <td>{{this.disabilityType}}</td>
+                            <td>{{this.comorbidities}}</td>
+                            <td>{{this.pwdIdCardNo}}</td>
+                            <td>
+                                <button class="viewBtn" data-id="{{this.id}}"><i class="bi bi-eye"></i></button>
+                                <button class="editBtn" data-id="{{this.id}}"><i class="bi bi-pencil"></i></button>
+                                <button class="deleteBtn" data-id="{{this.id}}"><i class="bi bi-trash"></i></button>
+                            </td>
                         </tr>
                         {{/each}}
                     </tbody>
