@@ -1,5 +1,6 @@
 const express = require("express");
 const asyncHandler = require("express-async-handler");
+const Beneficiary = require("../models/beneficiary");
 
 const router = express.Router();    
 
@@ -33,9 +34,14 @@ router.post('/:id/delete', asyncHandler(async (req, res, next) => {
     res.send("NOT IMPLEMENTED: Beneficiary delete POST");
 }));
 
-//GET request to list all beneficiarys.
+//GET request to list all beneficiaries.
 router.get('/', asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Beneficiary list");
+    const beneficiaries = await Beneficiary.find()
+                                           .sort({ first_name: 1, last_name: 1})
+                                           .exec();
+
+    console.log(beneficiaries);
+    res.render("beneficiary-list", { beneficiaries: beneficiaries });
 }));
 
 //GET request for one beneficiary.
