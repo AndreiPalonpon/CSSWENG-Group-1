@@ -29,6 +29,7 @@ const inventoryRouter = require("./routes/programs");
 const peopleRouter = require("./routes/people");
 const documentationRouter = require("./routes/documentation");
 const settingsRouter = require("./routes/settings");
+const aboutRouter = require("./routes/about");
 
 const app = new express();
 app.use(logger('dev'));
@@ -47,6 +48,7 @@ app.use("/inventory", inventoryRouter);
 app.use("/people", peopleRouter);
 app.use("/documentation", documentationRouter);
 app.use("/settings", settingsRouter);
+app.use("/about", aboutRouter);
 
 const hbs = require("hbs");
 app.set('view engine', 'hbs');
