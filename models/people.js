@@ -8,7 +8,6 @@ const PeopleSchema = new Schema({
         type: String,
         required: true,
         enum: ["Active", "Dropped"]
-
     },
     benefitRequested: {
         type: String,
