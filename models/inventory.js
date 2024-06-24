@@ -8,7 +8,7 @@ const InventorySchema = new Schema({
         type: Date,
         default: Date.now
     },
-    quantity: Integer,
+    quantity: Number,
     receiving_program: {
         type: String,
         required: true,
