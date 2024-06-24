@@ -4,17 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LPPWDFI | Program Lists</title>
+    <title>LPPWDFI | Settings</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="/css/program-list-style.css">
+    <link rel="stylesheet" href="/css/settings.css">
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 </head>
 
 <body>
     <div id="wrapper">
         <div class="overlay dark_bg"></div>
-        
+
         <!-- Sidebar -->
         <nav class="navbar navbar-inverse fixed-top" id="sidebar-wrapper" role="navigation">
             <ul class="nav sidebar-nav">
@@ -27,29 +27,14 @@
 
                 <li><a href="/">Dashboard</a></li>
                 <li><a href="/programs">Programs</a></li>
-
-
-                <!--
-                <li class="dropdown">
-                    <a href="../views/program-list.html" class="dropdown-toggle" data-toggle="dropdown">Programs<span class="caret"></span></a>
-                    <ul class="dropdown-menu animated fadeInLeft" role="menu">
-                        <li><a href="#pictures">Program 1</a></li>
-                        <li><a href="#videos">Program 2</a></li>
-                        <li><a href="#books">Program 3</a></li>
-                        <li><a href="#art">Program 4</a></li>
-                        <li><a href="#awards">Program 4</a></li>
-                    </ul>
-                </li>
-                --->
-
                 <li><a href="/beneficiaries">Beneficiary</a></li>
                 <li><a href="/benefactors">Benefactor</a></li>
                 <li><a href="/inventory">Inventory</a></li>
                 <li><a href="/settings">Settings</a></li>
-                <li class="logout-link"><a href="#logout"><i class="bi bi-box-arrow-right"></i>  Logout</a></li>
+                <li class="logout-link"><a href="#logout"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
             </ul>
         </nav>
-        
+
         <!-- HEADER -->
         <div class="bg-half-gradient">
             <header class="bg-gradient">
@@ -64,6 +49,36 @@
                 </div>
             </header>
         </div>
+
+        <!-- Settings Content -->
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            Change Password
+                        </div>
+                        <div class="card-body">
+                            <form id="change-password-form">
+                                <div class="form-group">
+                                    <label for="current-password">Current Password</label>
+                                    <input type="password" class="form-control" id="current-password" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="new-password">New Password</label>
+                                    <input type="password" class="form-control" id="new-password" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirm-password">Confirm New Password</label>
+                                    <input type="password" class="form-control" id="confirm-password" required>
+                                </div>
+                                <button type="submit" class="button-group">Change Password</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -72,6 +87,12 @@
     <script>
         document.getElementById("menu-toggle").addEventListener("click", function() {
             document.getElementById("wrapper").classList.toggle("toggled");
+        });
+
+        document.getElementById("change-password-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+    
         });
     </script>
 </body>
