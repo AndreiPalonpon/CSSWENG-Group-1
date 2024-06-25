@@ -11,7 +11,25 @@ router.get('/create', asyncHandler(async (req, res, next) => {
 
 //POST request for creating beneficiary.
 router.post('/create', asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Beneficiary create POST");
+    const { firstName, lastName, dob, gender, contactNo, 
+            barangay, disabilityType, comorbidities, pwdIdCardNo}
+          = req.body;
+
+    console.log(firstName, lastName, dob, gender, contactNo, 
+        barangay, disabilityType, comorbidities, pwdIdCardNo);
+    const newBeneficiary = new Beneficiary({ first_name: firstName, 
+                                             last_name: lastName, 
+                                             date_of_birth: dob, 
+                                             gender: gender, 
+                                             contact_number: contactNo, 
+                                             barangay: barangay, 
+                                             disability_type: disabilityType, 
+                                             comorbidities: comorbidities, 
+                                             pwd_card_id_no: pwdIdCardNo,
+                                            });
+    await newBeneficiary.save();
+
+    console.log("New beneficiary instance saved.");
 }));
 
 //GET request for editing beneficiary.

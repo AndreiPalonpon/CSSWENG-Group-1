@@ -61,7 +61,7 @@
                 <h2 class="modalTitle">Fill the Form</h2>
                 <span class="closeBtn">&times;</span>
             </header>
-            <form id="programForm">
+            <form id="beneficiaryForm" action="/beneficiaries/create" method="POST">
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="firstName">First Name</label>
@@ -388,8 +388,8 @@
                     crossBtn = document.querySelector('.closeBtn'),
                     submitBeneficiaryBtn = document.querySelector('.submitBeneficiaryBtn'),
                     modalTitle = document.querySelector('.modalTitle'),
-                    form = document.querySelector('#programForm'),
-                    formInputFields = document.querySelectorAll('#programForm input, #programForm select'),
+                    form = document.querySelector('#beneficiaryForm'),
+                    formInputFields = document.querySelectorAll('#beneficiaryForm input, #beneficiaryForm select'),
                     programInfo = document.querySelector('.programInfo');
                 resetFiltersButton = document.getElementById('resetFiltersButton');
 
@@ -418,6 +418,7 @@
                     formInputFields.forEach(input => input.disabled = false);
                 });
 
+                /*
                 form.addEventListener('submit', (e) => {
                     e.preventDefault();
                     const program = {
@@ -445,7 +446,7 @@
                     popupForm.classList.remove('active');
                     form.reset();
                 });
-
+                */
 
                 function showInfo() {
                     displayRows(getData, currentPage);

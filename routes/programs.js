@@ -10,7 +10,6 @@ router.get('/create', asyncHandler(async (req, res, next) => {
     res.send("NOT IMPLEMENTED: Program create GET");
 }));
 
-//Not tested.
 //POST request for creating program.
 router.post('/create', asyncHandler(async (req, res, next) => {
     
