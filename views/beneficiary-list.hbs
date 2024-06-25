@@ -328,22 +328,22 @@
                     </thead>
                     <tbody class="programInfo">
                         <!-- Program rows will be populated here -->
-                        {{#each programs}}
+                        {{#each beneficiaries}}
                         <tr>
                             <th scope="row">{{@index}}</th>
-                            <td>{{this.firstName}}</td>
-                            <td>{{this.lastName}}</td>
-                            <td>{{this.dob}}</td>
+                            <td>{{this.first_name}}</td>
+                            <td>{{this.last_name}}</td>
+                            <td>{{this.date_of_birth}}</td>
                             <td>{{this.gender}}</td>
-                            <td>{{this.contactNo}}</td>
+                            <td>{{this.contact_number}}</td>
                             <td>{{this.barangay}}</td>
-                            <td>{{this.disabilityType}}</td>
+                            <td>{{this.disability_type}}</td>
                             <td>{{this.comorbidities}}</td>
-                            <td>{{this.pwdIdCardNo}}</td>
+                            <td>{{this.pwd_card_id_no}}</td>
                             <td>
                                 <button class="viewBtn" data-id="{{this.id}}"><i class="bi bi-eye"></i></button>
                                 <button class="editBtn" data-id="{{this.id}}"><i class="bi bi-pencil"></i></button>
-                                <button class="deleteBtn" data-id="{{this.id}}"><i class="bi bi-trash"></i></button>
+                                <button class=  "deleteBtn" data-id="{{this.id}}"><i class="bi bi-trash"></i></button>
                             </td>
                         </tr>
                         {{/each}}
@@ -493,6 +493,7 @@
                     }
                 }
 
+                /* Disabled displayRows function using a comment to make the table display work.
                 function displayRows(rows, page = 1) {
                     const start = (page - 1) * rowsPerPage;
                     const end = start + rowsPerPage;
@@ -526,6 +527,7 @@
                         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
                     }
                 }
+                */
 
                 function addEventListeners() {
                     document.querySelectorAll('.viewBtn').forEach(button => {

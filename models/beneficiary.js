@@ -26,7 +26,7 @@ const BeneficiarySchema = new Schema({
         required: true,
         enum: ["Physical", "Sensory", "Intellectual", "Mental",]
     },
-    comorbidities: {
+    comorbidities: { //Single or plural?
         type: String,
         required: true,
         enum: ["None", "Diabetes", "Hypertension", "Heart Disease", "Other",]
