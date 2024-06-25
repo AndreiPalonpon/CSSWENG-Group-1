@@ -31,7 +31,7 @@ const BeneficiarySchema = new Schema({
         required: true,
         enum: ["None", "Diabetes", "Hypertension", "Heart Disease", "Other",]
     },
-    pwd_card_id: {
+    pwd_card_id_no: {
         type: Number,
         required: true
     }
