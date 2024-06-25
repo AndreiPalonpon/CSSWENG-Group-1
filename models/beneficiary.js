@@ -4,39 +4,36 @@ const Schema = mongoose.Schema;
 const BeneficiaryScheme = new Schema({
     first_name: { type: String, required: true},
     last_name: { type: String, required: true},
-    date: { //Ambiguous.
+    date_of_birth: { 
         type: Date,
         required: true,
-        default: Date.now,
     },
     gender: { 
         type: String,
         required: true,
         enum: ["Male", "Female", "Other"],
     },
-    location: {
+    contact_number: {
+        type: String,
+        required: true,
+    },
+    barangay: {
         type: String,
         required: true,
     },
     disability_type: {
         type: String,
         required: true,
-        enum: ["Disability 1", "Quarterly", "Semi-Annual", "Yearly",]
+        enum: ["Physical", "Quarterly", "Semi-Annual", "Yearly",]
     },
-    assistance_type: {
+    comorbidities: {
         type: String,
         required: true,
-        enum: ["Educational", "Financial", "Medical",]
+        enum: ["None", "Diabetes", "Hypertension", "Heart Disease", "Other",]
     },
-    frequency: {
-        type: String,
-        required: true,
-        enum: ["Quarterly", "Semi-Annually", "Yearly",]
-    },
-    status: {
-        type: String,
-        required: true,
-        enum: ["Approved", "Pending", "Denied",]
+    pwd_card_id: {
+        type: Number,
+        required: true
     }
 });
 
