@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const BenefactorScheme = new Schema({
+const BenefactorSchema = new Schema({
     name: { type: String, required: true, },
     type: {
         type: String,
@@ -12,4 +12,4 @@ const BenefactorScheme = new Schema({
     //contribution: { type: Contribution, required: true, }, To be implemented.
 });
 
-module.exports = mongoose.model("Benefactor", BenefactorScheme, "benefactors");
+module.exports = mongoose.model("Benefactor", BenefactorSchema, "benefactors");

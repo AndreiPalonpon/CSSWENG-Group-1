@@ -9,3 +9,5 @@ const DocumentationSchema = new Schema({
     documentation: { type: String, required: false, },
     */
 });
+
+module.exports = mongoose.model("Documentation", DocumentationSchema, "documentations");
