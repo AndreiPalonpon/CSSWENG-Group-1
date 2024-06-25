@@ -2,15 +2,14 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const BenefactorScheme = new Schema({
-    benefactor_name: String,
-    benefactor_type: {
+    name: { type: String, required: true, },
+    type: {
         type: String,
         required: true,
         enum: ["", "", "", "",],
         default: "Benefactor"
     },
-    benefactor_contribution: String,
-    programs_helped: String,
+    //contribution: { type: Contribution, required: true, }, To be implemented.
 });
 
 module.exports = mongoose.model("Benefactor", BenefactorScheme, "benefactors");

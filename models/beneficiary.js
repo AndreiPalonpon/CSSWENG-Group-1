@@ -24,7 +24,7 @@ const BeneficiaryScheme = new Schema({
     disability_type: {
         type: String,
         required: true,
-        enum: ["Physical", "Quarterly", "Semi-Annual", "Yearly",]
+        enum: ["Physical", "Sensory", "Intellectual", "Mental",]
     },
     comorbidities: {
         type: String,

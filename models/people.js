@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+//Renamed to Person?
 const PeopleSchema = new Schema({
     name: String,
     dateJoined: Date,
