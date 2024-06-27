@@ -22,6 +22,7 @@ const PersonSchema = new Schema({
     pwd_card_id_no: { type: Number, required: true },
 });
 
+/*Putting comment for the meantime to remove error 
 //Virtual method for a beneficiary's full name.
 BeneficiarySchema.virtual("name").get(function () {
     let fullName = "";
@@ -31,5 +32,6 @@ BeneficiarySchema.virtual("name").get(function () {
   
     return fullName;
 });
+*/
 
 module.exports = mongoose.model("Person", PersonSchema, 'people');

@@ -1,5 +1,6 @@
 const express = require("express");
 const asyncHandler = require("express-async-handler");
+const Benefactor = require("../models/reworkedModels/sponsor");
 
 const router = express.Router();    
 
@@ -35,7 +36,12 @@ router.post('/:id/delete', asyncHandler(async (req, res, next) => {
 
 //GET request to list all benefactors.
 router.get('/', asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Benefactor list");
+    const benefactors = await Benefactor.find()
+                                           .sort({ first_name: 1, last_name: 1})
+                                           .exec();
+
+    console.log(benefactors);
+    res.render("benefactor-list", { benefactors: benefactors });
 }));
 
 //GET request for one benefactor.

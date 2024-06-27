@@ -18,14 +18,14 @@ const logger = require('morgan')
 const Program = require("./models/program");
 const Beneficiary = require("./models/beneficiary");
 const Benefactor = require("./models/benefactor");
-const Inventory = require("./models/inventory");
+const Inventory = require("./models/equipment");
 
 const indexRouter = require("./routes/index");
 const loginRouter = require("./routes/login")
 const programsRouter = require("./routes/programs");
 const beneficiaryRouter = require("./routes/beneficiaries");
-const benefactorRouter = require("./routes/programs");
-const inventoryRouter = require("./routes/programs");
+const benefactorRouter = require("./routes/benefactors");
+const deviceRouter = require("./routes/device");
 const peopleRouter = require("./routes/people");
 const documentationRouter = require("./routes/documentation");
 const settingsRouter = require("./routes/settings");
@@ -44,7 +44,7 @@ app.use("/login", loginRouter);
 app.use("/programs", programsRouter);
 app.use("/beneficiaries", beneficiaryRouter);
 app.use("/benefactors", benefactorRouter);
-app.use("/inventory", inventoryRouter);
+app.use("/device", deviceRouter);
 app.use("/people", peopleRouter);
 app.use("/documentation", documentationRouter);
 app.use("/settings", settingsRouter);
