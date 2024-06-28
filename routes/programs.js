@@ -32,7 +32,7 @@ router.post('/create', asyncHandler(async (req, res, next) => {
     await newProgram.save();
 
     console.log("New program instance saved.");
-    res.sendStatus(201); // HTTP 201: Created
+    res.sendStatus(201); 
 }));
 
 //GET request for editing program.

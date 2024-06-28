@@ -1,18 +1,29 @@
 const express = require("express");
+const router = express.Router();
 const asyncHandler = require("express-async-handler");
+const json = require("json");
 const Device = require("../models/reworkedModels/device");
-
-
-const router = express.Router();    
 
 //GET request for creating item.
 router.get('/create', asyncHandler(async (req, res, next) => {
     res.send("NOT IMPLEMENTED: Item create GET");
 }));
 
-//POST request for creating item.
+//POST request for creating beneficiary.
 router.post('/create', asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Item create POST");
+    const { deviceName, deviceDesc, dateReceived, deviceSpon } = req.body;
+
+    const newDevice = new Device({
+        name: deviceName,
+        description: deviceDesc,
+        date_received: dateReceived,
+        sponsor: deviceSpon
+    });
+
+    await newDevice.save();
+
+    console.log("New device instance saved.");
+    res.sendStatus(201);
 }));
 
 //GET request for editing item.
@@ -38,7 +49,6 @@ router.post('/:id/delete', asyncHandler(async (req, res, next) => {
 //GET request to list all equipment.
 router.get('/', asyncHandler(async (req, res, next) => {
     const devices = await Device.find()
-                                           .sort({ first_name: 1, last_name: 1})
                                            .exec();
 
     console.log(devices);
