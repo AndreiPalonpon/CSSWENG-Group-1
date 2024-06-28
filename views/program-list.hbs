@@ -66,12 +66,12 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="programName">Program Name</label>
-                        <input type="text" class="form-control" id="programName" name="programName" placeholder="Program Name" required>
+                        <input type="text" class="form-control" name="programName" placeholder="Program Name" required>
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="programType">Type of Program</label>
-                        <select class="form-control" id="programType" name="programType" required>
+                        <select name="programType" class="form-control" required>
                             <option value="" selected disabled>Choose...</option>
                             <option value="Assistance">Assistance</option>
                             <option value="Initiative">Initiative</option>
@@ -80,8 +80,8 @@
                         </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="freq">Frequency</label>
-                        <select class="form-control" id="freq" name="freq" required>
+                        <label for="frequency">Frequency</label>
+                        <select name="frequency" class="form-control" required>
                             <option value="" selected disabled>Choose...</option>
                             <option value="Monthly">Monthly</option>
                             <option value="Quarterly">Quarterly</option>
@@ -91,7 +91,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label for="assistanceType">Assistance Type</label>
-                        <select class="form-control" id="assistanceType" name="assistanceType" required>
+                        <select name="assistanceType" class="form-control" required>
                             <option value="" selected disabled>Choose...</option>
                             <option value="Educational">Educational</option>
                             <option value="Financial">Financial</option>
@@ -112,137 +112,140 @@
 
             <!---TABLE LISTS-->
             <div class="table-container">
-                <button id="resetFiltersButton" class="btn btn-secondary">Reset Filters</button>
-                <table class="table table-bordered table-hover">
-                    <caption>List of Programs</caption>
-                    <thead class="thead-light">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle" id="nameDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Program Name
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="nameDropdown">
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="nameSort" value="az" id="nameSortAZ">
-                                                <label class="form-check-label" for="nameSortAZ">
-                                                    A-Z
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="nameSort" value="za" id="nameSortZA">
-                                                <label class="form-check-label" for="nameSortZA">
-                                                    Z-A
-                                                </label>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </th>
-                            <th scope="col">Last Updated</th>
-                            <th scope="col">Date Program Created</th>
-                            <th scope="col">
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle" id="typeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Type of Program
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="typeDropdown">
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="type1" id="type1Check" name="typeFilter">
-                                                <label class="form-check-label" for="type1Check">
-                                                    Type 1
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="type2" id="type2Check" name="typeFilter">
-                                                <label class="form-check-label" for="type2Check">
-                                                    Type 2
-                                                </label>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </th>
-                            <th scope="col">
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle" id="frequencyDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Frequency
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="frequencyDropdown">
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="daily" id="dailyCheck" name="frequencyFilter">
-                                                <label class="form-check-label" for="dailyCheck">
-                                                    Daily
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="weekly" id="weeklyCheck" name="frequencyFilter">
-                                                <label class="form-check-label" for="weeklyCheck">
-                                                    Weekly
-                                                </label>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </th>
-                            <th scope="col">
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle" id="assistanceDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Assistance Type
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="assistanceDropdown">
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="financial" id="financialCheck" name="assistanceFilter">
-                                                <label class="form-check-label" for="financialCheck">
-                                                    Financial
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="medical" id="medicalCheck" name="assistanceFilter">
-                                                <label class="form-check-label" for="medicalCheck">
-                                                    Medical
-                                                </label>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Program rows will be populated here -->
-                        {{#each programs}}
-                        <tr>
-                            <td>{{@index}}</td>
-                            <td><a href="/people/{{this._id}}">{{this.name}}</a></td>
-                            <td>{{this.recent_update_date}}</td>
-                            <td>{{this.creation_date}}</td>
-                            <td>{{this.program_type}}</td>
-                            <td>{{this.frequency}}</td>
-                            <td>{{this.assistance_type}}</td>
-                            <td>
-                                <button class="editBtn" data-id="{{this._id}}"><i class="bi bi-pencil"></i></button>
-                                <button class="deleteBtn" data-id="{{this._id}}"><i class="bi bi-trash"></i></button>
-                            </td>
+                <form id="filtersForm" method="GET" action="/programs">
+                <button id="resetFiltersButton" class="btn btn-secondary" onclick="window.location.href='/programs'">Reset Filters</button>
+                <button type="submit" class="btn btn-primary">Apply Filters</button>
+                    <table class="table table-bordered table-hover">
+                        <caption>List of Programs</caption>
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" id="nameDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                Program Name
+                            </a>
+                                        <ul class="dropdown-menu" aria-labelledby="nameDropdown">
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="nameSort" value="az" id="nameSortAZ" {{#if (eq filters.nameSort "az")}}checked{{/if}}>
+                                                    <label class="form-check-label" for="nameSortAZ">
+                                            A-Z
+                                        </label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="nameSort" value="za" id="nameSortZA" {{#if (eq filters.nameSort "za")}}checked{{/if}}>
+                                                    <label class="form-check-label" for="nameSortZA">
+                                            Z-A
+                                        </label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </th>
+                                <th scope="col">Last Updated</th>
+                                <th scope="col">Date Program Created</th>
+                                <th scope="col">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" id="typeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                Type of Program
+                            </a>
+                                        <ul class="dropdown-menu" aria-labelledby="typeDropdown">
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="type1" id="type1Check" name="typeFilter" {{#if (arrayContains filters.typeFilter "type1")}}checked{{/if}}>
+                                                    <label class="form-check-label" for="type1Check">
+                                            Type 1
+                                        </label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="type2" id="type2Check" name="typeFilter" {{#if (arrayContains filters.typeFilter "type2")}}checked{{/if}}>
+                                                    <label class="form-check-label" for="type2Check">
+                                            Type 2
+                                        </label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </th>
+                                <th scope="col">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" id="frequencyDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                Frequency
+                            </a>
+                                        <ul class="dropdown-menu" aria-labelledby="frequencyDropdown">
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="daily" id="dailyCheck" name="frequencyFilter" {{#if (arrayContains filters.frequencyFilter "daily")}}checked{{/if}}>
+                                                    <label class="form-check-label" for="dailyCheck">
+                                            Daily
+                                        </label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="weekly" id="weeklyCheck" name="frequencyFilter" {{#if (arrayContains filters.frequencyFilter "weekly")}}checked{{/if}}>
+                                                    <label class="form-check-label" for="weeklyCheck">
+                                            Weekly
+                                        </label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </th>
+                                <th scope="col">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" id="assistanceDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                Assistance Type
+                            </a>
+                                        <ul class="dropdown-menu" aria-labelledby="assistanceDropdown">
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="financial" id="financialCheck" name="assistanceFilter" {{#if (arrayContains filters.assistanceFilter "financial")}}checked{{/if}}>
+                                                    <label class="form-check-label" for="financialCheck">
+                                            Financial
+                                        </label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="medical" id="medicalCheck" name="assistanceFilter" {{#if (arrayContains filters.assistanceFilter "medical")}}checked{{/if}}>
+                                                    <label class="form-check-label" for="medicalCheck">
+                                            Medical
+                                        </label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </th>
+                                <th scope="col">Actions</th>
                             </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {{#each programs}}
+                            <tr>
+                                <td>{{@index}}</td>
+                                <td><a href="/people">{{this.name}}</a></td>
+                                <td>{{this.recent_update_date}}</td>
+                                <td>{{this.creation_date}}</td>
+                                <td>{{this.program_type}}</td>
+                                <td>{{this.frequency}}</td>
+                                <td>{{this.assistance_type}}</td>
+                                <td>
+                                    <button class="editBtn" data-id="{{this._id}}"><i class="bi bi-pencil"></i></button>
+                                    <button class="deleteBtn" data-id="{{this._id}}"><i class="bi bi-trash"></i></button>
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </form>
             </div>
+
         </main>
 
         <nav aria-label="page-navigation">
@@ -310,7 +313,7 @@
                     formInputFields.forEach(input => input.disabled = false);
                 });
 
-                
+
                 form.addEventListener('submit', (e) => {
                     e.preventDefault();
                     const now = new Date();
@@ -318,7 +321,7 @@
                         id: Date.now(),
                         programName: form.programName.value,
                         programType: form.programType.value,
-                        freq: form.freq.value,
+                        frequency: form.frequency.value,
                         assistanceType: form.assistanceType.value,
                         dateCreated: now.toLocaleDateString(),
                         lastUpdated: now.toLocaleDateString() + ' ' + now.toLocaleTimeString()
@@ -343,7 +346,7 @@
                     popupForm.classList.remove('active');
                     form.reset();
                 });
-                
+
 
                 function showInfo() {
                     displayRows(getData, currentPage);
@@ -404,11 +407,11 @@
                         const row = `
                 <tr>
                     <td>${start + index + 1}</td>
-                    <td><a href="/people">${program.programName}</a></td>
+                    <td><a href="/people">${program.programName}<a></td>
                     <td>${program.lastUpdated}</td>
                     <td>${program.dateCreated}</td>
                     <td>${capitalizeFirstLetter(program.programType)}</td>
-                    <td>${capitalizeFirstLetter(program.freq)}</td>
+                    <td>${capitalizeFirstLetter(program.frequency)}</td>
                     <td>${capitalizeFirstLetter(program.assistanceType)}</td>
                     <td>
                         <button class="viewBtn" data-id="${program.id}"><i class="bi bi-eye"></i></button>
@@ -417,8 +420,8 @@
                     </td>
                 </tr>
                 `;
-                    programInfo.innerHTML += row;
-                });
+                        programInfo.innerHTML += row;
+                    });
 
                     function capitalizeFirstLetter(string) {
                         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -451,143 +454,106 @@
                             deleteInfo(id, e);
                         });
                     });
-                    // Event listeners for sorting and filtering
-                    document.querySelectorAll('input[name="nameSort"]').forEach(radio => {
-                        radio.addEventListener('change', () => {
-                            sortData();
+
+                    function prevPage(event) {
+                        event.preventDefault();
+                        if (currentPage > 1) {
+                            currentPage--;
                             displayRows(getData, currentPage);
                             displayPagination(getData.length);
-                        });
-                    });
-                    document.querySelectorAll('input[name="typeFilter"], input[name="frequencyFilter"], input[name="assistanceFilter"]').forEach(checkbox => {
-                        checkbox.addEventListener('change', () => {
-                            filterData();
-                            displayRows(getData, currentPage);
-                            displayPagination(getData.length);
-                        });
-                    });
-                }
-
-                function prevPage(event) {
-                    event.preventDefault();
-                    if (currentPage > 1) {
-                        currentPage--;
-                        displayRows(getData, currentPage);
-                        displayPagination(getData.length);
-                    }
-                }
-
-                function nextPage(event) {
-                    event.preventDefault();
-                    const totalPages = Math.ceil(getData.length / rowsPerPage);
-                    if (currentPage < totalPages) {
-                        currentPage++;
-                        displayRows(getData, currentPage);
-                        displayPagination(getData.length);
-                    }
-                }
-
-                function goToPage(page) {
-                    currentPage = page;
-                    displayRows(getData, currentPage);
-                    displayPagination(getData.length);
-                }
-
-                function readInfo(id) {
-                    const program = getData.find(item => item.id === id);
-                    if (program) {
-                        form.programName.value = program.programName;
-                        form.programType.value = program.programType;
-                        form.freq.value = program.freq;
-                        form.assistanceType.value = program.assistanceType;
-                        modalTitle.innerHTML = "View Program";
-                        formInputFields.forEach(input => input.disabled = true);
-                        submitBtn.style.display = "none";
-                        darkBg.classList.add('active');
-                        popupForm.classList.add('active');
-                    }
-                }
-
-                function editInfo(id) {
-                    isEdit = true;
-                    editId = getData.findIndex(item => item.id === id);
-                    const program = getData[editId];
-                    if (program) {
-                        form.programName.value = program.programName;
-                        form.programType.value = program.programType;
-                        form.freq.value = program.freq;
-                        form.assistanceType.value = program.assistanceType;
-                        modalTitle.innerHTML = "Edit Program";
-                        formInputFields.forEach(input => input.disabled = false);
-                        submitBtn.style.display = "block";
-                        submitBtn.innerHTML = "Update";
-                        darkBg.classList.add('active');
-                        popupForm.classList.add('active');
-                    }
-                }
-
-                function deleteInfo(id, e) {
-                    if (confirm("Are you sure you want to delete this program?")) {
-                        console.log(id);
-                        originalData = originalData.filter(item => item.id !== id);
-                        localStorage.setItem('programs', JSON.stringify(originalData));
-                        getData = [...originalData];
-                        //showInfo();
-                        let index = e.currentTarget.closest("tr").querySelector("td:first-child").textContent;
-                        $.post("/programs/delete", {program_id: id}, (data, status, xhr) => {
-                            if (status === "success" && xhr.status === 200) {
-                                alert("Program with ID " + index + " has been deleted");
-                            }
-                        });
-                        e.currentTarget.closest("tr").remove();
-                    }
-                }
-
-                function sortData() {
-                    const selectedSort = document.querySelector('input[name="nameSort"]:checked').value;
-                    getData.sort((a, b) => {
-                        if (selectedSort === 'az') {
-                            return a.programName.localeCompare(b.programName);
-                        } else {
-                            return b.programName.localeCompare(a.programName);
                         }
+                    }
+
+                    function nextPage(event) {
+                        event.preventDefault();
+                        const totalPages = Math.ceil(getData.length / rowsPerPage);
+                        if (currentPage < totalPages) {
+                            currentPage++;
+                            displayRows(getData, currentPage);
+                            displayPagination(getData.length);
+                        }
+                    }
+
+                    function goToPage(page) {
+                        currentPage = page;
+                        displayRows(getData, currentPage);
+                        displayPagination(getData.length);
+                    }
+
+                    function readInfo(id) {
+                        const program = getData.find(item => item.id === id);
+                        if (program) {
+                            form.programName.value = program.programName;
+                            form.programType.value = program.programType;
+                            form.frequency.value = program.frequency;
+                            form.assistanceType.value = program.assistanceType;
+                            modalTitle.innerHTML = "View Program";
+                            formInputFields.forEach(input => input.disabled = true);
+                            submitBtn.style.display = "none";
+                            darkBg.classList.add('active');
+                            popupForm.classList.add('active');
+                        }
+                    }
+
+                    function editInfo(id) {
+                        isEdit = true;
+                        editId = getData.findIndex(item => item.id === id);
+                        const program = getData[editId];
+                        if (program) {
+                            form.programName.value = program.programName;
+                            form.programType.value = program.programType;
+                            form.frequency.value = program.frequency;
+                            form.assistanceType.value = program.assistanceType;
+                            modalTitle.innerHTML = "Edit Program";
+                            formInputFields.forEach(input => input.disabled = false);
+                            submitBtn.style.display = "block";
+                            submitBtn.innerHTML = "Update";
+                            darkBg.classList.add('active');
+                            popupForm.classList.add('active');
+                        }
+                    }
+
+                    function deleteInfo(id, e) {
+                        if (confirm("Are you sure you want to delete this program?")) {
+                            console.log(id);
+                            originalData = originalData.filter(item => item.id !== id);
+                            localStorage.setItem('programs', JSON.stringify(originalData));
+                            getData = [...originalData];
+                            //showInfo();
+                            let index = e.currentTarget.closest("tr").querySelector("td:first-child").textContent;
+                            $.post("/programs/delete", {
+                                program_id: id
+                            }, (data, status, xhr) => {
+                                if (status === "success" && xhr.status === 200) {
+                                    alert("Program with ID " + index + " has been deleted");
+                                }
+                            });
+                            e.currentTarget.closest("tr").remove();
+                        }
+                    }
+
+                    // Event listeners for sorting and filtering
+                document.querySelectorAll('input[name="nameSort"]').forEach(radio => {
+                    radio.addEventListener('change', () => {
+                        document.getElementById('filtersForm').submit();
                     });
-                    showInfo();
-                }
-
-                function filterData() {
-                    let filteredData = [...originalData];
-                    const selectedTypes = Array.from(document.querySelectorAll('input[name="typeFilter"]:checked')).map(check => check.value);
-
-                    if (selectedTypes.length > 0) {
-                        filteredData = filteredData.filter(program => selectedTypes.includes(program.programType));
-                    }
-
-                    const selectedFrequencies = Array.from(document.querySelectorAll('input[name="frequencyFilter"]:checked')).map(check => check.value);
-                    if (selectedFrequencies.length > 0) {
-                        filteredData = filteredData.filter(program => selectedFrequencies.includes(program.freq));
-                    }
-
-                    const selectedAssistances = Array.from(document.querySelectorAll('input[name="assistanceFilter"]:checked')).map(check => check.value);
-                    if (selectedAssistances.length > 0) {
-                        filteredData = filteredData.filter(program => selectedAssistances.includes(program.assistanceType));
-                    }
-                    
-                    getData = filteredData;
-                    showInfo();
-                }
-
-                resetFiltersButton.addEventListener('click', () => {
-                    document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
-                        input.checked = false;
-                    });
-                    getData = [...originalData];
-                    showInfo();
                 });
 
+                document.querySelectorAll('input[name="typeFilter"], input[name="frequencyFilter"], input[name="assistanceFilter"]').forEach(checkbox => {
+                    checkbox.addEventListener('change', () => {
+                        document.getElementById('filtersForm').submit();
+                    });
+                });
+
+                resetFiltersButton.addEventListener('click', () => {
+                 // Reset Filters Button
+                document.getElementById('resetFiltersButton').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.href = '/programs';
+                });
                 //displayRows(getData, currentPage);
-                displayPagination(getData.length);
-                addEventListeners();
+                //displayPagination(getData.length);
+                //addEventListeners();
             });
 
             /* Exporting to CSV function */
@@ -620,7 +586,6 @@
                 }
                 downloadCSV(csv.join('\n'), filename);
             }
-            
         </script>
 </body>
 
