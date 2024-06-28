@@ -79,6 +79,34 @@ router.get('/', asyncHandler(async (req, res, next) => {
     res.render("program-list", { programs: programs });
 }));
 
+// Helper function to convert comma-separated string to an array
+const parseFilterValues = (filterValue) => {
+    if (!filterValue) return [];
+    return Array.isArray(filterValue) ? filterValue : filterValue.split(",");
+};
+
+// GET request to list all programs with filters.
+router.get('/', asyncHandler(async(req, res, next) => {
+    const { nameSort, typeFilter, frequencyFilter, assistanceFilter } = req.query;
+
+    let filter = {};
+    let sort = {};
+
+    if (typeFilter) filter.programType = { $in: parseFilterValues(typeFilter) };
+    if (frequencyFilter) filter.frequency = { $in: parseFilterValues(frequencyFilter) };
+    if (assistanceFilter) filter.assistanceType = { $in: parseFilterValues(assistanceFilter) };
+
+    if (nameSort === 'az') {
+        sort.programName = 1; // ascending
+    } else if (nameSort === 'za') {
+        sort.programName = -1; // descending
+    }
+
+    const programs = await Program.find(filter).sort(sort).exec();
+
+    res.render("program-list", { programs, filters: req.query });
+}));
+
 //GET request for one program.
 router.get('/:id', asyncHandler(async (req, res, next) => {
     res.send("NOT IMPLEMENTED: Program detail");
