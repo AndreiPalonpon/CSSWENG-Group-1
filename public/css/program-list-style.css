@@ -97,7 +97,7 @@ header .container {
 /*-------------------------------*/
 
 .addProgramBtn,
-.addPeopleBtn  {
+.addPeopleBtn {
     margin-bottom: 15px;
     position: absolute;
     right: 48px;
@@ -615,4 +615,42 @@ hr.vertical-solid {
 #barangayDropdownMenu {
     max-height: 200px;
     overflow-y: auto;
+}
+
+
+/*-------------------------------*/
+
+
+/*          Benefactor            */
+
+
+/*-------------------------------*/
+
+.popup footer .submitBenefactorBtn {
+    padding: 9px 14px;
+    color: var(--dark8);
+    font-size: 16px;
+    cursor: pointer;
+    pointer-events: auto;
+    outline: none;
+    border: 1px solid var(--dark6);
+    background: var(--dark4);
+    border-radius: 5px;
+}
+
+.popup .submitBenefactorBtn {
+    padding: 9px 14px;
+    color: var(--color2);
+    font-size: 16px;
+    cursor: pointer;
+    pointer-events: auto;
+    outline: none;
+    border: 1px solid var(--dark6);
+    background: var(--color3);
+    border-radius: 5px;
+    margin-left: 650px;
+}
+
+.popup .submitBenefactorBtn:hover {
+    background: darkorange;
 }
