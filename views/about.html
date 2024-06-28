@@ -24,13 +24,28 @@
                     </div>
                 </div>
 
-                <li><a href="../views/dashboard.html">Dashboard</a></li>
-                <li><a href="../views/program-list.html">Programs</a></li>
-                <li><a href="#beneficiary">Beneficiary</a></li>
-                <li><a href="#benefactor">Benefactor</a></li>
-                <li><a href="#inventory">Inventory</a></li>
-                <li><a href="#settings">Settings</a></li>
-                <li class="logout-link"><a href="#logout"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+                <li><a href="/">Dashboard</a></li>
+                <li><a href="/programs">Programs</a></li>
+
+
+                <!--
+                <li class="dropdown">
+                    <a href="../views/program-list.html" class="dropdown-toggle" data-toggle="dropdown">Programs<span class="caret"></span></a>
+                    <ul class="dropdown-menu animated fadeInLeft" role="menu">
+                        <li><a href="#pictures">Program 1</a></li>
+                        <li><a href="#videos">Program 2</a></li>
+                        <li><a href="#books">Program 3</a></li>
+                        <li><a href="#art">Program 4</a></li>
+                        <li><a href="#awards">Program 4</a></li>
+                    </ul>
+                </li>
+                --->
+
+                <li><a href="/beneficiaries">Beneficiary</a></li>
+                <li><a href="/benefactors">Benefactor</a></li>
+                <li><a href="/inventory">Inventory</a></li>
+                <li><a href="/settings">Settings</a></li>
+                <li class="logout-link"><a href="#logout"><i class="bi bi-box-arrow-right"></i>  Logout</a></li>
             </ul>
         </nav>
         <!-- /#sidebar-wrapper -->
@@ -107,6 +122,13 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById("menu-toggle").addEventListener("click", function() {
+            document.getElementById("wrapper").classList.toggle("toggled");
+        });
+    </script>
 </body>
 
 </html>
