@@ -4,28 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LPPWDFI | Benefactor List</title>
+    <title>LPPWDFI | Benefactors List</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="/css/program-list-style.css">
 </head>
 
 <body>
-    <!-- Need to Edit this file -->
     <div id="wrapper">
+        <!-- Wrapper for the entire content -->
         <div class="overlay dark_bg"></div>
-        <!-- Modal Background -->
+        <!-- Overlay for modal background -->
 
-        <!-- Sidebar -->
+        <!-- Sidebar navigation -->
         <nav class="navbar navbar-inverse fixed-top" id="sidebar-wrapper" role="navigation">
             <ul class="nav sidebar-nav">
+                <!-- Sidebar list -->
                 <div class="sidebar-header">
                     <div class="sidebar-brand">
                         <a href="#">Admin</a>
+                        <!-- Sidebar brand link -->
                         <hr class="navbar-solid">
+                        <!-- Horizontal line -->
                     </div>
                 </div>
 
+                <!-- Navigation links -->
                 <li><a href="/">Dashboard</a></li>
                 <li><a href="../views/program-list.html">Programs</a></li>
                 <li><a href="#beneficiary">Beneficiary</a></li>
@@ -35,57 +39,46 @@
                 <li class="logout-link"><a href="#logout"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
             </ul>
         </nav>
-        <!-- /#sidebar-wrapper -->
+        <!-- End of sidebar navigation -->
 
-        <!-- HEADER -->
+        <!-- Header section -->
         <div class="bg-half-gradient">
             <header class="bg-gradient">
                 <div class="container d-flex align-items-center">
+                    <!-- Flex container for alignment -->
                     <div class="menu-icon mr-3" id="menu-toggle">&#9776;</div>
+                    <!-- Menu toggle button -->
                     <a href="../views/dashboard.html">
                         <img src="../images/LPPWDFI-Logo.png" alt="Logo" class="logo mr-3">
+                        <!-- Organization logo -->
                     </a>
                     <div>
-                        <h1 class="org-name">Benefactor</h1>
+                        <h1 class="org-name">Benefactors</h1>
+                        <!-- Page title -->
                     </div>
                 </div>
 
                 <div class="addProgramBtn">
                     <button>Create</button>
+                    <!-- Button to create a new benefactor entry -->
                 </div>
             </header>
         </div>
+        <!-- End of header section -->
 
-        <!--MODAL FORM-->
+        <!-- Modal form for adding/editing benefactors -->
         <div class="popup">
             <header>
                 <h2 class="modalTitle">Fill the Form</h2>
                 <span class="closeBtn">&times;</span>
+                <!-- Close button for modal -->
             </header>
-            <form id="beneficiaryForm" action="/beneficiaries/create" method="POST">
+            <form id="beneficiaryForm" action="/benefactors/create" method="POST">
+                <!-- Form for submitting benefactor information -->
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="firstName">First Name</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="First Name" required>
-                    </div>
-
-                    <div class="form-group col-md-6">
-                        <label for="lastName">Last Name</label>
-                        <input type="text" class="form-control" id="lastName" placeholder="Last Name" required>
-                    </div>
-
-                    <div class="form-group col-md-6">
-                        <label for="dob">Date of Birth</label>
-                        <input type="date" class="form-control" id="dob" placeholder="Date of Birth" required>
-                    </div>
-
-                    <div class="form-group col-md-6">
-                        <label for="gender">Gender</label>
-                        <select id="gender" class="form-control" required>
-                            <option value="" selected disabled>Choose...</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
+                        <label for="benefactorName">Benefactor Name</label>
+                        <input type="text" class="form-control" id="benefactorName" placeholder="Benefactor Name" required>
                     </div>
 
                     <div class="form-group col-md-6">
@@ -93,84 +86,203 @@
                         <input type="tel" class="form-control" id="contactNo" placeholder="+63 912 345 6789" required>
                     </div>
 
-
                     <div class="form-group col-md-6">
-                        <label for="barangay">Barangay</label>
-                        <select id="barangay" class="form-control" required>
+                        <label for="sponsor">Sponsor</label>
+                        <select id="sponsor" class="form-control" required>
                             <option value="" selected disabled>Choose...</option>
-                        </select>
-                    </div>
-
-
-                    <div class="form-group col-md-6">
-                        <label for="disabilityType">Disability Type</label>
-                        <select id="disabilityType" class="form-control" required>
-                            <option value="" selected disabled>Choose...</option>
-                            <option value="physical">Physical</option>
-                            <option value="sensory">Sensory</option>
-                            <option value="intellectual">Intellectual</option>
-                            <option value="mental">Mental</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
                         </select>
                     </div>
 
                     <div class="form-group col-md-6">
-                        <label for="comorbidities">Comorbidities</label>
-                        <select id="comorbidities" class="form-control" required>
+                        <label for="lgu">LGU</label>
+                        <select id="lgu" class="form-control" required>
                             <option value="" selected disabled>Choose...</option>
-                            <option value="none">None</option>
-                            <option value="diabetes">Diabetes</option>
-                            <option value="hypertension">Hypertension</option>
-                            <option value="heart disease">Heart Disease</option>
-                            <option value="other">Other</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
                         </select>
                     </div>
+
                     <div class="form-group col-md-6">
-                        <label for="pwdIdCardNo">PWD Card ID No.</label>
-                        <input type="text" class="form-control" id="pwdIdCardNo" placeholder="PWD Card ID No." required>
+                        <label for="itemName">Item Name</label>
+                        <input type="text" class="form-control" id="itemName" placeholder="Item Name" required>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="quantity">Quantity No.</label>
+                        <input type="number" id="quantityOfAssistance" class="form-control" required placeholder="Quantity" min="0">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="date">Given Date</label>
+                        <input type="date" class="form-control" id="date" required>
                     </div>
                 </div>
-                <input type="submit" class="submitBeneficiaryBtn" value="Submit">
+                <input type="submit" class="submitBenefactorBtn" value="Submit">
+                <!-- Submit button -->
             </form>
         </div>
+        <!-- End of modal form -->
 
-        <!--2nd Header-->
+        <!-- Main content section -->
         <main class="main-content">
-            <h2 class="main-title">Benefactor List</h2>
+            <h2 class="main-title">Benefactors List</h2>
+            <!-- Title for main content -->
             <div class="button-group">
-                <button class="btn export-btn" onclick="exportTableToCSV('Beneficiaries.csv')">Export to CSV</button> <!--CHANGE-->
+                <button class="btn export-btn" onclick="exportTableToCSV('Benefactors.csv')">Export to CSV</button>
+                <!-- Button to export table data to CSV -->
             </div>
 
-            <!---TABLE LISTS-->
+            <!-- Table container -->
             <div class="table-container">
                 <button id="resetFiltersButton" class="btn btn-secondary">Reset Filters</button>
+                <!-- Button to reset filters -->
                 <table class="table table-bordered table-hover">
+                    <!-- Table for displaying benefactor data -->
                     <caption>List of Benefactors</caption>
                     <thead class="thead-light">
+                        <!-- Table header -->
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Type</th>
-                            <th scope="col">Contributions</th>
+                            <!-- Column for benefactor name with sorting options -->
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="benefactorNameDropdown" data-bs-toggle="dropdown" aria-expanded="false">Given By</a>
+                                    <ul class="dropdown-menu" aria-labelledby="benefactorNameDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="nameSort" value="az" data-criterion="benefactorName" id="benefactorNameSortAZ">
+                                                <label class="form-check-label" for="benefactorNameSortAZ">A-Z</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="nameSort" value="za" data-criterion="benefactorName" id="benefactorNameSortZA">
+                                                <label class="form-check-label" for="benefactorNameSortZA">Z-A</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
+                            <!-- Additional columns for benefactor details -->
+                            <th scope="col">Contact No.</th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="sponsorDropdown" data-bs-toggle="dropdown" aria-expanded="false">Sponsor</a>
+                                    <ul class="dropdown-menu" aria-labelledby="sponsorDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="sponsorFilter" value="yes" id="sponsorYes">
+                                                <label class="form-check-label" for="sponsorYes">Yes</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="sponsorFilter" value="no" id="sponsorNo">
+                                                <label class="form-check-label" for="sponsorNo">No</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="lguDropdown" data-bs-toggle="dropdown" aria-expanded="false">LGU</a>
+                                    <ul class="dropdown-menu" aria-labelledby="lguDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="lguFilter" value="yes" id="lguYes">
+                                                <label class="form-check-label" for="lguYes">Yes</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="lguFilter" value="no" id="lguNo">
+                                                <label class="form-check-label" for="lguNo">No</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="itemNameDropdown" data-bs-toggle="dropdown" aria-expanded="false">Item Name</a>
+                                    <ul class="dropdown-menu" aria-labelledby="itemNameDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="itemNameSort" value="az" data-criterion="itemName" id="itemNameSortAZ">
+                                                <label class="form-check-label" for="itemNameSortAZ">A-Z</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="itemNameSort" value="za" data-criterion="itemName" id="itemNameSortZA">
+                                                <label class="form-check-label" for="itemNameSortZA">Z-A</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="quantityDropdown" data-bs-toggle="dropdown" aria-expanded="false">Quantity No.</a>
+                                    <ul class="dropdown-menu" aria-labelledby="quantityDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="quantitySort" value="asc" id="quantitySortAsc">
+                                                <label class="form-check-label" for="quantitySortAsc">Ascending</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="quantitySort" value="desc" id="quantitySortDesc">
+                                                <label class="form-check-label" for="quantitySortDesc">Descending</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="dateDropdown" data-bs-toggle="dropdown" aria-expanded="false">Given Date</a>
+                                    <ul class="dropdown-menu" aria-labelledby="dateDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="dateSort" value="asc" id="dateSortAsc">
+                                                <label class="form-check-label" for="dateSortAsc">Ascending</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="dateSort" value="desc" id="dateSortDesc">
+                                                <label class="form-check-label" for="dateSortDesc">Descending</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
+                            <th scope="col">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="programInfo">
-                        <!-- Program rows will be populated here -->
+
+                    <!-- Handlebars template for populating table rows with benefactors data -->
+                    <tbody class="programInfo ">
                         {{#each beneficiaries}}
                         <tr>
-                            <th scope="row">{{@index}}</th>
-                            <td>{{this.first_name}}</td>
-                            <td>{{this.last_name}}</td>
-                            <td>{{this.date_of_birth}}</td>
-                            <td>{{this.gender}}</td>
+                            <th scope="row ">{{@index}}</th>
+                            <!-- Benefactor data -->
+                            <td>{{this.benefactor_name}}</td>
                             <td>{{this.contact_number}}</td>
-                            <td>{{this.barangay}}</td>
-                            <td>{{this.disability_type}}</td>
-                            <td>{{this.comorbidities}}</td>
-                            <td>{{this.pwd_card_id_no}}</td>
+                            <td>{{this.sponsor}}</td>
+                            <td>{{this.lgu}}</td>
+                            <td>{{this.item_name}}</td>
+                            <td>{{this.quantity}}</td>
+                            <td>{{this.date}}</td>
                             <td>
-                                <button class="viewBtn" data-id="{{this.id}}"><i class="bi bi-eye"></i></button>
-                                <button class="editBtn" data-id="{{this.id}}"><i class="bi bi-pencil"></i></button>
-                                <button class=  "deleteBtn" data-id="{{this.id}}"><i class="bi bi-trash"></i></button>
+                                <button class="viewBtn " data-id="{{this.id}} "><i class="bi bi-eye "></i></button>
+                                <button class="editBtn " data-id="{{this.id}} "><i class="bi bi-pencil "></i></button>
+                                <button class="deleteBtn " data-id="{{this.id}} "><i class="bi bi-trash "></i></button>
                             </td>
                         </tr>
                         {{/each}}
@@ -178,48 +290,45 @@
                 </table>
             </div>
         </main>
+        <!-- End of main content section -->
 
+        <!-- Pagination controls -->
         <nav aria-label="page-navigation">
             <ul class="pagination">
                 <!-- Pagination items will be dynamically added here -->
             </ul>
         </nav>
 
+        <!-- Scripts for functionality and interactivity -->
         <!-- JQuery -->
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <!-- <script src="../public/js/app.js"></script> -->
         <script>
             document.addEventListener('DOMContentLoaded', function() {
+                // DOMContentLoaded event listener for initializing functionality
                 document.getElementById("menu-toggle").addEventListener("click", function() {
+                    // Toggle sidebar
                     document.getElementById("wrapper").classList.toggle("toggled");
                     document.querySelector(".main-content").classList.toggle("toggled");
                     document.querySelector(".header-right").classList.toggle("toggled");
                 });
 
-                $(document).ready(function() {
-                    $("#myInput").on("keyup", function() {
-                        var value = $(this).val().toLowerCase();
-                        $(".dropdown-menu li").filter(function() {
-                            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                        });
-                    });
-                });
-
+                // Variables for modal form and table interactions
                 var newMemberAddBtn = document.querySelector('.addProgramBtn button'),
                     darkBg = document.querySelector('.dark_bg'),
                     popupForm = document.querySelector('.popup'),
                     crossBtn = document.querySelector('.closeBtn'),
-                    submitBeneficiaryBtn = document.querySelector('.submitBeneficiaryBtn'),
+                    submitBenefactorBtn = document.querySelector('.submitBenefactorBtn'),
                     modalTitle = document.querySelector('.modalTitle'),
                     form = document.querySelector('#beneficiaryForm'),
                     formInputFields = document.querySelectorAll('#beneficiaryForm input, #beneficiaryForm select'),
                     programInfo = document.querySelector('.programInfo');
                 resetFiltersButton = document.getElementById('resetFiltersButton');
 
+                // Retrieve data from local storage or initialize empty array
                 let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
                 let getData = [...originalData];
 
@@ -227,44 +336,45 @@
                     editId;
 
                 newMemberAddBtn.addEventListener('click', () => {
+                    // Show form for adding new benefactor
                     isEdit = false;
-                    submitBeneficiaryBtn.innerHTML = "Submit";
+                    submitBenefactorBtn.innerHTML = "Submit";
                     modalTitle.innerHTML = "Fill the Form";
                     form.reset();
                     formInputFields.forEach(input => input.disabled = false);
-                    submitBeneficiaryBtn.style.display = "block";
+                    submitBenefactorBtn.style.display = "block";
                     darkBg.classList.add('active');
                     popupForm.classList.add('active');
                 });
 
                 crossBtn.addEventListener('click', () => {
+                    // Hide form and reset inputs
                     darkBg.classList.remove('active');
                     popupForm.classList.remove('active');
                     form.reset();
-                    submitBeneficiaryBtn.style.display = "block";
+                    submitBenefactorBtn.style.display = "block";
                     formInputFields.forEach(input => input.disabled = false);
                 });
 
                 /*
                 form.addEventListener('submit', (e) => {
+                    // Handle form submission
                     e.preventDefault();
-                    const program = {
+                    const benefactor = {
                         id: Date.now(),
-                        firstName: form.firstName.value,
-                        lastName: form.lastName.value,
-                        dob: form.dob.value,
-                        gender: form.gender.value,
+                        benefactorName: form.benefactorName.value,
                         contactNo: form.contactNo.value,
-                        barangay: form.barangay.value,
-                        disabilityType: form.disabilityType.value,
-                        comorbidities: form.comorbidities.value,
-                        pwdIdCardNo: form.pwdIdCardNo.value
+                        sponsor: form.sponsor.value,
+                        lgu: form.lgu.value,
+                        itemName: form.itemName.value,
+                        quantity: form.quantity.value,
+                        givenDate: form.date.value
                     };
 
                     if (!isEdit) {
-                        originalData.push(program);
+                        originalData.push(benefactor);
                     } else {
-                        originalData[editId] = program;
+                        originalData[editId] = benefactor;
                     }
                     localStorage.setItem('programs', JSON.stringify(originalData));
                     getData = [...originalData];
@@ -276,6 +386,7 @@
                 */
 
                 function showInfo() {
+                    // Display benefactor information in table and pagination
                     displayRows(getData, currentPage);
                     displayPagination(getData.length);
                     addEventListeners();
@@ -285,6 +396,7 @@
                 const rowsPerPage = 10;
 
                 function displayPagination(totalRows) {
+                    // Create pagination controls
                     const pagination = document.querySelector('.pagination');
                     const totalPages = Math.ceil(totalRows / rowsPerPage);
 
@@ -323,6 +435,7 @@
 
                 /* Disabled displayRows function using a comment to make the table display work.
                 function displayRows(rows, page = 1) {
+                    // Display rows of benefactor data in the table
                     const start = (page - 1) * rowsPerPage;
                     const end = start + rowsPerPage;
                     const paginatedRows = rows.slice(start, end);
@@ -332,32 +445,31 @@
                         const row = `
                             <tr>
                                 <td>${start + index + 1}</td>
-                                <td>${program.firstName}</td>
-                                <td>${program.lastName}</td>
-                                <td>${program.dob}</td>
-                                <td>${program.gender}</td>
+                                <td>${program.benefactorName}</td>
                                 <td>${program.contactNo}</td>
-                                <td>${program.barangay}</td>
-                                <td>${capitalizeFirstLetter(program.disabilityType)}</td>
-                                <td>${capitalizeFirstLetter(program.comorbidities)}</td>
-                                <td>${program.pwdIdCardNo}</td>
+                                <td>${program.sponsor}</td>
+                                <td>${program.lgu}</td>
+                                <td>${program.itemName}</td>
+                                <td>${program.quantity}</td>
+                                <td>${program.givenDate}</td>
                                 <td>
                                     <button class="viewBtn" data-id="${program.id}"><i class="bi bi-eye"></i></button>
                                     <button class="editBtn" data-id="${program.id}"><i class="bi bi-pencil"></i></button>
                                     <button class="deleteBtn" data-id="${program.id}"><i class="bi bi-trash"></i></button>
                                 </td>
-                            </tr>
-                        `;
+                            </tr>`;
                         programInfo.innerHTML += row;
                     });
+                }
 
-                    function capitalizeFirstLetter(string) {
-                        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-                    }
+                function capitalizeFirstLetter(string) {
+                    // Capitalize the first letter of a string
+                    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
                 }
                 */
 
                 function addEventListeners() {
+                    // Add event listeners for various buttons and filters
                     document.querySelectorAll('.viewBtn').forEach(button => {
                         button.addEventListener('click', (e) => {
                             const id = parseInt(e.currentTarget.getAttribute('data-id'));
@@ -379,8 +491,7 @@
                         });
                     });
 
-                    // Event listeners for sorting and filtering
-                    document.querySelectorAll('input[name="nameSort"]').forEach(radio => {
+                    document.querySelectorAll('input[name="nameSort"], input[name="itemNameSort"], input[name="quantitySort"], input[name="dateSort"]').forEach(radio => {
                         radio.addEventListener('change', () => {
                             sortData();
                             displayRows(getData, currentPage);
@@ -388,30 +499,17 @@
                         });
                     });
 
-                    document.querySelectorAll('input[name="typeFilter"], input[name="frequencyFilter"], input[name="assistanceFilter"]').forEach(checkbox => {
+                    document.querySelectorAll('input[name="sponsorFilter"], input[name="lguFilter"]').forEach(checkbox => {
                         checkbox.addEventListener('change', () => {
                             filterData();
                             displayRows(getData, currentPage);
                             displayPagination(getData.length);
                         });
                     });
-
-                    document.querySelectorAll('input[name="dobSort"]').forEach((element) => {
-                        element.addEventListener('change', sortDOB);
-                    });
-
-
-                    document.querySelectorAll('input[name="genderFilter"]').forEach((element) => {
-                        element.addEventListener('change', filterGender);
-                    });
-
-                    document.querySelectorAll('input[name="barangayFilter"]').forEach((checkbox) => {
-                        checkbox.addEventListener('change', filterBarangay);
-                    });
-
                 }
 
                 function prevPage() {
+                    // Go to the previous page of pagination
                     if (currentPage > 1) {
                         currentPage--;
                         displayRows(getData, currentPage);
@@ -420,6 +518,7 @@
                 }
 
                 function nextPage() {
+                    // Go to the next page of pagination
                     const totalPages = Math.ceil(getData.length / rowsPerPage);
                     if (currentPage < totalPages) {
                         currentPage++;
@@ -429,56 +528,56 @@
                 }
 
                 function goToPage(page) {
+                    // Go to a specific page of pagination
                     currentPage = page;
                     displayRows(getData, currentPage);
                     displayPagination(getData.length);
                 }
 
                 function readInfo(id) {
+                    // Read and display benefactor information in the modal form
                     const program = getData.find(item => item.id === id);
                     if (program) {
-                        form.firstName.value = program.firstName;
-                        form.lastName.value = program.lastName;
-                        form.dob.value = program.dob;
-                        form.gender.value = program.gender;
+                        form.benefactorName.value = program.benefactorName;
                         form.contactNo.value = program.contactNo;
-                        form.barangay.value = program.barangay;
-                        form.disabilityType.value = program.disabilityType;
-                        form.comorbidities.value = program.comorbidities;
-                        form.pwdIdCardNo.value = program.pwdIdCardNo;
-                        modalTitle.innerHTML = "View Beneficiary";
+                        form.sponsor.value = program.sponsor;
+                        form.lgu.value = program.lgu;
+                        form.itemName.value = program.itemName;
+                        form.quantity.value = program.quantity;
+                        form.date.value = program.givenDate;
+                        modalTitle.innerHTML = "View Benefactor";
                         formInputFields.forEach(input => input.disabled = true);
-                        submitBeneficiaryBtn.style.display = "none";
+                        submitBenefactorBtn.style.display = "none";
                         darkBg.classList.add('active');
                         popupForm.classList.add('active');
                     }
                 }
 
                 function editInfo(id) {
+                    // Edit benefactor information in the modal form
                     isEdit = true;
                     editId = getData.findIndex(item => item.id === id);
                     const program = getData[editId];
                     if (program) {
-                        form.firstName.value = program.firstName;
-                        form.lastName.value = program.lastName;
-                        form.dob.value = program.dob;
-                        form.gender.value = program.gender;
+                        form.benefactorName.value = program.benefactorName;
                         form.contactNo.value = program.contactNo;
-                        form.barangay.value = program.barangay;
-                        form.disabilityType.value = program.disabilityType;
-                        form.comorbidities.value = program.comorbidities;
-                        form.pwdIdCardNo.value = program.pwdIdCardNo;
-                        modalTitle.innerHTML = "Edit Beneficiary";
+                        form.sponsor.value = program.sponsor;
+                        form.lgu.value = program.lgu;
+                        form.itemName.value = program.itemName;
+                        form.quantity.value = program.quantity;
+                        form.date.value = program.givenDate;
+                        modalTitle.innerHTML = "Edit Benefactor";
                         formInputFields.forEach(input => input.disabled = false);
-                        submitBeneficiaryBtn.style.display = "block";
-                        submitBeneficiaryBtn.innerHTML = "Update";
+                        submitBenefactorBtn.style.display = "block";
+                        submitBenefactorBtn.innerHTML = "Update";
                         darkBg.classList.add('active');
                         popupForm.classList.add('active');
                     }
                 }
 
                 function deleteInfo(id) {
-                    if (confirm("Are you sure you want to delete this beneficiary?")) {
+                    // Delete a benefactor entry
+                    if (confirm("Are you sure you want to delete this benefactor?")) {
                         originalData = originalData.filter(item => item.id !== id);
                         localStorage.setItem('programs', JSON.stringify(originalData));
                         getData = [...originalData];
@@ -487,12 +586,15 @@
                 }
 
                 function sortData() {
-                    const selectedSortElement = document.querySelector('input[name="nameSort"]:checked');
+                    // Sort benefactor data based on selected criteria
+                    const selectedSortElement = document.querySelector('input[name="nameSort"]:checked, input[name="itemNameSort"]:checked, input[name="quantitySort"]:checked, input[name="dateSort"]:checked');
+                    if (!selectedSortElement) return;
+
                     const selectedSort = selectedSortElement.value;
                     const criterion = selectedSortElement.getAttribute('data-criterion');
 
                     getData.sort((a, b) => {
-                        if (selectedSort === 'az') {
+                        if (selectedSort === 'az' || selectedSort === 'asc') {
                             return a[criterion].localeCompare(b[criterion]);
                         } else {
                             return b[criterion].localeCompare(a[criterion]);
@@ -501,177 +603,69 @@
                     showInfo();
                 }
 
-                function sortDOB() {
-                    const selectedSort = document.querySelector('input[name="dobSort"]:checked').value;
-                    getData.sort((a, b) => {
-                        const dateA = new Date(a.dob);
-                        const dateB = new Date(b.dob);
-                        if (selectedSort === 'asc') {
-                            return dateA - dateB;
-                        } else {
-                            return dateB - dateA;
-                        }
-                    });
-                    showInfo();
-                }
-
-                function filterGender() {
-                    const selectedGender = document.querySelector('input[name="genderFilter"]:checked').value;
-
-                    if (selectedGender === 'all') {
-                        getData = [...originalData]; // Reset to original data
-                    } else {
-                        getData = originalData.filter(item => item.gender.toLowerCase() === selectedGender);
-                    }
-
-                    showInfo();
-                }
-
-                function filterBarangay() {
-                    let filteredData = [...originalData];
-                    const selectedBarangays = Array.from(document.querySelectorAll('input[name="barangayFilter"]:checked')).map(check => check.value);
-
-                    if (selectedBarangays.length === 0) {
-                        filteredData = [...originalData];
-                    } else {
-                        filteredData = filteredData.filter(program => selectedBarangays.includes(program.barangay));
-                    }
-
-                    getData = [...filteredData];
-                    showInfo();
-                }
-
-
                 function filterData() {
-                    let filteredData = [...originalData];
+                    // Filter benefactor data based on selected criteria
+                    const sponsorFilter = document.querySelector('input[name="sponsorFilter"]:checked');
+                    const lguFilter = document.querySelector('input[name="lguFilter"]:checked');
 
-                    const selectedTypes = Array.from(document.querySelectorAll('input[name="typeFilter"]:checked')).map(check => check.value);
-                    if (selectedTypes.length > 0) {
-                        filteredData = filteredData.filter(program => selectedTypes.includes(program.programType));
-                    }
-
-                    const selectedFrequencies = Array.from(document.querySelectorAll('input[name="frequencyFilter"]:checked')).map(check => check.value);
-                    if (selectedFrequencies.length > 0) {
-                        filteredData = filteredData.filter(program => selectedFrequencies.includes(program.frequency));
-                    }
-
-                    const selectedAssistances = Array.from(document.querySelectorAll('input[name="assistanceFilter"]:checked')).map(check => check.value);
-                    if (selectedAssistances.length > 0) {
-                        filteredData = filteredData.filter(program => selectedAssistances.includes(program.assistanceType));
-                    }
-
-                    getData = filteredData;
-                    showInfo();
-                }
-
-                resetFiltersButton.addEventListener('click', () => {
-                    document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
-                        input.checked = false;
+                    getData = originalData.filter(item => {
+                        return (!sponsorFilter || item.sponsor === sponsorFilter.value) &&
+                            (!lguFilter || item.lgu === lguFilter.value);
                     });
 
-                    getData = [...originalData];
                     showInfo();
-                });
-
-                displayRows(getData, currentPage);
-                displayPagination(getData.length);
-                addEventListeners();
-            });
-
-            /* Exporting to CSV function */
-            function downloadCSV(csv, filename) {
-                let csvFile;
-                let downloadLink;
-
-                csvFile = new Blob([csv], {
-                    type: 'text/csv'
-                });
-
-                downloadLink = document.createElement('a');
-                downloadLink.download = filename;
-                downloadLink.href = window.URL.createObjectURL(csvFile);
-                downloadLink.style.display = 'none';
-                document.body.appendChild(downloadLink);
-                downloadLink.click();
-            }
-
-            function exportTableToCSV(filename) {
-                const rows = document.querySelectorAll('.table-container table tr');
-                let csv = [];
-                for (let i = 0; i < rows.length; i++) {
-                    const row = [],
-                        cols = rows[i].querySelectorAll('td, th');
-                    for (let j = 0; j < cols.length; j++) {
-                        const data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ');
-                        row.push('"' + data + '"');
-                    }
-                    csv.push(row.join(','));
                 }
-                downloadCSV(csv.join('\n'), filename);
-            }
 
-            /**Contact Number**/
-            document.addEventListener('DOMContentLoaded', function() {
+                function downloadCSV(csv, filename) {
+                    // Download CSV file
+                    let csvFile;
+                    let downloadLink;
+
+                    csvFile = new Blob([csv], {
+                        type: 'text/csv'
+                    });
+
+                    downloadLink = document.createElement('a');
+                    downloadLink.download = filename;
+                    downloadLink.href = window.URL.createObjectURL(csvFile);
+                    downloadLink.style.display = 'none';
+                    document.body.appendChild(downloadLink);
+                    downloadLink.click();
+                }
+
+                function exportTableToCSV(filename) {
+                    // Export table data to CSV
+                    const rows = document.querySelectorAll('.table-container table tr');
+                    let csv = [];
+                    for (let i = 0; i < rows.length; i++) {
+                        const row = [],
+                            cols = rows[i].querySelectorAll('td, th');
+                        for (let j = 0; j < cols.length; j++) {
+                            const data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ');
+                            row.push('"' + data + '"');
+                        }
+                        csv.push(row.join(','));
+                    }
+                    downloadCSV(csv.join('\n'), filename);
+                }
+
                 var contactNoInput = document.getElementById('contactNo');
 
                 contactNoInput.addEventListener('focus', function() {
+                    // Ensure phone number starts with country code
                     if (!contactNoInput.value.startsWith('+63')) {
-                        contactNoInput.value = '+63 ';
+                        contactNoInput.value = '+63';
                     }
                 });
 
                 contactNoInput.addEventListener('input', function() {
+                    // Restrict input length and format
                     if (!contactNoInput.value.startsWith('+63')) {
-                        contactNoInput.value = '+63 ' + contactNoInput.value.replace(/^\+63\s*/, '');
+                        contactNoInput.value = '+63' + contactNoInput.value.replace(/^\+63\s*/, '');
                     }
                     if (contactNoInput.value.length > 14) {
                         contactNoInput.value = contactNoInput.value.slice(0, 14);
                     }
-                });
-            });
-
-            /*Barangay Dropdown*/
-            document.addEventListener('DOMContentLoaded', function() {
-                const barangays = [
-                    "ALMANZA UNO",
-                    "B. F. INTERNATIONAL/CAA",
-                    "DANIEL FAJARDO",
-                    "ILAYA",
-                    "MANUYO UNO",
-                    "MANUYO DOS",
-                    "PAMPLONA UNO",
-                    "PAMPLONA DOS",
-                    "PAMPLONA TRES",
-                    "PILAR",
-                    "PULANGLUPA UNO",
-                    "PULANGLUPA DOS",
-                    "TALON UNO",
-                    "TALON DOS",
-                    "TALON TRES",
-                    "TALON KUATRO",
-                    "TALON SINGKO"
-                ];
-
-                const barangaySelect = document.getElementById('barangay');
-                const barangayDropdownMenu = document.getElementById('barangayDropdownMenu');
-
-                barangays.forEach((barangay, index) => {
-                    const option = document.createElement('option');
-                    option.value = barangay;
-                    option.textContent = barangay;
-                    barangaySelect.appendChild(option);
-
-                    // Populate checkbox list
-                    const listItem = document.createElement('li');
-                    listItem.innerHTML = `
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="${barangay}" id="barangayCheck${index}" name="barangayFilter">
-                            <label class="form-check-label" for="barangayCheck${index}">
-                                ${barangay}
-                            </label>
-                        </div>
-                    `;
-                    barangayDropdownMenu.appendChild(listItem);
                 });
             });
         </script>
