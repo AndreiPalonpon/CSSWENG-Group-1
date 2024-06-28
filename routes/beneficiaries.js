@@ -1,8 +1,9 @@
 const express = require("express");
+const router = express.Router();
 const asyncHandler = require("express-async-handler");
+const json = require("json");
 const Beneficiary = require("../models/beneficiary");
 
-const router = express.Router();    
 
 //GET request for creating beneficiary.
 router.get('/create', asyncHandler(async (req, res, next) => {
@@ -11,26 +12,37 @@ router.get('/create', asyncHandler(async (req, res, next) => {
 
 //POST request for creating beneficiary.
 router.post('/create', asyncHandler(async (req, res, next) => {
-    const { firstName, lastName, dob, gender, contactNo, 
-            barangay, disabilityType, comorbidities, pwdIdCardNo}
-          = req.body;
+    const { 
+        firstName, 
+        lastName, 
+        dob, 
+        gen, 
+        contactNo, 
+        brgy, 
+        disability, 
+        comor, 
+        pwdIdCardNo,
+    } = req.body;
 
-    console.log(firstName, lastName, dob, gender, contactNo, 
-        barangay, disabilityType, comorbidities, pwdIdCardNo);
-    const newBeneficiary = new Beneficiary({ first_name: firstName, 
-                                             last_name: lastName, 
-                                             date_of_birth: dob, 
-                                             gender: gender, 
-                                             contact_number: contactNo, 
-                                             barangay: barangay, 
-                                             disability_type: disabilityType, 
-                                             comorbidities: comorbidities, 
-                                             pwd_card_id_no: pwdIdCardNo,
-                                            });
+    const newBeneficiary = new Beneficiary({ 
+        first_name: firstName, 
+        last_name: lastName, 
+        date_of_birth: dob, 
+        gender: gen, 
+        contact_number: contactNo, 
+        barangay: brgy, 
+        disability_type: disability, 
+        comorbidities: comor, 
+        pwd_card_id_no: pwdIdCardNo,
+    });
+    
     await newBeneficiary.save();
 
     console.log("New beneficiary instance saved.");
+    res.redirect('/beneficiaries');
+    res.sendStatus(201);
 }));
+
 
 //GET request for editing beneficiary.
 router.get('/:id/edit', asyncHandler(async (req, res, next) => {

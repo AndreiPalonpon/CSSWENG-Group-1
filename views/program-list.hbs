@@ -30,7 +30,7 @@
                 <li><a href="/programs">Programs</a></li>
                 <li><a href="/beneficiaries">Beneficiary</a></li>
                 <li><a href="/benefactors">Benefactor</a></li>
-                <li><a href="/inventory">Inventory</a></li>
+                <li><a href="/device">Devices</a></li>
                 <li><a href="/settings">Settings</a></li>
                 <li class="logout-link"><a href="#logout"><i class="bi bi-box-arrow-right"></i>  Logout</a></li>
             </ul>
@@ -66,12 +66,12 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="programName">Program Name</label>
-                        <input type="text" class="form-control" name="programName" placeholder="Program Name" required>
+                        <input type="text" class="form-control" id="programName" name="programName" placeholder="Program Name" required>
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="programType">Type of Program</label>
-                        <select name="programType" class="form-control" required>
+                        <select class="form-control" id="programType" name="programType" required>
                             <option value="" selected disabled>Choose...</option>
                             <option value="Assistance">Assistance</option>
                             <option value="Initiative">Initiative</option>
@@ -80,8 +80,8 @@
                         </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="frequency">Frequency</label>
-                        <select name="frequency" class="form-control" required>
+                        <label for="freq">Frequency</label>
+                        <select class="form-control" id="freq" name="freq" required>
                             <option value="" selected disabled>Choose...</option>
                             <option value="Monthly">Monthly</option>
                             <option value="Quarterly">Quarterly</option>
@@ -91,7 +91,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label for="assistanceType">Assistance Type</label>
-                        <select name="assistanceType" class="form-control" required>
+                        <select class="form-control" id="assistanceType" name="assistanceType" required>
                             <option value="" selected disabled>Choose...</option>
                             <option value="Educational">Educational</option>
                             <option value="Financial">Financial</option>
@@ -239,7 +239,6 @@
                                 <button class="deleteBtn" data-id="{{this._id}}"><i class="bi bi-trash"></i></button>
                             </td>
                             </tr>
-
                         {{/each}}
                     </tbody>
                 </table>
@@ -319,7 +318,7 @@
                         id: Date.now(),
                         programName: form.programName.value,
                         programType: form.programType.value,
-                        frequency: form.frequency.value,
+                        freq: form.freq.value,
                         assistanceType: form.assistanceType.value,
                         dateCreated: now.toLocaleDateString(),
                         lastUpdated: now.toLocaleDateString() + ' ' + now.toLocaleTimeString()
@@ -409,7 +408,7 @@
                     <td>${program.lastUpdated}</td>
                     <td>${program.dateCreated}</td>
                     <td>${capitalizeFirstLetter(program.programType)}</td>
-                    <td>${capitalizeFirstLetter(program.frequency)}</td>
+                    <td>${capitalizeFirstLetter(program.freq)}</td>
                     <td>${capitalizeFirstLetter(program.assistanceType)}</td>
                     <td>
                         <button class="viewBtn" data-id="${program.id}"><i class="bi bi-eye"></i></button>
@@ -499,7 +498,7 @@
                     if (program) {
                         form.programName.value = program.programName;
                         form.programType.value = program.programType;
-                        form.frequency.value = program.frequency;
+                        form.freq.value = program.freq;
                         form.assistanceType.value = program.assistanceType;
                         modalTitle.innerHTML = "View Program";
                         formInputFields.forEach(input => input.disabled = true);
@@ -516,7 +515,7 @@
                     if (program) {
                         form.programName.value = program.programName;
                         form.programType.value = program.programType;
-                        form.frequency.value = program.frequency;
+                        form.freq.value = program.freq;
                         form.assistanceType.value = program.assistanceType;
                         modalTitle.innerHTML = "Edit Program";
                         formInputFields.forEach(input => input.disabled = false);
@@ -566,7 +565,7 @@
 
                     const selectedFrequencies = Array.from(document.querySelectorAll('input[name="frequencyFilter"]:checked')).map(check => check.value);
                     if (selectedFrequencies.length > 0) {
-                        filteredData = filteredData.filter(program => selectedFrequencies.includes(program.frequency));
+                        filteredData = filteredData.filter(program => selectedFrequencies.includes(program.freq));
                     }
 
                     const selectedAssistances = Array.from(document.querySelectorAll('input[name="assistanceFilter"]:checked')).map(check => check.value);

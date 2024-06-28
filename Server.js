@@ -18,7 +18,7 @@ const logger = require('morgan')
 const Program = require("./models/program");
 const Beneficiary = require("./models/beneficiary");
 const Benefactor = require("./models/benefactor");
-const Inventory = require("./models/equipment");
+const Device = require("./models/reworkedModels/device");
 
 const indexRouter = require("./routes/index");
 const loginRouter = require("./routes/login")

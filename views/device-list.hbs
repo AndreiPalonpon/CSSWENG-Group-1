@@ -45,7 +45,7 @@
 
                 <li><a href="/beneficiaries">Beneficiary</a></li>
                 <li><a href="/benefactors">Benefactor</a></li>
-                <li><a href="/inventory">Inventory</a></li>
+                <li><a href="/device">Devices</a></li>
                 <li><a href="/settings">Settings</a></li>
                 <li class="logout-link"><a href="#logout"><i class="bi bi-box-arrow-right"></i>  Logout</a></li>
             </ul>
@@ -77,74 +77,29 @@
                 <h2 class="modalTitle">Fill the Form</h2>
                 <span class="closeBtn">&times;</span>
             </header>
-            <form id="beneficiaryForm" action="/beneficiaries/create" method="POST">
+              <form id="deviceForm" action="/device/create" method="POST">
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="firstName">First Name</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="First Name" required>
+                        <label for="deviceName">Item Name</label>
+                        <input type="text" class="form-control" id="deviceName" name="deviceName" placeholder="Item Name" required>
                     </div>
 
                     <div class="form-group col-md-6">
-                        <label for="lastName">Last Name</label>
-                        <input type="text" class="form-control" id="lastName" placeholder="Last Name" required>
+                        <label for="deviceDesc">Item Description</label>
+                        <input type="text" class="form-control" id="deviceDesc" name="deviceDesc" placeholder="Description" required>
                     </div>
 
                     <div class="form-group col-md-6">
-                        <label for="dob">Date of Birth</label>
-                        <input type="date" class="form-control" id="dob" placeholder="Date of Birth" required>
+                        <label for="dateReceived">Date Received</label>
+                        <input type="date" class="form-control" id="dateReceived" name="dateReceived" required>
                     </div>
 
                     <div class="form-group col-md-6">
-                        <label for="gender">Gender</label>
-                        <select id="gender" class="form-control" required>
-                            <option value="" selected disabled>Choose...</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group col-md-6">
-                        <label for="contactNo">Contact Number</label>
-                        <input type="tel" class="form-control" id="contactNo" placeholder="+63 912 345 6789" required>
-                    </div>
-
-
-                    <div class="form-group col-md-6">
-                        <label for="barangay">Barangay</label>
-                        <select id="barangay" class="form-control" required>
-                            <option value="" selected disabled>Choose...</option>
-                        </select>
-                    </div>
-
-
-                    <div class="form-group col-md-6">
-                        <label for="disabilityType">Disability Type</label>
-                        <select id="disabilityType" class="form-control" required>
-                            <option value="" selected disabled>Choose...</option>
-                            <option value="physical">Physical</option>
-                            <option value="sensory">Sensory</option>
-                            <option value="intellectual">Intellectual</option>
-                            <option value="mental">Mental</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group col-md-6">
-                        <label for="comorbidities">Comorbidities</label>
-                        <select id="comorbidities" class="form-control" required>
-                            <option value="" selected disabled>Choose...</option>
-                            <option value="none">None</option>
-                            <option value="diabetes">Diabetes</option>
-                            <option value="hypertension">Hypertension</option>
-                            <option value="heart disease">Heart Disease</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="pwdIdCardNo">PWD Card ID No.</label>
-                        <input type="text" class="form-control" id="pwdIdCardNo" placeholder="PWD Card ID No." required>
+                        <label for="deviceSpon">Sponsor</label>
+                        <input type="text" class="form-control" id="deviceSpon" name="deviceSpon" placeholder="Sponsor" required>
                     </div>
                 </div>
-                <input type="submit" class="submitBeneficiaryBtn" value="Submit">
+                <input type="submit" class="submitDeviceBtn" value="Submit">
             </form>
         </div>
 
@@ -171,17 +126,13 @@
                     </thead>
                     <tbody class="programInfo">
                         <!-- Program rows will be populated here -->
-                        {{#each beneficiaries}}
+                        {{#each devices}}
                         <tr>
                             <th scope="row">{{@index}}</th>
                             <td>{{this.name}}</td>
-                            <td>{{this.address}}</td>
-                            <td>{{this.barangay}}</td>
-                            <td>{{this.contact_number}}</td>
-                            <td>{{this.disability}}</td>
-                            <td>{{this.assistive_devices}}</td>
+                            <td>{{this.description}}</td>
+                            <td>{{this.date_received}}</td>
                             <td>{{this.sponsor}}</td>
-                            <td>{{this.status}}</td>
                             <td>
                                 <button class="viewBtn" data-id="{{this.id}}"><i class="bi bi-eye"></i></button>
                                 <button class="editBtn" data-id="{{this.id}}"><i class="bi bi-pencil"></i></button>
@@ -228,14 +179,14 @@
                     darkBg = document.querySelector('.dark_bg'),
                     popupForm = document.querySelector('.popup'),
                     crossBtn = document.querySelector('.closeBtn'),
-                    submitBeneficiaryBtn = document.querySelector('.submitBeneficiaryBtn'),
+                    submitDeviceBtn = document.querySelector('.submitDeviceBtn'),
                     modalTitle = document.querySelector('.modalTitle'),
-                    form = document.querySelector('#beneficiaryForm'),
-                    formInputFields = document.querySelectorAll('#beneficiaryForm input, #beneficiaryForm select'),
+                    form = document.querySelector('#deviceForm'),
+                    formInputFields = document.querySelectorAll('#deviceForm input, #deviceForm select'),
                     programInfo = document.querySelector('.programInfo');
                 resetFiltersButton = document.getElementById('resetFiltersButton');
 
-                let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
+                let originalData = localStorage.getItem('devices') ? JSON.parse(localStorage.getItem('devices')) : [];
                 let getData = [...originalData];
 
                 let isEdit = false,
@@ -243,11 +194,11 @@
 
                 newMemberAddBtn.addEventListener('click', () => {
                     isEdit = false;
-                    submitBeneficiaryBtn.innerHTML = "Submit";
+                    submitDeviceBtn.innerHTML = "Submit";
                     modalTitle.innerHTML = "Fill the Form";
                     form.reset();
                     formInputFields.forEach(input => input.disabled = false);
-                    submitBeneficiaryBtn.style.display = "block";
+                    submitDeviceBtn.style.display = "block";
                     darkBg.classList.add('active');
                     popupForm.classList.add('active');
                 });
@@ -256,7 +207,7 @@
                     darkBg.classList.remove('active');
                     popupForm.classList.remove('active');
                     form.reset();
-                    submitBeneficiaryBtn.style.display = "block";
+                    submitDeviceBtn.style.display = "block";
                     formInputFields.forEach(input => input.disabled = false);
                 });
 
@@ -450,20 +401,15 @@
                 }
 
                 function readInfo(id) {
-                    const program = getData.find(item => item.id === id);
-                    if (program) {
-                        form.firstName.value = program.firstName;
-                        form.lastName.value = program.lastName;
-                        form.dob.value = program.dob;
-                        form.gender.value = program.gender;
-                        form.contactNo.value = program.contactNo;
-                        form.barangay.value = program.barangay;
-                        form.disabilityType.value = program.disabilityType;
-                        form.comorbidities.value = program.comorbidities;
-                        form.pwdIdCardNo.value = program.pwdIdCardNo;
-                        modalTitle.innerHTML = "View Beneficiary";
+                    const device = getData.find(item => item.id === id);
+                    if (device) {
+                        form.deviceName.value = device.deviceName;
+                        form.deviceDesc.value = device.deviceDesc;
+                        form.dateReceived.value = device.dateReceived;
+                        form.deviceSpon.value = device.deviceSpon;
+                        modalTitle.innerHTML = "View Device";
                         formInputFields.forEach(input => input.disabled = true);
-                        submitBeneficiaryBtn.style.display = "none";
+                        submitDeviceBtn.style.display = "none";
                         darkBg.classList.add('active');
                         popupForm.classList.add('active');
                     }
@@ -472,28 +418,23 @@
                 function editInfo(id) {
                     isEdit = true;
                     editId = getData.findIndex(item => item.id === id);
-                    const program = getData[editId];
-                    if (program) {
-                        form.firstName.value = program.firstName;
-                        form.lastName.value = program.lastName;
-                        form.dob.value = program.dob;
-                        form.gender.value = program.gender;
-                        form.contactNo.value = program.contactNo;
-                        form.barangay.value = program.barangay;
-                        form.disabilityType.value = program.disabilityType;
-                        form.comorbidities.value = program.comorbidities;
-                        form.pwdIdCardNo.value = program.pwdIdCardNo;
-                        modalTitle.innerHTML = "Edit Beneficiary";
+                    const device = getData[editId];
+                    if (device) {
+                       form.deviceName.value = device.deviceName;
+                        form.deviceDesc.value = device.deviceDesc;
+                        form.dateReceived.value = device.dateReceived;
+                        form.deviceSpon.value = device.deviceSpon;
+                        modalTitle.innerHTML = "Edit Device";
                         formInputFields.forEach(input => input.disabled = false);
-                        submitBeneficiaryBtn.style.display = "block";
-                        submitBeneficiaryBtn.innerHTML = "Update";
+                        submitDeviceBtn.style.display = "block";
+                        submitDeviceBtn.innerHTML = "Update";
                         darkBg.classList.add('active');
                         popupForm.classList.add('active');
                     }
                 }
 
                 function deleteInfo(id) {
-                    if (confirm("Are you sure you want to delete this beneficiary?")) {
+                    if (confirm("Are you sure you want to delete this device?")) {
                         originalData = originalData.filter(item => item.id !== id);
                         localStorage.setItem('programs', JSON.stringify(originalData));
                         getData = [...originalData];
