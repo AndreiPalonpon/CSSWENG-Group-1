@@ -228,7 +228,7 @@
                         {{#each programs}}
                         <tr>
                             <td>{{@index}}</td>
-                            <td><a href="/people">{{this.name}}</a></td>
+                            <td><a href="/people/{{this._id}}">{{this.name}}</a></td>
                             <td>{{this.recent_update_date}}</td>
                             <td>{{this.creation_date}}</td>
                             <td>{{this.program_type}}</td>
@@ -405,7 +405,7 @@
                         const row = `
                 <tr>
                     <td>${start + index + 1}</td>
-                    <td><a href="/people">${program.programName}<a></td>
+                    <td><a href="/people">${program.programName}</a></td>
                     <td>${program.lastUpdated}</td>
                     <td>${program.dateCreated}</td>
                     <td>${capitalizeFirstLetter(program.programType)}</td>
