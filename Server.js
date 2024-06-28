@@ -60,6 +60,12 @@ hbs.registerHelper('toString', function(objectId) {
     return objectId.toString();
 });
 
+hbs.registerHelper('arrayContains', (array, value) => {
+    return Array.isArray(array) && array.includes(value);
+});
+
+hbs.registerHelper('eq', (v1, v2) => v1 === v2);
+
 app.use(function(req, res, next) {
     next(createError(404));
 });
