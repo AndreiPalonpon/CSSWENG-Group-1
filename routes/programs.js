@@ -1,9 +1,8 @@
 const express = require("express");
+const router = express.Router();
 const asyncHandler = require("express-async-handler");
 const json = require("json");
 const Program = require("../models/program");
-
-const router = express.Router();    
 
 //GET request for creating program.
 router.get('/create', asyncHandler(async (req, res, next) => {
@@ -33,6 +32,7 @@ router.post('/create', asyncHandler(async (req, res, next) => {
     await newProgram.save();
 
     console.log("New program instance saved.");
+    res.sendStatus(201); // HTTP 201: Created
 }));
 
 //GET request for editing program.
@@ -51,8 +51,10 @@ router.get('/:id/delete', asyncHandler(async (req, res, next) => {
 }));
 
 //POST request for deleting program. 
-router.post('/:id/delete', asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Program delete POST");
+router.post('/delete', asyncHandler(async (req, res, next) => {
+    await Program.deleteOne({_id: req.body.program_id});
+    console.log("Program ID " + req.body.program_id + " has been deleted.");
+    res.sendStatus(200);
 }));
 
 //GET request to list all programs.
@@ -62,7 +64,7 @@ router.get('/', asyncHandler(async (req, res, next) => {
                                   .exec();
 
     //res.send(allPrograms);
-    console.log(programs);
+    //console.log(programs);
     res.render("program-list", { programs: programs });
 }));
 
