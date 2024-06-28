@@ -11,15 +11,24 @@ router.get('/create', asyncHandler(async (req, res, next) => {
 
 //POST request for creating program.
 router.post('/create', asyncHandler(async (req, res, next) => {
-    
-    const { programName, programType, frequency, assistanceType } = req.body;
+    const { 
+        programName, 
+        programType, 
+        freq, 
+        assistanceType 
+    } = req.body;
 
     /*var programName = req.body.programName;
     var programType = req.body.programType;
     var frequency = req.body.frequency;
     var assistanceType = req.body.assistanceType;*/
 
-    var newProgram = new Program({ programName, programType, frequency, assistanceType });
+    var newProgram = new Program({ 
+        name: programName, 
+        program_type: programType, 
+        frequency: freq, 
+        assistance_type: assistanceType,
+    });
     
     /*({  name: programName,
           program_type: programType,
@@ -27,8 +36,8 @@ router.post('/create', asyncHandler(async (req, res, next) => {
           assitance_type: assistanceType
     });*/
     
-    newProgram.name = programName;
-    newProgram.assistance_type = assistanceType;   //For some reason these dont work properly, seperate calls are here so they 100% work           
+    //newProgram.name = programName;
+    //newProgram.assistance_type = assistanceType;   //For some reason these dont work properly, seperate calls are here so they 100% work           
     await newProgram.save();
 
     console.log("New program instance saved.");
@@ -46,8 +55,10 @@ router.post('/:id/edit', asyncHandler(async (req, res, next) => {
 }));
 
 //GET request for deleting program. 
-router.get('/:id/delete', asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Program delete GET");
+router.post('/delete', asyncHandler(async (req, res, next) => {
+    await Program.deleteOne({_id: req.body.beneficiary_id});
+    console.log("Beneficiary ID " + req.body.beneficiary_id + " has been deleted.");
+    res.sendStatus(200);
 }));
 
 //POST request for deleting program. 
