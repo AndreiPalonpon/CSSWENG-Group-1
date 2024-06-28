@@ -23,6 +23,7 @@ router.post('/create', asyncHandler(async (req, res, next) => {
     await newDevice.save();
 
     console.log("New device instance saved.");
+    res.redirect('/device');
     res.sendStatus(201);
 }));
 
