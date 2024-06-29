@@ -227,7 +227,7 @@
                         <!-- Program rows will be populated here -->
                         {{#each programs}}
                         <tr>
-                            <td>{{@index}}</td>
+                            <td>{{incremented @index}}</td>
                             <td><a href="/people/{{this._id}}">{{this.name}}</a></td>
                             <td>{{this.recent_update_date}}</td>
                             <td>{{this.creation_date}}</td>

@@ -18,6 +18,8 @@ const logger = require('morgan')
 const Program = require("./models/program");
 const Beneficiary = require("./models/beneficiary");
 const Benefactor = require("./models/benefactor");
+
+//Remove reworkedModels later after I replaced the old models.
 const Device = require("./models/reworkedModels/device");
 
 const indexRouter = require("./routes/index");
@@ -58,6 +60,11 @@ app.set('views', path.join(__dirname, 'views'));
 
 hbs.registerHelper('toString', function(objectId) {
     return objectId.toString();
+});
+
+hbs.registerHelper('incremented', function (index) {
+    index++;
+    return index;
 });
 
 app.use(function(req, res, next) {
