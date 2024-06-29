@@ -345,10 +345,10 @@
                         <!-- Program rows will be populated here -->
                         {{#each beneficiaries}}
                         <tr>
-                            <th scope="row">{{@index}}</th>
+                            <th scope="row">{{incremented @index}}</th>
                             <td>{{this.first_name}}</td>
                             <td>{{this.last_name}}</td>
-                            <td>{{this.date_of_birth}}</td>
+                            <td>{{formatDate this.date_of_birth}}</td>
                             <td>{{this.gender}}</td>
                             <td>{{this.contact_number}}</td>
                             <td>{{this.barangay}}</td>

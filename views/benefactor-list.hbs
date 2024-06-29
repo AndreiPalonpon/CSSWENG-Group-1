@@ -281,7 +281,7 @@
                     <tbody class="programInfo ">
                         {{#each beneficiaries}}
                         <tr>
-                            <th scope="row ">{{@index}}</th>
+                            <th scope="row ">{{incremented @index}}</th>
                             <!-- Benefactor data -->
                             <td>{{this.benefactor_name}}</td>
                             <td>{{this.contact_number}}</td>
@@ -289,7 +289,7 @@
                             <td>{{this.lgu}}</td>
                             <td>{{this.item_name}}</td>
                             <td>{{this.quantity}}</td>
-                            <td>{{this.date}}</td>
+                            <td>{{formatDate this.date}}</td>
                             <td>
                                 <button class="viewBtn " data-id="{{this.id}} "><i class="bi bi-eye "></i></button>
                                 <button class="editBtn " data-id="{{this.id}} "><i class="bi bi-pencil "></i></button>

@@ -354,13 +354,13 @@
                         <!-- People rows will be populated here -->
                         {{#each people}}
                         <tr>
-                            <td>{{@index}}</td>
+                            <td>{{incremented @index}}</td>
                             <td>{{this.name}}</td>
-                            <td>{{this.dateJoined}}</td>
+                            <td>{{formatDate this.dateJoined}}</td>
                             <td>{{this.beneficiaryStatus}}</td>
                             <td>{{this.benefitRequested}}</td>
                             <td>{{this.benefitReceived}}</td>
-                            <td>{{this.dateReceived}}</td>
+                            <td>{{formatDate this.dateReceived}}</td>
                             <td>{{this.status}}</td>
                         </tr>
                         {{/each}}
