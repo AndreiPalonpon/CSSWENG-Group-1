@@ -62,7 +62,7 @@
                 <h2 class="modalTitle">Fill the Form</h2>
                 <span class="closeBtn">&times;</span>
             </header>
-            <form id="programForm" action="/programs/create" method="POST">
+            <form id="programForm" action="/programs/create" method="POST" onsubmit="setTimeout(function(){window.location.reload();},100);">
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="programName">Program Name</label>
