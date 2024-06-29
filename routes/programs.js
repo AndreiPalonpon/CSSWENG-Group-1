@@ -59,7 +59,6 @@ router.get('/:id/delete', asyncHandler(async (req, res, next) => {
     /*
     await Program.deleteOne({_id: req.body.beneficiary_id});
     console.log("Beneficiary ID " + req.body.beneficiary_id + " has been deleted.");
-    res.sendStatus(200);
     */
     const current_id = req.params.id;
     await Program.deleteOne({_id: current_id});
@@ -71,6 +70,7 @@ router.get('/:id/delete', asyncHandler(async (req, res, next) => {
 router.post('/delete', asyncHandler(async (req, res, next) => {
     await Program.deleteOne({_id: req.body.program_id});
     console.log("Program ID " + req.body.program_id + " has been deleted.");
+    res.sendStatus(200);
 }));
 
 //GET request to list all programs.
