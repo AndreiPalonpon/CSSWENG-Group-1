@@ -534,10 +534,11 @@
                         getData = [...originalData];
                         //showInfo();
                         let index = e.currentTarget.closest("tr").querySelector("td:first-child").textContent;
-                        $.post("/programs/delete", {program_id: id}, (data, status, xhr) => {
+                        $.post(`/programs/delete`, {program_id: id}, (data, status, xhr) => {
                             if (status === "success" && xhr.status === 200) {
                                 alert("Program with ID " + index + " has been deleted");
                             }
+                            location.reload();
                         });
                         e.currentTarget.closest("tr").remove();
                     }
