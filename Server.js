@@ -14,6 +14,7 @@ async function main() {
 const path = require("path");
 const cookieParser = require('cookie-parser');
 const logger = require('morgan')
+const moment = require('moment');
 
 const Program = require("./models/program");
 const Beneficiary = require("./models/beneficiary");
@@ -65,6 +66,10 @@ hbs.registerHelper('toString', function(objectId) {
 hbs.registerHelper('incremented', function (index) {
     index++;
     return index;
+});
+
+hbs.registerHelper('formatDate', function (date) {
+    return moment(date).format('MM-DD-YYYY');
 });
 
 app.use(function(req, res, next) {
