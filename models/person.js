@@ -23,7 +23,7 @@ const PersonSchema = new Schema({
 });
 
 //Virtual method for a beneficiary's full name.
-BeneficiarySchema.virtual("name").get(function () {
+PersonSchema.virtual("name").get(function () {
     let fullName = "";
     if (this.first_name && this.last_name) {
       fullname = `${this.last_name}, ${this.first_name}`;

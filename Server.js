@@ -4,7 +4,7 @@ const express = require("express");
 //Connecting to MongoDB.
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
-const mongoDB = "mongodb+srv://andreipalonpon:Ftlpn7UeDQfci6uG@appcluster.00tewof.mongodb.net/?retryWrites=true&w=majority&appName=AppCluster";
+const mongoDB = "mongodb+srv://andreipalonpon:Ftlpn7UeDQfci6uG@appcluster.00tewof.mongodb.net/main?retryWrites=true&w=majority&appName=AppCluster";
 
 main().catch((err) => console.log(err));
 async function main() {
@@ -17,11 +17,11 @@ const logger = require('morgan')
 const moment = require('moment');
 
 const Program = require("./models/program");
+const Person = require("./models/person");
 const Beneficiary = require("./models/beneficiary");
 const Benefactor = require("./models/benefactor");
-
-//Remove reworkedModels later after I replaced the old models.
-const Device = require("./models/reworkedModels/device");
+const Device = require("./models/device");
+const Documentation = require("./models/documentation");
 
 const indexRouter = require("./routes/index");
 const loginRouter = require("./routes/login")

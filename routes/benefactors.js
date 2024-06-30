@@ -1,6 +1,6 @@
 const express = require("express");
 const asyncHandler = require("express-async-handler");
-const Benefactor = require("../models/reworkedModels/sponsor");
+const Benefactor = require("../models/benefactor");
 
 const router = express.Router();    
 

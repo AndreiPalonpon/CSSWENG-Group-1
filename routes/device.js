@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const asyncHandler = require("express-async-handler");
 const json = require("json");
-const Device = require("../models/reworkedModels/device");
+const Device = require("../models/device");
 
 //GET request for creating item.
 router.get('/create', asyncHandler(async (req, res, next) => {

@@ -1,8 +1,8 @@
 const express = require("express");
 const asyncHandler = require("express-async-handler");
 const json = require("json");
-const People = require("../models/people");
-const Program = require("../models/program");
+const Person = require("../models/person");
+const Program = require("../models/program"); //?
 
 
 const router = express.Router();    
@@ -53,7 +53,7 @@ router.post('/create', asyncHandler(async (req, res, next) => {
     const benefitReceived = req.body.benefitReceived;
     const dateReceived = req.body.dateReceived;
 
-    const newPeople = new People({
+    const newPerson = new Person({
         name: name,
         dateJoined: dateJoined,
         beneficiaryStatus: beneficiaryStatus,
@@ -62,7 +62,7 @@ router.post('/create', asyncHandler(async (req, res, next) => {
         dateReceived: dateReceived
     });
 
-    await newPeople.save();
+    await newPerson.save();
     res.redirect('/'); // Redirect to home page or any other appropriate page after saving.
 
     console.log("New people instance saved.");
