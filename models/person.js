@@ -22,7 +22,7 @@ const PersonSchema = new Schema({
     pwd_card_id_no: { type: Number, required: true },
 });
 
-//Virtual method for a beneficiary's full name.
+//Virtual method for a person's full name.
 PersonSchema.virtual("name").get(function () {
     let fullName = "";
     if (this.first_name && this.last_name) {
@@ -30,6 +30,15 @@ PersonSchema.virtual("name").get(function () {
     }
   
     return fullName;
+});
+
+//Virtual method for a person's age.
+PersonSchema.virtual("age").get(function () {
+    const currentDate = new Date();
+    const ageInMilliSecs = currentDate - this.birthdate;
+    const ageInDate = new Date(ageInMilliSecs);
+
+    return Math.abs(ageInDate.getUTCFullYear() - 1970);
 });
 
 module.exports = mongoose.model("Person", PersonSchema, 'people');
