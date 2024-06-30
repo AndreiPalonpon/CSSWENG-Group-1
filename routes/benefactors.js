@@ -30,8 +30,11 @@ router.get('/:id/delete', asyncHandler(async (req, res, next) => {
 }));
 
 //POST request for deleting benefactor. 
-router.post('/:id/delete', asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Benefactor delete POST");
+router.post('/delete', asyncHandler(async (req, res, next) => {
+    //Check first if there are benefits from the current benefactor. If there are, he or she cannot be deleted.
+    await Benefactor.deleteOne({_id: req.body.benefactor_id});
+    console.log("Program ID " + req.body.benefactor_id + " has been deleted.");
+    res.sendStatus(200);
 }));
 
 //GET request to list all benefactors.

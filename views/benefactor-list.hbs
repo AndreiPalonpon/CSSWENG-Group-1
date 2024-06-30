@@ -361,41 +361,6 @@
                     }
                 }
 
-                /* Disabled displayRows function using a comment to make the table display work.
-                function displayRows(rows, page = 1) {
-                    // Display rows of benefactor data in the table
-                    const start = (page - 1) * rowsPerPage;
-                    const end = start + rowsPerPage;
-                    const paginatedRows = rows.slice(start, end);
-                    programInfo.innerHTML = '';
-
-                    paginatedRows.forEach((program, index) => {
-                        const row = `
-                            <tr>
-                                <td>${start + index + 1}</td>
-                                <td>${program.benefactorName}</td>
-                                <td>${program.contactNo}</td>
-                                <td>${program.sponsor}</td>
-                                <td>${program.lgu}</td>
-                                <td>${program.itemName}</td>
-                                <td>${program.quantity}</td>
-                                <td>${program.givenDate}</td>
-                                <td>
-                                    <button class="viewBtn" data-id="${program.id}"><i class="bi bi-eye"></i></button>
-                                    <button class="editBtn" data-id="${program.id}"><i class="bi bi-pencil"></i></button>
-                                    <button class="deleteBtn" data-id="${program.id}"><i class="bi bi-trash"></i></button>
-                                </td>
-                            </tr>`;
-                        programInfo.innerHTML += row;
-                    });
-                }
-
-                function capitalizeFirstLetter(string) {
-                    // Capitalize the first letter of a string
-                    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-                }
-                */
-
                 function addEventListeners() {
                     // Add event listeners for various buttons and filters
                     document.querySelectorAll('.viewBtn').forEach(button => {
@@ -506,10 +471,21 @@
                 function deleteInfo(id) {
                     // Delete a benefactor entry
                     if (confirm("Are you sure you want to delete this benefactor?")) {
+                        console.log(id);
                         originalData = originalData.filter(item => item.id !== id);
                         localStorage.setItem('programs', JSON.stringify(originalData));
                         getData = [...originalData];
-                        showInfo();
+                        //showInfo();
+                        let index = e.currentTarget.closest("tr").querySelector("td:first-child").textContent;
+                        $.post(`/benefactors/delete`, {benefactor_id: id}, (data, status, xhr) => {
+                            if (status === "success" && xhr.status === 200) {
+                                alert("Benefactor with number " + index + " has been deleted");
+                            } else {
+                                alert("Error: Benefactor with number " + index + " has been deleted");
+                            }
+                            location.reload();
+                        });
+                        e.currentTarget.closest("tr").remove();
                     }
                 }
 
