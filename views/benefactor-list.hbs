@@ -79,7 +79,13 @@
 
                     <div class="form-group col-md-6">
                         <label for="benefactorType">Benefactor Type</label>
-                        <input type="text" class="form-control" id="benefactorType" placeholder="Benefactor Type" required>
+                        <select class="form-control" id="benefactorType" name="benefactorType" required>
+                            <option value="" selected disabled>Choose...</option>
+                            <option value="Type1">Type 1</option>
+                            <option value="Type2">Type 2</option>
+                            <option value="Type3">Type 3</option>
+                            <option value="Type4">Type 4</option>
+                        </select>
                     </div>
 
                     
@@ -130,22 +136,39 @@
                                     </ul>
                                 </div>
                             </th>
+
                             <th scope="col">
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="benefactorTypeDropdown" data-bs-toggle="dropdown" aria-expanded="false"> Benefactor Type</a>
-                                    <ul class="dropdown-menu" aria-labelledby="benefactorTypeDropdown">
+                                    <a class="dropdown-toggle" id="typeDropdown" data-bs-toggle="dropdown" aria-expanded="false">Benefactor Type</a>
+                                    <ul class="dropdown-menu" aria-labelledby="typeDropdown">
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="nameSort" value="az" data-criterion="benefactorType" id="benefactorTypeSortAZ">
-                                                <label class="form-check-label" for="benefactorTypeSortAZ">A-Z</label>
+                                                <input class="form-check-input" type="checkbox" value="type1" id="type1Check" name="typeFilter">
+                                                <label class="form-check-label" for="type1Check">Type 1</label>
                                             </div>
                                         </li>
+
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="nameSort" value="za" data-criterion="benefactorType" id="benefactorTypeSortZA">
-                                                <label class="form-check-label" for="benefactorTypeSortZA">Z-A</label>
+                                                <input class="form-check-input" type="checkbox" value="type2" id="type2Check" name="typeFilter">
+                                                <label class="form-check-label" for="type2Check">Type 2</label>
                                             </div>
                                         </li>
+
+                                         <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="type3" id="type3Check" name="typeFilter">
+                                                <label class="form-check-label" for="type3Check">Type 3</label>
+                                            </div>
+                                        </li>
+
+                                         <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="type4" id="type4Check" name="typeFilter">
+                                                <label class="form-check-label" for="type4Check">Type 4</label>
+                                            </div>
+                                        </li>
+
                                     </ul>
                                 </div>
                             </th>
