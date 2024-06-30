@@ -20,7 +20,7 @@ const Program = require("./models/program");
 const Person = require("./models/person");
 const Beneficiary = require("./models/beneficiary");
 const Benefactor = require("./models/benefactor");
-const Device = require("./models/device");
+const Benefit = require("./models/benefit");
 const Documentation = require("./models/documentation");
 
 const indexRouter = require("./routes/index");

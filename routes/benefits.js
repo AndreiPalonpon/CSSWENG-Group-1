@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const asyncHandler = require("express-async-handler");
 const json = require("json");
-const Device = require("../models/device");
+const Benefit = require("../models/benefit");
 
 //GET request for creating item.
 router.get('/create', asyncHandler(async (req, res, next) => {
@@ -11,16 +11,17 @@ router.get('/create', asyncHandler(async (req, res, next) => {
 
 //POST request for creating beneficiary.
 router.post('/create', asyncHandler(async (req, res, next) => {
-    const { deviceName, deviceDesc, dateReceived, deviceSpon } = req.body;
+    const { benefitName, benefitDesc, quantity, dateReceived, benefactor } = req.body;
 
-    const newDevice = new Device({
-        name: deviceName,
-        description: deviceDesc,
+    const newBenefit = new Benefit({
+        name: benefitName,
+        description: benefitDesc,
+        quantity: quantity,
         date_received: dateReceived,
-        sponsor: deviceSpon
+        benefactor: benefactor
     });
 
-    await newDevice.save();
+    await newBenefit.save();
 
     console.log("New device instance saved.");
     res.redirect('/device');
@@ -49,11 +50,11 @@ router.post('/:id/delete', asyncHandler(async (req, res, next) => {
 
 //GET request to list all equipment.
 router.get('/', asyncHandler(async (req, res, next) => {
-    const devices = await Device.find()
-                                           .exec();
+    const benefits = await Benefit.find()
+                                  .exec();
 
-    console.log(devices);
-    res.render("device-list", { devices: devices });
+    console.log(benefits);
+    res.render("benefit-list", { benefits: benefits });
 }));
 
 
