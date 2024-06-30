@@ -32,13 +32,12 @@ router.get('/edit', asyncHandler(async (req, res, next) => { //Change to post. P
     await Program.findByIdAndUpdate(id, updatedProgram);
 
     //res.sendStatus(200);
-    res.redirect("/programs/");
+    res.redirect("/benefactors/");
 }));
 
 //POST request for deleting benefactor. 
 router.post('/delete', asyncHandler(async (req, res, next) => {
     //Check first if there are benefits from the current benefactor. If there are, he or she cannot be deleted.
-    
     await Benefactor.deleteOne({_id: req.body.benefactor_id});
     console.log("Benefactor ID " + req.body.benefactor_id + " has been deleted.");
     res.sendStatus(200);

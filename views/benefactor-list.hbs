@@ -7,7 +7,7 @@
     <title>LPPWDFI | Benefactors List</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="/css/program-list-style.css">
+    <link rel="stylesheet" href="/css/benefactor-list-style.css">
 </head>
 
 <body>
@@ -30,7 +30,7 @@
                 <li><a href="/programs">Programs</a></li>
                 <li><a href="/beneficiaries">Beneficiary</a></li>
                 <li><a href="/benefactors">Benefactor</a></li>
-                <li><a href="/device">Devices</a></li>
+                <li><a href="/benefits">Benefits</a></li>
                 <li><a href="/settings">Settings</a></li>
                 <li class="logout-link"><a href="#logout"><i class="bi bi-box-arrow-right"></i>  Logout</a></li>
             </ul>
@@ -54,7 +54,7 @@
                     </div>
                 </div>
 
-                <div class="addProgramBtn">
+                <div class="addBenefactorBtn">
                     <button>Create</button>
                     <!-- Button to create a new benefactor entry -->
                 </div>
@@ -69,7 +69,7 @@
                 <span class="closeBtn">&times;</span>
                 <!-- Close button for modal -->
             </header>
-            <form id="beneficiaryForm" action="/benefactors/create" method="POST">
+            <form id="benefactorForm" action="/benefactors/create" method="POST">
                 <!-- Form for submitting benefactor information -->
                 <div class="form-row">
                     <div class="form-group col-md-6">
@@ -185,9 +185,8 @@
                             <td>{{this.name}}</td>
                             <td>{{this.type}}</td>
                             <td>
-                                <button class="viewBtn " data-id="{{this.id}} "><i class="bi bi-eye "></i></button>
-                                <button class="editBtn " data-id="{{this.id}} "><i class="bi bi-pencil "></i></button>
-                                <button class="deleteBtn " data-id="{{this.id}} "><i class="bi bi-trash "></i></button>
+                               <button class="editBtn" data-id="{{this._id}}"><i class="bi bi-pencil"></i></button>
+                                <button class="deleteBtn" data-id="{{this._id}}"><i class="bi bi-trash"></i></button>
                             </td>
                         </tr>
                         {{/each}}
@@ -222,14 +221,14 @@
                 });
 
                 // Variables for modal form and table interactions
-                var newMemberAddBtn = document.querySelector('.addProgramBtn button'),
+                var newMemberAddBtn = document.querySelector('.addBenefactorBtn button'),
                     darkBg = document.querySelector('.dark_bg'),
                     popupForm = document.querySelector('.popup'),
                     crossBtn = document.querySelector('.closeBtn'),
                     submitBenefactorBtn = document.querySelector('.submitBenefactorBtn'),
                     modalTitle = document.querySelector('.modalTitle'),
-                    form = document.querySelector('#beneficiaryForm'),
-                    formInputFields = document.querySelectorAll('#beneficiaryForm input, #beneficiaryForm select'),
+                    form = document.querySelector('#benefactorForm'),
+                    formInputFields = document.querySelectorAll('#benefactorForm input, #benefactorForm select'),
                     programInfo = document.querySelector('.programInfo');
                 resetFiltersButton = document.getElementById('resetFiltersButton');
 
@@ -445,26 +444,27 @@
                     }
                 }
 
-                function deleteInfo(id) {
+                function deleteInfo(id, e) {
                     // Delete a benefactor entry
                     if (confirm("Are you sure you want to delete this benefactor?")) {
-                        console.log(id);
+                        // Remove the benefactor from local storage
                         originalData = originalData.filter(item => item.id !== id);
-                        localStorage.setItem('benefactor', JSON.stringify(originalData));
+                        localStorage.setItem('programs', JSON.stringify(originalData));
                         getData = [...originalData];
-                        //showInfo();
-                        let index = e.currentTarget.closest("tr").querySelector("td:first-child").textContent;
-                        $.post(`/benefactors/delete`, {benefactor_id: id}, (data, status, xhr) => {
-                            if (status === "success" && xhr.status === 200) {
-                                alert("Benefactor with number " + index + " has been deleted");
-                            } else {
-                                alert("Error: Benefactor with number " + index + " has been deleted");
-                            }
-                            location.reload();
-                        });
+                        // Assuming you want to also remove the row from the HTML table
                         e.currentTarget.closest("tr").remove();
-                    }
-                }
+                        // Perform an AJAX request to delete the benefactor on the server
+                        $.post(`/benefactors/delete`, { benefactor_id: id }, (data, status, xhr) => {
+                            if (status === "success" && xhr.status === 200) {
+                                alert(`Benefactor with ID ${id} has been deleted successfully.`);
+                                } else {
+                                    alert(`Error: Unable to delete benefactor with ID ${id}.`);
+                                    }
+                                    location.reload();
+                                    });
+                                    }
+                                    }
+
 
                 function sortData() {
                     // Sort benefactor data based on selected criteria
