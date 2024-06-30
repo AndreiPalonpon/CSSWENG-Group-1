@@ -17,14 +17,12 @@ const BeneficiarySchema = new Schema({
         required: true,
         enum: ["", "", "", "",],
     },
-    benefit_requested: { type: Boolean, required: true },
-    benefit_received: { type: Boolean, required: true },
-    date_received: { type: Date, required: true },
-    device_used: {
+    benefit_delivered: {
         type: Schema.Types.ObjectId, 
-        ref: "Device",
+        ref: "Benefit",
         required: true,
     },
+    date_received: { type: Date, required: true },
 });
 
 module.exports = mongoose.model("Beneficiary", BeneficiarySchema, "beneficiaries");
