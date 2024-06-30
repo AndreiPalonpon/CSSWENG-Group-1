@@ -77,16 +77,21 @@
                 <h2 class="modalTitle">Fill the Form</h2>
                 <span class="closeBtn">&times;</span>
             </header>
-              <form id="deviceForm" action="/device/create" method="POST">
+              <form id="benefitForm" action="/benefits/create" method="POST">
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="deviceName">Item Name</label>
-                        <input type="text" class="form-control" id="deviceName" name="deviceName" placeholder="Item Name" required>
+                        <label for="benefitName">Benefit Name</label>
+                        <input type="text" class="form-control" id="benefitName" name="benefitName" placeholder="Name" required>
                     </div>
 
                     <div class="form-group col-md-6">
-                        <label for="deviceDesc">Item Description</label>
-                        <input type="text" class="form-control" id="deviceDesc" name="deviceDesc" placeholder="Description" required>
+                        <label for="benefitDesc">Benefit Description</label>
+                        <input type="text" class="form-control" id="benefitDesc" name="benefitDesc" placeholder="Description" required>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="quantity">Quantity</label>
+                        <input type="text" class="form-control" id="quantity" name="quantity" placeholder="Quantity" required>
                     </div>
 
                     <div class="form-group col-md-6">
@@ -95,11 +100,11 @@
                     </div>
 
                     <div class="form-group col-md-6">
-                        <label for="deviceSpon">Sponsor</label>
-                        <input type="text" class="form-control" id="deviceSpon" name="deviceSpon" placeholder="Sponsor" required>
+                        <label for="benefactor">Sponsor</label>
+                        <input type="text" class="form-control" id="benefactor" name="benefactor" placeholder="Benefactor" required>
                     </div>
                 </div>
-                <input type="submit" class="submitDeviceBtn" value="Submit">
+                <input type="submit" class="submitBenefitBtn" value="Submit">
             </form>
         </div>
 
@@ -114,7 +119,7 @@
             <div class="table-container">
                 <button id="resetFiltersButton" class="btn btn-secondary">Reset Filters</button>
                 <table class="table table-bordered table-hover">
-                    <caption>List of Devices</caption>
+                    <caption>List of Benefits</caption>
                     <thead class="thead-light">
                         <tr>
                             <th scope="col">#</th>
@@ -182,14 +187,14 @@
                     darkBg = document.querySelector('.dark_bg'),
                     popupForm = document.querySelector('.popup'),
                     crossBtn = document.querySelector('.closeBtn'),
-                    submitDeviceBtn = document.querySelector('.submitDeviceBtn'),
+                    submitBenefitBtn = document.querySelector('.submitBenefitBtn'),
                     modalTitle = document.querySelector('.modalTitle'),
-                    form = document.querySelector('#deviceForm'),
-                    formInputFields = document.querySelectorAll('#deviceForm input, #deviceForm select'),
+                    form = document.querySelector('#benefitForm'),
+                    formInputFields = document.querySelectorAll('#benefitForm input, #benefitForm select'),
                     programInfo = document.querySelector('.programInfo');
                 resetFiltersButton = document.getElementById('resetFiltersButton');
 
-                let originalData = localStorage.getItem('devices') ? JSON.parse(localStorage.getItem('devices')) : [];
+                let originalData = localStorage.getItem('benefits') ? JSON.parse(localStorage.getItem('benefits')) : [];
                 let getData = [...originalData];
 
                 let isEdit = false,
@@ -197,11 +202,11 @@
 
                 newMemberAddBtn.addEventListener('click', () => {
                     isEdit = false;
-                    submitDeviceBtn.innerHTML = "Submit";
+                    submitBenefitBtn.innerHTML = "Submit";
                     modalTitle.innerHTML = "Fill the Form";
                     form.reset();
                     formInputFields.forEach(input => input.disabled = false);
-                    submitDeviceBtn.style.display = "block";
+                    submitBenefitBtn.style.display = "block";
                     darkBg.classList.add('active');
                     popupForm.classList.add('active');
                 });
@@ -210,7 +215,7 @@
                     darkBg.classList.remove('active');
                     popupForm.classList.remove('active');
                     form.reset();
-                    submitDeviceBtn.style.display = "block";
+                    submitBenefitBtn.style.display = "block";
                     formInputFields.forEach(input => input.disabled = false);
                 });
 
@@ -404,15 +409,16 @@
                 }
 
                 function readInfo(id) {
-                    const device = getData.find(item => item.id === id);
-                    if (device) {
-                        form.deviceName.value = device.deviceName;
-                        form.deviceDesc.value = device.deviceDesc;
-                        form.dateReceived.value = device.dateReceived;
-                        form.deviceSpon.value = device.deviceSpon;
-                        modalTitle.innerHTML = "View Device";
+                    const benefit = getData.find(item => item.id === id);
+                    if (benefit) {
+                        form.benefitName.value = benefit.benefitName;
+                        form.benefitDesc.value = benefit.benefitDesc;
+                        form.quantity.value = benefit.quantity;
+                        form.dateReceived.value = benefit.dateReceived;
+                        form.benefactor.value = benefit.benefactor;
+                        modalTitle.innerHTML = "View Benefit";
                         formInputFields.forEach(input => input.disabled = true);
-                        submitDeviceBtn.style.display = "none";
+                        submitBenefitBtn.style.display = "none";
                         darkBg.classList.add('active');
                         popupForm.classList.add('active');
                     }
@@ -421,16 +427,17 @@
                 function editInfo(id) {
                     isEdit = true;
                     editId = getData.findIndex(item => item.id === id);
-                    const device = getData[editId];
-                    if (device) {
-                       form.deviceName.value = device.deviceName;
-                        form.deviceDesc.value = device.deviceDesc;
-                        form.dateReceived.value = device.dateReceived;
-                        form.deviceSpon.value = device.deviceSpon;
-                        modalTitle.innerHTML = "Edit Device";
+                    const benefit = getData[editId];
+                    if (benefit) {
+                        form.benefitName.value = benefit.benefitName;
+                        form.benefitDesc.value = benefit.benefitDesc;
+                        form.quantity.value = benefit.quantity;
+                        form.dateReceived.value = benefit.dateReceived;
+                        form.benefactor.value = benefit.benefactor;
+                        modalTitle.innerHTML = "Edit Benefit";
                         formInputFields.forEach(input => input.disabled = false);
-                        submitDeviceBtn.style.display = "block";
-                        submitDeviceBtn.innerHTML = "Update";
+                        submitBenefitBtn.style.display = "block";
+                        submitBenefitBtn.innerHTML = "Update";
                         darkBg.classList.add('active');
                         popupForm.classList.add('active');
                     }
