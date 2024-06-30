@@ -497,7 +497,27 @@
                     showInfo();
                 }
 
-                function downloadCSV(csv, filename) {
+                var contactNoInput = document.getElementById('contactNo');
+
+                contactNoInput.addEventListener('focus', function() {
+                    // Ensure phone number starts with country code
+                    if (!contactNoInput.value.startsWith('+63')) {
+                        contactNoInput.value = '+63';
+                    }
+                });
+
+                contactNoInput.addEventListener('input', function() {
+                    // Restrict input length and format
+                    if (!contactNoInput.value.startsWith('+63')) {
+                        contactNoInput.value = '+63' + contactNoInput.value.replace(/^\+63\s*/, '');
+                    }
+                    if (contactNoInput.value.length > 14) {
+                        contactNoInput.value = contactNoInput.value.slice(0, 14);
+                    }
+                });
+            });
+
+                            function downloadCSV(csv, filename) {
                     // Download CSV file
                     let csvFile;
                     let downloadLink;
@@ -529,26 +549,6 @@
                     }
                     downloadCSV(csv.join('\n'), filename);
                 }
-
-                var contactNoInput = document.getElementById('contactNo');
-
-                contactNoInput.addEventListener('focus', function() {
-                    // Ensure phone number starts with country code
-                    if (!contactNoInput.value.startsWith('+63')) {
-                        contactNoInput.value = '+63';
-                    }
-                });
-
-                contactNoInput.addEventListener('input', function() {
-                    // Restrict input length and format
-                    if (!contactNoInput.value.startsWith('+63')) {
-                        contactNoInput.value = '+63' + contactNoInput.value.replace(/^\+63\s*/, '');
-                    }
-                    if (contactNoInput.value.length > 14) {
-                        contactNoInput.value = contactNoInput.value.slice(0, 14);
-                    }
-                });
-            });
         </script>
 </body>
 
