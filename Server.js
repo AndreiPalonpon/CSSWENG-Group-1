@@ -28,7 +28,7 @@ const loginRouter = require("./routes/login")
 const programsRouter = require("./routes/programs");
 const beneficiaryRouter = require("./routes/beneficiaries");
 const benefactorRouter = require("./routes/benefactors");
-const deviceRouter = require("./routes/benefits");
+const benefitRouter = require("./routes/benefits");
 const peopleRouter = require("./routes/people");
 const documentationRouter = require("./routes/documentation");
 const settingsRouter = require("./routes/settings");
@@ -48,7 +48,7 @@ app.use("/login", loginRouter);
 app.use("/programs", programsRouter);
 app.use("/beneficiaries", beneficiaryRouter);
 app.use("/benefactors", benefactorRouter);
-app.use("/device", deviceRouter);
+app.use("/benefits", benefitRouter);
 app.use("/people", peopleRouter);
 app.use("/documentation", documentationRouter);
 app.use("/settings", settingsRouter);
