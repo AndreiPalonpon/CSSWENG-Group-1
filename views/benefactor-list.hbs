@@ -28,21 +28,6 @@
 
                 <li><a href="/">Dashboard</a></li>
                 <li><a href="/programs">Programs</a></li>
-
-
-                <!--
-                <li class="dropdown">
-                    <a href="../views/program-list.html" class="dropdown-toggle" data-toggle="dropdown">Programs<span class="caret"></span></a>
-                    <ul class="dropdown-menu animated fadeInLeft" role="menu">
-                        <li><a href="#pictures">Program 1</a></li>
-                        <li><a href="#videos">Program 2</a></li>
-                        <li><a href="#books">Program 3</a></li>
-                        <li><a href="#art">Program 4</a></li>
-                        <li><a href="#awards">Program 4</a></li>
-                    </ul>
-                </li>
-                --->
-
                 <li><a href="/beneficiaries">Beneficiary</a></li>
                 <li><a href="/benefactors">Benefactor</a></li>
                 <li><a href="/device">Devices</a></li>
@@ -142,7 +127,6 @@
             <!-- Title for main content -->
             <div class="button-group">
                 <button class="btn export-btn" onclick="exportTableToCSV('Benefactors.csv')">Export to CSV</button>
-                <!-- Button to export table data to CSV -->
             </div>
 
             <!-- Table container -->
@@ -176,9 +160,11 @@
                                     </ul>
                                 </div>
                             </th>
+                            <!-- Additional columns for benefactor details -->
+                            <th scope="col">Contact No.</th>
                             <th scope="col">
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="sponsorDropdown" data-bs-toggle="dropdown" aria-expanded="false">Type</a>
+                                    <a class="dropdown-toggle" id="sponsorDropdown" data-bs-toggle="dropdown" aria-expanded="false">Sponsor</a>
                                     <ul class="dropdown-menu" aria-labelledby="sponsorDropdown">
                                         <li>
                                             <div class="form-check">
@@ -195,6 +181,82 @@
                                     </ul>
                                 </div>
                             </th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="lguDropdown" data-bs-toggle="dropdown" aria-expanded="false">LGU</a>
+                                    <ul class="dropdown-menu" aria-labelledby="lguDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="lguFilter" value="yes" id="lguYes">
+                                                <label class="form-check-label" for="lguYes">Yes</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="lguFilter" value="no" id="lguNo">
+                                                <label class="form-check-label" for="lguNo">No</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="itemNameDropdown" data-bs-toggle="dropdown" aria-expanded="false">Item Name</a>
+                                    <ul class="dropdown-menu" aria-labelledby="itemNameDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="itemNameSort" value="az" data-criterion="itemName" id="itemNameSortAZ">
+                                                <label class="form-check-label" for="itemNameSortAZ">A-Z</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="itemNameSort" value="za" data-criterion="itemName" id="itemNameSortZA">
+                                                <label class="form-check-label" for="itemNameSortZA">Z-A</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="quantityDropdown" data-bs-toggle="dropdown" aria-expanded="false">Quantity No.</a>
+                                    <ul class="dropdown-menu" aria-labelledby="quantityDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="quantitySort" value="asc" id="quantitySortAsc">
+                                                <label class="form-check-label" for="quantitySortAsc">Ascending</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="quantitySort" value="desc" id="quantitySortDesc">
+                                                <label class="form-check-label" for="quantitySortDesc">Descending</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="dateDropdown" data-bs-toggle="dropdown" aria-expanded="false">Given Date</a>
+                                    <ul class="dropdown-menu" aria-labelledby="dateDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="dateSort" value="asc" id="dateSortAsc">
+                                                <label class="form-check-label" for="dateSortAsc">Ascending</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="dateSort" value="desc" id="dateSortDesc">
+                                                <label class="form-check-label" for="dateSortDesc">Descending</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -205,8 +267,13 @@
                         <tr>
                             <th scope="row ">{{incremented @index}}</th>
                             <!-- Benefactor data -->
-                            <td>{{this.name}}</td>
-                            <td>{{this.type}}</td>
+                            <td>{{this.benefactor_name}}</td>
+                            <td>{{this.contact_number}}</td>
+                            <td>{{this.sponsor}}</td>
+                            <td>{{this.lgu}}</td>
+                            <td>{{this.item_name}}</td>
+                            <td>{{this.quantity}}</td>
+                            <td>{{this.date}}</td>
                             <td>
                                 <button class="viewBtn " data-id="{{this.id}} "><i class="bi bi-eye "></i></button>
                                 <button class="editBtn " data-id="{{this.id}} "><i class="bi bi-pencil "></i></button>
