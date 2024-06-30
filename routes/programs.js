@@ -23,7 +23,7 @@ router.post('/create', asyncHandler(async (req, res, next) => {
     var frequency = req.body.frequency;
     var assistanceType = req.body.assistanceType;*/
 
-    var newProgram = new Program({ 
+    const newProgram = new Program({ 
         name: programName, 
         program_type: programType, 
         frequency: freq, 
@@ -44,25 +44,19 @@ router.post('/create', asyncHandler(async (req, res, next) => {
     res.sendStatus(201); 
 }));
 
-//GET request for editing program.
-router.get('/:id/edit', asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Program edit GET");
-}));
-
 //POST request for editing program.
-router.post('/:id/edit', asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Program edit POST");
-}));
+router.get('/edit', asyncHandler(async (req, res, next) => { //change to post. POST will be used.
+    //Example...
+    //req.body will be implemented later.
+    const id = "6680add4a97d019a89a329f1";
+    const updatedProgram = {
+        name: "Program 1",
+        program_type: "Service",
+    };
 
-//GET request for deleting program.
-router.get('/:id/delete', asyncHandler(async (req, res, next) => {
-    /*
-    await Program.deleteOne({_id: req.body.beneficiary_id});
-    console.log("Beneficiary ID " + req.body.beneficiary_id + " has been deleted.");
-    */
-    const current_id = req.params.id;
-    await Program.deleteOne({_id: current_id});
-    console.log("Program ID " + current_id + " has been deleted.");
+    await Program.findByIdAndUpdate(id, updatedProgram);
+
+    //res.sendStatus(200);
     res.redirect("/programs/");
 }));
 

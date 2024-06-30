@@ -28,20 +28,21 @@ router.post('/create', asyncHandler(async (req, res, next) => {
     res.sendStatus(201);
 }));
 
-//GET request for editing item.
-router.get('/:id/edit', asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Item edit GET");
-}));
-
 //POST request for editing item.
-router.post('/:id/edit', asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Item edit POST");
+router.post('/:id/edit', asyncHandler(async (req, res, next) => { //Change to post. POST will be used.
+    //Example...
+    //req.body will be implemented later.
+    const id = "6680c8ace7e6a0a3c2d72f7e";
+    const updatedBenefit = {
+        
+    };
+
+    await Benefit.findByIdAndUpdate(id, updatedBenefit);
+
+    //res.sendStatus(200);
+    res.redirect("/benefits/");
 }));
 
-//GET request for deleting item. 
-router.get('/:id/delete', asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Item delete GET");
-}));
 
 //POST request for deleting item. 
 router.post('/delete', asyncHandler(async (req, res, next) => {
