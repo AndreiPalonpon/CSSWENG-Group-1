@@ -120,19 +120,22 @@
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
                             <th scope="col">Description</th>
+                            <th scope="col">Quantity</th>
                             <th scope="col">Date Received</th>
-                            <th scope="col">Sponsor</th>
+                            <th scope="col">Benefactor</th>
+                            <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="programInfo">
                         <!-- Program rows will be populated here -->
-                        {{#each devices}}
+                        {{#each benefits}}
                         <tr>
                             <th scope="row">{{incremented @index}}</th>
                             <td>{{this.name}}</td>
                             <td>{{this.description}}</td>
+                            <td>{{this.quantity}}</td>
                             <td>{{formatDate this.date_received}}</td>
-                            <td>{{this.sponsor}}</td>
+                            <td>{{this.benefactor.name}}</td>
                             <td>
                                 <button class="viewBtn" data-id="{{this.id}}"><i class="bi bi-eye"></i></button>
                                 <button class="editBtn" data-id="{{this.id}}"><i class="bi bi-pencil"></i></button>
@@ -434,11 +437,22 @@
                 }
 
                 function deleteInfo(id) {
-                    if (confirm("Are you sure you want to delete this device?")) {
+                    if (confirm("Are you sure you want to delete this benefit?")) {
+                        console.log(id);
                         originalData = originalData.filter(item => item.id !== id);
                         localStorage.setItem('programs', JSON.stringify(originalData));
                         getData = [...originalData];
-                        showInfo();
+                        //showInfo();
+                        let index = e.currentTarget.closest("tr").querySelector("td:first-child").textContent;
+                        $.post(`/benefits/delete`, {benefit_id: id}, (data, status, xhr) => {
+                            if (status === "success" && xhr.status === 200) {
+                                alert("Benefit with number " + index + " has been deleted");
+                            } else {
+                                alert("Error: Benefit with number " + index + " cannot be deleted");
+                            }
+                            location.reload();
+                        });
+                        e.currentTarget.closest("tr").remove();
                     }
                 }
 

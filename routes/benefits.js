@@ -44,13 +44,18 @@ router.get('/:id/delete', asyncHandler(async (req, res, next) => {
 }));
 
 //POST request for deleting item. 
-router.post('/:id/delete', asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Item delete POST");
+router.post('/delete', asyncHandler(async (req, res, next) => {
+    //Check first if there are beneficiaries with the current benefit. If there are, it cannot be deleted.
+    
+    await Benefactor.deleteOne({_id: req.body.benefit_id});
+    console.log("Program ID " + req.body.benefactor_id + " has been deleted.");
+    res.sendStatus(200);
 }));
 
 //GET request to list all equipment.
 router.get('/', asyncHandler(async (req, res, next) => {
     const benefits = await Benefit.find()
+                                  .populate("benefactor")
                                   .exec();
 
     console.log(benefits);
