@@ -49,7 +49,7 @@ router.post('/delete', asyncHandler(async (req, res, next) => {
     //Check first if there are beneficiaries with the current benefit. If there are, it cannot be deleted.
     
     await Benefactor.deleteOne({_id: req.body.benefit_id});
-    console.log("Program ID " + req.body.benefactor_id + " has been deleted.");
+    console.log("Benefit ID " + req.body.benefit_id + " has been deleted.");
     res.sendStatus(200);
 }));
 
