@@ -20,6 +20,10 @@ const PersonSchema = new Schema({
     },
     disability: { type: String, required: true },
     pwd_card_id_no: { type: Number, required: true },
+    recent_pwd_id_update_date: {
+        type: Date,
+        required: true,
+    }
 });
 
 //Virtual method for a person's full name.
@@ -39,6 +43,17 @@ PersonSchema.virtual("age").get(function () {
     const ageInDate = new Date(ageInMilliSecs);
 
     return Math.abs(ageInDate.getUTCFullYear() - 1970);
+});
+
+//Virtual method for whether a pwd_id_expired
+PersonSchema.virtual("pwd_id_expired").get(function () {
+    //Recent update date for the pwd id.
+    const recent_update_date = this.recent_pwd_id_update_date; 
+    const currentDate = new Date();
+    const lenMilliSecs = currentDate - recent_update_date; //length in Millisecs.
+    const lenYears = lenMilliSecs / (1000 * 60 * 60 * 24 * 365.25)
+
+    return (lenYears >= 3.0) ? true : false;
 });
 
 module.exports = mongoose.model("Person", PersonSchema, 'people');
