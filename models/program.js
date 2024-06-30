@@ -2,15 +2,9 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ProgramSchema = new Schema({
-    name: String,
-    recent_update_date: { 
-        type: Date,
-        default: Date.now
-    },
-    creation_date: { 
-        type: Date ,
-        default: Date.now
-    },
+    name: { type: String, required: true },
+    recent_update_date: { type: Date, default: Date.now },
+    creation_date: { type: Date, default: Date.now },
     program_type: {
         type: String,
         required: true,
@@ -27,8 +21,6 @@ const ProgramSchema = new Schema({
         required: true,
         enum: ["Educational", "Financial", "Medical",]
     },
-
-    //Add virtual method for date format.
 });
 
 

@@ -7,9 +7,7 @@ const BenefactorSchema = new Schema({
         type: String,
         required: true,
         enum: ["", "", "", "",],
-        default: "Benefactor"
     },
-    //contribution: { type: Contribution, required: true, }, To be implemented.
 });
 
-module.exports = mongoose.model("Benefactor", BenefactorSchema, "benefactors");
+module.exports = mongoose.model("Sponsor", BenefactorSchema, "sponsors");

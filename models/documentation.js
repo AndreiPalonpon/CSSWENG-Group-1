@@ -2,12 +2,13 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const DocumentationSchema = new Schema({
-    /*
-    To be implemented.
-    assigned_program: { type: Program, required: true, },
-    photos: [ {type: Photo, required: false, } ],
-    documentation: { type: String, required: false, },
-    */
+    //photos: 
+    documentation: { type: String, required: true },
+    assigned_program: {
+        type: Schema.Types.ObjectId, 
+        ref: "Program",
+        required: true,
+    },
 });
 
 module.exports = mongoose.model("Documentation", DocumentationSchema, "documentations");
