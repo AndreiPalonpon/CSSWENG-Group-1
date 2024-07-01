@@ -3,10 +3,11 @@ const router = express.Router();
 const asyncHandler = require("express-async-handler");
 const json = require("json");
 const Benefit = require("../models/benefit");
+const Benefactor = require("../models/benefactor");
 
 //GET request for creating item.
 router.get('/create', asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Item create GET");
+    
 }));
 
 //POST request for creating beneficiary.
@@ -59,8 +60,11 @@ router.get('/', asyncHandler(async (req, res, next) => {
                                   .populate("benefactor")
                                   .exec();
 
-    console.log(benefits);
-    res.render("benefit-list", { benefits: benefits });
+    const benefactors = await Benefactor.find()
+                                        .exec();
+
+    console.log(benefits, benefactors);
+    res.render("benefit-list", { benefactors: benefactors, benefits: benefits });
 }));
 
 
