@@ -13,27 +13,19 @@ router.get('/create', asyncHandler(async (req, res, next) => {
 //POST request for creating beneficiary.
 router.post('/create', asyncHandler(async (req, res, next) => {
     const { 
-        firstName, 
-        lastName, 
-        dob, 
-        gen, 
-        contactNo, 
-        brgy, 
-        disability, 
-        comor, 
-        pwdIdCardNo,
+        personRegistered, 
+        programEnrolled, 
+        stat, 
+        benefitDelivered, 
+        date_received
     } = req.body;
 
     const newBeneficiary = new Beneficiary({ 
-        first_name: firstName, 
-        last_name: lastName, 
-        date_of_birth: dob, 
-        gender: gen, 
-        contact_number: contactNo, 
-        barangay: brgy, 
-        disability_type: disability, 
-        comorbidities: comor, 
-        pwd_card_id_no: pwdIdCardNo,
+        person_registered: personRegistered, 
+        program_enrolled: programEnrolled, 
+        status: stat, 
+        benefit_delivered: benefitDelivered, 
+        date_received: date_received
     });
     
     await newBeneficiary.save();
