@@ -1,8 +1,7 @@
 const express = require("express");
+const router = express.Router();
 const asyncHandler = require("express-async-handler");
 const Benefactor = require("../models/benefactor");
-
-const router = express.Router();    
 
 //POST request for creating benefactor.
 router.post('/create', asyncHandler(async (req, res, next) => {
@@ -32,7 +31,7 @@ router.get('/edit', asyncHandler(async (req, res, next) => { //Change to post. P
     await Program.findByIdAndUpdate(id, updatedProgram);
 
     //res.sendStatus(200);
-    res.redirect("/benefactors/");
+    res.redirect("/benefactors");
 }));
 
 //POST request for deleting benefactor. 

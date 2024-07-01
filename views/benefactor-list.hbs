@@ -8,13 +8,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="/css/benefactor-list-style.css">
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 </head>
 
 <body>
     <div id="wrapper">
-        <!-- Wrapper for the entire content -->
         <div class="overlay dark_bg"></div>
-        <!-- Overlay for modal background -->
+        <!-- Modal Background -->
 
         <!-- Sidebar -->
         <nav class="navbar navbar-inverse fixed-top" id="sidebar-wrapper" role="navigation">
@@ -53,10 +53,8 @@
                         <!-- Page title -->
                     </div>
                 </div>
-
                 <div class="addBenefactorBtn">
-                    <button>Create</button>
-                    <!-- Button to create a new benefactor entry -->
+                    <button id="CreateBtn">Create</button>
                 </div>
             </header>
         </div>
@@ -69,7 +67,7 @@
                 <span class="closeBtn">&times;</span>
                 <!-- Close button for modal -->
             </header>
-            <form id="benefactorForm" action="/benefactors/create" method="POST">
+            <form id="benefactorForm" action="/benefactors/create" method="POST" onsubmit="setTimeout(function(){window.location.reload();},100);">
                 <!-- Form for submitting benefactor information -->
                 <div class="form-row">
                     <div class="form-group col-md-6">
@@ -87,14 +85,10 @@
                             <option value="Type4">Type 4</option>
                         </select>
                     </div>
-
-                    
                 </div>
                 <input type="submit" class="submitBenefactorBtn" value="Submit">
-                <!-- Submit button -->
             </form>
         </div>
-        <!-- End of modal form -->
 
         <!-- Main content section -->
         <main class="main-content">
@@ -108,12 +102,9 @@
             <!-- Table container -->
             <div class="table-container">
                 <button id="resetFiltersButton" class="btn btn-secondary">Reset Filters</button>
-                <!-- Button to reset filters -->
                 <table class="table table-bordered table-hover">
-                    <!-- Table for displaying benefactor data -->
                     <caption>List of Benefactors</caption>
                     <thead class="thead-light">
-                        <!-- Table header -->
                         <tr>
                             <th scope="col">#</th>
                             <!-- Column for benefactor name with sorting options -->
@@ -175,9 +166,7 @@
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
-
-                    <!-- Handlebars template for populating table rows with benefactors data -->
-                    <tbody class="programInfo ">
+                    <tbody>
                         {{#each benefactors}}
                         <tr>
                             <th scope="row ">{{incremented @index}}</th>
@@ -186,7 +175,7 @@
                             <td>{{this.type}}</td>
                             <td>
                                <button class="editBtn" data-id="{{this._id}}"><i class="bi bi-pencil"></i></button>
-                                <button class="deleteBtn" data-id="{{this._id}}"><i class="bi bi-trash"></i></button>
+                               <button class="deleteBtn" data-id="{{this._id}}"><i class="bi bi-trash"></i></button>
                             </td>
                         </tr>
                         {{/each}}
@@ -194,9 +183,7 @@
                 </table>
             </div>
         </main>
-        <!-- End of main content section -->
-
-        <!-- Pagination controls -->
+        
         <nav aria-label="page-navigation">
             <ul class="pagination">
                 <!-- Pagination items will be dynamically added here -->
@@ -211,17 +198,23 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // DOMContentLoaded event listener for initializing functionality
+           document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById("menu-toggle").addEventListener("click", function() {
-                    // Toggle sidebar
                     document.getElementById("wrapper").classList.toggle("toggled");
                     document.querySelector(".main-content").classList.toggle("toggled");
                     document.querySelector(".header-right").classList.toggle("toggled");
                 });
 
-                // Variables for modal form and table interactions
-                var newMemberAddBtn = document.querySelector('.addBenefactorBtn button'),
+                $(document).ready(function() {
+                    $("#myInput").on("keyup", function() {
+                        var value = $(this).val().toLowerCase();
+                        $(".dropdown-menu li").filter(function() {
+                            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                        });
+                    });
+                });
+
+              var newMemberAddBtn = document.querySelector('.addBenefactorBtn button'),
                     darkBg = document.querySelector('.dark_bg'),
                     popupForm = document.querySelector('.popup'),
                     crossBtn = document.querySelector('.closeBtn'),
@@ -229,8 +222,8 @@
                     modalTitle = document.querySelector('.modalTitle'),
                     form = document.querySelector('#benefactorForm'),
                     formInputFields = document.querySelectorAll('#benefactorForm input, #benefactorForm select'),
-                    programInfo = document.querySelector('.programInfo');
-                resetFiltersButton = document.getElementById('resetFiltersButton');
+                    benefactorInfo = document.querySelector('.benefactorInfo');
+                    resetFiltersButton = document.getElementById('resetFiltersButton');
 
                 // Retrieve data from local storage or initialize empty array
                 let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
@@ -251,7 +244,8 @@
                     popupForm.classList.add('active');
                 });
 
-                crossBtn.addEventListener('click', () => {
+
+                 crossBtn.addEventListener('click', () => {
                     // Hide form and reset inputs
                     darkBg.classList.remove('active');
                     popupForm.classList.remove('active');
@@ -260,19 +254,14 @@
                     formInputFields.forEach(input => input.disabled = false);
                 });
 
-                /*
-                form.addEventListener('submit', (e) => {
-                    // Handle form submission
+                
+               form.addEventListener('submit', (e) => {
                     e.preventDefault();
+                    const now = new Date();
                     const benefactor = {
                         id: Date.now(),
                         benefactorName: form.benefactorName.value,
-                        contactNo: form.contactNo.value,
-                        sponsor: form.sponsor.value,
-                        lgu: form.lgu.value,
-                        itemName: form.itemName.value,
-                        quantity: form.quantity.value,
-                        givenDate: form.date.value
+                        benefactorType: form.benefactorType.value
                     };
 
                     if (!isEdit) {
@@ -280,27 +269,32 @@
                     } else {
                         originalData[editId] = benefactor;
                     }
+
+                    $.post("/benefactors/create", benefactor, (data, status, xhr) => {
+                        if (status === "success" && xhr.status === 201) {
+                            alert("Program \"" + benefactor.benefactorName + "\" has been created.");
+                        }
+                    });
+
                     localStorage.setItem('programs', JSON.stringify(originalData));
                     getData = [...originalData];
-                    showInfo();
+                    //showInfo();
                     darkBg.classList.remove('active');
                     popupForm.classList.remove('active');
                     form.reset();
-                });
-                */
+                }); 
+                
 
-                function showInfo() {
-                    // Display benefactor information in table and pagination
+                 function showInfo() {
                     displayRows(getData, currentPage);
                     displayPagination(getData.length);
                     addEventListeners();
                 }
 
                 let currentPage = 1;
-                const rowsPerPage = 10;
+                const rowsPerPage = 5;
 
                 function displayPagination(totalRows) {
-                    // Create pagination controls
                     const pagination = document.querySelector('.pagination');
                     const totalPages = Math.ceil(totalRows / rowsPerPage);
 
@@ -309,21 +303,24 @@
                             <a class="page-link" href="#" aria-label="Previous" id="prevButton">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
-                        </li>`;
+                        </li>
+                        `;
 
                     for (let i = 1; i <= totalPages; i++) {
                         pagination.innerHTML += `
-                            <li class="page-item ${currentPage === i ? 'active' : ''}">
-                                <a class="page-link paginationButton" href="#">${i}</a>
-                            </li>`;
+                        <li class="page-item ${currentPage === i ? 'active' : ''}">
+                            <a class="page-link paginationButton" href="#">${i}</a>
+                        </li>
+                        `;
                     }
 
                     pagination.innerHTML += `
-                        <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-                            <a class="page-link" href="#" aria-label="Next" id="nextButton">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>`;
+                    <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                        <a class="page-link" href="#" aria-label="Next" id="nextButton">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    `;
 
                     document.getElementById("prevButton").addEventListener("click", prevPage);
                     document.getElementById("nextButton").addEventListener("click", nextPage);
@@ -337,8 +334,34 @@
                     }
                 }
 
+                function displayRows(rows, page = 1) {
+                    const start = (page - 1) * rowsPerPage;
+                    const end = start + rowsPerPage;
+                    const paginatedRows = rows.slice(start, end);
+                    const benefactorInfo = document.querySelector('.benefactorInfo');
+                    benefactorInfo.innerHTML = '';
+                    paginatedRows.forEach((benefactor, index) => {
+                        const row = `
+                <tr>
+                    <td>${start + index + 1}</td>
+                    <td>${benefactor.benefactorName}</td>
+                    <td>${benefactor.benefactorType}</td>
+                    <td>
+                        <button class="viewBtn" data-id="${benefactor.id}"><i class="bi bi-eye"></i></button>
+                        <button class="editBtn" data-id="${benefactor.id}"><i class="bi bi-pencil"></i></button>
+                        <button class="deleteBtn" data-id="${benefactor.id}"><i class="bi bi-trash"></i></button>
+                    </td>
+                </tr>
+                `;
+                    benefactorInfo.innerHTML += row;
+                });
+
+                    function capitalizeFirstLetter(string) {
+                        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+                    }
+                }
+
                 function addEventListeners() {
-                    // Add event listeners for various buttons and filters
                     document.querySelectorAll('.viewBtn').forEach(button => {
                         button.addEventListener('click', (e) => {
                             const id = parseInt(e.currentTarget.getAttribute('data-id'));
@@ -346,29 +369,33 @@
                         });
                     });
 
-                    document.querySelectorAll('.editBtn').forEach(button => {
+                    document.querySelectorAll('.viewBtn').forEach(button => {
                         button.addEventListener('click', (e) => {
                             const id = parseInt(e.currentTarget.getAttribute('data-id'));
+                            readInfo(id);
+                        });
+                    });
+                    document.querySelectorAll('.editBtn').forEach(button => {
+                        button.addEventListener('click', (e) => {
+                            const id = e.currentTarget.getAttribute('data-id');
                             editInfo(id);
                         });
                     });
-
                     document.querySelectorAll('.deleteBtn').forEach(button => {
                         button.addEventListener('click', (e) => {
                             const id = e.currentTarget.getAttribute('data-id');
                             deleteInfo(id, e);
                         });
                     });
-
-                    document.querySelectorAll('input[name="nameSort"], input[name="itemNameSort"], input[name="quantitySort"], input[name="dateSort"]').forEach(radio => {
+                    // Event listeners for sorting and filtering
+                    document.querySelectorAll('input[name="nameSort"]').forEach(radio => {
                         radio.addEventListener('change', () => {
                             sortData();
                             displayRows(getData, currentPage);
                             displayPagination(getData.length);
                         });
                     });
-
-                    document.querySelectorAll('input[name="sponsorFilter"], input[name="lguFilter"]').forEach(checkbox => {
+                    document.querySelectorAll('input[name="typeFilter"], input[name="frequencyFilter"], input[name="assistanceFilter"]').forEach(checkbox => {
                         checkbox.addEventListener('change', () => {
                             filterData();
                             displayRows(getData, currentPage);
@@ -377,8 +404,8 @@
                     });
                 }
 
-                function prevPage() {
-                    // Go to the previous page of pagination
+                function prevPage(event) {
+                    event.preventDefault();
                     if (currentPage > 1) {
                         currentPage--;
                         displayRows(getData, currentPage);
@@ -386,8 +413,8 @@
                     }
                 }
 
-                function nextPage() {
-                    // Go to the next page of pagination
+                function nextPage(event) {
+                    event.preventDefault();
                     const totalPages = Math.ceil(getData.length / rowsPerPage);
                     if (currentPage < totalPages) {
                         currentPage++;
@@ -397,159 +424,136 @@
                 }
 
                 function goToPage(page) {
-                    // Go to a specific page of pagination
                     currentPage = page;
                     displayRows(getData, currentPage);
                     displayPagination(getData.length);
                 }
 
                 function readInfo(id) {
-                    // Read and display benefactor information in the modal form
-                    const program = getData.find(item => item.id === id);
-                    if (program) {
-                        form.benefactorName.value = program.benefactorName;
-                        form.contactNo.value = program.contactNo;
-                        form.sponsor.value = program.sponsor;
-                        form.lgu.value = program.lgu;
-                        form.itemName.value = program.itemName;
-                        form.quantity.value = program.quantity;
-                        form.date.value = program.givenDate;
+                    const benefactor = getData.find(item => item.id === id);
+                    if (benefactor) {
+                        form.benefactorName.value = benefactor.benefactorName;
+                        form.benefactorType.value = benefactor.benefactorType;
                         modalTitle.innerHTML = "View Benefactor";
                         formInputFields.forEach(input => input.disabled = true);
-                        submitBenefactorBtn.style.display = "none";
+                        submitBtn.style.display = "none";
                         darkBg.classList.add('active');
                         popupForm.classList.add('active');
                     }
                 }
 
                 function editInfo(id) {
-                    // Edit benefactor information in the modal form
                     isEdit = true;
                     editId = getData.findIndex(item => item.id === id);
-                    const program = getData[editId];
-                    if (program) {
-                        form.benefactorName.value = program.benefactorName;
-                        form.contactNo.value = program.contactNo;
-                        form.sponsor.value = program.sponsor;
-                        form.lgu.value = program.lgu;
-                        form.itemName.value = program.itemName;
-                        form.quantity.value = program.quantity;
-                        form.date.value = program.givenDate;
+                    const benefactor = getData[editId];
+                    if (benefactor) {
+                        form.benefactorName.value = benefactor.benefactorName;
+                        form.benefactorType.value = benefactor.benefactorType;
                         modalTitle.innerHTML = "Edit Benefactor";
                         formInputFields.forEach(input => input.disabled = false);
-                        submitBenefactorBtn.style.display = "block";
-                        submitBenefactorBtn.innerHTML = "Update";
+                        submitBtn.style.display = "block";
+                        submitBtn.innerHTML = "Update";
                         darkBg.classList.add('active');
                         popupForm.classList.add('active');
                     }
                 }
 
                 function deleteInfo(id, e) {
-                    // Delete a benefactor entry
                     if (confirm("Are you sure you want to delete this benefactor?")) {
-                        // Remove the benefactor from local storage
+                        console.log(id);
+                        // Remove item from localStorage
                         originalData = originalData.filter(item => item.id !== id);
-                        localStorage.setItem('programs', JSON.stringify(originalData));
-                        getData = [...originalData];
-                        // Assuming you want to also remove the row from the HTML table
-                        e.currentTarget.closest("tr").remove();
-                        // Perform an AJAX request to delete the benefactor on the server
-                        $.post(`/benefactors/delete`, { benefactor_id: id }, (data, status, xhr) => {
+                        localStorage.setItem('benefactors', JSON.stringify(originalData));
+                        
+                        // Make a copy of originalData if needed
+                        let getData = [...originalData];
+                        
+                        // Handle deletion via AJAX request
+                        $.post(`/benefactors/delete`, {benefactor_id: id})
+                        .done((data, status, xhr) => {
+                            // Check if deletion was successful
                             if (status === "success" && xhr.status === 200) {
-                                alert(`Benefactor with ID ${id} has been deleted successfully.`);
-                                } else {
-                                    alert(`Error: Unable to delete benefactor with ID ${id}.`);
+                                // Display success message
+                                let index = e?.currentTarget?.closest("tr")?.querySelector("td:first-child")?.textContent;
+                                if (index) {
+                                    alert("Benefactor with ID " + index + " has been deleted");
                                     }
+                                    // Reload the page after deletion
                                     location.reload();
-                                    });
-                                    }
-                                    }
-
+                                    } else {
+                                        // Handle deletion failure
+                                        alert("Failed to delete benefactor. Please try again.");
+                                        }
+                                        })
+                                        .fail((xhr, status, error) => {
+                                            // Handle AJAX request failure
+                                            alert("Error deleting benefactor. Please try again later.");
+                                            console.error(error);
+                                             });
+                                             // Remove the table row from the UI
+                                             if (e?.currentTarget) {
+                                                 e.currentTarget.closest("tr").remove();
+                                                 }
+                                                 }
+                                                 }
 
                 function sortData() {
-                    // Sort benefactor data based on selected criteria
-                    const selectedSortElement = document.querySelector('input[name="nameSort"]:checked, input[name="itemNameSort"]:checked, input[name="quantitySort"]:checked, input[name="dateSort"]:checked');
-                    if (!selectedSortElement) return;
-
-                    const selectedSort = selectedSortElement.value;
-                    const criterion = selectedSortElement.getAttribute('data-criterion');
-
+                    const selectedSort = document.querySelector('input[name="nameSort"]:checked').value;
                     getData.sort((a, b) => {
-                        if (selectedSort === 'az' || selectedSort === 'asc') {
-                            return a[criterion].localeCompare(b[criterion]);
+                        if (selectedSort === 'az') {
+                            return a.benefactorName.localeCompare(b.benefactorName);
                         } else {
-                            return b[criterion].localeCompare(a[criterion]);
+                            return b.benefactorName.localeCompare(a.benefactorName);
                         }
                     });
                     showInfo();
                 }
 
-                function filterData() {
-                    // Filter benefactor data based on selected criteria
-                    const sponsorFilter = document.querySelector('input[name="sponsorFilter"]:checked');
-                    const lguFilter = document.querySelector('input[name="lguFilter"]:checked');
 
-                    getData = originalData.filter(item => {
-                        return (!sponsorFilter || item.sponsor === sponsorFilter.value) &&
-                            (!lguFilter || item.lgu === lguFilter.value);
+                 resetFiltersButton.addEventListener('click', () => {
+                    document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
+                        input.checked = false;
                     });
-
+                    getData = [...originalData];
                     showInfo();
-                }
-
-                var contactNoInput = document.getElementById('contactNo');
-
-                contactNoInput.addEventListener('focus', function() {
-                    // Ensure phone number starts with country code
-                    if (!contactNoInput.value.startsWith('+63')) {
-                        contactNoInput.value = '+63';
-                    }
                 });
 
-                contactNoInput.addEventListener('input', function() {
-                    // Restrict input length and format
-                    if (!contactNoInput.value.startsWith('+63')) {
-                        contactNoInput.value = '+63' + contactNoInput.value.replace(/^\+63\s*/, '');
-                    }
-                    if (contactNoInput.value.length > 14) {
-                        contactNoInput.value = contactNoInput.value.slice(0, 14);
-                    }
-                });
+                //displayRows(getData, currentPage);
+                displayPagination(getData.length);
+                addEventListeners();
             });
 
-                            function downloadCSV(csv, filename) {
-                    // Download CSV file
-                    let csvFile;
-                    let downloadLink;
+             /* Exporting to CSV function */
+            function downloadCSV(csv, filename) {
+                let csvFile;
+                let downloadLink;
+                csvFile = new Blob([csv], {
+                    type: 'text/csv'
+                });
 
-                    csvFile = new Blob([csv], {
-                        type: 'text/csv'
-                    });
+                downloadLink = document.createElement('a');
+                downloadLink.download = filename;
+                downloadLink.href = window.URL.createObjectURL(csvFile);
+                downloadLink.style.display = 'none';
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+            }
 
-                    downloadLink = document.createElement('a');
-                    downloadLink.download = filename;
-                    downloadLink.href = window.URL.createObjectURL(csvFile);
-                    downloadLink.style.display = 'none';
-                    document.body.appendChild(downloadLink);
-                    downloadLink.click();
-                }
-
-                function exportTableToCSV(filename) {
-                    // Export table data to CSV
-                    const rows = document.querySelectorAll('.table-container table tr');
-                    let csv = [];
-                    for (let i = 0; i < rows.length; i++) {
-                        const row = [],
-                            cols = rows[i].querySelectorAll('td, th');
-                        for (let j = 0; j < cols.length; j++) {
-                            const data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ');
-                            row.push('"' + data + '"');
-                        }
-                        csv.push(row.join(','));
+            function exportTableToCSV(filename) {
+                const rows = document.querySelectorAll('.table-container table tr');
+                let csv = [];
+                for (let i = 0; i < rows.length; i++) {
+                    const row = [],
+                        cols = rows[i].querySelectorAll('td, th');
+                    for (let j = 0; j < cols.length; j++) {
+                        const data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ');
+                        row.push('"' + data + '"');
                     }
-                    downloadCSV(csv.join('\n'), filename);
+                    csv.push(row.join(','));
                 }
-        </script>
+                downloadCSV(csv.join('\n'), filename);
+            }
+</script>
 </body>
 
 </html>
