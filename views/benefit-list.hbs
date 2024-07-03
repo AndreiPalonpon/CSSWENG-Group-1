@@ -7,7 +7,7 @@
     <title>LPPWDFI | Equipment List</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="/css/program-list-style.css">
+    <link rel="stylesheet" href="/css/benefit-list-style.css">
 </head>
 
 <body>
@@ -31,7 +31,7 @@
                 <li><a href="/benefactors">Benefactor</a></li>
                 <li><a href="/benefits">Benefits</a></li>
                 <li><a href="/settings">Settings</a></li>
-                <li class="logout-link"><a href="#logout"><i class="bi bi-box-arrow-right"></i>  Logout</a></li>
+                <li class="logout-link"><a href="#logout"><i class="bi bi-box-arrow-right"></i>Logout</a></li>
             </ul>
         </nav>
         <!-- /#sidebar-wrapper -->
@@ -49,7 +49,7 @@
                     </div>
                 </div>
 
-                <div class="addProgramBtn">
+                <div class="addBenefitBtn">
                     <button>Create</button>
                 </div>
             </header>
@@ -155,8 +155,8 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <!-- <script src="../public/js/app.js"></script> -->
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
+             <script>
+           document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById("menu-toggle").addEventListener("click", function() {
                     document.getElementById("wrapper").classList.toggle("toggled");
                     document.querySelector(".main-content").classList.toggle("toggled");
@@ -172,7 +172,7 @@
                     });
                 });
 
-                var newMemberAddBtn = document.querySelector('.addProgramBtn button'),
+              var newMemberAddBtn = document.querySelector('.addBenefitBtn button'),
                     darkBg = document.querySelector('.dark_bg'),
                     popupForm = document.querySelector('.popup'),
                     crossBtn = document.querySelector('.closeBtn'),
@@ -180,16 +180,18 @@
                     modalTitle = document.querySelector('.modalTitle'),
                     form = document.querySelector('#benefitForm'),
                     formInputFields = document.querySelectorAll('#benefitForm input, #benefitForm select'),
-                    programInfo = document.querySelector('.programInfo');
-                resetFiltersButton = document.getElementById('resetFiltersButton');
+                    benefactorInfo = document.querySelector('.benefitInfo');
+                    resetFiltersButton = document.getElementById('resetFiltersButton');
 
-                let originalData = localStorage.getItem('benefits') ? JSON.parse(localStorage.getItem('benefits')) : [];
+                // Retrieve data from local storage or initialize empty array
+                let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
                 let getData = [...originalData];
 
                 let isEdit = false,
                     editId;
 
                 newMemberAddBtn.addEventListener('click', () => {
+                    // Show form for adding new benefactor
                     isEdit = false;
                     submitBenefitBtn.innerHTML = "Submit";
                     modalTitle.innerHTML = "Fill the Form";
@@ -200,7 +202,9 @@
                     popupForm.classList.add('active');
                 });
 
-                crossBtn.addEventListener('click', () => {
+
+                 crossBtn.addEventListener('click', () => {
+                    // Hide form and reset inputs
                     darkBg.classList.remove('active');
                     popupForm.classList.remove('active');
                     form.reset();
@@ -208,44 +212,48 @@
                     formInputFields.forEach(input => input.disabled = false);
                 });
 
-                /*
-                form.addEventListener('submit', (e) => {
+                
+               form.addEventListener('submit', (e) => {
                     e.preventDefault();
-                    const program = {
+                    const now = new Date();
+                    const benefit = {
                         id: Date.now(),
-                        firstName: form.firstName.value,
-                        lastName: form.lastName.value,
-                        dob: form.dob.value,
-                        gender: form.gender.value,
-                        contactNo: form.contactNo.value,
-                        barangay: form.barangay.value,
-                        disabilityType: form.disabilityType.value,
-                        comorbidities: form.comorbidities.value,
-                        pwdIdCardNo: form.pwdIdCardNo.value
+                        benefitName: form.benefitName.value,
+                        benefitDesc: form.benefitDesc.value,
+                        quantity: form.quantity.value,
+                        dateReceived: form.dateReceived.value,
+                        benefactor: form.benefactor.value
                     };
 
                     if (!isEdit) {
-                        originalData.push(program);
+                        originalData.push(benefit);
                     } else {
-                        originalData[editId] = program;
+                        originalData[editId] = benefit;
                     }
+
+                    $.post("/benefits/create", benefit, (data, status, xhr) => {
+                        if (status === "success" && xhr.status === 201) {
+                            alert("Benefit \"" + benefit.benefitName + "\" has been created.");
+                        }
+                    });
+
                     localStorage.setItem('programs', JSON.stringify(originalData));
                     getData = [...originalData];
-                    showInfo();
+                    //showInfo();
                     darkBg.classList.remove('active');
                     popupForm.classList.remove('active');
                     form.reset();
-                });
-                */
+                }); 
+                
 
-                function showInfo() {
+                 function showInfo() {
                     displayRows(getData, currentPage);
                     displayPagination(getData.length);
                     addEventListeners();
                 }
 
                 let currentPage = 1;
-                const rowsPerPage = 10;
+                const rowsPerPage = 5;
 
                 function displayPagination(totalRows) {
                     const pagination = document.querySelector('.pagination');
@@ -256,21 +264,24 @@
                             <a class="page-link" href="#" aria-label="Previous" id="prevButton">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
-                        </li>`;
+                        </li>
+                        `;
 
                     for (let i = 1; i <= totalPages; i++) {
                         pagination.innerHTML += `
-                            <li class="page-item ${currentPage === i ? 'active' : ''}">
-                                <a class="page-link paginationButton" href="#">${i}</a>
-                            </li>`;
+                        <li class="page-item ${currentPage === i ? 'active' : ''}">
+                            <a class="page-link paginationButton" href="#">${i}</a>
+                        </li>
+                        `;
                     }
 
                     pagination.innerHTML += `
-                        <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-                            <a class="page-link" href="#" aria-label="Next" id="nextButton">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>`;
+                    <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                        <a class="page-link" href="#" aria-label="Next" id="nextButton">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    `;
 
                     document.getElementById("prevButton").addEventListener("click", prevPage);
                     document.getElementById("nextButton").addEventListener("click", nextPage);
@@ -284,41 +295,32 @@
                     }
                 }
 
-                /* Disabled displayRows function using a comment to make the table display work.
                 function displayRows(rows, page = 1) {
                     const start = (page - 1) * rowsPerPage;
                     const end = start + rowsPerPage;
                     const paginatedRows = rows.slice(start, end);
-                    programInfo.innerHTML = '';
-
-                    paginatedRows.forEach((program, index) => {
+                    const benefactorInfo = document.querySelector('.benefactorInfo');
+                    benefactorInfo.innerHTML = '';
+                    paginatedRows.forEach((benefactor, index) => {
                         const row = `
-                            <tr>
-                                <td>${start + index + 1}</td>
-                                <td>${program.firstName}</td>
-                                <td>${program.lastName}</td>
-                                <td>${program.dob}</td>
-                                <td>${program.gender}</td>
-                                <td>${program.contactNo}</td>
-                                <td>${program.barangay}</td>
-                                <td>${capitalizeFirstLetter(program.disabilityType)}</td>
-                                <td>${capitalizeFirstLetter(program.comorbidities)}</td>
-                                <td>${program.pwdIdCardNo}</td>
-                                <td>
-                                    <button class="viewBtn" data-id="${program.id}"><i class="bi bi-eye"></i></button>
-                                    <button class="editBtn" data-id="${program.id}"><i class="bi bi-pencil"></i></button>
-                                    <button class="deleteBtn" data-id="${program.id}"><i class="bi bi-trash"></i></button>
-                                </td>
-                            </tr>
-                        `;
-                        programInfo.innerHTML += row;
-                    });
+                <tr>
+                    <td>${start + index + 1}</td>
+                    <td>${benefactor.benefactorName}</td>
+                    <td>${benefactor.benefactorType}</td>
+                    <td>
+                        <button class="viewBtn" data-id="${benefactor.id}"><i class="bi bi-eye"></i></button>
+                        <button class="editBtn" data-id="${benefactor.id}"><i class="bi bi-pencil"></i></button>
+                        <button class="deleteBtn" data-id="${benefactor.id}"><i class="bi bi-trash"></i></button>
+                    </td>
+                </tr>
+                `;
+                    benefactorInfo.innerHTML += row;
+                });
 
                     function capitalizeFirstLetter(string) {
                         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
                     }
                 }
-                */
 
                 function addEventListeners() {
                     document.querySelectorAll('.viewBtn').forEach(button => {
@@ -328,20 +330,24 @@
                         });
                     });
 
-                    document.querySelectorAll('.editBtn').forEach(button => {
+                    document.querySelectorAll('.viewBtn').forEach(button => {
                         button.addEventListener('click', (e) => {
                             const id = parseInt(e.currentTarget.getAttribute('data-id'));
+                            readInfo(id);
+                        });
+                    });
+                    document.querySelectorAll('.editBtn').forEach(button => {
+                        button.addEventListener('click', (e) => {
+                            const id = e.currentTarget.getAttribute('data-id');
                             editInfo(id);
                         });
                     });
-
                     document.querySelectorAll('.deleteBtn').forEach(button => {
                         button.addEventListener('click', (e) => {
-                            const id = parseInt(e.currentTarget.getAttribute('data-id'));
-                            deleteInfo(id);
+                            const id = e.currentTarget.getAttribute('data-id');
+                            deleteInfo(id, e);
                         });
                     });
-
                     // Event listeners for sorting and filtering
                     document.querySelectorAll('input[name="nameSort"]').forEach(radio => {
                         radio.addEventListener('change', () => {
@@ -350,7 +356,6 @@
                             displayPagination(getData.length);
                         });
                     });
-
                     document.querySelectorAll('input[name="typeFilter"], input[name="frequencyFilter"], input[name="assistanceFilter"]').forEach(checkbox => {
                         checkbox.addEventListener('change', () => {
                             filterData();
@@ -358,23 +363,10 @@
                             displayPagination(getData.length);
                         });
                     });
-
-                    document.querySelectorAll('input[name="dobSort"]').forEach((element) => {
-                        element.addEventListener('change', sortDOB);
-                    });
-
-
-                    document.querySelectorAll('input[name="genderFilter"]').forEach((element) => {
-                        element.addEventListener('change', filterGender);
-                    });
-
-                    document.querySelectorAll('input[name="barangayFilter"]').forEach((checkbox) => {
-                        checkbox.addEventListener('change', filterBarangay);
-                    });
-
                 }
 
-                function prevPage() {
+                function prevPage(event) {
+                    event.preventDefault();
                     if (currentPage > 1) {
                         currentPage--;
                         displayRows(getData, currentPage);
@@ -382,7 +374,8 @@
                     }
                 }
 
-                function nextPage() {
+                function nextPage(event) {
+                    event.preventDefault();
                     const totalPages = Math.ceil(getData.length / rowsPerPage);
                     if (currentPage < totalPages) {
                         currentPage++;
@@ -398,16 +391,13 @@
                 }
 
                 function readInfo(id) {
-                    const benefit = getData.find(item => item.id === id);
-                    if (benefit) {
-                        form.benefitName.value = benefit.benefitName;
-                        form.benefitDesc.value = benefit.benefitDesc;
-                        form.quantity.value = benefit.quantity;
-                        form.dateReceived.value = benefit.dateReceived;
-                        form.benefactor.value = benefit.benefactor;
-                        modalTitle.innerHTML = "View Benefit";
+                    const benefactor = getData.find(item => item.id === id);
+                    if (benefactor) {
+                        form.benefactorName.value = benefactor.benefactorName;
+                        form.benefactorType.value = benefactor.benefactorType;
+                        modalTitle.innerHTML = "View Benefactor";
                         formInputFields.forEach(input => input.disabled = true);
-                        submitBenefitBtn.style.display = "none";
+                        submitBtn.style.display = "none";
                         darkBg.classList.add('active');
                         popupForm.classList.add('active');
                     }
@@ -416,139 +406,88 @@
                 function editInfo(id) {
                     isEdit = true;
                     editId = getData.findIndex(item => item.id === id);
-                    const benefit = getData[editId];
-                    if (benefit) {
-                        form.benefitName.value = benefit.benefitName;
-                        form.benefitDesc.value = benefit.benefitDesc;
-                        form.quantity.value = benefit.quantity;
-                        form.dateReceived.value = benefit.dateReceived;
-                        form.benefactor.value = benefit.benefactor;
-                        modalTitle.innerHTML = "Edit Benefit";
+                    const benefactor = getData[editId];
+                    if (benefactor) {
+                        form.benefactorName.value = benefactor.benefactorName;
+                        form.benefactorType.value = benefactor.benefactorType;
+                        modalTitle.innerHTML = "Edit Benefactor";
                         formInputFields.forEach(input => input.disabled = false);
-                        submitBenefitBtn.style.display = "block";
-                        submitBenefitBtn.innerHTML = "Update";
+                        submitBtn.style.display = "block";
+                        submitBtn.innerHTML = "Update";
                         darkBg.classList.add('active');
                         popupForm.classList.add('active');
                     }
                 }
 
-                function deleteInfo(id) {
+                function deleteInfo(id, e) {
                     if (confirm("Are you sure you want to delete this benefit?")) {
                         console.log(id);
+                        // Remove item from localStorage
                         originalData = originalData.filter(item => item.id !== id);
-                        localStorage.setItem('programs', JSON.stringify(originalData));
-                        getData = [...originalData];
-                        //showInfo();
-                        let index = e.currentTarget.closest("tr").querySelector("td:first-child").textContent;
-                        $.post(`/benefits/delete`, {benefit_id: id}, (data, status, xhr) => {
+                        localStorage.setItem('benefactors', JSON.stringify(originalData));
+                        
+                        // Make a copy of originalData if needed
+                        let getData = [...originalData];
+                        
+                        // Handle deletion via AJAX request
+                        $.post(`/benefits/delete`, {benefit_id: id})
+                        .done((data, status, xhr) => {
+                            // Check if deletion was successful
                             if (status === "success" && xhr.status === 200) {
-                                alert("Benefit with number " + index + " has been deleted");
-                            } else {
-                                alert("Error: Benefit with number " + index + " cannot be deleted");
-                            }
-                            location.reload();
-                        });
-                        e.currentTarget.closest("tr").remove();
-                    }
-                }
+                                // Display success message
+                                let index = e?.currentTarget?.closest("tr")?.querySelector("td:first-child")?.textContent;
+                                if (index) {
+                                    alert("Benefit with ID " + index + " has been deleted");
+                                    }
+                                    // Reload the page after deletion
+                                    location.reload();
+                                    } else {
+                                        // Handle deletion failure
+                                        alert("Failed to delete benefit. Please try again.");
+                                        }
+                                        })
+                                        .fail((xhr, status, error) => {
+                                            // Handle AJAX request failure
+                                            alert("Error deleting benefit. Please try again later.");
+                                            console.error(error);
+                                             });
+                                             // Remove the table row from the UI
+                                             if (e?.currentTarget) {
+                                                 e.currentTarget.closest("tr").remove();
+                                                 }
+                                                 }
+                                                 }
 
                 function sortData() {
-                    const selectedSortElement = document.querySelector('input[name="nameSort"]:checked');
-                    const selectedSort = selectedSortElement.value;
-                    const criterion = selectedSortElement.getAttribute('data-criterion');
-
+                    const selectedSort = document.querySelector('input[name="nameSort"]:checked').value;
                     getData.sort((a, b) => {
                         if (selectedSort === 'az') {
-                            return a[criterion].localeCompare(b[criterion]);
+                            return a.benefitName.localeCompare(b.benefitName);
                         } else {
-                            return b[criterion].localeCompare(a[criterion]);
+                            return b.benefitName.localeCompare(a.benefitName);
                         }
                     });
                     showInfo();
                 }
 
-                function sortDOB() {
-                    const selectedSort = document.querySelector('input[name="dobSort"]:checked').value;
-                    getData.sort((a, b) => {
-                        const dateA = new Date(a.dob);
-                        const dateB = new Date(b.dob);
-                        if (selectedSort === 'asc') {
-                            return dateA - dateB;
-                        } else {
-                            return dateB - dateA;
-                        }
-                    });
-                    showInfo();
-                }
 
-                function filterGender() {
-                    const selectedGender = document.querySelector('input[name="genderFilter"]:checked').value;
-
-                    if (selectedGender === 'all') {
-                        getData = [...originalData]; // Reset to original data
-                    } else {
-                        getData = originalData.filter(item => item.gender.toLowerCase() === selectedGender);
-                    }
-
-                    showInfo();
-                }
-
-                function filterBarangay() {
-                    let filteredData = [...originalData];
-                    const selectedBarangays = Array.from(document.querySelectorAll('input[name="barangayFilter"]:checked')).map(check => check.value);
-
-                    if (selectedBarangays.length === 0) {
-                        filteredData = [...originalData];
-                    } else {
-                        filteredData = filteredData.filter(program => selectedBarangays.includes(program.barangay));
-                    }
-
-                    getData = [...filteredData];
-                    showInfo();
-                }
-
-
-                function filterData() {
-                    let filteredData = [...originalData];
-
-                    const selectedTypes = Array.from(document.querySelectorAll('input[name="typeFilter"]:checked')).map(check => check.value);
-                    if (selectedTypes.length > 0) {
-                        filteredData = filteredData.filter(program => selectedTypes.includes(program.programType));
-                    }
-
-                    const selectedFrequencies = Array.from(document.querySelectorAll('input[name="frequencyFilter"]:checked')).map(check => check.value);
-                    if (selectedFrequencies.length > 0) {
-                        filteredData = filteredData.filter(program => selectedFrequencies.includes(program.frequency));
-                    }
-
-                    const selectedAssistances = Array.from(document.querySelectorAll('input[name="assistanceFilter"]:checked')).map(check => check.value);
-                    if (selectedAssistances.length > 0) {
-                        filteredData = filteredData.filter(program => selectedAssistances.includes(program.assistanceType));
-                    }
-
-                    getData = filteredData;
-                    showInfo();
-                }
-
-                resetFiltersButton.addEventListener('click', () => {
+                 resetFiltersButton.addEventListener('click', () => {
                     document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
                         input.checked = false;
                     });
-
                     getData = [...originalData];
                     showInfo();
                 });
 
-                displayRows(getData, currentPage);
+                //displayRows(getData, currentPage);
                 displayPagination(getData.length);
                 addEventListeners();
             });
 
-            /* Exporting to CSV function */
+             /* Exporting to CSV function */
             function downloadCSV(csv, filename) {
                 let csvFile;
                 let downloadLink;
-
                 csvFile = new Blob([csv], {
                     type: 'text/csv'
                 });
@@ -575,72 +514,7 @@
                 }
                 downloadCSV(csv.join('\n'), filename);
             }
-
-            /**Contact Number**/
-            document.addEventListener('DOMContentLoaded', function() {
-                var contactNoInput = document.getElementById('contactNo');
-
-                contactNoInput.addEventListener('focus', function() {
-                    if (!contactNoInput.value.startsWith('+63')) {
-                        contactNoInput.value = '+63 ';
-                    }
-                });
-
-                contactNoInput.addEventListener('input', function() {
-                    if (!contactNoInput.value.startsWith('+63')) {
-                        contactNoInput.value = '+63 ' + contactNoInput.value.replace(/^\+63\s*/, '');
-                    }
-                    if (contactNoInput.value.length > 14) {
-                        contactNoInput.value = contactNoInput.value.slice(0, 14);
-                    }
-                });
-            });
-
-            /*Barangay Dropdown*/
-            document.addEventListener('DOMContentLoaded', function() {
-                const barangays = [
-                    "ALMANZA UNO",
-                    "B. F. INTERNATIONAL/CAA",
-                    "DANIEL FAJARDO",
-                    "ILAYA",
-                    "MANUYO UNO",
-                    "MANUYO DOS",
-                    "PAMPLONA UNO",
-                    "PAMPLONA DOS",
-                    "PAMPLONA TRES",
-                    "PILAR",
-                    "PULANGLUPA UNO",
-                    "PULANGLUPA DOS",
-                    "TALON UNO",
-                    "TALON DOS",
-                    "TALON TRES",
-                    "TALON KUATRO",
-                    "TALON SINGKO"
-                ];
-
-                const barangaySelect = document.getElementById('barangay');
-                const barangayDropdownMenu = document.getElementById('barangayDropdownMenu');
-
-                barangays.forEach((barangay, index) => {
-                    const option = document.createElement('option');
-                    option.value = barangay;
-                    option.textContent = barangay;
-                    barangaySelect.appendChild(option);
-
-                    // Populate checkbox list
-                    const listItem = document.createElement('li');
-                    listItem.innerHTML = `
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="${barangay}" id="barangayCheck${index}" name="barangayFilter">
-                            <label class="form-check-label" for="barangayCheck${index}">
-                                ${barangay}
-                            </label>
-                        </div>
-                    `;
-                    barangayDropdownMenu.appendChild(listItem);
-                });
-            });
-        </script>
+</script>
 </body>
 
 </html>
