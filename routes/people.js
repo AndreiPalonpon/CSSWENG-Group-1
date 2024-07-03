@@ -68,5 +68,15 @@ router.post('/create', asyncHandler(async (req, res, next) => {
     console.log("New people instance saved.");
 }));
 
+//GET request to list all people.
+router.get('/', asyncHandler(async (req, res, next) => {
+    const people = await Person.find()
+                                .sort({ first_name: 1, last_name: 1 })
+                                .exec();
+
+    //res.send(allPrograms);
+    //console.log(programs);
+    res.render("people-list", { people: people });
+}));
 
 module.exports = router;
