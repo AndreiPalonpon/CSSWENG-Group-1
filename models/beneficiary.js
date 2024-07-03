@@ -15,12 +15,12 @@ const BeneficiarySchema = new Schema({
     status: {
         type: String,
         required: true,
-        enum: ["", "", "", "",],
+        enum: ["Active", "Suspended", "Terminated",], //Not final.
     },
     benefit_delivered: {
         type: Schema.Types.ObjectId, 
         ref: "Benefit",
-        required: true,
+        required: false,
     },
     date_received: { type: Date, required: true },
 });
