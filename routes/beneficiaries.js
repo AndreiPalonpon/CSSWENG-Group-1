@@ -7,12 +7,6 @@ const Person = require("../models/person");
 const Benefit = require("../models/benefit");
 const Beneficiary = require("../models/beneficiary");
 
-
-//GET request for creating beneficiary.
-router.get('/create', asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Beneficiary create GET");
-}));
-
 //POST request for creating beneficiary.
 router.post('/create', asyncHandler(async (req, res, next) => {
     const { 
@@ -40,25 +34,17 @@ router.post('/create', asyncHandler(async (req, res, next) => {
     res.sendStatus(201);
 }));
 
-
-//GET request for editing beneficiary.
-router.get('/:id/edit', asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Beneficiary edit GET");
-}));
-
 //POST request for editing beneficiary.
 router.post('/:id/edit', asyncHandler(async (req, res, next) => {
     res.send("NOT IMPLEMENTED: Beneficiary edit POST");
 }));
 
-//GET request for deleting beneficiary. 
-router.get('/:id/delete', asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Beneficiary delete GET");
-}));
-
 //POST request for deleting beneficiary. 
-router.post('/:id/delete', asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Beneficiary delete POST");
+router.post('/delete', asyncHandler(async (req, res, next) => {
+    console.log(req.body.beneficiary_id);
+    await Beneficiary.deleteOne({_id: req.body.beneficiary_id});
+    console.log("Benefit ID " + req.body.beneficiary_id + " has been deleted.");
+    res.sendStatus(200);
 }));
 
 //GET request to list all beneficiaries.
