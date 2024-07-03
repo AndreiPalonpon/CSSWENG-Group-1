@@ -1,6 +1,29 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+const barangayCodes = {
+        "001": "Almanza Uno",
+        "002": "Daniel Fajardo",
+        "003": "Elias Aldana",
+        "004": "Ilaya",
+        "005": "Manuyo Uno",
+        "006": "Pamplona Uno",
+        "007": "Pulanglupa Uno",
+        "008": "Talon Uno",
+        "009": "Zapote",
+        "010": "Almanza Dos",
+        "011": "BF International/CAA",
+        "012": "Manuyo Dos",
+        "013": "Pamplona Dos",
+        "014": "Pamplona Tres",
+        "015": "Pilar",
+        "016": "Pulanglupa Dos",
+        "017": "Talon Dos",
+        "018": "Talon Tres",
+        "019": "Talos Kuartro",
+        "020": "Talon Singko"
+    };
+
 const PersonSchema = new Schema({
     first_name: { type: String, required: true},
     last_name: { type: String, required: true},
@@ -11,7 +34,11 @@ const PersonSchema = new Schema({
     },
     birthdate: { type: Date, required: true },
     address: { type: String, required: true },
-    barangay: { type: String, required: true },
+    barangay: { 
+        type: String, 
+        required: true,
+        enum: Object.values(barangayCodes),
+    },
     contact_number: { type: String, required: true },
     disability_type: {
         type: String,
@@ -49,6 +76,12 @@ PersonSchema.virtual("pwd_id_expired").get(function () {
     const lenYears = lenMilliSecs / (1000 * 60 * 60 * 24 * 365.25)
 
     return (lenYears >= 3.0) ? true : false;
+});
+
+PersonSchema.virtual("code_matched").get(function () {
+    const code = this.pwd_card_id_no.slice(0, 3);
+    return (barangayCodes[code] === this.barangay) ?
+            true : false;
 });
 
 module.exports = mongoose.model("Person", PersonSchema, 'people');
