@@ -63,23 +63,44 @@
             <form id="beneficiaryForm" action="/beneficiaries/create" method="POST">
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="personRegistered">Recipient</label>
-                        <input type="text" class="form-control" id="personRegistered" name="personRegistered" placeholder="Name" required>
+                        <label for="personRegistered">Person Registered</label>
+                        <select class="form-control" id="personRegistered" name="personRegistered" required>
+                            <option value="" selected disabled>Choose...</option>
+                            {{#each people}}
+                            <option value="{{this._id}}">{{this.name}}</option>
+                            {{/each}}
+                        </select>
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="programEnrolled">Program Enrolled</label>
-                        <input type="text" class="form-control" id="programEnrolled" name="programEnrolled" placeholder="Program" required>
+                        <select class="form-control" id="programEnrolled" name="programEnrolled" required>
+                            <option value="" selected disabled>Choose...</option>
+                            {{#each programs}}
+                            <option value="{{this._id}}">{{this.name}}</option>
+                            {{/each}}
+                        </select>
                     </div>
 
                      <div class="form-group col-md-6">
-                        <label for="stat">Status</label>
-                        <input type="text" class="form-control" id="stat" name="stat" placeholder="Status" required>
+                        <label for="status">Status</label>
+                        <select class="form-control" id="status" name="status" required>
+                            <option value="" selected disabled>Choose...</option>
+                            <!-- Not final. The options can be changed. -->
+                            <option value="Active">Active</option>
+                            <option value="Suspended">Suspended</option>
+                            <option value="Terminated">Terminated</option>
+                        </select>
                     </div>
 
                     <div class="form-group col-md-6">
-                        <label for="benefitDelivered">Benefit</label>
-                        <input type="text" class="form-control" id="benefitDelivered" name="benefitDelivered" placeholder="benefit" required>
+                        <label for="benefitDelivered">Benefit Delivered</label>
+                        <select class="form-control" id="benefitDelivered" name="benefitDelivered" required>
+                            <option value="" selected disabled>Choose...</option>
+                            {{#each benefits}}
+                            <option value="{{this._id}}">{{this.name}}</option>
+                            {{/each}}
+                        </select>
                     </div>
 
                     <div class="form-group col-md-6">
@@ -110,6 +131,7 @@
                             <th scope="col">Program Enrolled</th>
                             <th scope="col">Status</th>
                             <th scope="col">Benefit</th>
+                            <th scope="col">Date Received</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -118,11 +140,11 @@
                         {{#each beneficiaries}}
                         <tr>
                             <th scope="row">{{incremented @index}}</th>
-                            <td>{{this.person_registered}}</td>
-                            <td>{{this.program_enrolled}}</td>
+                            <td>{{this.person_registered.name}}</td>
+                            <td>{{this.program_enrolled.name}}</td>
                             <td>{{this.status}}</td>
-                            <td>{{this.benefit_delivered}}</td>
-                            <td>{{this.date_received}}</td>
+                            <td>{{this.benefit_delivered.name}}</td>
+                            <td>{{formatDate this.date_received}}</td>
                             <td>
                                 <button class="viewBtn" data-id="{{this.id}}"><i class="bi bi-eye"></i></button>
                                 <button class="editBtn" data-id="{{this.id}}"><i class="bi bi-pencil"></i></button>
@@ -232,7 +254,7 @@
                 */
 
                 function showInfo() {
-                    displayRows(getData, currentPage);
+                    //displayRows(getData, currentPage);
                     displayPagination(getData.length);
                     addEventListeners();
                 }
@@ -339,7 +361,7 @@
                     document.querySelectorAll('input[name="nameSort"]').forEach(radio => {
                         radio.addEventListener('change', () => {
                             sortData();
-                            displayRows(getData, currentPage);
+                            //displayRows(getData, currentPage);
                             displayPagination(getData.length);
                         });
                     });
@@ -347,7 +369,7 @@
                     document.querySelectorAll('input[name="typeFilter"], input[name="frequencyFilter"], input[name="assistanceFilter"]').forEach(checkbox => {
                         checkbox.addEventListener('change', () => {
                             filterData();
-                            displayRows(getData, currentPage);
+                            //displayRows(getData, currentPage);
                             displayPagination(getData.length);
                         });
                     });
@@ -370,7 +392,7 @@
                 function prevPage() {
                     if (currentPage > 1) {
                         currentPage--;
-                        displayRows(getData, currentPage);
+                        //displayRows(getData, currentPage);
                         displayPagination(getData.length);
                     }
                 }
@@ -379,14 +401,14 @@
                     const totalPages = Math.ceil(getData.length / rowsPerPage);
                     if (currentPage < totalPages) {
                         currentPage++;
-                        displayRows(getData, currentPage);
+                        //displayRows(getData, currentPage);
                         displayPagination(getData.length);
                     }
                 }
 
                 function goToPage(page) {
                     currentPage = page;
-                    displayRows(getData, currentPage);
+                    //displayRows(getData, currentPage);
                     displayPagination(getData.length);
                 }
 
@@ -529,7 +551,7 @@
                     showInfo();
                 });
 
-                displayRows(getData, currentPage);
+                //displayRows(getData, currentPage);
                 displayPagination(getData.length);
                 addEventListeners();
             });

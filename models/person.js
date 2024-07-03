@@ -28,12 +28,7 @@ const PersonSchema = new Schema({
 
 //Virtual method for a person's full name.
 PersonSchema.virtual("name").get(function () {
-    let fullName = "";
-    if (this.first_name && this.last_name) {
-      fullname = `${this.last_name}, ${this.first_name}`;
-    }
-  
-    return fullName;
+    return `${this.last_name}, ${this.first_name}`;
 });
 
 //Virtual method for a person's age.
