@@ -61,7 +61,7 @@
                 <h2 class="modalTitle">Fill the Form</h2>
                 <span class="closeBtn">&times;</span>
             </header>
-              <form id="benefitForm" action="/benefits/create" method="POST">
+              <form id="benefitForm" action="/benefits/create" method="POST" onsubmit="setTimeout(function(){window.location.reload();},100);">
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="benefitName">Benefit Name</label>
@@ -93,7 +93,7 @@
                         </select>
                     </div>
                 </div>
-                <input type="submit" class="submitBenefitBtn" value="Submit">
+                <input type="submit" class="submitBtn" value="Submit">
             </form>
         </div>
 
@@ -176,7 +176,7 @@
                     darkBg = document.querySelector('.dark_bg'),
                     popupForm = document.querySelector('.popup'),
                     crossBtn = document.querySelector('.closeBtn'),
-                    submitBenefitBtn = document.querySelector('.submitBenefitBtn'),
+                    submitBtn = document.querySelector('.submitBtn'),
                     modalTitle = document.querySelector('.modalTitle'),
                     form = document.querySelector('#benefitForm'),
                     formInputFields = document.querySelectorAll('#benefitForm input, #benefitForm select'),
@@ -193,11 +193,11 @@
                 newMemberAddBtn.addEventListener('click', () => {
                     // Show form for adding new benefactor
                     isEdit = false;
-                    submitBenefitBtn.innerHTML = "Submit";
+                    submitBtn.innerHTML = "Submit";
                     modalTitle.innerHTML = "Fill the Form";
                     form.reset();
                     formInputFields.forEach(input => input.disabled = false);
-                    submitBenefitBtn.style.display = "block";
+                    submitBtn.style.display = "block";
                     darkBg.classList.add('active');
                     popupForm.classList.add('active');
                 });
@@ -208,7 +208,7 @@
                     darkBg.classList.remove('active');
                     popupForm.classList.remove('active');
                     form.reset();
-                    submitBenefitBtn.style.display = "block";
+                    submitBtn.style.display = "block";
                     formInputFields.forEach(input => input.disabled = false);
                 });
 
@@ -233,7 +233,7 @@
 
                     $.post("/benefits/create", benefit, (data, status, xhr) => {
                         if (status === "success" && xhr.status === 201) {
-                            alert("Benefit \"" + benefit.benefitName + "\" has been created.");
+                            alert("Benefits \"" + benefit.benefitName + "\" has been created.");
                         }
                     });
 
