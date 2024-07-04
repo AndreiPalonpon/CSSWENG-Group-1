@@ -92,7 +92,9 @@
                         <label for="barangay">Barangay</label>
                         <select id="barangay" name="barangay" class="form-control" required>
                             <option value="" selected disabled>Choose...</option>
-                            ${Object.entries(barangayCodes).map(([code, name]) => <option value="${name}">${name}</option>).join('')}
+                            {{#each barangayCodes}}
+                                <option value="{{this}}">{{this}}</option>
+                            {{/each}}
                         </select>
                     </div>
                     <div class="form-group col-md-6">
