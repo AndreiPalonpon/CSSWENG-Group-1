@@ -79,7 +79,6 @@
                             <option value="" selected disabled>Choose...</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
-                            <option value="Other">Other</option>
                         </select>
                     </div>
                     <div class="form-group col-md-6">
@@ -214,80 +213,41 @@
                                                 </label>
                                             </div>
                                         </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Other" id="otherCheck" name="genderFilter">
-                                                <label class="form-check-label" for="otherCheck">
-                                                    Other
-                                                </label>
-                                            </div>
-                                        </li>
                                     </ul>
                                 </div>
                             </th>
                             <th scope="col">
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="genderDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="dropdown-toggle" id="birthdateDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                         Birthdate
                                     </a>
-                                    <ul class="dropdown-menu" aria-labelledby="genderDropdown">
+                                    <ul class="dropdown-menu" aria-labelledby="birthdateDropdown">
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Male" id="maleCheck" name="genderFilter">
-                                                <label class="form-check-label" for="maleCheck">
-                                                    Male
+                                                <input class="form-check-input" type="radio" name="birthdateSort" value="newest" id="birthdateSortNewest">
+                                                <label class="form-check-label" for="birthdateSortNewest">
+                                                    Newest
                                                 </label>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Female" id="femaleCheck" name="genderFilter">
-                                                <label class="form-check-label" for="femaleCheck">
-                                                    Female
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Other" id="otherCheck" name="genderFilter">
-                                                <label class="form-check-label" for="otherCheck">
-                                                    Other
+                                                <input class="form-check-input" type="radio" name="birthdateSort" value="oldest" id="birthdateSortOldest">
+                                                <label class="form-check-label" for="birthdateSortOldest">
+                                                    Oldest
                                                 </label>
                                             </div>
                                         </li>
                                     </ul>
                                 </div>
                             </th>
-                            <th scope="col">
+                                                        <th scope="col">
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="genderDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="dropdown-toggle" id="addressDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                         Address
                                     </a>
-                                    <ul class="dropdown-menu" aria-labelledby="genderDropdown">
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Male" id="maleCheck" name="genderFilter">
-                                                <label class="form-check-label" for="maleCheck">
-                                                    Male
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Female" id="femaleCheck" name="genderFilter">
-                                                <label class="form-check-label" for="femaleCheck">
-                                                    Female
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Other" id="otherCheck" name="genderFilter">
-                                                <label class="form-check-label" for="otherCheck">
-                                                    Other
-                                                </label>
-                                            </div>
-                                        </li>
+                                    <ul class="dropdown-menu" aria-labelledby="addressDropdown">
+                                        <!-- Add address filtering options if needed -->
                                     </ul>
                                 </div>
                             </th>
@@ -311,28 +271,13 @@
                                 </div>
                             </th>
 
-                            <th scope="col">
+                                <th scope="col">
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="firstNameDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="dropdown-toggle" id="contactNumberDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                         Contact Number
                                     </a>
-                                    <ul class="dropdown-menu" aria-labelledby="firstNameDropdown">
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="firstNameSort" value="az" id="firstNameSortAZ">
-                                                <label class="form-check-label" for="firstNameSortAZ">
-                                                    A-Z
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="firstNameSort" value="za" id="firstNameSortZA">
-                                                <label class="form-check-label" for="firstNameSortZA">
-                                                    Z-A
-                                                </label>
-                                            </div>
-                                        </li>
+                                    <ul class="dropdown-menu" aria-labelledby="contactNumberDropdown">
+                                        <!-- Add contact number filtering options if needed -->
                                     </ul>
                                 </div>
                             </th>
@@ -380,76 +325,31 @@
                             </th>
                             <th scope="col">
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="firstNameDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="dropdown-toggle" id="disabilityDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                         Disability
                                     </a>
-                                    <ul class="dropdown-menu" aria-labelledby="firstNameDropdown">
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="firstNameSort" value="az" id="firstNameSortAZ">
-                                                <label class="form-check-label" for="firstNameSortAZ">
-                                                    A-Z
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="firstNameSort" value="za" id="firstNameSortZA">
-                                                <label class="form-check-label" for="firstNameSortZA">
-                                                    Z-A
-                                                </label>
-                                            </div>
-                                        </li>
+                                    <ul class="dropdown-menu" aria-labelledby="disabilityDropdown">
+                                        <!-- Add disability filtering options if needed -->
                                     </ul>
                                 </div>
                             </th>
                             <th scope="col">
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="firstNameDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="dropdown-toggle" id="pwdCardIdNoDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                         PWD Card ID No.
                                     </a>
-                                    <ul class="dropdown-menu" aria-labelledby="firstNameDropdown">
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="firstNameSort" value="az" id="firstNameSortAZ">
-                                                <label class="form-check-label" for="firstNameSortAZ">
-                                                    A-Z
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="firstNameSort" value="za" id="firstNameSortZA">
-                                                <label class="form-check-label" for="firstNameSortZA">
-                                                    Z-A
-                                                </label>
-                                            </div>
-                                        </li>
+                                    <ul class="dropdown-menu" aria-labelledby="pwdCardIdNoDropdown">
+                                        <!-- Add PWD Card ID No. filtering options if needed -->
                                     </ul>
                                 </div>
                             </th>
                             <th scope="col">
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="firstNameDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="dropdown-toggle" id="recentPwdIdUpdateDateDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                         Recent PWD ID Date
                                     </a>
-                                    <ul class="dropdown-menu" aria-labelledby="firstNameDropdown">
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="firstNameSort" value="az" id="firstNameSortAZ">
-                                                <label class="form-check-label" for="firstNameSortAZ">
-                                                    A-Z
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="firstNameSort" value="za" id="firstNameSortZA">
-                                                <label class="form-check-label" for="firstNameSortZA">
-                                                    Z-A
-                                                </label>
-                                            </div>
-                                        </li>
+                                    <ul class="dropdown-menu" aria-labelledby="recentPwdIdUpdateDateDropdown">
+                                        <!-- Add recent PWD ID date filtering options if needed -->
                                     </ul>
                                 </div>
                             </th>
