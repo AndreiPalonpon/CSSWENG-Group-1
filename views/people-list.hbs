@@ -7,7 +7,7 @@
     <title>LPPWDFI | People Lists</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="/css/program-list-style.css">
+    <link rel="stylesheet" href="../public/css/program-list-style.css">
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 </head>
 
@@ -16,7 +16,7 @@
         <div class="overlay dark_bg"></div>
         <!-- Modal Background -->
 
-         <!-- Sidebar -->
+        <!-- Sidebar -->
         <nav class="navbar navbar-inverse fixed-top" id="sidebar-wrapper" role="navigation">
             <ul class="nav sidebar-nav">
                 <div class="sidebar-header">
@@ -25,18 +25,19 @@
                         <hr class="navbar-solid">
                     </div>
                 </div>
-                <li><a href="/">Dashboard</a></li>
-                <li><a href="/programs">Programs</a></li>
-                <li><a href="/beneficiaries">Beneficiary</a></li>
-                <li><a href="/benefactors">Benefactor</a></li>
-                <li><a href="/benefits">Benefits</a></li>
+
+                <li><a href="../views/dashboard.html">Dashboard</a></li>
+                <li><a href="../views/program-list.html">Programs</a></li>
+                <li><a href="#beneficiary">Beneficiary</a></li>
+                <li><a href="#benefactor">Benefactor</a></li>
+                <li><a href="/device">Devices</a></li>
                 <li><a href="/settings">Settings</a></li>
-                <li class="logout-link"><a href="#logout"><i class="bi bi-box-arrow-right"></i>  Logout</a></li>
+                <li class="logout-link"><a href="#logout"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
             </ul>
         </nav>
         <!-- /#sidebar-wrapper -->
 
-         <!-- HEADER -->
+        <!-- HEADER -->
         <div class="bg-half-gradient">
             <header class="bg-gradient">
                 <div class="container d-flex align-items-center">
@@ -45,17 +46,16 @@
                         <img src="../images/LPPWDFI-Logo.png" alt="Logo" class="logo mr-3">
                     </a>
                     <div>
-                        <h1 class="org-name">Programs</h1>
+                        <h1 class="org-name">People</h1>
                     </div>
                 </div>
 
                 <div class="addPeopleBtn">
                     <button>Create</button>
                 </div>
-                 
+
             </header>
         </div>
-
 
         <!--MODAL FORM-->
         <div class="popup">
@@ -63,94 +63,103 @@
                 <h2 class="modalTitle">Fill the Form</h2>
                 <span class="closeBtn">&times;</span>
             </header>
-            <form id="peopleForm" action="/people/{{program._id}}/create" method="POST">
+            <form id="peopleForm" action="/people/create" method="POST">
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="Name" required>
+                        <label for="firstName">First Name</label>
+                        <input type="text" class="form-control" id="firstName" name="first_name" placeholder="First Name" required>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="dateJoined">Date Joined</label>
-                        <input type="date" id="dateJoined" class="form-control" required>
+                        <label for="lastName">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" name="last_name" placeholder="Last Name" required>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="beneficiaryStatus">Beneficiary Status</label>
-                        <select id="beneficiaryStatus" class="form-control" required>
+                        <label for="gender">Gender</label>
+                        <select id="gender" name="gender" class="form-control" required>
                             <option value="" selected disabled>Choose...</option>
-                            <option value="Active">Active</option>
-                            <option value="Dropped">Dropped</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="benefitRequested">Benefit Requested</label>
-                        <select id="benefitRequested" class="form-control" required>
+                        <label for="birthdate">Birthdate</label>
+                        <input type="date" id="birthdate" name="birthdate" class="form-control" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="address">Address</label>
+                        <input type="text" class="form-control" id="address" name="address" placeholder="Address" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="barangay">Barangay</label>
+                        <select id="barangay" name="barangay" class="form-control" required>
                             <option value="" selected disabled>Choose...</option>
-                            <option value="Educational">Educational</option>
-                            <option value="Financial">Financial</option>
-                            <option value="Medical">Medical</option>
+                            ${Object.entries(barangayCodes).map(([code, name]) => <option value="${name}">${name}</option>).join('')}
                         </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="benefitReceived">Benefit Received</label>
-                        <select id="benefitReceived" class="form-control" required>
-                            <option value="" selected disabled>Choose...</option>
-                            <option value="Educational">Educational</option>
-                            <option value="Financial">Financial</option>
-                            <option value="Medical">Medical</option>
-                        </select>
-                    </div>
-                     <div class="form-group col-md-6">
-                        <label for="dateReceived">Date Received</label>
-                        <input type="date" id="dateReceived" class="form-control" required>
+                        <label for="contactNumber">Contact Number</label>
+                        <input type="text" class="form-control" id="contactNumber" name="contact_number" placeholder="Contact Number" required>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="status">Status</label>
-                        <select id="status" class="form-control" required>
+                        <label for="disabilityType">Disability Type</label>
+                        <select id="disabilityType" name="disability_type" class="form-control" required>
                             <option value="" selected disabled>Choose...</option>
-                            <option value="Approved">Approved</option>
-                            <option value="Pending">Pending</option>
-                            <option value="Denied">Denied</option>
+                            <option value="Physical">Physical</option>
+                            <option value="Sensory">Sensory</option>
+                            <option value="Intellectual">Intellectual</option>
+                            <option value="Mental">Mental</option>
                         </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="disability">Disability</label>
+                        <input type="text" class="form-control" id="disability" name="disability" placeholder="Disability" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="pwdCardIdNo">PWD Card ID No.</label>
+                        <input class="form-control" id="pwdCardIdNo" name="pwd_card_id_no" placeholder="PWD Card ID No." required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="recentPwdIdUpdateDate">Recent PWD ID Update Date</label>
+                        <input type="date" id="recentPwdIdUpdateDate" name="recent_pwd_id_update_date" class="form-control" required>
                     </div>
                 </div>
-                <input type="submit" class="submitBtn" value="Submit">
+                <input type="submit" class="submitPeopleBtn" value="Submit">
             </form>
         </div>
-
-
         <!--2nd Header-->
         <main class="main-content">
-            <h2 class="main-title"><a href="/documentation/{{program._id}}"> {{program.name}}</a></h2>
+            <h2 class="main-title">People List</h2>
             <div class="button-group">
                 <button class="btn export-btn" onclick="exportTableToCSV('People.csv')">Export to CSV</button>
             </div>
 
             <!---TABLE LISTS-->
-            <div class="table-container">
+            <div class="people-table-container">
                 <button id="resetFiltersButton" class="btn btn-secondary">Reset Filters</button>
-                <table class="table table-bordered table-hover">
-                    <caption>List of Beneficiaries</caption>
+                <table class="people-table table-bordered table-hover">
+                    <caption>List of People</caption>
                     <thead class="thead-light">
                         <tr>
-                            <th scope="col">#</th> 
+                            <th scope="col">#</th>
                             <th scope="col">
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="nameDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Beneficiary
+                                    <a class="dropdown-toggle" id="firstNameDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        First Name
                                     </a>
-                                    <ul class="dropdown-menu" aria-labelledby="nameDropdown">
+                                    <ul class="dropdown-menu" aria-labelledby="firstNameDropdown">
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="nameSort" value="az" id="nameSortAZ">
-                                                <label class="form-check-label" for="nameSortAZ">
+                                                <input class="form-check-input" type="radio" name="firstNameSort" value="az" id="firstNameSortAZ">
+                                                <label class="form-check-label" for="firstNameSortAZ">
                                                     A-Z
                                                 </label>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="nameSort" value="za" id="nameSortZA">
-                                                <label class="form-check-label" for="nameSortZA">
+                                                <input class="form-check-input" type="radio" name="firstNameSort" value="za" id="firstNameSortZA">
+                                                <label class="form-check-label" for="firstNameSortZA">
                                                     Z-A
                                                 </label>
                                             </div>
@@ -160,81 +169,23 @@
                             </th>
                             <th scope="col">
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="dateJoinedDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Date Joined
+                                    <a class="dropdown-toggle" id="lastNameDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Last Name
                                     </a>
-                                    <ul class="dropdown-menu" aria-labelledby="dateJoinedDropdown">
+                                    <ul class="dropdown-menu" aria-labelledby="lastNameDropdown">
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="dateJoinedSort" value="new" id="dateJoinedSortNew"> 
-                                                <label class="form-check-label" for="dateJoinedSortNew">
-                                                    Latest
+                                                <input class="form-check-input" type="radio" name="lastNameSort" value="az" id="lastNameSortAZ">
+                                                <label class="form-check-label" for="lastNameSortAZ">
+                                                    A-Z
                                                 </label>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="dateJoinedSort" value="old" id="dateJoinedSortOld"> 
-                                                <label class="form-check-label" for="dateJoinedSortOld">
-                                                    Oldest
-                                                </label>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </th>
-                            <th scope="col">
-                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="beneficiaryStatusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Beneficiary Status
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="beneficiaryStatusDropdown">
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="active" id="activeCheck" name="beneficiaryStatusFilter">
-                                                <label class="form-check-label" for="activeCheck">
-                                                    Active
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="dropped" id="droppedCheck" name="beneficiaryStatusFilter">
-                                                <label class="form-check-label" for="droppedCheck">
-                                                    Dropped
-                                                </label>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                 </div>
-                            </th>
-                            <th scope="col">
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle" id="benefitRequestedDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Benefit Requested
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="benefitRequestedDropdown">
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="educational" id="educationalCheck" name="benefitRequestedFilter">
-                                                <label class="form-check-label" for="educationalCheck">
-                                                    Educational
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="financial" id="financialCheck" name="benefitRequestedFilter">
-                                                <label class="form-check-label" for="financialCheck">
-                                                    Financial
-                                                </label>
-                                            </div>
-                                        </li>
-                                         <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="medical" id="medicalCheck" name="benefitRequestedFilter">
-                                                <label class="form-check-label" for="medicalCheck">
-                                                    Medical
+                                                <input class="form-check-input" type="radio" name="lastNameSort" value="za" id="lastNameSortZA">
+                                                <label class="form-check-label" for="lastNameSortZA">
+                                                    Z-A
                                                 </label>
                                             </div>
                                         </li>
@@ -243,31 +194,31 @@
                             </th>
                             <th scope="col">
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="benefitReceivedDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Benefit Received
+                                    <a class="dropdown-toggle" id="genderDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Gender
                                     </a>
-                                    <ul class="dropdown-menu" aria-labelledby="benefitReceivedDropdown">
-                                       <li>
+                                    <ul class="dropdown-menu" aria-labelledby="genderDropdown">
+                                        <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="educational" id="educationalCheck" name="benefitReceivedFilter">
-                                                <label class="form-check-label" for="educationalCheck">
-                                                    Educational
+                                                <input class="form-check-input" type="checkbox" value="Male" id="maleCheck" name="genderFilter">
+                                                <label class="form-check-label" for="maleCheck">
+                                                    Male
                                                 </label>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="financial" id="financialCheck" name="benefitReceivedFilter">
-                                                <label class="form-check-label" for="financialCheck">
-                                                    Financial
+                                                <input class="form-check-input" type="checkbox" value="Female" id="femaleCheck" name="genderFilter">
+                                                <label class="form-check-label" for="femaleCheck">
+                                                    Female
                                                 </label>
                                             </div>
                                         </li>
-                                         <li>
+                                        <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="medical" id="medicalCheck" name="benefitReceivedFilter">
-                                                <label class="form-check-label" for="medicalCheck">
-                                                    Medical
+                                                <input class="form-check-input" type="checkbox" value="Other" id="otherCheck" name="genderFilter">
+                                                <label class="form-check-label" for="otherCheck">
+                                                    Other
                                                 </label>
                                             </div>
                                         </li>
@@ -276,23 +227,31 @@
                             </th>
                             <th scope="col">
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="dateReceivedDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Date Received
+                                    <a class="dropdown-toggle" id="genderDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Birthdate
                                     </a>
-                                    <ul class="dropdown-menu" aria-labelledby="dateReceivedDropdown">
+                                    <ul class="dropdown-menu" aria-labelledby="genderDropdown">
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="dateReceivedSort" value="new" id="dateReceivedSortNew"> 
-                                                <label class="form-check-label" for="dateReceivedSortNew">
-                                                    Latest
+                                                <input class="form-check-input" type="checkbox" value="Male" id="maleCheck" name="genderFilter">
+                                                <label class="form-check-label" for="maleCheck">
+                                                    Male
                                                 </label>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="dateReceivedSort" value="old" id="dateReceivedSortOld"> 
-                                                <label class="form-check-label" for="dateReceivedSortOld">
-                                                    Oldest
+                                                <input class="form-check-input" type="checkbox" value="Female" id="femaleCheck" name="genderFilter">
+                                                <label class="form-check-label" for="femaleCheck">
+                                                    Female
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Other" id="otherCheck" name="genderFilter">
+                                                <label class="form-check-label" for="otherCheck">
+                                                    Other
                                                 </label>
                                             </div>
                                         </li>
@@ -301,31 +260,193 @@
                             </th>
                             <th scope="col">
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                       Status
+                                    <a class="dropdown-toggle" id="genderDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Address
                                     </a>
-                                    <ul class="dropdown-menu" aria-labelledby="statusDropdown">
+                                    <ul class="dropdown-menu" aria-labelledby="genderDropdown">
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="approved" id="approvedCheck" name="statusFilter">
-                                                <label class="form-check-label" for="approvedCheck">
-                                                    Approved
+                                                <input class="form-check-input" type="checkbox" value="Male" id="maleCheck" name="genderFilter">
+                                                <label class="form-check-label" for="maleCheck">
+                                                    Male
                                                 </label>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="pending" id="pendingCheck" name="statusFilter">
-                                                <label class="form-check-label" for="pendingCheck">
-                                                    Pending
+                                                <input class="form-check-input" type="checkbox" value="Female" id="femaleCheck" name="genderFilter">
+                                                <label class="form-check-label" for="femaleCheck">
+                                                    Female
                                                 </label>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="denied" id="deniedCheck" name="statusFilter">
-                                                <label class="form-check-label" for="deniedCheck">
-                                                    Denied
+                                                <input class="form-check-input" type="checkbox" value="Other" id="otherCheck" name="genderFilter">
+                                                <label class="form-check-label" for="otherCheck">
+                                                    Other
+                                                </label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="barangayDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Barangay
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="barangayDropdown">
+                                        ${Object.entries(barangayCodes).map(([code, name]) =>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="${name}" id="${code}Check" name="barangayFilter">
+                                                <label class="form-check-label" for="${code}Check">
+                                                    ${name}
+                                                </label>
+                                            </div>
+                                        </li>
+                                        ).join('')}
+                                    </ul>
+                                </div>
+                            </th>
+
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="firstNameDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Contact Number
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="firstNameDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="firstNameSort" value="az" id="firstNameSortAZ">
+                                                <label class="form-check-label" for="firstNameSortAZ">
+                                                    A-Z
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="firstNameSort" value="za" id="firstNameSortZA">
+                                                <label class="form-check-label" for="firstNameSortZA">
+                                                    Z-A
+                                                </label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
+
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="disabilityTypeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Disability Type
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="disabilityTypeDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Physical" id="physicalCheck" name="disabilityTypeFilter">
+                                                <label class="form-check-label" for="physicalCheck">
+                                                    Physical
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Sensory" id="sensoryCheck" name="disabilityTypeFilter">
+                                                <label class="form-check-label" for="sensoryCheck">
+                                                    Sensory
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Intellectual" id="intellectualCheck" name="disabilityTypeFilter">
+                                                <label class="form-check-label" for="intellectualCheck">
+                                                    Intellectual
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Mental" id="mentalCheck" name="disabilityTypeFilter">
+                                                <label class="form-check-label" for="mentalCheck">
+                                                    Mental
+                                                </label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="firstNameDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Disability
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="firstNameDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="firstNameSort" value="az" id="firstNameSortAZ">
+                                                <label class="form-check-label" for="firstNameSortAZ">
+                                                    A-Z
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="firstNameSort" value="za" id="firstNameSortZA">
+                                                <label class="form-check-label" for="firstNameSortZA">
+                                                    Z-A
+                                                </label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="firstNameDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        PWD Card ID No.
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="firstNameDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="firstNameSort" value="az" id="firstNameSortAZ">
+                                                <label class="form-check-label" for="firstNameSortAZ">
+                                                    A-Z
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="firstNameSort" value="za" id="firstNameSortZA">
+                                                <label class="form-check-label" for="firstNameSortZA">
+                                                    Z-A
+                                                </label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="firstNameDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Recent PWD ID Date
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="firstNameDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="firstNameSort" value="az" id="firstNameSortAZ">
+                                                <label class="form-check-label" for="firstNameSortAZ">
+                                                    A-Z
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="firstNameSort" value="za" id="firstNameSortZA">
+                                                <label class="form-check-label" for="firstNameSortZA">
+                                                    Z-A
                                                 </label>
                                             </div>
                                         </li>
@@ -335,24 +456,29 @@
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="peopleInfo">
-                        <!-- People rows will be populated here -->
-                        {{#each people}}
+                    <tbody>
+                        <!-- Table rows go here -->
+                        {{#each programs}}
                         <tr>
                             <td>{{incremented @index}}</td>
-                            <td>{{this.name}}</td>
-                            <td>{{formatDate this.dateJoined}}</td>
-                            <td>{{this.beneficiaryStatus}}</td>
-                            <td>{{this.benefitRequested}}</td>
-                            <td>{{this.benefitReceived}}</td>
-                            <td>{{formatDate this.dateReceived}}</td>
-                            <td>{{this.status}}</td>
+                            <td>{{this.first_name}}</td>
+                            <td>{{this.last_name}}</td>
+                            <td>{{this.gender}}</td>
+                            <td>{{this.birthdate}}</td>
+                            <td>{{this.address}}</td>
+                            <td>{{this.barangay}}</td>
+                            <td>{{this.contact_number}}</td>
+                            <td>{{this.disability_type}}</td>
+                            <td>{{this.disability}}</td>
+                            <td>{{this.pwd_card_id_no}}</td>
+                            <td>{{this.recent_pwd_id_update_date}}</td>
                             <td>
                                 <button class="editBtn" data-id="{{this._id}}"><i class="bi bi-pencil"></i></button>
                                 <button class="deleteBtn" data-id="{{this._id}}"><i class="bi bi-trash"></i></button>
-                            </td>   
+                            </td>
                         </tr>
                         {{/each}}
+
                     </tbody>
                 </table>
             </div>
@@ -364,7 +490,7 @@
             </ul>
         </nav>
 
-         <!-- JQuery -->
+        <!-- JQuery -->
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -391,7 +517,7 @@
                     darkBg = document.querySelector('.dark_bg'),
                     popupForm = document.querySelector('.popup'),
                     crossBtn = document.querySelector('.closeBtn'),
-                    submitBtn = document.querySelector('.submitBtn'),
+                    submitPeopleBtn = document.querySelector('.submitPeopleBtn'),
                     modalTitle = document.querySelector('.modalTitle'),
                     form = document.querySelector('#peopleForm'),
                     formInputFields = document.querySelectorAll('#peopleForm input, #peopleForm select'),
@@ -406,11 +532,11 @@
 
                 newMemberAddBtn.addEventListener('click', () => {
                     isEdit = false;
-                    submitBtn.innerHTML = "Submit";
+                    submitPeopleBtn.innerHTML = "Submit";
                     modalTitle.innerHTML = "Fill the Form";
                     form.reset();
                     formInputFields.forEach(input => input.disabled = false);
-                    submitBtn.style.display = "block";
+                    submitPeopleBtn.style.display = "block";
                     darkBg.classList.add('active');
                     popupForm.classList.add('active');
                 });
@@ -419,22 +545,25 @@
                     darkBg.classList.remove('active');
                     popupForm.classList.remove('active');
                     form.reset();
-                    submitBtn.style.display = "block";
+                    submitPeopleBtn.style.display = "block";
                     formInputFields.forEach(input => input.disabled = false);
                 });
 
-                 form.addEventListener('submit', (e) => {
+                form.addEventListener('submit', (e) => {
                     e.preventDefault();
-                    const now = new Date();
                     const person = {
                         id: Date.now(),
-                        name: form.name.value,
-                        dateJoined: form.dateJoined.value,
-                        beneficiaryStatus: form.beneficiaryStatus.value,
-                        benefitRequested: form.benefitRequested.value,
-                        benefitReceived: form.benefitReceived.value,
-                        dateReceived: form.dateReceived.value,
-                        status: form.status.value
+                        first_name: form.first_name.value,
+                        last_name: form.last_name.value,
+                        gender: form.gender.value,
+                        birthdate: form.birthdate.value,
+                        address: form.address.value,
+                        barangay: form.barangay.value,
+                        contact_number: form.contact_number.value,
+                        disability_type: form.disability_type.value,
+                        disability: form.disability.value,
+                        pwd_card_id_no: form.pwd_card_id_no.value,
+                        recent_pwd_id_update_date: form.recent_pwd_id_update_date.value
                     };
 
                     if (!isEdit) {
@@ -465,28 +594,28 @@
                     const totalPages = Math.ceil(totalRows / rowsPerPage);
 
                     pagination.innerHTML = `
-                        <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-                            <a class="page-link" href="#" aria-label="Previous" id="prevButton">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        `;
+                         <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                             <a class="page-link" href="#" aria-label="Previous" id="prevButton">
+                                 <span aria-hidden="true">&laquo;</span>
+                             </a>
+                         </li>
+                         `;
 
                     for (let i = 1; i <= totalPages; i++) {
                         pagination.innerHTML += `
-                        <li class="page-item ${currentPage === i ? 'active' : ''}">
-                            <a class="page-link paginationButton" href="#">${i}</a>
-                        </li>
-                        `;
+                         <li class="page-item ${currentPage === i ? 'active' : ''}">
+                             <a class="page-link paginationButton" href="#">${i}</a>
+                         </li>
+                         `;
                     }
 
                     pagination.innerHTML += `
-                    <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-                        <a class="page-link" href="#" aria-label="Next" id="nextButton">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                    `;
+                     <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                         <a class="page-link" href="#" aria-label="Next" id="nextButton">
+                             <span aria-hidden="true">&raquo;</span>
+                         </a>
+                     </li>
+                     `;
 
                     document.getElementById("prevButton").addEventListener("click", prevPage);
                     document.getElementById("nextButton").addEventListener("click", nextPage);
@@ -508,22 +637,25 @@
                     peopleInfo.innerHTML = '';
                     paginatedRows.forEach((people, index) => {
                         const row = `
-                            <tr>
-                                <td>${start + index + 1}</td>
-                                <td>${capitalizeFirstLetter(people.name)}</td>
-                                <td>${people.dateJoined}</td>
-                                <td>${people.beneficiaryStatus}</td>
-                                <td>${people.benefitRequested}</td>
-                                <td>${people.benefitReceived}</td>
-                                <td>${people.dateReceived}</td>
-                                <td>${people.status}</td>
-                                <td>
-                                    <button class="editBtn" data-id="${people.id}"><i class="bi bi-pencil"></i></button>
-                                    <button class="deleteBtn" data-id="${people.id}"><i class="bi bi-trash"></i></button>
-                                </td>
-                                              
-                            </tr>
-                            `;
+                             <tr>
+                                 <td>${start + index + 1}</td>
+                                 <td>${capitalizeFirstLetter(people.first_name)}</td>
+                                 <td>${capitalizeFirstLetter(people.last_name)}</td>
+                                 <td>${people.gender}</td>
+                                 <td>${people.birthdate}</td>
+                                 <td>${people.address}</td>
+                                 <td>${people.barangay}</td>
+                                 <td>${people.contact_number}</td>
+                                 <td>${people.disability_type}</td>
+                                 <td>${people.disability}</td>
+                                 <td>${people.pwd_card_id_no}</td>
+                                 <td>${people.recent_pwd_id_update_date}</td>
+                                 <td>
+                                     <button class="editBtn" data-id="${people.id}"><i class="bi bi-pencil"></i></button>
+                                     <button class="deleteBtn" data-id="${people.id}"><i class="bi bi-trash"></i></button>
+                                 </td>
+                             </tr>
+                             `;
                         peopleInfo.innerHTML += row;
                     });
 
@@ -532,19 +664,16 @@
                     }
                 }
 
-
-
                 function addEventListeners() {
-
                     // Event listeners for sorting and filtering
-                    document.querySelectorAll('input[name="nameSort"], input[name="dateJoinedSort"], input[name="dateReceivedSort"]').forEach(radio => {
+                    document.querySelectorAll('input[name="firstNameSort"], input[name="lastNameSort"], input[name="birthdateSort"]').forEach(radio => {
                         radio.addEventListener('change', () => {
                             sortData();
                             displayRows(getData, currentPage);
                             displayPagination(getData.length);
                         });
                     });
-                    document.querySelectorAll('input[name="beneficiaryStatusFilter"], input[name="benefitRequestedFilter"], input[name="benefitReceivedFilter"],  input[name="statusFilter"]').forEach(checkbox => {
+                    document.querySelectorAll('input[name="genderFilter"], input[name="barangayFilter"], input[name="disabilityTypeFilter"]').forEach(checkbox => {
                         checkbox.addEventListener('change', () => {
                             filterData();
                             displayRows(getData, currentPage);
@@ -579,58 +708,58 @@
                 }
 
                 function sortData() {
-                    const selectedNameSort = document.querySelector('input[name="nameSort"]:checked') ? document.querySelector('input[name="nameSort"]:checked').value : null;
-                    const selectedDateJoinedSort = document.querySelector('input[name="dateJoinedSort"]:checked') ? document.querySelector('input[name="dateJoinedSort"]:checked').value : null;
-                    const selectedDateReceivedSort = document.querySelector('input[name="dateReceivedSort"]:checked') ? document.querySelector('input[name="dateReceivedSort"]:checked').value : null;
+                    const selectedFirstNameSort = document.querySelector('input[name="firstNameSort"]:checked') ? document.querySelector('input[name="firstNameSort"]:checked').value : null;
+                    const selectedLastNameSort = document.querySelector('input[name="lastNameSort"]:checked') ? document.querySelector('input[name="lastNameSort"]:checked').value : null;
+                    const selectedBirthdateSort = document.querySelector('input[name="birthdateSort"]:checked') ? document.querySelector('input[name="birthdateSort"]:checked').value : null;
 
                     getData.sort((a, b) => {
-                        // Sort by Name 
-                        if (selectedNameSort === 'az') {
-                            return a.name.localeCompare(b.name);
-                        } else {
-                            return b.name.localeCompare(a.name);
-                        } 
-                        
-                        //Sort by dateJoined
-                        if (selectedDateJoinedSort === 'new') {
-                            return new Date(b.dateJoined) - new Date(a.dateJoined);
-                        } else if (selectedDateJoinedSort === 'old') {
-                            return new Date(a.dateJoined) - new Date(b.dateJoined);
+                        // Sort by First Name 
+                        if (selectedFirstNameSort) {
+                            if (selectedFirstNameSort === 'az') {
+                                return a.first_name.localeCompare(b.first_name);
+                            } else {
+                                return b.first_name.localeCompare(a.first_name);
+                            }
                         }
 
-                        // Sort by dateReceived
-                        if (selectedDateReceivedSort === 'new') {
-                            return new Date(b.dateReceived) - new Date(a.dateReceived);
-                        } else if (selectedDateReceivedSort === 'old') {
-                            return new Date(a.dateReceived) - new Date(b.dateReceived);
+                        // Sort by Last Name 
+                        if (selectedLastNameSort) {
+                            if (selectedLastNameSort === 'az') {
+                                return a.last_name.localeCompare(b.last_name);
+                            } else {
+                                return b.last_name.localeCompare(a.last_name);
+                            }
                         }
-        
+
+                        // Sort by Birthdate
+                        if (selectedBirthdateSort) {
+                            if (selectedBirthdateSort === 'newest') {
+                                return new Date(b.birthdate) - new Date(a.birthdate);
+                            } else {
+                                return new Date(a.birthdate) - new Date(b.birthdate);
+                            }
+                        }
                     });
                     showInfo();
-                } 
+                }
 
                 function filterData() {
                     let filteredData = [...originalData];
-                    const selectedBeneficiaryStatus = Array.from(document.querySelectorAll('input[name="beneficiaryStatusFilter"]:checked')).map(check => check.value);
-                    if (selectedBeneficiaryStatus.length > 0) {
-                        filteredData = filteredData.filter(people => selectedBeneficiaryStatus.includes(people.beneficiaryStatus));
+                    const selectedGender = Array.from(document.querySelectorAll('input[name="genderFilter"]:checked')).map(check => check.value);
+                    if (selectedGender.length > 0) {
+                        filteredData = filteredData.filter(person => selectedGender.includes(person.gender));
                     }
 
-                    const selectedBenefitRequested= Array.from(document.querySelectorAll('input[name="benefitRequestedFilter"]:checked')).map(check => check.value);
-                    if (selectedBenefitRequested.length > 0) {
-                        filteredData = filteredData.filter(people => selectedBenefitRequested.includes(people.benefitRequested));
+                    const selectedBarangay = Array.from(document.querySelectorAll('input[name="barangayFilter"]:checked')).map(check => check.value);
+                    if (selectedBarangay.length > 0) {
+                        filteredData = filteredData.filter(person => selectedBarangay.includes(person.barangay));
                     }
 
-                    const selectedBenefitReceived = Array.from(document.querySelectorAll('input[name="benefitReceivedFilter"]:checked')).map(check => check.value);
-                    if (selectedBenefitReceived.length > 0) {
-                        filteredData = filteredData.filter(people => selectedBenefitReceived.includes(people.benefitReceived));
+                    const selectedDisabilityType = Array.from(document.querySelectorAll('input[name="disabilityTypeFilter"]:checked')).map(check => check.value);
+                    if (selectedDisabilityType.length > 0) {
+                        filteredData = filteredData.filter(person => selectedDisabilityType.includes(person.disability_type));
                     }
 
-                    const selectedStatus = Array.from(document.querySelectorAll('input[name="statusFilter"]:checked')).map(check => check.value);
-                    if (selectedStatus.length > 0) {
-                        filteredData = filteredData.filter(people => selectedStatus.includes(people.status));
-                    }
-                    
                     getData = filteredData;
                     showInfo();
                 }
@@ -678,10 +807,8 @@
                 }
                 downloadCSV(csv.join('\n'), filename);
             }
-            
         </script>
-
-
     </div>
 </body>
+
 </html>

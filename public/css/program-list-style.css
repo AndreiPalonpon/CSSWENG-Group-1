@@ -654,3 +654,55 @@ hr.vertical-solid {
 .popup .submitBenefactorBtn:hover {
     background: darkorange;
 }
+
+
+/*-------------------------------*/
+
+
+/*          People              */
+
+
+/*-------------------------------*/
+
+.people-table-container {
+    font-family: 'Telegraf', sans-serif;
+    padding: 0 20px 20px 2px;
+    margin-top: 50px;
+}
+
+.people-table {
+    font-size: 0.70rem;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    table-layout: auto;
+}
+
+.popup footer .submitPeopleBtn {
+    padding: 9px 14px;
+    color: var(--dark8);
+    font-size: 16px;
+    cursor: pointer;
+    pointer-events: auto;
+    outline: none;
+    border: 1px solid var(--dark6);
+    background: var(--dark4);
+    border-radius: 5px;
+}
+
+.popup .submitPeopleBtn {
+    padding: 9px 14px;
+    color: var(--color2);
+    font-size: 16px;
+    cursor: pointer;
+    pointer-events: auto;
+    outline: none;
+    border: 1px solid var(--dark6);
+    background: var(--color3);
+    border-radius: 5px;
+    margin-left: 750px;
+}
+
+.popup .submitPeopleBtn:hover {
+    background: darkorange;
+}
