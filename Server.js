@@ -25,6 +25,7 @@ const Documentation = require("./models/documentation");
 
 const indexRouter = require("./routes/index");
 const loginRouter = require("./routes/login")
+const forgotPasswordRouter = require("./routes/forgot-password")
 const programsRouter = require("./routes/programs");
 const beneficiaryRouter = require("./routes/beneficiaries");
 const benefactorRouter = require("./routes/benefactors");
@@ -45,6 +46,7 @@ app.use(express.static(__dirname + '/public'));
 //Setting up routers.
 app.use("/", indexRouter);
 app.use("/login", loginRouter);
+app.use("/forgot-password", forgotPasswordRouter);
 app.use("/programs", programsRouter);
 app.use("/beneficiaries", beneficiaryRouter);
 app.use("/benefactors", benefactorRouter);
