@@ -359,7 +359,7 @@
                     </thead>
                     <tbody>
                         <!-- Table rows go here -->
-                        {{#each programs}}
+                        {{#each people}}
                         <tr>
                             <td>{{incremented @index}}</td>
                             <td>{{this.first_name}}</td>
@@ -567,6 +567,12 @@
 
                 function addEventListeners() {
                     // Event listeners for sorting and filtering
+                    document.querySelectorAll('.deleteBtn').forEach(button => {
+                        button.addEventListener('click', (e) => {
+                            const id = e.currentTarget.getAttribute('data-id');
+                            deleteInfo(id, e);
+                        });
+                    });
                     document.querySelectorAll('input[name="firstNameSort"], input[name="lastNameSort"], input[name="birthdateSort"]').forEach(radio => {
                         radio.addEventListener('change', () => {
                             sortData();
