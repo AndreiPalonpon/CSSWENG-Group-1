@@ -1,6 +1,5 @@
 const createError = require('http-errors');
 const express = require("express");
-const jwt = require('jsonwebtoken')
 
 //Connecting to MongoDB.
 const mongoose = require("mongoose");
@@ -27,6 +26,7 @@ const Documentation = require("./models/documentation");
 const indexRouter = require("./routes/index");
 const loginRouter = require("./routes/login")
 const forgotPasswordRouter = require("./routes/forgot-password")
+const resetPasswordRouter = require("./routes/reset-password")
 const programsRouter = require("./routes/programs");
 const beneficiaryRouter = require("./routes/beneficiaries");
 const benefactorRouter = require("./routes/benefactors");
@@ -48,6 +48,7 @@ app.use(express.static(__dirname + '/public'));
 app.use("/", indexRouter);
 app.use("/login", loginRouter);
 app.use("/forgot-password", forgotPasswordRouter);
+app.use("/reset-password", resetPasswordRouter);
 app.use("/programs", programsRouter);
 app.use("/beneficiaries", beneficiaryRouter);
 app.use("/benefactors", benefactorRouter);

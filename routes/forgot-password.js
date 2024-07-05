@@ -1,7 +1,5 @@
 const express = require("express");
 const path = require("path");
-const jwt = require('jsonwebtoken')
-
 
 const router = express.Router();
 
@@ -10,9 +8,14 @@ router.get("/", (req, res) => {
     res.sendFile(path.resolve('./views/forgot-password.html'));
 });
 
-router.post("/change", (req, res) => {
+// POST for forgot-password
+router.post("/", (req, res) => {
     const { email } = req.body;
-    res.send(email);
+
+    if (email !== user.email) {
+        res.send('User not registered')
+        return;
+    }
 });
 
 module.exports = router;
