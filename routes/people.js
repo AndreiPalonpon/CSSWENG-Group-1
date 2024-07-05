@@ -53,12 +53,10 @@ router.get('/:id', asyncHandler(async(req, res, next) => {
     }
 }));
 
-
 //GET request for creating people.
 router.get('/create', asyncHandler(async(req, res, next) => {
     res.send("NOT IMPLEMENTED: People create GET");
 }));
-
 
 // POST request for creating people.
 router.post('/create', asyncHandler(async(req, res, next) => {
@@ -80,6 +78,13 @@ router.post('/create', asyncHandler(async(req, res, next) => {
     res.redirect('/'); // Redirect to home page or any other appropriate page after saving.
 
     console.log("New person instance saved.");
+}));
+
+//POST request for deleting person. 
+router.post('/delete', asyncHandler(async (req, res, next) => {
+    await Program.deleteOne({_id: req.body.person_id});
+    console.log("Person ID " + req.body.person_id + " has been deleted.");
+    res.sendStatus(200);
 }));
 
 //GET request to list all people.
