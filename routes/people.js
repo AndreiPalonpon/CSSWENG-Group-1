@@ -4,7 +4,6 @@ const json = require("json");
 const Person = require("../models/person");
 const Program = require("../models/program"); //?
 
-
 const router = express.Router();
 
 const barangayCodes = {
@@ -29,12 +28,6 @@ const barangayCodes = {
     "019": "Talos Kuartro",
     "020": "Talon Singko"
 };
-
-// GET home page.
-router.get('/', function(req, res, next) {
-    res.render('people-list', { title: 'People List', barangayCodes });
-});
-
 
 // GET request for fetching people list under a specific program
 router.get('/:id', asyncHandler(async(req, res, next) => {
@@ -91,10 +84,12 @@ router.post('/create', asyncHandler(async(req, res, next) => {
 
 //GET request to list all people.
 router.get('/', asyncHandler(async(req, res, next) => {
-    const people = await Person.find().sort({ first_name: 1, last_name: 1 }).exec();
-    //res.send(allPrograms);
-    //console.log(programs);
-    res.render("people-list", { people: people, barangayCodes });
+    const people = await Person.find()
+                               .sort({ first_name: 1, last_name: 1 })
+                               .exec();
+    
+    console.log("Hello.");
+    res.render("people-list", { people: people });
 }));
 
 module.exports = router;
