@@ -1,5 +1,6 @@
 const createError = require('http-errors');
 const express = require("express");
+const jwt = require('jsonwebtoken')
 
 //Connecting to MongoDB.
 const mongoose = require("mongoose");
