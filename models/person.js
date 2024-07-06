@@ -46,7 +46,7 @@ const PersonSchema = new Schema({
         enum: ["Physical", "Sensory", "Intellectual", "Mental",]
     },
     disability: { type: String, required: true },
-    pwd_card_id_no: { type: Number, required: true },
+    pwd_card_id_no: { type: String, required: true },
     recent_pwd_id_update_date: {
         type: Date,
         required: true,
@@ -60,8 +60,8 @@ PersonSchema.virtual("name").get(function () {
 
 //Virtual method for a person's age.
 PersonSchema.virtual("age").get(function () {
-    const currentDate = new Date();
-    const ageInMilliSecs = currentDate - this.birthdate;
+    const current_date = new Date();
+    const ageInMilliSecs = current_date - this.birthdate;
     const ageInDate = new Date(ageInMilliSecs);
 
     return Math.abs(ageInDate.getUTCFullYear() - 1970);
@@ -71,8 +71,11 @@ PersonSchema.virtual("age").get(function () {
 PersonSchema.virtual("pwd_id_expired").get(function () {
     //Recent update date for the pwd id.
     const recent_update_date = this.recent_pwd_id_update_date; 
-    const currentDate = new Date();
-    const lenMilliSecs = currentDate - recent_update_date; //length in Millisecs.
+    const current_date = new Date();
+    
+    //console.log(recent_update_date, current_date); //For debugging...
+
+    const lenMilliSecs = current_date - recent_update_date; //length in Millisecs.
     const lenYears = lenMilliSecs / (1000 * 60 * 60 * 24 * 365.25)
 
     return (lenYears >= 3.0) ? true : false;
@@ -80,6 +83,8 @@ PersonSchema.virtual("pwd_id_expired").get(function () {
 
 PersonSchema.virtual("code_matched").get(function () {
     const code = this.pwd_card_id_no.slice(0, 3);
+    //console.log(barangayCodes[code], this.barangay); For debugging...
+
     return (barangayCodes[code] === this.barangay) ?
             true : false;
 });

@@ -93,7 +93,7 @@ router.get('/', asyncHandler(async(req, res, next) => {
                                .sort({ first_name: 1, last_name: 1 })
                                .exec();
     
-    console.log("Hello.");
+    console.log(people[0].age);
     res.render("people-list", { people: people });
 }));
 
