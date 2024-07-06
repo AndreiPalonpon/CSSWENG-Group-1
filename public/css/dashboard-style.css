@@ -375,6 +375,15 @@ hr.vertical-solid {
     margin-top: 310px;
 }
 
+.logout-link button {
+    color: white;
+}
+
+.logout-link button:hover {
+    color: white;
+    text-decoration: none;
+}
+
 .sidebar-nav {
     position: absolute;
     top: 0;

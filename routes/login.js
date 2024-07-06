@@ -16,6 +16,12 @@ router.post('/', async (req, res) => {
         const foundPassword = await Password.findOne({ password });
 
         if (foundPassword) {
+            // Store user session data
+            req.session.user = {
+                username: 'LPPWDFI', // Set the username or other user data here
+                authenticated: true
+            };
+
             res.status(200).json({ message: 'Login successful', redirectUrl: '/' });
         } else {
             res.status(401).json({ error: 'Invalid password. Please try again.' });
@@ -26,4 +32,16 @@ router.post('/', async (req, res) => {
     }
 });
 
+// POST logout
+router.post('/logout', async (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({ error: 'Failed to logout' });
+        }
+        res.clearCookie('connect.sid'); // Clear the session cookie
+        res.status(200).json({ message: 'Logout successful' });
+    });
+});
+
 module.exports = router;
+

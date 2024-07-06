@@ -1,5 +1,5 @@
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
-    event.preventDefault(); 
+    event.preventDefault();
 
     const passwordInput = document.getElementById('password').value;
 
@@ -16,15 +16,16 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
         if (response.ok) {
             if (data.message === 'Login successful') {
-                window.location.href = '/'; 
+                // Redirect to home page or another authorized page
+                window.location.href = '/';
             } else {
-                alert('Invalid Password. Please try again'); 
+                alert('Invalid Password. Please try again');
             }
         } else {
-            alert(data.error); 
+            alert(data.error);
         }
     } catch (error) {
         console.error('Error during login:', error);
-        alert('Error during login. Please try again.'); 
+        alert('Error during login. Please try again.');
     }
 });

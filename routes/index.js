@@ -2,8 +2,20 @@ const express = require("express");
 const path = require("path");
 const router = express.Router();
 
-//GET home page.
-router.get("/", function (req, res) {
+// Session Authenticator
+function requireAuth(req, res, next) {
+    console.log("Checking authentication...");
+    if (req.session.user && req.session.user.authenticated) {
+        console.log("User is authenticated. Proceeding...");
+        next(); 
+    } else {
+        console.log("User is not authenticated. Redirecting to login page...");
+        res.redirect('/login');
+    }
+}
+
+// GET home page
+router.get("/", requireAuth, function (req, res) {
     res.sendFile(path.resolve('./views/dashboard.html'));
 });
 

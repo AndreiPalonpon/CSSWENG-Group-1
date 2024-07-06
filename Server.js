@@ -1,5 +1,6 @@
 const createError = require('http-errors');
 const express = require("express");
+const session = require('express-session');
 
 //Connecting to MongoDB.
 const mongoose = require("mongoose");
@@ -25,6 +26,7 @@ const Documentation = require("./models/documentation");
 
 const indexRouter = require("./routes/index");
 const loginRouter = require("./routes/login")
+const logoutRouter = require("./routes/logout")
 const forgotPasswordRouter = require("./routes/forgot-password")
 const resetPasswordRouter = require("./routes/reset-password")
 const programsRouter = require("./routes/programs");
@@ -44,9 +46,17 @@ app.use(express.urlencoded( {extended: true}));
 app.use(cookieParser()); 
 app.use(express.static(__dirname + '/public'));
 
+app.use(session({
+    secret: 'your-secret-key', // Change this to a secure key
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false } // Set secure to true if using HTTPS
+}));
+
 //Setting up routers.
 app.use("/", indexRouter);
 app.use("/login", loginRouter);
+app.use("/logout", logoutRouter);
 app.use("/forgot-password", forgotPasswordRouter);
 app.use("/reset-password", resetPasswordRouter);
 app.use("/programs", programsRouter);
