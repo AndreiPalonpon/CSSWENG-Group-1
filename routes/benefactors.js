@@ -3,6 +3,16 @@ const router = express.Router();
 const asyncHandler = require("express-async-handler");
 const Benefactor = require("../models/benefactor");
 
+//GET request to list all benefactors.
+router.get('/', asyncHandler(async (req, res, next) => {
+    const benefactors = await Benefactor.find()
+                                        .sort({ name: 1 })
+                                        .exec();
+
+    console.log(benefactors);
+    res.render("benefactor-list", { benefactors: benefactors });
+}));
+
 //POST request for creating benefactor.
 router.post('/create', asyncHandler(async (req, res, next) => {
     const { benefactorName, benefactorType } = req.body;
@@ -40,16 +50,6 @@ router.post('/delete', asyncHandler(async (req, res, next) => {
     await Benefactor.deleteOne({_id: req.body.benefactor_id});
     console.log("Benefactor ID " + req.body.benefactor_id + " has been deleted.");
     res.sendStatus(200);
-}));
-
-//GET request to list all benefactors.
-router.get('/', asyncHandler(async (req, res, next) => {
-    const benefactors = await Benefactor.find()
-                                        .sort({ name: 1 })
-                                        .exec();
-
-    console.log(benefactors);
-    res.render("benefactor-list", { benefactors: benefactors });
 }));
 
 //GET request for one benefactor.

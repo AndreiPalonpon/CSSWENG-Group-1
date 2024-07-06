@@ -4,6 +4,17 @@ const asyncHandler = require("express-async-handler");
 const json = require("json");
 const Program = require("../models/program");
 
+//GET request to list all programs.
+router.get('/', asyncHandler(async (req, res, next) => {
+    const programs = await Program.find()
+                                  .sort({ name: 1 })
+                                  .exec();
+
+    //res.send(allPrograms);
+    //console.log(programs);
+    res.render("program-list", { programs: programs });
+}));
+
 //GET request for creating program.
 router.get('/create', asyncHandler(async (req, res, next) => {
     res.send("NOT IMPLEMENTED: Program create GET");
@@ -65,17 +76,6 @@ router.post('/delete', asyncHandler(async (req, res, next) => {
     await Program.deleteOne({_id: req.body.program_id});
     console.log("Program ID " + req.body.program_id + " has been deleted.");
     res.sendStatus(200);
-}));
-
-//GET request to list all programs.
-router.get('/', asyncHandler(async (req, res, next) => {
-    const programs = await Program.find()
-                                  .sort({ name: 1 })
-                                  .exec();
-
-    //res.send(allPrograms);
-    //console.log(programs);
-    res.render("program-list", { programs: programs });
 }));
 
 //GET request for one program.

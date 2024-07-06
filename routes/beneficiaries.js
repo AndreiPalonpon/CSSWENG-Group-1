@@ -7,6 +7,35 @@ const Person = require("../models/person");
 const Benefit = require("../models/benefit");
 const Beneficiary = require("../models/beneficiary");
 
+//GET request to list all beneficiaries.
+router.get('/', asyncHandler(async (req, res, next) => {
+    const people = await Person.find()
+                               .sort({ first_name: 1, last_name: 1})
+                               .exec();
+
+    const programs = await Program.find()
+                                  .sort({ name: 1 })
+                                  .exec();
+    
+    const benefits = await Benefit.find()
+                                  .sort({ name: 1 })
+                                  .exec();
+
+    const beneficiaries = await Beneficiary.find()
+                                           .populate("person_registered")
+                                           .populate("program_enrolled")
+                                           .populate("benefit_delivered")
+                                           .exec();
+
+    console.log(beneficiaries);
+    res.render("beneficiary-list", {
+                people: people,
+                programs: programs,
+                benefits, benefits,
+                beneficiaries: beneficiaries 
+            });
+}));
+
 //POST request for creating beneficiary.
 router.post('/create', asyncHandler(async (req, res, next) => {
     const { 
@@ -45,35 +74,6 @@ router.post('/delete', asyncHandler(async (req, res, next) => {
     await Beneficiary.deleteOne({_id: req.body.beneficiary_id});
     console.log("Benefit ID " + req.body.beneficiary_id + " has been deleted.");
     res.sendStatus(200);
-}));
-
-//GET request to list all beneficiaries.
-router.get('/', asyncHandler(async (req, res, next) => {
-    const people = await Person.find()
-                               .sort({ first_name: 1, last_name: 1})
-                               .exec();
-
-    const programs = await Program.find()
-                                  .sort({ name: 1 })
-                                  .exec();
-    
-    const benefits = await Benefit.find()
-                                  .sort({ name: 1 })
-                                  .exec();
-
-    const beneficiaries = await Beneficiary.find()
-                                           .populate("person_registered")
-                                           .populate("program_enrolled")
-                                           .populate("benefit_delivered")
-                                           .exec();
-
-    console.log(beneficiaries);
-    res.render("beneficiary-list", {
-                people: people,
-                programs: programs,
-                benefits, benefits,
-                beneficiaries: beneficiaries 
-            });
 }));
 
 //GET request for one beneficiary.

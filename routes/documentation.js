@@ -5,8 +5,20 @@ const router = express.Router();
 const Documentation = require("../models/documentation");
 const Program = require("../models/program");
 
+// Session Authenticator
+function requireAuth(req, res, next) {
+    console.log("Checking authentication...");
+    if (req.session.user && req.session.user.authenticated) {
+        console.log("User is authenticated. Proceeding...");
+        next(); 
+    } else {
+        console.log("User is not authenticated. Redirecting to login page...");
+        res.redirect('/login');
+    }
+}
+
 // GET home page.
-router.get('/', function(req, res, next) {
+router.get("/", requireAuth, function (req, res) {
     res.render('program-documentation', { title: 'Program Documentation' });
 });
 

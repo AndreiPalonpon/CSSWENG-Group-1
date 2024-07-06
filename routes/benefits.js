@@ -5,6 +5,20 @@ const json = require("json");
 const Benefit = require("../models/benefit");
 const Benefactor = require("../models/benefactor");
 
+//GET request to list all equipment.
+router.get('/', asyncHandler(async (req, res, next) => {
+    const benefits = await Benefit.find()
+                                  .populate("benefactor")
+                                  .exec();
+
+    const benefactors = await Benefactor.find()
+                                        .exec();
+
+    console.log(benefits, benefactors);
+    res.render("benefit-list", { benefactors: benefactors, benefits: benefits });
+}));
+
+
 //GET request for creating item.
 router.get('/create', asyncHandler(async (req, res, next) => {
     
@@ -53,20 +67,6 @@ router.post('/delete', asyncHandler(async (req, res, next) => {
     console.log("Benefit ID " + req.body.benefit_id + " has been deleted.");
     res.sendStatus(200);
 }));
-
-//GET request to list all equipment.
-router.get('/', asyncHandler(async (req, res, next) => {
-    const benefits = await Benefit.find()
-                                  .populate("benefactor")
-                                  .exec();
-
-    const benefactors = await Benefactor.find()
-                                        .exec();
-
-    console.log(benefits, benefactors);
-    res.render("benefit-list", { benefactors: benefactors, benefits: benefits });
-}));
-
 
 //GET request for one item.
 router.get('/:id', asyncHandler(async (req, res, next) => {

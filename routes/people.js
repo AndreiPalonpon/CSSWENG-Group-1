@@ -6,6 +6,16 @@ const Program = require("../models/program"); //?
 
 const router = express.Router();
 
+//GET request to list all people.
+router.get('/', asyncHandler(async(req, res, next) => {
+    const people = await Person.find()
+                               .sort({ first_name: 1, last_name: 1 })
+                               .exec();
+    
+    console.log(people[0].age);
+    res.render("people-list", { people: people });
+}));
+
 const barangayCodes = {
     "001": "Almanza Uno",
     "002": "Daniel Fajardo",
@@ -85,16 +95,6 @@ router.post('/delete', asyncHandler(async (req, res, next) => {
     await Program.deleteOne({_id: req.body.person_id});
     console.log("Person ID " + req.body.person_id + " has been deleted.");
     res.sendStatus(200);
-}));
-
-//GET request to list all people.
-router.get('/', asyncHandler(async(req, res, next) => {
-    const people = await Person.find()
-                               .sort({ first_name: 1, last_name: 1 })
-                               .exec();
-    
-    console.log(people[0].age);
-    res.render("people-list", { people: people });
 }));
 
 module.exports = router;
