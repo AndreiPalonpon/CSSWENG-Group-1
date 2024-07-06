@@ -3,12 +3,12 @@ const path = require("path");
 const router = express.Router();
 const Password = require('../models/user'); 
 
-// GET login page
+// GET request to display Login page
 router.get("/", function (req, res) {
     res.sendFile(path.resolve('./views/login.html'));
 });
 
-// POST login credentials
+// POST request for login credentials
 router.post('/', async (req, res) => {
     const { password } = req.body;
 

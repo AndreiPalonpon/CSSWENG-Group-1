@@ -14,7 +14,7 @@ function requireAuth(req, res, next) {
     }
 }
 
-//GET request to display about page
+// GET request to display About Us page
 router.get("/", requireAuth, function (req, res) {
     res.sendFile(path.resolve('./views/about.html'));
 });

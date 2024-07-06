@@ -17,7 +17,7 @@ function requireAuth(req, res, next) {
     }
 }
 
-// GET home page.
+// GET request to display Documentation page
 router.get("/", requireAuth, function (req, res) {
     res.render('program-documentation', { title: 'Program Documentation' });
 });

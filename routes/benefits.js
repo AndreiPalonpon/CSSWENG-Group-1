@@ -19,7 +19,7 @@ function requireAuth(req, res, next) {
 
 router.use(requireAuth);
 
-//GET request to list all equipment.
+// GET request to list all equipment
 router.get('/', asyncHandler(async (req, res, next) => {
     const benefits = await Benefit.find()
                                   .populate("benefactor")
@@ -33,12 +33,12 @@ router.get('/', asyncHandler(async (req, res, next) => {
 }));
 
 
-//GET request for creating item.
+// GET request for creating item
 router.get('/create', asyncHandler(async (req, res, next) => {
     
 }));
-
-//POST request for creating beneficiary.
+ 
+// POST request for creating beneficiary
 router.post('/create', asyncHandler(async (req, res, next) => {
     const { benefitName, benefitDesc, quantity, dateReceived, benefactor } = req.body;
 
@@ -57,7 +57,7 @@ router.post('/create', asyncHandler(async (req, res, next) => {
     res.sendStatus(201);
 }));
 
-//POST request for editing item.
+// POST request for editing item
 router.post('/:id/edit', asyncHandler(async (req, res, next) => { //Change to post. POST will be used.
     //Example...
     //req.body will be implemented later.
@@ -73,7 +73,7 @@ router.post('/:id/edit', asyncHandler(async (req, res, next) => { //Change to po
 }));
 
 
-//POST request for deleting item. 
+// POST request for deleting item
 router.post('/delete', asyncHandler(async (req, res, next) => {
     //Check first if there are beneficiaries with the current benefit. If there are, it cannot be deleted.
     
@@ -82,7 +82,7 @@ router.post('/delete', asyncHandler(async (req, res, next) => {
     res.sendStatus(200);
 }));
 
-//GET request for one item.
+// GET request for one item.
 router.get('/:id', asyncHandler(async (req, res, next) => {
     res.send("NOT IMPLEMENTED: Item detail");
 }));

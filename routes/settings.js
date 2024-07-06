@@ -15,7 +15,7 @@ function requireAuth(req, res, next) {
 }
 
 
-//GET login page.
+//GET request to display Settings page
 router.get("/", requireAuth, function (req, res) {
     res.sendFile(path.resolve('./views/settings.html'));
 });

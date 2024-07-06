@@ -21,7 +21,7 @@ function requireAuth(req, res, next) {
 
 router.use(requireAuth);
 
-//GET request to list all beneficiaries.
+// GET request to list all beneficiaries
 router.get('/', asyncHandler(async (req, res, next) => {
     const people = await Person.find()
                                .sort({ first_name: 1, last_name: 1})
@@ -50,7 +50,7 @@ router.get('/', asyncHandler(async (req, res, next) => {
             });
 }));
 
-//POST request for creating beneficiary.
+// POST request for creating beneficiary
 router.post('/create', asyncHandler(async (req, res, next) => {
     const { 
         personRegistered, 
@@ -77,12 +77,12 @@ router.post('/create', asyncHandler(async (req, res, next) => {
     res.sendStatus(201);
 }));
 
-//POST request for editing beneficiary.
+// POST request for editing beneficiary
 router.post('/:id/edit', asyncHandler(async (req, res, next) => {
     res.send("NOT IMPLEMENTED: Beneficiary edit POST");
 }));
 
-//POST request for deleting beneficiary. 
+// POST request for deleting beneficiary
 router.post('/delete', asyncHandler(async (req, res, next) => {
     console.log(req.body.beneficiary_id);
     await Beneficiary.deleteOne({_id: req.body.beneficiary_id});
@@ -90,7 +90,7 @@ router.post('/delete', asyncHandler(async (req, res, next) => {
     res.sendStatus(200);
 }));
 
-//GET request for one beneficiary.
+// GET request for one beneficiary
 router.get('/:id', asyncHandler(async (req, res, next) => {
     res.send("NOT IMPLEMENTED: Beneficiary detail");
 }));

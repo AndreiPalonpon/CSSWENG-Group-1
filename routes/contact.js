@@ -14,7 +14,7 @@ function requireAuth(req, res, next) {
     }
 }
 
-//GET Contact Us page.
+// GET request to display Contact Us page
 router.get("/", requireAuth, function (req, res) {
     res.sendFile(path.resolve('./views/contactus.html'));
 });

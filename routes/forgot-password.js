@@ -15,7 +15,7 @@ function requireAuth(req, res, next) {
     }
 }
 
-// GET forgot-password page.
+// GET request to display forgot-password page
 router.get("/", requireAuth, function (req, res) {
     res.sendFile(path.resolve('./views/forgot-password.html'));
 });

@@ -15,12 +15,12 @@ function requireAuth(req, res, next) {
     }
 }
 
-// GET reset-password page.
+// GET request to display Reset-password page
 router.get("/", requireAuth, function (req, res) {
     res.sendFile(path.resolve('./views/reset-password.html'));
 });
 
-// POST reset-password
+// POST request for password reset
 router.post('/', async (req, res) => {
     const { oldPassword, newPassword, confirmPassword } = req.body;
 

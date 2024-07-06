@@ -20,7 +20,7 @@ function requireAuth(req, res, next) {
 
 router.use(requireAuth);
 
-//GET request to list all people.
+//GET request to list all people
 router.get('/', asyncHandler(async(req, res, next) => {
     const people = await Person.find()
                                .sort({ first_name: 1, last_name: 1 })
@@ -77,7 +77,7 @@ router.get('/:id', asyncHandler(async(req, res, next) => {
     }
 }));
 
-//GET request for creating people.
+//GET request for creating people
 router.get('/create', asyncHandler(async(req, res, next) => {
     res.send("NOT IMPLEMENTED: People create GET");
 }));
@@ -104,7 +104,7 @@ router.post('/create', asyncHandler(async(req, res, next) => {
     console.log("New person instance saved.");
 }));
 
-//POST request for deleting person. 
+//POST request for deleting person
 router.post('/delete', asyncHandler(async (req, res, next) => {
     await Program.deleteOne({_id: req.body.person_id});
     console.log("Person ID " + req.body.person_id + " has been deleted.");

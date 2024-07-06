@@ -18,7 +18,7 @@ function requireAuth(req, res, next) {
 
 router.use(requireAuth);
 
-//GET request to list all programs.
+//GET request to list all programs
 router.get('/', asyncHandler(async (req, res, next) => {
     const programs = await Program.find()
                                   .sort({ name: 1 })
@@ -29,12 +29,12 @@ router.get('/', asyncHandler(async (req, res, next) => {
     res.render("program-list", { programs: programs });
 }));
 
-//GET request for creating program.
+//GET request for creating program
 router.get('/create', asyncHandler(async (req, res, next) => {
     res.send("NOT IMPLEMENTED: Program create GET");
 }));
 
-//POST request for creating program.
+//POST request for creating program
 router.post('/create', asyncHandler(async (req, res, next) => {
     const { 
         programName, 
@@ -69,7 +69,7 @@ router.post('/create', asyncHandler(async (req, res, next) => {
     res.sendStatus(201); 
 }));
 
-//POST request for editing program.
+//POST request for editing program
 router.get('/edit', asyncHandler(async (req, res, next) => { //change to post. POST will be used.
     //Example...
     //req.body will be implemented later.
@@ -85,14 +85,14 @@ router.get('/edit', asyncHandler(async (req, res, next) => { //change to post. P
     res.redirect("/programs/");
 }));
 
-//POST request for deleting program. 
+//POST request for deleting program
 router.post('/delete', asyncHandler(async (req, res, next) => {
     await Program.deleteOne({_id: req.body.program_id});
     console.log("Program ID " + req.body.program_id + " has been deleted.");
     res.sendStatus(200);
 }));
 
-//GET request for one program.
+//GET request for one program
 router.get('/:id', asyncHandler(async (req, res, next) => {
     res.send("NOT IMPLEMENTED: Program detail");
 }));
