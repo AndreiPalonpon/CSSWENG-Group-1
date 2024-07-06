@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LPPWDFI | Login</title>
     <link rel="stylesheet" href="/css/login.css">
-    <script src="/js/login.js"></script>
 </head>
-
 <body>
     <div class="container">
         <div class="logo-section">
@@ -16,18 +13,19 @@
             <p>Give hope from home</p>
         </div>
         <div class="login-section">
-            <h1>Hello, welcome back!</h1>
-            <form id="loginForm" onsubmit="return getPassword();">
+            <h1>Welcome, LPPWDFI!</h1>
+            <form id="loginForm" action="/login" method="POST">
                 <div class="input-group">
                     <label for="password">Enter Password:</label>
-                    <input type="password" id="password" placeholder="Password">
+                    <input type="password" id="password" name="password" placeholder="Password" required>
                     <button type="submit">SIGN-IN</button>
                 </div>
                 <div class="forgot-password">
-                    <a href="/forgot-password" onclick="forgotPassword()">Forgot Password?</a>
+                    <a href="/forgot-password" onclick="forgotPassword(); return false;">Forgot Password?</a>
                 </div>
             </form>
         </div>
     </div>
+    <script src="/js/login.js"></script>
 </body>
 </html>

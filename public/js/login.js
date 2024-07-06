@@ -1,24 +1,30 @@
-var login = [
-    {
-        password: "12345"
-    },
-    {
-        password: "LPPWDFI"
-    }
-];
+document.getElementById('loginForm').addEventListener('submit', async function(event) {
+    event.preventDefault(); 
 
-function getPassword() {
-    var password = document.getElementById('password').value;
+    const passwordInput = document.getElementById('password').value;
 
-    for (var i = 0; i < login.length; i++) {
-        if (password == login[i].password) {
-            console.log("Login Successful");
-            window.location.href = '/';
-            return false; // Prevent form submission
+    try {
+        const response = await fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ password: passwordInput })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            if (data.message === 'Login successful') {
+                window.location.href = '/'; 
+            } else {
+                alert('Login unsuccessful. Please try again'); 
+            }
+        } else {
+            alert(data.error); 
         }
+    } catch (error) {
+        console.error('Error during login:', error);
+        alert('Error during login. Please try again.'); 
     }
-
-    console.log("Login Failed");
-    alert("Password is incorrect. Please try again.");
-    return false; 
-}
+});
