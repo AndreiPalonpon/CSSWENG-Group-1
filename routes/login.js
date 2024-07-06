@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
         if (foundPassword) {
             res.status(200).json({ message: 'Login successful', redirectUrl: '/' });
         } else {
-            res.status(401).json({ error: 'Login unsuccessful. Please try again.' });
+            res.status(401).json({ error: 'Invalid password. Please try again.' });
         }
     } catch (err) {
         console.error('Error during login:', err);

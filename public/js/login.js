@@ -18,7 +18,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             if (data.message === 'Login successful') {
                 window.location.href = '/'; 
             } else {
-                alert('Login unsuccessful. Please try again'); 
+                alert('Invalid Password. Please try again'); 
             }
         } else {
             alert(data.error); 
