@@ -119,7 +119,7 @@ body {
 }
 
 .input-group input {
-    width: 70%; /* Adjust width as needed */
+    width: 100%; /* Adjust width as needed */
     max-width: 400px; /* Limit maximum width */
     padding: 15px;
     border: 1px solid #ccc;
