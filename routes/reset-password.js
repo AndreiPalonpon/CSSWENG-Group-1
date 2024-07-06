@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const Password = require('../models/password');
+const Password = require('../models/user');
 
 // GET reset-password page.
 router.get('/', (req, res) => {
@@ -30,9 +30,13 @@ router.post('/', async (req, res) => {
         passwordDoc.password = newPassword;
         await passwordDoc.save();
 
+        // Password changed successfully
+        res.status(200).json({ message: 'Password changed successfully' });
+
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
     }
 });
+
 
 module.exports = router;

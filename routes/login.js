@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const router = express.Router();
-const Password = require('../models/password'); 
+const Password = require('../models/user'); 
 
 // GET login page
 router.get("/", function (req, res) {
