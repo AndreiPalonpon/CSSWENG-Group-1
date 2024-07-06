@@ -6,6 +6,20 @@ const Program = require("../models/program"); //?
 
 const router = express.Router();
 
+// Session Authenticator
+function requireAuth(req, res, next) {
+    console.log("Checking authentication...");
+    if (req.session.user && req.session.user.authenticated) {
+        console.log("User is authenticated. Proceeding...");
+        next(); 
+    } else {
+        console.log("User is not authenticated. Redirecting to login page...");
+        res.redirect('/login');
+    }
+}
+
+router.use(requireAuth);
+
 //GET request to list all people.
 router.get('/', asyncHandler(async(req, res, next) => {
     const people = await Person.find()

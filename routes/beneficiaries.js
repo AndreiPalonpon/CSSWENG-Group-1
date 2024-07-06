@@ -7,6 +7,20 @@ const Person = require("../models/person");
 const Benefit = require("../models/benefit");
 const Beneficiary = require("../models/beneficiary");
 
+// Session Authenticator
+function requireAuth(req, res, next) {
+    console.log("Checking authentication...");
+    if (req.session.user && req.session.user.authenticated) {
+        console.log("User is authenticated. Proceeding...");
+        next(); 
+    } else {
+        console.log("User is not authenticated. Redirecting to login page...");
+        res.redirect('/login');
+    }
+}
+
+router.use(requireAuth);
+
 //GET request to list all beneficiaries.
 router.get('/', asyncHandler(async (req, res, next) => {
     const people = await Person.find()

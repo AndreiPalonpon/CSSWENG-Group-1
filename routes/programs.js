@@ -4,6 +4,20 @@ const asyncHandler = require("express-async-handler");
 const json = require("json");
 const Program = require("../models/program");
 
+// Session Authenticator
+function requireAuth(req, res, next) {
+    console.log("Checking authentication...");
+    if (req.session.user && req.session.user.authenticated) {
+        console.log("User is authenticated. Proceeding...");
+        next(); 
+    } else {
+        console.log("User is not authenticated. Redirecting to login page...");
+        res.redirect('/login');
+    }
+}
+
+router.use(requireAuth);
+
 //GET request to list all programs.
 router.get('/', asyncHandler(async (req, res, next) => {
     const programs = await Program.find()

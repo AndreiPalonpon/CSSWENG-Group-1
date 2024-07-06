@@ -5,6 +5,20 @@ const json = require("json");
 const Benefit = require("../models/benefit");
 const Benefactor = require("../models/benefactor");
 
+// Session Authenticator
+function requireAuth(req, res, next) {
+    console.log("Checking authentication...");
+    if (req.session.user && req.session.user.authenticated) {
+        console.log("User is authenticated. Proceeding...");
+        next(); 
+    } else {
+        console.log("User is not authenticated. Redirecting to login page...");
+        res.redirect('/login');
+    }
+}
+
+router.use(requireAuth);
+
 //GET request to list all equipment.
 router.get('/', asyncHandler(async (req, res, next) => {
     const benefits = await Benefit.find()
