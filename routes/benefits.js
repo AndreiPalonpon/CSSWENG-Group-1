@@ -9,7 +9,7 @@ const Benefactor = require("../models/benefactor");
 function requireAuth(req, res, next) {
     console.log("Checking authentication...");
     if (req.session.user && req.session.user.authenticated) {
-        console.log("User is authenticated. Proceeding...");
+        console.log("User is authenticated. Proceeding to benefits page...");
         next(); 
     } else {
         console.log("User is not authenticated. Redirecting to login page...");

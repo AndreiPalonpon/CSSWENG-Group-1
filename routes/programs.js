@@ -8,7 +8,7 @@ const Program = require("../models/program");
 function requireAuth(req, res, next) {
     console.log("Checking authentication...");
     if (req.session.user && req.session.user.authenticated) {
-        console.log("User is authenticated. Proceeding...");
+        console.log("User is authenticated. Proceeding to programs page...");
         next(); 
     } else {
         console.log("User is not authenticated. Redirecting to login page...");

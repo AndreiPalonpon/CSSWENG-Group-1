@@ -7,7 +7,7 @@ const Password = require('../models/user');
 function requireAuth(req, res, next) {
     console.log("Checking authentication...");
     if (req.session.user && req.session.user.authenticated) {
-        console.log("User is authenticated. Proceeding...");
+        console.log("User is authenticated. Proceeding to reset password page...");
         next(); 
     } else {
         console.log("User is not authenticated. Redirecting to login page...");
@@ -32,7 +32,7 @@ router.post('/', async (req, res) => {
         const passwordDoc = await Password.findOne();
 
         if (!passwordDoc) {
-            return res.status(404).json({ message: 'Password document not found' });
+            return res.status(404).json({ message: 'Password not found' });
         }
 
         if (oldPassword !== passwordDoc.password) {
