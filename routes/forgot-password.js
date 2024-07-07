@@ -35,6 +35,7 @@ router.post("/", async (req, res, next) => {
         });
 
         if (correctAnswers === questions.length) {
+            req.session.forgotPasswordCompleted = true;  // Set session flag
             res.json({ allCorrect: true });
         } else {
             res.status(400).json({ allCorrect: false, errors });

@@ -1,14 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const bcrypt = require('bcrypt');
 const Password = require('../models/user');
 
-// Need session authenticator to prevent access
+const checkForgotPasswordCompletion = function (req, res, next) {
+    // Assuming you set a session variable when forgot-password process is completed
+    if (req.session.forgotPasswordCompleted) {
+      // Continue to the next middleware or route handler
+      next();
+    } else {
+      // Redirect or handle unauthorized access (e.g., show an error page)
+      res.status(403).send("Forgot password process not completed.");
+    }
+  };
+  
+router.use(checkForgotPasswordCompletion);
 
 // GET request to display Change Password page
-router.get("/", requireAuth, function (req, res) {
-    res.sendFile(path.resolve('./views/change-password.html'));
+router.get("/", function (req, res) {
+    res.sendFile(path.resolve('./views/reset-password.html'));
 });
 
 // POST request for password change
@@ -20,24 +30,22 @@ router.post('/', async (req, res) => {
     }
 
     try {
-        // Fetch the current password instance from the database
         const passwordDoc = await Password.findOne();
-
+        
         if (!passwordDoc) {
             return res.status(404).json({ message: 'Password not found' });
         }
 
-        // Hash the new password before saving
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-        // Update the password
-        passwordDoc.password = hashedPassword;
+        passwordDoc.password = newPassword;
         await passwordDoc.save();
 
-        // Password changed successfully
+        const updatedDoc = await Password.findOne();
+        console.log('Updated Password:', updatedDoc.password);
+
         res.status(200).json({ message: 'Password changed successfully' });
 
     } catch (error) {
+        console.error('Server error:', error);
         res.status(500).json({ message: 'Server error' });
     }
 });
