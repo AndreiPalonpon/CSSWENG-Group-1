@@ -1,4 +1,4 @@
-document.getElementById('resetPasswordForm').addEventListener('submit', async function(e) {
+document.getElementById('changePasswordForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
     const oldPassword = document.getElementById('oldPassword').value;
@@ -10,7 +10,7 @@ document.getElementById('resetPasswordForm').addEventListener('submit', async fu
         return;
     }
 
-    const response = await fetch('/reset-password', {
+    const response = await fetch('/change-password', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

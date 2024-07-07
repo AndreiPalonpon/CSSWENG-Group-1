@@ -7,7 +7,7 @@ const Password = require('../models/user');
 function requireAuth(req, res, next) {
     console.log("Checking authentication...");
     if (req.session.user && req.session.user.authenticated) {
-        console.log("User is authenticated. Proceeding to reset password page...");
+        console.log("User is authenticated. Proceeding to change password page...");
         next(); 
     } else {
         console.log("User is not authenticated. Redirecting to login page...");
@@ -15,12 +15,12 @@ function requireAuth(req, res, next) {
     }
 }
 
-// GET request to display Reset-password page
+// GET request to display Change password page
 router.get("/", requireAuth, function (req, res) {
-    res.sendFile(path.resolve('./views/reset-password.html'));
+    res.sendFile(path.resolve('./views/change-password.html'));
 });
 
-// POST request for password reset
+// POST request for password change
 router.post('/', async (req, res) => {
     const { oldPassword, newPassword, confirmPassword } = req.body;
 
