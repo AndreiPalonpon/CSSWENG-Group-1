@@ -39,7 +39,7 @@ router.post('/create', asyncHandler(async (req, res, next) => {
     
     const { programName, programType, frequency, assistanceType } = req.body;
 
-    let program = {
+    const program = {
         name: programName,
         program_type: programType,
         frequency: frequency,
@@ -59,18 +59,14 @@ router.get('/:id/edit', asyncHandler(async (req, res, next) => {
 
 //POST request for editing program.
 router.post('/edit', asyncHandler(async (req, res) => {
-    let program_id = req.body.program_id;
-    let program_name = req.body.program_name;
-    let program_type = req.body.program_type;
-    let program_frequency = req.body.program_frequency;
-    let program_assistance_type = req.body.program_assistance_type;
-
+    const {program_id, program_name, program_type, 
+           program_frequency, program_assistance_type} = req.body
 
     if (program_name === "") {
         res.sendStatus(400); // HTTP 400: Bad Request
     }
 
-    let program = {
+    const program = {
         name: program_name,
         program_type: program_type,
         frequency: program_frequency,
