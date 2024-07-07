@@ -1,29 +1,32 @@
-const Question = require('../models/Question');
+document.querySelector('form').addEventListener('submit', async function(event) {
+    event.preventDefault(); 
 
-// Controller function to handle POST request from forgot password form
-exports.submitAnswers = async (req, res) => {
-    const { answer1, answer2, answer3 } = req.body;
+    const form = event.target;
+    const formData = new FormData(form);
+    const data = {};
+
+    formData.forEach((value, key) => {
+        data[key] = value;
+    });
 
     try {
-        // Fetch questions from database
-        const questions = await Question.find();
+        const response = await fetch('/forgot-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
 
-        // Check answers
-        const correctAnswers = questions.map(question => question.answer);
-        const providedAnswers = [answer1, answer2, answer3];
+        const result = await response.json();
 
-        // Compare provided answers with correct answers
-        const answersMatch = correctAnswers.every((answer, index) => answer === providedAnswers[index]);
-
-        if (answersMatch) {
-            // Answers are correct, handle password reset logic here
-            res.send('Answers are correct! Handle password reset logic here.');
+        if (result.allCorrect) {
+            window.location.href = '/reset-password';
         } else {
-            // Answers do not match
-            res.status(400).send('Answers provided are incorrect.');
+            alert(result.errors.join('\n'));
         }
     } catch (error) {
-        console.error('Error retrieving questions or checking answers:', error);
-        res.status(500).send('Error retrieving questions or checking answers.');
+        console.error('Error submitting form:', error);
+        alert('An error occurred. Please try again.');
     }
-};
+});
