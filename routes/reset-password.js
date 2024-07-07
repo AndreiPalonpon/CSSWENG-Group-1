@@ -4,12 +4,9 @@ const path = require('path');
 const Password = require('../models/user');
 
 const checkForgotPasswordCompletion = function (req, res, next) {
-    // Assuming you set a session variable when forgot-password process is completed
     if (req.session.forgotPasswordCompleted) {
-      // Continue to the next middleware or route handler
       next();
     } else {
-      // Redirect or handle unauthorized access (e.g., show an error page)
       res.status(403).send("Forgot password process not completed.");
     }
   };
