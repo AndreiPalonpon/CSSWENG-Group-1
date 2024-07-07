@@ -40,7 +40,7 @@ router.post('/', async (req, res) => {
         await passwordDoc.save();
 
         const updatedDoc = await Password.findOne();
-        console.log('Updated Password:', updatedDoc.password);
+        console.log('Updated Password');
 
         res.status(200).json({ message: 'Password changed successfully' });
 
