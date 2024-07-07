@@ -34,55 +34,57 @@ router.get('/create', asyncHandler(async (req, res, next) => {
     res.send("NOT IMPLEMENTED: Program create GET");
 }));
 
-//POST request for creating program
+//POST request for creating program.
 router.post('/create', asyncHandler(async (req, res, next) => {
-    const { 
-        programName, 
-        programType, 
-        freq, 
-        assistanceType 
-    } = req.body;
-
-    /*var programName = req.body.programName;
-    var programType = req.body.programType;
-    var frequency = req.body.frequency;
-    var assistanceType = req.body.assistanceType;*/
-
-    const newProgram = new Program({ 
-        name: programName, 
-        program_type: programType, 
-        frequency: freq, 
-        assistance_type: assistanceType,
-    });
     
-    /*({  name: programName,
-          program_type: programType,
-          frequency: frequency,
-          assitance_type: assistanceType
-    });*/
-    
-    //newProgram.name = programName;
-    //newProgram.assistance_type = assistanceType;   //For some reason these dont work properly, seperate calls are here so they 100% work           
-    await newProgram.save();
+    const { programName, programType, frequency, assistanceType } = req.body;
 
-    console.log("New program instance saved.");
-    res.sendStatus(201); 
-}));
-
-//POST request for editing program
-router.get('/edit', asyncHandler(async (req, res, next) => { //change to post. POST will be used.
-    //Example...
-    //req.body will be implemented later.
-    const id = "6680add4a97d019a89a329f1";
-    const updatedProgram = {
-        name: "Program 1",
-        program_type: "Service",
+    let program = {
+        name: programName,
+        program_type: programType,
+        frequency: frequency,
+        assistance_type: assistanceType
     };
 
-    await Program.findByIdAndUpdate(id, updatedProgram);
+    await Program.create(program);
 
-    //res.sendStatus(200);
-    res.redirect("/programs/");
+    console.log("New program instance saved.");
+    res.sendStatus(201); // HTTP 201: Created
+}));
+
+//GET request for editing program.
+router.get('/:id/edit', asyncHandler(async (req, res, next) => {
+    res.send("NOT IMPLEMENTED: Program edit GET");
+}));
+
+//POST request for editing program.
+router.post('/edit', asyncHandler(async (req, res) => {
+    let program_id = req.body.program_id;
+    let program_name = req.body.program_name;
+    let program_type = req.body.program_type;
+    let program_frequency = req.body.program_frequency;
+    let program_assistance_type = req.body.program_assistance_type;
+
+
+    if (program_name === "") {
+        res.sendStatus(400); // HTTP 400: Bad Request
+    }
+
+    let program = {
+        name: program_name,
+        program_type: program_type,
+        frequency: program_frequency,
+        assistance_type: program_assistance_type
+    };
+
+    await Program.updateOne({_id: program_id}, program);
+
+    res.sendStatus(200);
+}));
+
+//GET request for deleting program. 
+router.get('/:id/delete', asyncHandler(async (req, res, next) => {
+    res.send("NOT IMPLEMENTED: Program delete GET");
 }));
 
 //POST request for deleting program
