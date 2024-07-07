@@ -112,7 +112,7 @@
                 <button class="btn export-btn" onclick="exportTableToCSV('Programs.csv')">Export to CSV</button>
             </div>
 
-            <!-- Table Lists -->
+        <!---TABLE LISTS-->
             <div class="table-container">
                 <button id="resetFiltersButton" class="btn btn-secondary">Reset Filters</button>
                 <table class="table table-bordered table-hover">
@@ -122,18 +122,24 @@
                             <th scope="col">#</th>
                             <th scope="col">
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="nameDropdown" data-bs-toggle="dropdown" aria-expanded="false">Program Name</a>
+                                    <a class="dropdown-toggle" id="nameDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Program Name
+                                    </a>
                                     <ul class="dropdown-menu" aria-labelledby="nameDropdown">
                                         <li>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" name="nameSort" value="az" id="nameSortAZ">
-                                                <label class="form-check-label" for="nameSortAZ">A-Z</label>
+                                                <label class="form-check-label" for="nameSortAZ">
+                                                    A-Z
+                                                </label>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" name="nameSort" value="za" id="nameSortZA">
-                                                <label class="form-check-label" for="nameSortZA">Z-A</label>
+                                                <label class="form-check-label" for="nameSortZA">
+                                                    Z-A
+                                                </label>
                                             </div>
                                         </li>
                                     </ul>
@@ -143,18 +149,24 @@
                             <th scope="col">Date Program Created</th>
                             <th scope="col">
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="typeDropdown" data-bs-toggle="dropdown" aria-expanded="false">Type of Program</a>
+                                    <a class="dropdown-toggle" id="typeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Type of Program
+                                    </a>
                                     <ul class="dropdown-menu" aria-labelledby="typeDropdown">
                                         <li>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" value="type1" id="type1Check" name="typeFilter">
-                                                <label class="form-check-label" for="type1Check">Type 1</label>
+                                                <label class="form-check-label" for="type1Check">
+                                                    Type 1
+                                                </label>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" value="type2" id="type2Check" name="typeFilter">
-                                                <label class="form-check-label" for="type2Check">Type 2</label>
+                                                <label class="form-check-label" for="type2Check">
+                                                    Type 2
+                                                </label>
                                             </div>
                                         </li>
                                     </ul>
@@ -162,43 +174,74 @@
                             </th>
                             <th scope="col">
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="frequencyDropdown" data-bs-toggle="dropdown" aria-expanded="false">Frequency</a>
+                                    <a class="dropdown-toggle" id="frequencyDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Frequency
+                                    </a>
                                     <ul class="dropdown-menu" aria-labelledby="frequencyDropdown">
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="monthly" id="monthlyCheck" name="frequencyFilter">
-                                                <label class="form-check-label" for="monthlyCheck">Monthly</label>
+                                                <input class="form-check-input" type="checkbox" value="daily" id="dailyCheck" name="frequencyFilter">
+                                                <label class="form-check-label" for="dailyCheck">
+                                                    Daily
+                                                </label>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="quarterly" id="quarterlyCheck" name="frequencyFilter">
-                                                <label class="form-check-label" for="quarterlyCheck">Quarterly</label>
+                                                <input class="form-check-input" type="checkbox" value="weekly" id="weeklyCheck" name="frequencyFilter">
+                                                <label class="form-check-label" for="weeklyCheck">
+                                                    Weekly
+                                                </label>
                                             </div>
                                         </li>
                                     </ul>
                                 </div>
                             </th>
-                            <th scope="col">Assistance Type</th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="assistanceDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Assistance Type
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="assistanceDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="financial" id="financialCheck" name="assistanceFilter">
+                                                <label class="form-check-label" for="financialCheck">
+                                                    Financial
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="medical" id="medicalCheck" name="assistanceFilter">
+                                                <label class="form-check-label" for="medicalCheck">
+                                                    Medical
+                                                </label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <!-- Program rows will be populated here -->
                         {{#each programs}}
-                        <tr>
-                            <td>{{incremented @index}}</td>
-                            <td><a href="/people/{{this._id}}">{{this.name}}</a></td>
-                            <td>{{formatDate this.recent_update_date}}</td>
-                            <td>{{formatDate this.creation_date}}</td>
-                            <td>{{this.program_type}}</td>
-                            <td>{{this.frequency}}</td>
-                            <td>{{this.assistance_type}}</td>
-                            <td>
-                                <button class="editBtn" data-id="{{this._id}}"><i class="bi bi-pencil"></i></button>
-                                <button class="deleteBtn" data-id="{{this._id}}"><i class="bi bi-trash"></i></button>
+                        <tr data-program-id="{{this._id}}">
+                            <td class="program-index">{{@index}}</td>
+                            <td class="program-name"><a href="/people">{{this.name}}</a></td>
+                            <td class="program-lastupdate-date">{{this.recent_update_date}}</td>
+                            <td class="program-creation-date">{{this.creation_date}}</td>
+                            <td class="program-type">{{this.program_type}}</td>
+                            <td class="program-frequency">{{this.frequency}}</td>
+                            <td class="program-assistance-type">{{this.assistance_type}}</td>
+                            <td class="program-controls">
+                                <button class="editBtn" data-bs-toggle="modal" data-bs-target="#modal-program-edit"><i class="bi bi-pencil"></i></button>
+                                <button class="deleteBtn"><i class="bi bi-trash"></i></button>
                             </td>
                             </tr>
+
                         {{/each}}
                     </tbody>
                 </table>
@@ -211,391 +254,122 @@
             </ul>
         </nav>
 
+        <!-- Modal -->
+        <div class="modal fade" id="modal-program-create">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Create a Program</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="programForm" action="/programs/create" method="POST">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="programName">Program Name</label>
+                            <input type="text" class="form-control" name="programName" placeholder="Program Name" required>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="programType">Type of Program</label>
+                            <select name="programType" class="form-control" required>
+                                <option value="" selected disabled>Choose...</option>
+                                <option value="Assistance">Assistance</option>
+                                <option value="Initiative">Initiative</option>
+                                <option value="Service">Service</option>
+                                <option value="Program">Program</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="frequency">Frequency</label>
+                            <select name="frequency" class="form-control" required>
+                                <option value="" selected disabled>Choose...</option>
+                                <option value="Monthly">Monthly</option>
+                                <option value="Quarterly">Quarterly</option>
+                                <option value="Semi-Annual">Semi-Annual</option>
+                                <option value="Yearly">Yearly</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="assistanceType">Assistance Type</label>
+                            <select name="assistanceType" class="form-control" required>
+                                <option value="" selected disabled>Choose...</option>
+                                <option value="Educational">Educational</option>
+                                <option value="Financial">Financial</option>
+                                <option value="Medical">Medical</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="submitBtn" form="programForm">Submit</button>
+            </div>
+            </div>
+        </div>
+        </div>
+
+        <!-- Edit Program Modal -->
+        <div class="modal fade" id="modal-program-edit" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="editProgramModalLabel">Edit Program</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editProgramForm" action="/programs/edit" method="POST">
+                <input type="hidden" id="editProgramId" name="id">
+                <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="editProgramName" class="form-label">Program Name</label>
+                    <input type="text" class="form-control" id="editProgramName" name="programName">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="editProgramType" class="form-label">Program Type</label>
+                    <select class="form-control" id="editProgramType" name="programType">
+                    <option value="Assistance">Assistance</option>
+                    <option value="Initiative">Initiative</option>
+                    <option value="Service">Service</option>
+                    <option value="Program">Program</option>
+                    </select>
+                </div>
+                </div>
+                <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="editFrequency" class="form-label">Frequency</label>
+                    <select class="form-control" id="editFrequency" name="frequency">
+                    <option value="Monthly">Monthly</option>
+                    <option value="Quarterly">Quarterly</option>
+                    <option value="Semi-Annual">Semi-Annual</option>
+                    <option value="Yearly">Yearly</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="editAssistanceType" class="form-label">Assistance Type</label>
+                    <select class="form-control" id="editAssistanceType" name="assistanceType">
+                    <option value="Educational">Educational</option>
+                    <option value="Financial">Financial</option>
+                    <option value="Medical">Medical</option>
+                    </select>
+                </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="submitBtn" form="editProgramForm">Update</button>
+            </div>
+            </div>
+        </div>
+        </div>
+
         <!-- JQuery -->
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                document.getElementById("menu-toggle").addEventListener("click", function() {
-                    document.getElementById("wrapper").classList.toggle("toggled");
-                    document.querySelector(".main-content").classList.toggle("toggled");
-                    document.querySelector(".header-right").classList.toggle("toggled");
-                });
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="/js/program-list.js"></script>
 
-                $(document).ready(function() {
-                    $("#myInput").on("keyup", function() {
-                        var value = $(this).val().toLowerCase();
-                        $(".dropdown-menu li").filter(function() {
-                            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                        });
-                    });
-                });
-                
-                var newMemberAddBtn = document.querySelector('.addProgramBtn button'),
-                    darkBg = document.querySelector('.dark_bg'),
-                    popupForm = document.querySelector('.popup'),
-                    crossBtn = document.querySelector('.closeBtn'),
-                    submitBtn = document.querySelector('.submitBtn'),
-                    modalTitle = document.querySelector('.modalTitle'),
-                    form = document.querySelector('#programForm'),
-                    formInputFields = document.querySelectorAll('#programForm input, #programForm select'),
-                    programInfo = document.querySelector('.programInfo'),
-                    resetFiltersButton = document.getElementById('resetFiltersButton');
-
-                let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
-                let getData = [...originalData];
-
-                let isEdit = false,
-                    editId;
-
-                newMemberAddBtn.addEventListener('click', () => {
-                    isEdit = false;
-                    submitBtn.innerHTML = "Submit";
-                    modalTitle.innerHTML = "Fill the Form";
-                    form.reset();
-                    formInputFields.forEach(input => input.disabled = false);
-                    submitBtn.style.display = "block";
-                    darkBg.classList.add('active');
-                    popupForm.classList.add('active');
-                });
-
-                crossBtn.addEventListener('click', () => {
-                    darkBg.classList.remove('active');
-                    popupForm.classList.remove('active');
-                    form.reset();
-                    submitBtn.style.display = "block";
-                    formInputFields.forEach(input => input.disabled = false);
-                });
-
-                
-                form.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const now = new Date();
-                    const program = {
-                        id: Date.now(),
-                        programName: form.programName.value,
-                        programType: form.programType.value,
-                        freq: form.freq.value,
-                        assistanceType: form.assistanceType.value,
-                        dateCreated: now.toLocaleDateString(),
-                        lastUpdated: now.toLocaleDateString() + ' ' + now.toLocaleTimeString()
-                    };
-
-                    if (!isEdit) {
-                        originalData.push(program);
-                    } else {
-                        originalData[editId] = program;
-                    }
-
-                    $.post("/programs/create", program, (data, status, xhr) => {
-                        if (status === "success" && xhr.status === 201) {
-                            alert("Program \"" + program.programName + "\" has been created.");
-                        }
-                    });
-
-                    localStorage.setItem('programs', JSON.stringify(originalData));
-                    getData = [...originalData];
-                    //showInfo();
-                    darkBg.classList.remove('active');
-                    popupForm.classList.remove('active');
-                    form.reset();
-                }); 
-
-                function showInfo() {
-                    displayRows(getData, currentPage);
-                    displayPagination(getData.length);
-                    addEventListeners();
-                }
-
-                let currentPage = 1;
-                const rowsPerPage = 5;
-
-                function displayPagination(totalRows) {
-                    const pagination = document.querySelector('.pagination');
-                    const totalPages = Math.ceil(totalRows / rowsPerPage);
-
-                    pagination.innerHTML = `
-                        <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-                            <a class="page-link" href="#" aria-label="Previous" id="prevButton">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        `;
-
-                    for (let i = 1; i <= totalPages; i++) {
-                        pagination.innerHTML += `
-                        <li class="page-item ${currentPage === i ? 'active' : ''}">
-                            <a class="page-link paginationButton" href="#">${i}</a>
-                        </li>
-                        `;
-                    }
-
-                    pagination.innerHTML += `
-                    <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-                        <a class="page-link" href="#" aria-label="Next" id="nextButton">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                    `;
-
-                    document.getElementById("prevButton").addEventListener("click", prevPage);
-                    document.getElementById("nextButton").addEventListener("click", nextPage);
-
-                    const paginationButtons = document.getElementsByClassName("paginationButton");
-                    for (let i = 0; i < paginationButtons.length; i++) {
-                        paginationButtons[i].addEventListener("click", function(event) {
-                            event.preventDefault();
-                            goToPage(parseInt(this.textContent));
-                        });
-                    }
-                }
-
-                function displayRows(rows, page = 1) {
-                    const start = (page - 1) * rowsPerPage;
-                    const end = start + rowsPerPage;
-                    const paginatedRows = rows.slice(start, end);
-                    const programInfo = document.querySelector('.programInfo');
-                    programInfo.innerHTML = '';
-                    paginatedRows.forEach((program, index) => {
-                        const row = `
-                <tr>
-                    <td>${start + index + 1}</td>
-                    <td><a href="/people">${program.programName}</a></td>
-                    <td>${program.lastUpdated}</td>
-                    <td>${program.dateCreated}</td>
-                    <td>${capitalizeFirstLetter(program.programType)}</td>
-                    <td>${capitalizeFirstLetter(program.freq)}</td>
-                    <td>${capitalizeFirstLetter(program.assistanceType)}</td>
-                    <td>
-                        <button class="viewBtn" data-id="${program.id}"><i class="bi bi-eye"></i></button>
-                        <button class="editBtn" data-id="${program.id}"><i class="bi bi-pencil"></i></button>
-                        <button class="deleteBtn" data-id="${program.id}"><i class="bi bi-trash"></i></button>
-                    </td>
-                </tr>
-                `;
-                    programInfo.innerHTML += row;
-                });
-
-                    function capitalizeFirstLetter(string) {
-                        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-                    }
-                }
-
-                function addEventListeners() {
-                    document.querySelectorAll('.viewBtn').forEach(button => {
-                        button.addEventListener('click', (e) => {
-                            const id = parseInt(e.currentTarget.getAttribute('data-id'));
-                            readInfo(id);
-                        });
-                    });
-                    document.querySelectorAll('.editBtn').forEach(button => {
-                        button.addEventListener('click', (e) => {
-                            const id = e.currentTarget.getAttribute('data-id');
-                            editInfo(id);
-                        });
-                    });
-                    document.querySelectorAll('.deleteBtn').forEach(button => {
-                        button.addEventListener('click', (e) => {
-                            const id = e.currentTarget.getAttribute('data-id');
-                            deleteInfo(id, e);
-                        });
-                    });
-                    // Event listeners for sorting and filtering
-                    document.querySelectorAll('input[name="nameSort"]').forEach(radio => {
-                        radio.addEventListener('change', () => {
-                            sortData();
-                            displayRows(getData, currentPage);
-                            displayPagination(getData.length);
-                        });
-                    });
-                    document.querySelectorAll('input[name="typeFilter"], input[name="frequencyFilter"], input[name="assistanceFilter"]').forEach(checkbox => {
-                        checkbox.addEventListener('change', () => {
-                            filterData();
-                            displayRows(getData, currentPage);
-                            displayPagination(getData.length);
-                        });
-                    });
-                }
-
-                function prevPage(event) {
-                    event.preventDefault();
-                    if (currentPage > 1) {
-                        currentPage--;
-                        displayRows(getData, currentPage);
-                        displayPagination(getData.length);
-                    }
-                }
-
-                function nextPage(event) {
-                    event.preventDefault();
-                    const totalPages = Math.ceil(getData.length / rowsPerPage);
-                    if (currentPage < totalPages) {
-                        currentPage++;
-                        displayRows(getData, currentPage);
-                        displayPagination(getData.length);
-                    }
-                }
-
-                function goToPage(page) {
-                    currentPage = page;
-                    displayRows(getData, currentPage);
-                    displayPagination(getData.length);
-                }
-
-                function readInfo(id) {
-                    const program = getData.find(item => item.id === id);
-                    if (program) {
-                        form.programName.value = program.programName;
-                        form.programType.value = program.programType;
-                        form.freq.value = program.freq;
-                        form.assistanceType.value = program.assistanceType;
-                        modalTitle.innerHTML = "View Program";
-                        formInputFields.forEach(input => input.disabled = true);
-                        submitBtn.style.display = "none";
-                        darkBg.classList.add('active');
-                        popupForm.classList.add('active');
-                    }
-                }
-
-                function editInfo(id) {
-                    isEdit = true;
-                    editId = getData.findIndex(item => item.id === id);
-                    const program = getData[editId];
-                    if (program) {
-                        form.programName.value = program.programName;
-                        form.programType.value = program.programType;
-                        form.freq.value = program.freq;
-                        form.assistanceType.value = program.assistanceType;
-                        modalTitle.innerHTML = "Edit Program";
-                        formInputFields.forEach(input => input.disabled = false);
-                        submitBtn.style.display = "block";
-                        submitBtn.innerHTML = "Update";
-                        darkBg.classList.add('active');
-                        popupForm.classList.add('active');
-                    }
-                }
-
-                function deleteInfo(id, e) {
-                    if (confirm("Are you sure you want to delete this program?")) {
-                        console.log(id);
-                        // Remove item from localStorage
-                        originalData = originalData.filter(item => item.id !== id);
-                        localStorage.setItem('programs', JSON.stringify(originalData));
-                        
-                        // Make a copy of originalData if needed
-                        let getData = [...originalData];
-                        
-                        // Handle deletion via AJAX request
-                        $.post(`/programs/delete`, {program_id: id})
-                        .done((data, status, xhr) => {
-                            // Check if deletion was successful
-                            if (status === "success" && xhr.status === 200) {
-                                // Display success message
-                                let index = e?.currentTarget?.closest("tr")?.querySelector("td:first-child")?.textContent;
-                                if (index) {
-                                    alert("Program with ID " + index + " has been deleted");
-                                    }
-                                    // Reload the page after deletion
-                                    location.reload();
-                                    } else {
-                                        // Handle deletion failure
-                                        alert("Failed to delete program. Please try again.");
-                                        }
-                                        })
-                                        .fail((xhr, status, error) => {
-                                            // Handle AJAX request failure
-                                            alert("Error deleting program. Please try again later.");
-                                            console.error(error);
-                                             });
-                                             // Remove the table row from the UI
-                                             if (e?.currentTarget) {
-                                                 e.currentTarget.closest("tr").remove();
-                                                 }
-                                                 }
-                                                 }
-
-
-                function sortData() {
-                    const selectedSort = document.querySelector('input[name="nameSort"]:checked').value;
-                    getData.sort((a, b) => {
-                        if (selectedSort === 'az') {
-                            return a.programName.localeCompare(b.programName);
-                        } else {
-                            return b.programName.localeCompare(a.programName);
-                        }
-                    });
-                    showInfo();
-                }
-
-                function filterData() {
-                    let filteredData = [...originalData];
-                    const selectedTypes = Array.from(document.querySelectorAll('input[name="typeFilter"]:checked')).map(check => check.value);
-
-                    if (selectedTypes.length > 0) {
-                        filteredData = filteredData.filter(program => selectedTypes.includes(program.programType));
-                    }
-
-                    const selectedFrequencies = Array.from(document.querySelectorAll('input[name="frequencyFilter"]:checked')).map(check => check.value);
-                    if (selectedFrequencies.length > 0) {
-                        filteredData = filteredData.filter(program => selectedFrequencies.includes(program.freq));
-                    }
-
-                    const selectedAssistances = Array.from(document.querySelectorAll('input[name="assistanceFilter"]:checked')).map(check => check.value);
-                    if (selectedAssistances.length > 0) {
-                        filteredData = filteredData.filter(program => selectedAssistances.includes(program.assistanceType));
-                    }
-                    
-                    getData = filteredData;
-                    showInfo();
-                }
-
-                resetFiltersButton.addEventListener('click', () => {
-                    document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
-                        input.checked = false;
-                    });
-                    getData = [...originalData];
-                    showInfo();
-                });
-
-                //displayRows(getData, currentPage);
-                displayPagination(getData.length);
-                addEventListeners();
-            });
-
-            /* Exporting to CSV function */
-            function downloadCSV(csv, filename) {
-                let csvFile;
-                let downloadLink;
-                csvFile = new Blob([csv], {
-                    type: 'text/csv'
-                });
-
-                downloadLink = document.createElement('a');
-                downloadLink.download = filename;
-                downloadLink.href = window.URL.createObjectURL(csvFile);
-                downloadLink.style.display = 'none';
-                document.body.appendChild(downloadLink);
-                downloadLink.click();
-            }
-
-            function exportTableToCSV(filename) {
-                const rows = document.querySelectorAll('.table-container table tr');
-                let csv = [];
-                for (let i = 0; i < rows.length; i++) {
-                    const row = [],
-                        cols = rows[i].querySelectorAll('td, th');
-                    for (let j = 0; j < cols.length; j++) {
-                        const data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ');
-                        row.push('"' + data + '"');
-                    }
-                    csv.push(row.join(','));
-                }
-                downloadCSV(csv.join('\n'), filename);
-            }
-</script>
 </body>
 
 </html>
