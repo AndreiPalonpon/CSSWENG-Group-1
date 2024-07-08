@@ -31,12 +31,6 @@ router.get('/', asyncHandler(async (req, res, next) => {
     console.log(benefits, benefactors);
     res.render("benefit-list", { benefactors: benefactors, benefits: benefits });
 }));
-
-
-// GET request for creating item
-router.get('/create', asyncHandler(async (req, res, next) => {
-    
-}));
  
 // POST request for creating beneficiary
 router.post('/create', asyncHandler(async (req, res, next) => {
@@ -58,18 +52,26 @@ router.post('/create', asyncHandler(async (req, res, next) => {
 }));
 
 // POST request for editing item
-router.post('/:id/edit', asyncHandler(async (req, res, next) => { //Change to post. POST will be used.
-    //Example...
-    //req.body will be implemented later.
-    const id = "6680c8ace7e6a0a3c2d72f7e";
-    const updatedBenefit = {
-        
+router.post('/edit', asyncHandler(async (req, res, next) => { //Change to post. POST will be used.
+    const {benefit_id, name, description, 
+           quantity, date_received, 
+           benefactor } = req.body;
+
+    if  (name === "") {
+        res.sendStatus(400); // HTTP 400: Bad Request
+    }
+
+    const benefit = {
+        name: name,
+        description: description,
+        quantity: quantity,
+        date_received: date_received,
+        benefactor: benefactor
     };
 
-    await Benefit.findByIdAndUpdate(id, updatedBenefit);
+    await Program.updateOne({_id: benefit_id}, benefit);
 
-    //res.sendStatus(200);
-    res.redirect("/benefits/");
+    res.sendStatus(200);
 }));
 
 

@@ -53,6 +53,37 @@ const barangayCodes = {
     "020": "Talon Singko"
 };
 
+// POST request for updating person
+router.get('/edit', asyncHandler(async (req, res, next) => { //Change to post. POST will be used.
+    const { id, first_name, last_name, gender,
+            birthdate, address, barangay,
+            contact_number, disability_type,
+            disability, pwd_card_id_no, 
+            recent_pwd_id_update_date } = req.body;
+
+    if (first_name === "" || last_name === "") {
+        res.sendStatus(400); // HTTP 400: Bad Request
+    }
+
+    const person = {
+        first_name: first_name,
+        last_name: last_name,
+        gender: gender,
+        birthdate: birthdate, 
+        address: address,
+        barangay: barangay,
+        contact_number: contact_number,
+        disability_type: disability_type,
+        disability: disability,
+        pwd_card_id_no: pwd_card_id_no,
+        recent_pwd_id_update_date: recent_pwd_id_update_date,
+    };
+
+    await Program.updateOne({_id: id}, person);
+
+    res.sendStatus(200);
+}));
+
 // GET request for fetching people list under a specific program
 router.get('/:id', asyncHandler(async(req, res, next) => {
     try {
@@ -75,11 +106,6 @@ router.get('/:id', asyncHandler(async(req, res, next) => {
         console.error('Error fetching program details:', err);
         res.status(500).send(err.message);
     }
-}));
-
-//GET request for creating people
-router.get('/create', asyncHandler(async(req, res, next) => {
-    res.send("NOT IMPLEMENTED: People create GET");
 }));
 
 // POST request for creating people.

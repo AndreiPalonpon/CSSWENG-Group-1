@@ -78,8 +78,21 @@ router.post('/create', asyncHandler(async (req, res, next) => {
 }));
 
 // POST request for editing beneficiary
-router.post('/:id/edit', asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Beneficiary edit POST");
+router.post('/edit', asyncHandler(async (req, res, next) => {
+    const { id, person_registered, program_enrolled, 
+            status, benefit_delivered, date_received } = req.body
+
+    const beneficiary = {
+        person_registered: person_registered,
+        program_enrolled: program_enrolled,
+        status: status,
+        benefit_delivered: benefit_delivered,
+        date_received: date_received,
+    };
+
+    await Program.updateOne({_id: id}, beneficiary);
+
+    res.sendStatus(200);
 }));
 
 // POST request for deleting beneficiary

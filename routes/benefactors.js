@@ -44,25 +44,27 @@ router.post('/create', asyncHandler(async (req, res, next) => {
 
 // POST request for updating benefactor
 router.get('/edit', asyncHandler(async (req, res, next) => { //Change to post. POST will be used.
-    //Example...
-    //req.body will be implemented later.
-    const id = "6680c8ace7e6a0a3c2d72f7e";
-    const updatedProgram = {
-        name: "Neo",
-        type: "Person",
+    const { id, name, type } = req.body;
+
+    if (name === "" || type === "") {
+        res.sendStatus(400); // HTTP 400: Bad Request
+    }
+
+    const benefactor = {
+        name: name,
+        type: type,
     };
 
-    await Program.findByIdAndUpdate(id, updatedProgram);
+    await Program.updateOne({_id: id}, benefactor);
 
-    //res.sendStatus(200);
-    res.redirect("/benefactors");
+    res.sendStatus(200);
 }));
 
 // POST request for deleting benefactor
 router.post('/delete', asyncHandler(async (req, res, next) => {
     //Check first if there are benefits from the current benefactor. If there are, he or she cannot be deleted.
-    await Benefactor.deleteOne({_id: req.body.benefactor_id});
-    console.log("Benefactor ID " + req.body.benefactor_id + " has been deleted.");
+    await Benefactor.deleteOne({_id: req.body.id});
+    console.log("Benefactor ID " + req.body.id + " has been deleted.");
     res.sendStatus(200);
 }));
 
