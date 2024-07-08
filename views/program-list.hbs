@@ -231,7 +231,7 @@
                         {{#each programs}}
                         <tr data-program-id="{{this._id}}">
                             <td class="program-index">{{@index}}</td>
-                            <td class="program-name"><a href="/people">{{this.name}}</a></td>
+                            <td class="program-name"><a href="/people/{{this._id}}">{{this.name}}</a></td> <!-- The href route should include id of the specific program being pressed -->
                             <td class="program-lastupdate-date">{{this.recent_update_date}}</td>
                             <td class="program-creation-date">{{this.creation_date}}</td>
                             <td class="program-type">{{this.program_type}}</td>
