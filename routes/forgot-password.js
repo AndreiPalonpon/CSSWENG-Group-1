@@ -24,7 +24,7 @@ router.post("/", async (req, res, next) => {
         questions.forEach((question, index) => {
             const userAnswer = inputs[`answer${index}`]; 
             if (userAnswer) {
-                if (userAnswer.toLowerCase() === question.answer.toLowerCase()) {
+                if (userAnswer === question.answer) {
                     correctAnswers++;
                 } else {
                     errors.push(`Answer for '${question.question}' is incorrect.`);
@@ -35,7 +35,7 @@ router.post("/", async (req, res, next) => {
         });
 
         if (correctAnswers === questions.length) {
-            req.session.forgotPasswordCompleted = true;  // Set session flag
+            req.session.forgotPasswordCompleted = true; 
             res.json({ allCorrect: true });
         } else {
             res.status(400).json({ allCorrect: false, errors });
