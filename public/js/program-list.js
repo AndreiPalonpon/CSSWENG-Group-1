@@ -1,107 +1,108 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Toggle Menu
     document.getElementById("menu-toggle").addEventListener("click", function() {
-    document.getElementById("wrapper").classList.toggle("toggled");
-    document.querySelector(".main-content").classList.toggle("toggled");
-    document.querySelector(".header-right").classList.toggle("toggled");
-});
+        document.getElementById("wrapper").classList.toggle("toggled");
+        document.querySelector(".main-content").classList.toggle("toggled");
+        document.querySelector(".header-right").classList.toggle("toggled");
+    });
 
-$(document).ready(function() {
-    $("#myInput").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $(".dropdown-menu li").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    $(document).ready(function() {
+        $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $(".dropdown-menu li").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
         });
     });
-});
 
-// Adding a new program 
-var newMemberAddBtn = document.querySelector('.addProgramBtn button'),
-    //darkBg = document.querySelector('.dark_bg'),
-    //popupForm = document.querySelector('.popup'),
-    //crossBtn = document.querySelector('.closeBtn'),
-    submitBtn = document.querySelector('.submitBtn'),
-    modalTitle = document.querySelector('.modalTitle'),
-    form = document.querySelector('#programForm'),
-    formInputFields = document.querySelectorAll('#programForm input, #programForm select'),
-    programInfo = document.querySelector('.programInfo'),
-    resetFiltersButton = document.getElementById('resetFiltersButton');
+    // Adding a new program
+    var newMemberAddBtn = document.querySelector('.addProgramBtn button'),
+        darkBg = document.querySelector('.dark_bg'),
+        popupForm = document.querySelector('.popup'),
+        crossBtn = document.querySelector('.closeBtn'),
+        submitBtn = document.querySelector('.submitBtn'),
+        modalTitle = document.querySelector('.modalTitle'),
+        form = document.querySelector('#programForm'),
+        formInputFields = document.querySelectorAll('#programForm input, #programForm select'),
+        programInfo = document.querySelector('.programInfo'),
+        resetFiltersButton = document.getElementById('resetFiltersButton');
 
-let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
-let getData = [...originalData];
+    let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
+    let getData = [...originalData];
 
-let isEdit = false,
-    editId;
+    let isEdit = false,
+        editId;
 
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const now = new Date();
-    const program = {
-        id: Date.now(),
-        programName: form.programName.value,
-        programType: form.programType.value,
-        frequency: form.frequency.value,
-        assistanceType: form.assistanceType.value,
-        dateCreated: now.toLocaleDateString(),
-        lastUpdated: now.toLocaleDateString() + ' ' + now.toLocaleTimeString()
-    };
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const now = new Date();
+        const program = {
+            id: Date.now(),
+            programName: form.programName.value,
+            programType: form.programType.value,
+            frequency: form.frequency.value,
+            assistanceType: form.assistanceType.value,
+            dateCreated: now.toLocaleDateString(),
+            lastUpdated: now.toLocaleDateString() + ' ' + now.toLocaleTimeString()
+        };
 
-    if (!isEdit) {
-        originalData.push(program);
-    } else {
-        originalData[editId] = program;
-    }
-
-    $.post("/programs/create", program, (data, status, xhr) => {
-        if (status === "success" && xhr.status === 201) {
-            alert("Program \"" + program.programName + "\" has been created.");
-        }
-    });
-
-    localStorage.setItem('programs', JSON.stringify(originalData));
-    getData = [...originalData];
-    //showInfo();
-    darkBg.classList.remove('active');
-    popupForm.classList.remove('active');
-    let modal_program_create = document.querySelector("#modal-program-create");
-    bootstrap.Modal.getInstance(modal_program_create).hide();
-    form.reset();
-});
-
-document.getElementById("editProgramForm").addEventListener('submit', (e) => {
-    let program_id = document.getElementById("editProgramId").value;
-    let program_name = document.getElementById("editProgramName").value;
-    let program_type = document.getElementById("editProgramType").value;
-    let program_frequency = document.getElementById("editFrequency").value;
-    let program_assistance_type = document.getElementById("editAssistanceType").value;
-
-    let program = {
-        program_id: program_id,
-        program_name: program_name,
-        program_type: program_type,
-        program_frequency: program_frequency,
-        program_assistance_type: program_assistance_type
-    };
-
-    e.preventDefault();
-
-    $.post("/programs/edit", program, (data, status, xhr) => {
-        if (status === "success" && xhr.status === 200) {
-            alert("Update program successfully.");
-
-            bootstrap.Modal.getInstance(document.getElementById("modal-program-edit"))
+        if (!isEdit) {
+            originalData.push(program);
         } else {
-            alert("Error updating program");
+            originalData[editId] = program;
         }
-    }).fail(() => {
-        alert("Error updating program");
-    });
-});
 
-function showInfo() {
-    displayRows(getData, currentPage);
-    displayPagination(getData.length);
-    addEventListeners();
-}
+        $.post("/programs/create", program, (data, status, xhr) => { // data parameter cannot be read
+            if (status === "success" && xhr.status === 201) {
+                alert("Program \"" + program.programName + "\" has been created.");
+            }
+        });
+
+        localStorage.setItem('programs', JSON.stringify(originalData));
+        getData = [...originalData];
+        //showInfo();
+        darkBg.classList.remove('active');
+        popupForm.classList.remove('active');
+        let modal_program_create = document.querySelector("#modal-program-create");
+        bootstrap.Modal.getInstance(modal_program_create).hide();
+        form.reset();
+    });
+
+    document.getElementById("editProgramForm").addEventListener('submit', (e) => {
+        let program_id = document.getElementById("editProgramId").value;
+        let program_name = document.getElementById("editProgramName").value;
+        let program_type = document.getElementById("editProgramType").value;
+        let program_frequency = document.getElementById("editFrequency").value;
+        let program_assistance_type = document.getElementById("editAssistanceType").value;
+
+        let program = {
+            program_id: program_id,
+            program_name: program_name,
+            program_type: program_type,
+            program_frequency: program_frequency,
+            program_assistance_type: program_assistance_type
+        };
+
+        e.preventDefault();
+
+        $.post("/programs/edit", program, (data, status, xhr) => {
+            if (status === "success" && xhr.status === 200) {
+                alert("Update program successfully.");
+
+                bootstrap.Modal.getInstance(document.getElementById("modal-program-edit"))
+            } else {
+                alert("Error updating program");
+            }
+        }).fail(() => {
+            alert("Error updating program");
+        });
+    });
+
+    function showInfo() {
+        displayRows(getData, currentPage);
+        displayPagination(getData.length);
+        addEventListeners();
+    }
 
 let currentPage = 1;
 const rowsPerPage = 5;

@@ -140,7 +140,7 @@
                             <td>
                                 <button class="viewBtn" data-id="{{this._id}}"><i class="bi bi-eye"></i></button>
                                 <button class="editBtn" data-id="{{this._id}}"><i class="bi bi-pencil"></i></button>
-                                <button class=  "deleteBtn" data-id="{{this._id}}"><i class="bi bi-trash"></i></button>
+                                <button class="deleteBtn" data-id="{{this._id}}"><i class="bi bi-trash"></i></button>
                             </td>
                         </tr>
                         {{/each}}
@@ -187,7 +187,7 @@
                     modalTitle = document.querySelector('.modalTitle'),
                     form = document.querySelector('#benefitForm'),
                     formInputFields = document.querySelectorAll('#benefitForm input, #benefitForm select'),
-                    benefactorInfo = document.querySelector('.benefitInfo');
+                    benefitInfo = document.querySelector('.benefitInfo');
                     resetFiltersButton = document.getElementById('resetFiltersButton');
 
                 // Retrieve data from local storage or initialize empty array
@@ -198,7 +198,7 @@
                     editId;
 
                 newMemberAddBtn.addEventListener('click', () => {
-                    // Show form for adding new benefactor
+                    // Show form for adding new benefit
                     isEdit = false;
                     submitBtn.innerHTML = "Submit";
                     modalTitle.innerHTML = "Fill the Form";
@@ -306,22 +306,19 @@
                     const start = (page - 1) * rowsPerPage;
                     const end = start + rowsPerPage;
                     const paginatedRows = rows.slice(start, end);
-                    const benefactorInfo = document.querySelector('.benefactorInfo');
-                    benefactorInfo.innerHTML = '';
-                    paginatedRows.forEach((benefactor, index) => {
+                    const benefitInfo = document.querySelector('.benefitInfo');
+                    benefitInfo.innerHTML = '';
+                    paginatedRows.forEach((benefit, index) => {
                         const row = `
                 <tr>
-                    <td>${start + index + 1}</td>
-                    <td>${benefactor.benefactorName}</td>
-                    <td>${benefactor.benefactorType}</td>
                     <td>
-                        <button class="viewBtn" data-id="${benefactor.id}"><i class="bi bi-eye"></i></button>
-                        <button class="editBtn" data-id="${benefactor.id}"><i class="bi bi-pencil"></i></button>
-                        <button class="deleteBtn" data-id="${benefactor.id}"><i class="bi bi-trash"></i></button>
+                        <button class="viewBtn" data-id="${benefit.id}"><i class="bi bi-eye"></i></button>
+                        <button class="editBtn" data-id="${benefit.id}"><i class="bi bi-pencil"></i></button>
+                        <button class="deleteBtn" data-id="${benefit.id}"><i class="bi bi-trash"></i></button>
                     </td>
                 </tr>
                 `;
-                    benefactorInfo.innerHTML += row;
+                    benefitInfo.innerHTML += row;
                 });
 
                     function capitalizeFirstLetter(string) {
@@ -398,11 +395,14 @@
                 }
 
                 function readInfo(id) {
-                    const benefactor = getData.find(item => item.id === id);
-                    if (benefactor) {
-                        form.benefactorName.value = benefactor.benefactorName;
-                        form.benefactorType.value = benefactor.benefactorType;
-                        modalTitle.innerHTML = "View Benefactor";
+                    const benefit = getData.find(item => item.id === id);
+                    if (benefit) {
+                        form.benefitName.value = benefit.benefitName;
+                        form.benefitDesc.value = benefit.benefitDesc;
+                        form.quantity.value = benefit.quantity;
+                        form.dateReceived.value = benefit.dateReceived;
+                        form.benefactor.value = benefit.benefactor;
+                        modalTitle.innerHTML = "View Benefit";
                         formInputFields.forEach(input => input.disabled = true);
                         submitBtn.style.display = "none";
                         darkBg.classList.add('active');
@@ -413,11 +413,14 @@
                 function editInfo(id) {
                     isEdit = true;
                     editId = getData.findIndex(item => item.id === id);
-                    const benefactor = getData[editId];
-                    if (benefactor) {
-                        form.benefactorName.value = benefactor.benefactorName;
-                        form.benefactorType.value = benefactor.benefactorType;
-                        modalTitle.innerHTML = "Edit Benefactor";
+                    const benefit = getData[editId];
+                    if (benefit) {
+                       form.benefitName.value = benefit.benefitName;
+                        form.benefitDesc.value = benefit.benefitDesc;
+                        form.quantity.value = benefit.quantity;
+                        form.dateReceived.value = benefit.dateReceived;
+                        form.benefactor.value = benefit.benefactor;
+                        modalTitle.innerHTML = "Edit Benefit";
                         formInputFields.forEach(input => input.disabled = false);
                         submitBtn.style.display = "block";
                         submitBtn.innerHTML = "Update";
@@ -431,7 +434,7 @@
                         console.log(id);
                         // Remove item from localStorage
                         originalData = originalData.filter(item => item.id !== id);
-                        localStorage.setItem('benefactors', JSON.stringify(originalData));
+                        localStorage.setItem('benefits', JSON.stringify(originalData));
                         
                         // Make a copy of originalData if needed
                         let getData = [...originalData];
