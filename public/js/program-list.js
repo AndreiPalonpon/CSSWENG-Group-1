@@ -61,8 +61,8 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('programs', JSON.stringify(originalData));
         getData = [...originalData];
         //showInfo();
-        darkBg.classList.remove('active');
-        popupForm.classList.remove('active');
+        //darkBg.classList.remove('active');
+        //popupForm.classList.remove('active');
         let modal_program_create = document.querySelector("#modal-program-create");
         bootstrap.Modal.getInstance(modal_program_create).hide();
         form.reset();
@@ -87,9 +87,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         $.post("/programs/edit", program, (data, status, xhr) => {
             if (status === "success" && xhr.status === 200) {
-                alert("Update program successfully.");
-
-                bootstrap.Modal.getInstance(document.getElementById("modal-program-edit"))
+            let modalInstance = bootstrap.Modal.getInstance(document.getElementById("modal-program-edit"));
+            modalInstance.hide();  // Hide the modal
+            alert("Update program successfully.");
             } else {
                 alert("Error updating program");
             }
