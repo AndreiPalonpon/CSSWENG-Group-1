@@ -1,4 +1,275 @@
 document.addEventListener('DOMContentLoaded', function() {
+    let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
+    let getData = [...originalData];
+
+    // Toggle Menu
+    document.getElementById("menu-toggle").addEventListener("click", function() {
+        document.getElementById("wrapper").classList.toggle("toggled");
+        document.querySelector(".main-content").classList.toggle("toggled");
+        document.querySelector(".header-right").classList.toggle("toggled");
+    });
+
+    const nameSortAZ = document.getElementById('nameSortAZ');
+    const nameSortZA = document.getElementById('nameSortZA');
+    const typeFilters = document.querySelectorAll('input[name="typeFilter"]');
+    const frequencyFilters = document.querySelectorAll('input[name="frequencyFilter"]');
+    const assistanceTypeFilters = document.querySelectorAll('input[name="assistanceTypeFilter"]');
+    const resetFiltersButton = document.getElementById('resetFiltersButton');
+
+    const form = document.querySelector('#programForm');
+    const submitBtn = document.querySelector('.submitBtn');
+    const modalTitle = document.querySelector('.modalTitle');
+    const formInputFields = document.querySelectorAll('#programForm input, #programForm select');
+
+    let isEdit = false,
+        editId;
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const now = new Date();
+        const program = {
+            id: isEdit ? editId : Date.now(),
+            programName: form.programName.value,
+            programType: form.programType.value,
+            frequency: form.frequency.value,
+            assistanceType: form.assistanceType.value,
+            dateCreated: isEdit ? getData.find(prog => prog.id === editId).dateCreated : now.toLocaleDateString(),
+            lastUpdated: now.toLocaleDateString() + ' ' + now.toLocaleTimeString()
+        };
+
+        if (!isEdit) {
+            originalData.push(program);
+        } else {
+            const index = originalData.findIndex(prog => prog.id === editId);
+            originalData[index] = program;
+            isEdit = false; // Reset the isEdit flag
+        }
+
+        $.post("/programs/create", program, (data, status, xhr) => { // data parameter cannot be read
+            if (status === "success" && xhr.status === 201) {
+                alert("Program \"" + program.programName + "\" has been created.");
+            }
+        });
+
+        localStorage.setItem('programs', JSON.stringify(originalData));
+        getData = [...originalData];
+        bootstrap.Modal.getInstance(document.querySelector("#modal-program-create")).hide();
+        form.reset();
+        renderPrograms(getData);
+    });
+
+    document.getElementById("editProgramForm").addEventListener('submit', (e) => {
+        e.preventDefault();
+        const program_id = parseInt(document.getElementById("editProgramId").value);
+        const program_name = document.getElementById("editProgramName").value;
+        const program_type = document.getElementById("editProgramType").value;
+        const program_frequency = document.getElementById("editFrequency").value;
+        const program_assistance_type = document.getElementById("editAssistanceType").value;
+
+        const originalProgram = originalData.find(prog => prog.id === program_id);
+
+        const program = {
+            id: program_id,
+            programName: program_name,
+            programType: program_type,
+            frequency: program_frequency,
+            assistanceType: program_assistance_type,
+            dateCreated: originalProgram.dateCreated,
+            lastUpdated: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+        };
+
+        const index = originalData.findIndex(prog => prog.id === program.id);
+        originalData[index] = program;
+
+        localStorage.setItem('programs', JSON.stringify(originalData));
+        getData = [...originalData];
+
+        $.post("/programs/edit", program, (data, status, xhr) => {
+            if (status === "success" && xhr.status === 200) {
+                alert("Update program successfully.");
+                bootstrap.Modal.getInstance(document.getElementById("modal-program-edit")).hide();
+                renderPrograms(getData);
+            } else {
+                alert("Error updating program");
+            }
+        }).fail(() => {
+            alert("Error updating program");
+        });
+    });
+
+    function addEventListeners() {
+        document.querySelectorAll('.editBtn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const id = e.currentTarget.closest("tr").getAttribute('data-program-id');
+                editInfo(id, e);
+            });
+        });
+        document.querySelectorAll('.deleteBtn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const id = e.currentTarget.closest("tr").getAttribute('data-program-id');
+                deleteInfo(id, e);
+            });
+        });
+    }
+
+    function onBtnEditClick(e) {
+        const program_id = e.currentTarget.closest("tr").getAttribute("data-program-id");
+        const program_name = e.currentTarget.closest("tr").querySelector(".program-name > a").textContent;
+        const program_type = e.currentTarget.closest("tr").querySelector(".program-type").textContent;
+        const program_frequency = e.currentTarget.closest("tr").querySelector(".program-frequency").textContent;
+        const program_assistance_type = e.currentTarget.closest("tr").querySelector(".program-assistance-type").textContent;
+
+        document.getElementById("editProgramId").value = program_id;
+        document.getElementById("editProgramName").value = program_name;
+        document.getElementById("editProgramType").value = program_type;
+        document.getElementById("editFrequency").value = program_frequency;
+        document.getElementById("editAssistanceType").value = program_assistance_type;
+    }
+
+    function editInfo(id, e) {
+        onBtnEditClick(e);
+        isEdit = true;
+        editId = parseInt(id);
+        const program = getData.find(item => item.id === editId);
+        if (program) {
+            form.programName.value = program.programName;
+            form.programType.value = program.programType;
+            form.frequency.value = program.frequency;
+            form.assistanceType.value = program.assistanceType;
+            modalTitle.innerHTML = "Edit Program";
+            formInputFields.forEach(input => input.disabled = false);
+            submitBtn.style.display = "block";
+            submitBtn.innerHTML = "Update";
+        }
+    }
+
+    function deleteInfo(id, e) {
+        if (confirm("Are you sure you want to delete this program?")) {
+            id = parseInt(id);
+            originalData = originalData.filter(item => item.id !== id);
+            localStorage.setItem('programs', JSON.stringify(originalData));
+            getData = [...originalData];
+            e.currentTarget.closest("tr").remove();
+            $.post("/programs/delete", { program_id: id }, (data, status, xhr) => {
+                if (status === "success" && xhr.status === 200) {
+                    alert("Program has been deleted");
+                }
+            });
+        }
+    }
+
+    const getSelectedValues = (inputs) => {
+        return Array.from(inputs).filter(input => input.checked).map(input => input.value);
+    };
+
+    const filterAndSortPrograms = () => {
+        let filteredPrograms = [...getData];
+
+        const typeValues = getSelectedValues(typeFilters);
+        if (typeValues.length > 0) {
+            filteredPrograms = filteredPrograms.filter(program => typeValues.includes(program.programType));
+        }
+
+        const frequencyValues = getSelectedValues(frequencyFilters);
+        if (frequencyValues.length > 0) {
+            filteredPrograms = filteredPrograms.filter(program => frequencyValues.includes(program.frequency));
+        }
+
+        const assistanceTypeValues = getSelectedValues(assistanceTypeFilters);
+        if (assistanceTypeValues.length > 0) {
+            filteredPrograms = filteredPrograms.filter(program => assistanceTypeValues.includes(program.assistanceType));
+        }
+
+        if (nameSortAZ.checked) {
+            filteredPrograms.sort((a, b) => a.programName.localeCompare(b.programName));
+        } else if (nameSortZA.checked) {
+            filteredPrograms.sort((a, b) => b.programName.localeCompare(a.programName));
+        }
+
+        renderPrograms(filteredPrograms);
+    };
+
+    const renderPrograms = (programs) => {
+        const tbody = document.querySelector('tbody');
+        tbody.innerHTML = '';
+
+        programs.forEach((program, index) => {
+            const row = document.createElement('tr');
+            row.setAttribute('data-program-id', program.id);
+
+            row.innerHTML = `
+                <td class="program-index">${index + 1}</td>
+                <td class="program-name"><a href="/people">${program.programName}<a></td>
+                <td class="program-lastupdate-date">${program.lastUpdated}</td>
+                <td class="program-creation-date">${program.dateCreated}</td>
+                <td class="program-type">${program.programType}</td>
+                <td class="program-frequency">${program.frequency}</td>
+                <td class="program-assistance-type">${program.assistanceType}</td>
+                <td class="program-controls">
+                    <button class="editBtn" data-bs-toggle="modal" data-bs-target="#modal-program-edit"><i class="bi bi-pencil"></i></button>
+                    <button class="deleteBtn"><i class="bi bi-trash"></i></button>
+                </td>
+            `;
+
+            tbody.appendChild(row);
+        });
+        addEventListeners();
+    };
+
+    const resetFilters = () => {
+        nameSortAZ.checked = false;
+        nameSortZA.checked = false;
+        typeFilters.forEach(filter => filter.checked = false);
+        frequencyFilters.forEach(filter => filter.checked = false);
+        assistanceTypeFilters.forEach(filter => filter.checked = false);
+        filterAndSortPrograms();
+    };
+
+    nameSortAZ.addEventListener('change', filterAndSortPrograms);
+    nameSortZA.addEventListener('change', filterAndSortPrograms);
+    typeFilters.forEach(filter => filter.addEventListener('change', filterAndSortPrograms));
+    frequencyFilters.forEach(filter => filter.addEventListener('change', filterAndSortPrograms));
+    assistanceTypeFilters.forEach(filter => filter.addEventListener('change', filterAndSortPrograms));
+    resetFiltersButton.addEventListener('click', resetFilters);
+
+    filterAndSortPrograms();
+});
+
+/* Exporting to CSV function */
+function downloadCSV(csv, filename) {
+    let csvFile;
+    let downloadLink;
+    csvFile = new Blob([csv], {
+        type: 'text/csv'
+    });
+
+    downloadLink = document.createElement('a');
+    downloadLink.download = filename;
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+    downloadLink.style.display = 'none';
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+}
+
+function exportTableToCSV(filename) {
+    const rows = document.querySelectorAll('.table-container table tr');
+    let csv = [];
+    for (let i = 0; i < rows.length; i++) {
+        const row = [],
+            cols = rows[i].querySelectorAll('td, th');
+        for (let j = 0; j < cols.length; j++) {
+            const data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ');
+            row.push('"' + data + '"');
+        }
+        csv.push(row.join(','));
+    }
+    downloadCSV(csv.join('\n'), filename);
+}
+
+
+/*OLD CODE */
+/*
+document.addEventListener('DOMContentLoaded', function() {
     // Toggle Menu
     document.getElementById("menu-toggle").addEventListener("click", function() {
         document.getElementById("wrapper").classList.toggle("toggled");
@@ -364,35 +635,4 @@ displayPagination(getData.length);
 addEventListeners();
 });
 
-
-/* Exporting to CSV function */
-function downloadCSV(csv, filename) {
-    let csvFile;
-    let downloadLink;
-    csvFile = new Blob([csv], {
-        type: 'text/csv'
-});
-
-downloadLink = document.createElement('a');
-downloadLink.download = filename;
-downloadLink.href = window.URL.createObjectURL(csvFile);
-downloadLink.style.display = 'none';
-document.body.appendChild(downloadLink);
-downloadLink.click();
-}
-
-function exportTableToCSV(filename) {
-    const rows = document.querySelectorAll('.table-container table tr');
-    let csv = [];
-    for (let i = 0; i < rows.length; i++) {
-        const row = [],
-            cols = rows[i].querySelectorAll('td, th');
-        for (let j = 0; j < cols.length; j++) {
-            const data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ');
-            row.push('"' + data + '"');
-        }
-        csv.push(row.join(','));
-    }
-    downloadCSV(csv.join('\n'), filename);
-}
-
+*/
