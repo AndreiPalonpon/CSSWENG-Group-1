@@ -176,6 +176,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function deleteInfo(id, e) {
         if (confirm("Are you sure you want to delete this program?")) {
+            id = parseInt(id);
+            originalData = originalData.filter(item => item.id !== id);
+            localStorage.setItem('programs', JSON.stringify(originalData));
+            getData = [...originalData];
+            e.currentTarget.closest("tr").remove();
+            $.post("/programs/delete", { program_id: id }, (data, status, xhr) => {
+                if (status === "success" && xhr.status === 200) {
+                    alert("Program has been deleted");
+                }
+            });
+            e.currentTarget.closest("tr").remove();
+            updateHandlebarsTemplate(originalData);
+        }
+    }
+    
+    /*
+    function deleteInfo(id, e) {
+        if (confirm("Are you sure you want to delete this program?")) {
             console.log(id);
             originalData = originalData.filter(item => item.id !== id);
             localStorage.setItem('programs', JSON.stringify(originalData));
@@ -190,6 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateHandlebarsTemplate(originalData);
         }
     }
+    */
 
     const getSelectedValues = (inputs) => {
         return Array.from(inputs).filter(input => input.checked).map(input => input.value);
