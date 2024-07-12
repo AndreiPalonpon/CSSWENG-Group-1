@@ -1,16 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
+const bcrypt = require('bcrypt');
 const Password = require('../models/user');
 
 const checkForgotPasswordCompletion = function (req, res, next) {
     if (req.session.forgotPasswordCompleted) {
-      next();
+        next();
     } else {
-      res.status(403).send("Forgot password process not completed.");
+        res.status(403).send("Forgot password process not completed.");
     }
-  };
-  
+};
+
 router.use(checkForgotPasswordCompletion);
 
 // GET request to display Change Password page
@@ -27,18 +28,19 @@ router.post('/', async (req, res) => {
     }
 
     try {
-        const passwordDoc = await Password.findOne();
-        
-        if (!passwordDoc) {
-            return res.status(404).json({ message: 'Password not found' });
+        const userDoc = await Password.findOne();
+
+        if (!userDoc) {
+            return res.status(404).json({ message: 'User not found' });
         }
 
-        passwordDoc.password = newPassword;
-        await passwordDoc.save();
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
 
-        const updatedDoc = await Password.findOne();
-        console.log('Updated Password');
+        userDoc.password = hashedPassword;
+        await userDoc.save();
 
+        console.log('Password updated successfully');
         res.status(200).json({ message: 'Password changed successfully' });
 
     } catch (error) {

@@ -1,7 +1,8 @@
 const express = require("express");
-const path = require("path");
 const router = express.Router();
-const Password = require('../models/user'); 
+const path = require("path");
+const bcrypt = require("bcrypt");
+const User = require('../models/user'); 
 
 // GET request to display Login page
 router.get("/", function (req, res) {
@@ -13,12 +14,18 @@ router.post('/', async (req, res) => {
     const { password } = req.body;
 
     try {
-        const foundPassword = await Password.findOne({ password });
+        // Retrieve the user instance with username 'LPPWDFI'
+        const foundUser = await User.findOne({ username: 'LPPWDFI' });
 
-        if (foundPassword) {
-            // Store user session data
+        if (!foundUser) {
+            return res.status(401).json({ error: 'Invalid password. Please try again.' });
+        }
+
+        const isMatch = await bcrypt.compare(password, foundUser.password);
+
+        if (isMatch) {
             req.session.user = {
-                username: 'LPPWDFI', // Set the username or other user data here
+                username: foundUser.username,
                 authenticated: true
             };
 
@@ -33,4 +40,3 @@ router.post('/', async (req, res) => {
 });
 
 module.exports = router;
-

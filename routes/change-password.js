@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const Password = require('../models/user');
+const bcrypt = require('bcrypt');
+const User = require('../models/user');
 
 // Session Authenticator
 function requireAuth(req, res, next) {
@@ -29,26 +30,29 @@ router.post('/', async (req, res) => {
     }
 
     try {
-        const passwordDoc = await Password.findOne();
+        // Retrieve the user instance with username 'LPPWDFI'
+        const userDoc = await User.findOne({ username: 'LPPWDFI' });
 
-        if (!passwordDoc) {
-            return res.status(404).json({ message: 'Password not found' });
+        if (!userDoc) {
+            return res.status(404).json({ message: 'User not found' });
         }
 
-        if (oldPassword !== passwordDoc.password) {
+        const isMatch = await bcrypt.compare(oldPassword, userDoc.password);
+
+        if (!isMatch) {
             return res.status(400).json({ message: 'Old password is incorrect' });
         }
 
-        passwordDoc.password = newPassword;
-        await passwordDoc.save();
+        const salt = await bcrypt.genSalt(10);
+        userDoc.password = await bcrypt.hash(newPassword, salt);
+        await userDoc.save();
 
-        // Password changed successfully
         res.status(200).json({ message: 'Password changed successfully' });
 
     } catch (error) {
+        console.error('Error during password change:', error);
         res.status(500).json({ message: 'Server error' });
     }
 });
-
 
 module.exports = router;
