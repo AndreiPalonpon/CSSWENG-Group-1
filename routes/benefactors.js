@@ -43,11 +43,17 @@ router.post('/create', asyncHandler(async (req, res, next) => {
 }));
 
 // POST request for updating benefactor
-router.get('/edit', asyncHandler(async (req, res, next) => { //Change to post. POST will be used.
+router.get('/edit', asyncHandler(async(req, res, next) => { //Change to post. POST will be used.
     const { id, name, type } = req.body;
 
+    /*
     if (name === "" || type === "") {
         res.sendStatus(400); // HTTP 400: Bad Request
+    }
+    */
+
+    if (!id || !name || !type) {
+        return res.sendStatus(400); // HTTP 400: Bad Request
     }
 
     const benefactor = {
@@ -55,7 +61,7 @@ router.get('/edit', asyncHandler(async (req, res, next) => { //Change to post. P
         type: type,
     };
 
-    await Program.updateOne({_id: id}, benefactor);
+    await Program.updateOne({ _id: id }, benefactor);
 
     res.sendStatus(200);
 }));
