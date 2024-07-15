@@ -36,34 +36,49 @@ router.post('/create', asyncHandler(async (req, res, next) => {
         type: benefactorType,
     });
 
+    console.log(newBenefactor);
+
     await newBenefactor.save();
 
     console.log("New benefactor instance saved.");
     res.sendStatus(201); 
 }));
 
-// POST request for updating benefactor
-router.get('/edit', asyncHandler(async(req, res, next) => { //Change to post. POST will be used.
-    const { id, name, type } = req.body;
+// GET request for editing benefactor
+router.get('/:id/edit', asyncHandler(async (req, res, next) => {
+    res.send("NOT IMPLEMENTED: Benefactor edit GET");
+}));
 
-    /*
-    if (name === "" || type === "") {
-        res.sendStatus(400); // HTTP 400: Bad Request
+// POST request for editing benefactor
+router.post('/edit', asyncHandler(async (req, res) => {
+    const { benefactor_id, benefactor_name, benefactor_type } = req.body;
+
+    console.log("Received data:", req.body);
+
+    if (!benefactor_id || !benefactor_name || !benefactor_type) {
+        console.log("Missing fields:", req.body);
+        return res.status(400).json({ message: "All fields are required" });
     }
-    */
 
-    if (!id || !name || !type) {
-        return res.sendStatus(400); // HTTP 400: Bad Request
-    }
-
-    const benefactor = {
-        name: name,
-        type: type,
+    const updateData = {
+        name: benefactor_name,
+        type: benefactor_type
     };
 
-    await Program.updateOne({ _id: id }, benefactor);
+    try {
+        const result = await Benefactor.updateOne({ _id: benefactor_id }, updateData);
 
-    res.sendStatus(200);
+        if (result.nModified === 0) {
+            console.log("No changes made or benefactor not found:", benefactor_id);
+            return res.status(404).json({ message: "Benefactor not found or no changes made" });
+        }
+
+        console.log("Benefactor updated successfully:", benefactor_id);
+        res.sendStatus(200);
+    } catch (error) {
+        console.error("Error updating benefactor:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
 }));
 
 // POST request for deleting benefactor
