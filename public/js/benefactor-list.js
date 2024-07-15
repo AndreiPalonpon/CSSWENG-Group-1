@@ -1,6 +1,5 @@
-//OLD JS CODE
-
 document.addEventListener('DOMContentLoaded', function() {
+
     document.getElementById("menu-toggle").addEventListener("click", function() {
         document.getElementById("wrapper").classList.toggle("toggled");
         document.querySelector(".main-content").classList.toggle("toggled");
@@ -28,34 +27,11 @@ document.addEventListener('DOMContentLoaded', function() {
     resetFiltersButton = document.getElementById('resetFiltersButton');
 
     // Retrieve data from local storage or initialize empty array
-    let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
+    let originalData = localStorage.getItem('benefactors') ? JSON.parse(localStorage.getItem('benefactors')) : [];
     let getData = [...originalData];
 
     let isEdit = false,
         editId;
-
-    newMemberAddBtn.addEventListener('click', () => {
-        // Show form for adding new benefactor
-        isEdit = false;
-        submitBenefactorBtn.innerHTML = "Submit";
-        modalTitle.innerHTML = "Fill the Form";
-        form.reset();
-        formInputFields.forEach(input => input.disabled = false);
-        submitBenefactorBtn.style.display = "block";
-        darkBg.classList.add('active');
-        popupForm.classList.add('active');
-    });
-
-
-    crossBtn.addEventListener('click', () => {
-        // Hide form and reset inputs
-        darkBg.classList.remove('active');
-        popupForm.classList.remove('active');
-        form.reset();
-        submitBenefactorBtn.style.display = "block";
-        formInputFields.forEach(input => input.disabled = false);
-    });
-
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -75,16 +51,44 @@ document.addEventListener('DOMContentLoaded', function() {
         $.post("/benefactors/create", benefactor, (data, status, xhr) => {
             if (status === "success" && xhr.status === 201) {
                 alert("Program \"" + benefactor.benefactorName + "\" has been created.");
+                bootstrap.Modal.getInstance(document.getElementById("modal-benefactor-create")).hide();
             }
         });
 
-        localStorage.setItem('programs', JSON.stringify(originalData));
+        localStorage.setItem('benefactors', JSON.stringify(originalData));
         getData = [...originalData];
         //showInfo();
-        darkBg.classList.remove('active');
-        popupForm.classList.remove('active');
+        //darkBg.classList.remove('active');
+        //popupForm.classList.remove('active');
         form.reset();
     });
+
+    document.getElementById("editBenefactorForm").addEventListener('submit', (e) => {
+        let benefactor_id = document.getElementById("editBenefactorId").value;
+        let benefactor_name = document.getElementById("editBenefactorName").value;
+        let benefactor_type = document.getElementById("editBenefactorType").value;
+
+        let benefactor = {
+            benefactor_id: benefactor_id,
+            benefactor_name: benefactor_name,
+            benefactor_type: benefactor_type
+        };
+        console.log(benefactor_id);
+        e.preventDefault();
+
+        $.post("/benefactors/edit", benefactor, (data, status, xhr) => {
+            if (status === "success" && xhr.status === 200) {
+                let modalInstance = bootstrap.Modal.getInstance(document.getElementById("modal-benefactor-edit"));
+                modalInstance.hide();  // Hide the modal
+                alert("Update benefactor successfully.");
+            } else {
+                alert("Error updating benefactor");
+            }
+        }).fail(() => {
+            alert("Error updating benefactor");
+        });
+    });
+
 
 
     function showInfo() {
@@ -101,28 +105,28 @@ document.addEventListener('DOMContentLoaded', function() {
         const totalPages = Math.ceil(totalRows / rowsPerPage);
 
         pagination.innerHTML = `
-            <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-                <a class="page-link" href="#" aria-label="Previous" id="prevButton">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            `;
+                        <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                            <a class="page-link" href="#" aria-label="Previous" id="prevButton">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        `;
 
         for (let i = 1; i <= totalPages; i++) {
             pagination.innerHTML += `
-            <li class="page-item ${currentPage === i ? 'active' : ''}">
-                <a class="page-link paginationButton" href="#">${i}</a>
-            </li>
-            `;
+                        <li class="page-item ${currentPage === i ? 'active' : ''}">
+                            <a class="page-link paginationButton" href="#">${i}</a>
+                        </li>
+                        `;
         }
 
         pagination.innerHTML += `
-        <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-            <a class="page-link" href="#" aria-label="Next" id="nextButton">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
-        </li>
-        `;
+                    <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                        <a class="page-link" href="#" aria-label="Next" id="nextButton">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    `;
 
         document.getElementById("prevButton").addEventListener("click", prevPage);
         document.getElementById("nextButton").addEventListener("click", nextPage);
@@ -144,17 +148,17 @@ document.addEventListener('DOMContentLoaded', function() {
         benefactorInfo.innerHTML = '';
         paginatedRows.forEach((benefactor, index) => {
             const row = `
-    <tr>
-        <td>${start + index + 1}</td>
-        <td>${benefactor.benefactorName}</td>
-        <td>${benefactor.benefactorType}</td>
-        <td>
-            <button class="viewBtn" data-id="${benefactor.id}"><i class="bi bi-eye"></i></button>
-            <button class="editBtn" data-id="${benefactor.id}"><i class="bi bi-pencil"></i></button>
-            <button class="deleteBtn" data-id="${benefactor.id}"><i class="bi bi-trash"></i></button>
-        </td>
-    </tr>
-    `;
+                <tr>
+                    <td>${start + index + 1}</td>
+                    <td class="benefactor-name">${benefactor.benefactorName}</td>
+                    <td class="benefactor-type">${benefactor.benefactorType}</td>
+                    <td>
+                        <button class="viewBtn" data-id="${benefactor.id}"><i class="bi bi-eye"></i></button>
+                        <button class="editBtn" data-id="${benefactor.id}"><i class="bi bi-pencil"></i></button>
+                        <button class="deleteBtn" data-id="${benefactor.id}"><i class="bi bi-trash"></i></button>
+                    </td>
+                </tr>
+                `;
             benefactorInfo.innerHTML += row;
         });
 
@@ -177,10 +181,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 readInfo(id);
             });
         });
-        document.querySelectorAll('.editBtn').forEach(button => {
+        document.querySelectorAll('.editBenefactorBtn').forEach(button => {
             button.addEventListener('click', (e) => {
-                const id = e.currentTarget.getAttribute('data-id');
-                editInfo(id);
+                const id = e.currentTarget.closest("tr").getAttribute('data-benefactor-id');
+                console.log(id);
+                editBenefactorInfo(id, e);
             });
         });
         document.querySelectorAll('.deleteBtn').forEach(button => {
@@ -188,6 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const id = e.currentTarget.getAttribute('data-id');
                 deleteInfo(id, e);
             });
+
         });
         // Event listeners for sorting and filtering
         document.querySelectorAll('input[name="nameSort"]').forEach(radio => {
@@ -244,7 +250,23 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function editInfo(id) {
+    function onBtnEditClick(e) {
+        let benefactor_id = e.currentTarget.closest("tr").getAttribute("data-benefactor-id");
+        let benefactor_name = e.currentTarget.closest("tr").querySelector(".benefactor-name").textContent;
+        let benefactor_type = e.currentTarget.closest("tr").querySelector(".benefactor-type").textContent;
+
+        let modal_edit = document.getElementById("modal-benefactor-edit");
+        let modal_edit_id = modal_edit.querySelector("#editBenefactorId");
+        let modal_edit_name = modal_edit.querySelector("#editBenefactorName");
+        let modal_edit_type = modal_edit.querySelector("#editBenefactorType");
+
+        modal_edit_id.value = benefactor_id;
+        modal_edit_name.value = benefactor_name;
+        modal_edit_type.value = benefactor_type;
+    }
+
+    function editBenefactorInfo(id, e) {
+        onBtnEditClick(e)
         isEdit = true;
         editId = getData.findIndex(item => item.id === id);
         const benefactor = getData[editId];
@@ -253,8 +275,8 @@ document.addEventListener('DOMContentLoaded', function() {
             form.benefactorType.value = benefactor.benefactorType;
             modalTitle.innerHTML = "Edit Benefactor";
             formInputFields.forEach(input => input.disabled = false);
-            submitBtn.style.display = "block";
-            submitBtn.innerHTML = "Update";
+            //submitBtn.style.display = "block";
+            //submitBtn.innerHTML = "Update";
             darkBg.classList.add('active');
             popupForm.classList.add('active');
         }
@@ -271,12 +293,12 @@ document.addEventListener('DOMContentLoaded', function() {
             let getData = [...originalData];
 
             // Handle deletion via AJAX request
-            $.post(`/benefactors/delete`, { benefactor_id: id })
+            $.post(`/benefactors/delete`, {benefactor_id: id})
                 .done((data, status, xhr) => {
                     // Check if deletion was successful
                     if (status === "success" && xhr.status === 200) {
                         // Display success message
-                        let index = e ? .currentTarget ? .closest("tr") ? .querySelector("td:first-child") ? .textContent;
+                        let index = e?.currentTarget?.closest("tr")?.querySelector("td:first-child")?.textContent;
                         if (index) {
                             alert("Benefactor with ID " + index + " has been deleted");
                         }
@@ -293,7 +315,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.error(error);
                 });
             // Remove the table row from the UI
-            if (e ? .currentTarget) {
+            if (e?.currentTarget) {
                 e.currentTarget.closest("tr").remove();
             }
         }
