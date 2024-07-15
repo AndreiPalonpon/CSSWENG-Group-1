@@ -81,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 let modalInstance = bootstrap.Modal.getInstance(document.getElementById("modal-benefactor-edit"));
                 modalInstance.hide();  // Hide the modal
                 alert("Update benefactor successfully.");
+                window.location.href = "/benefactors";
             } else {
                 alert("Error updating benefactor");
             }

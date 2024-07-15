@@ -44,11 +44,6 @@ router.post('/create', asyncHandler(async (req, res, next) => {
     res.sendStatus(201); 
 }));
 
-// GET request for editing benefactor
-router.get('/:id/edit', asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Benefactor edit GET");
-}));
-
 // POST request for editing benefactor
 router.post('/edit', asyncHandler(async (req, res) => {
     const { benefactor_id, benefactor_name, benefactor_type } = req.body;
