@@ -33,15 +33,15 @@ router.get('/create', asyncHandler(async (req, res) => {
 router.post('/create', asyncHandler(async (req, res) => {
     const { programName, programType, programFrequency, assistanceType } = req.body;
 
-    const program = ({
+    const newProgram = ({
         name: programName,
         program_type: programType,
         frequency: programFrequency,
         assistance_type: assistanceType
     });
     
-    console.log(program);
-    await Program.create(program);
+    console.log(newProgram);
+    await Program.create(newProgram);
     console.log("New program instance saved.");
     res.sendStatus(201); // HTTP 201: Created
 }));
@@ -55,36 +55,30 @@ router.get('/:id/edit', asyncHandler(async (req, res) => {
 router.post('/edit', asyncHandler(async (req, res) => {
     const { program_id, programName, programType, programFrequency, assistanceType } = req.body;
 
-    // Check if programName is provided
     if (!programName) {
-        return res.status(400).send('Program Name is required'); // HTTP 400: Bad Request
+        return res.status(400).send('Program Name is required'); 
     }
 
     try {
-        // Check if the program exists
         const existingProgram = await Program.findById(program_id);
         if (!existingProgram) {
-            return res.status(404).send('Program not found'); // HTTP 404: Not Found
+            return res.status(404).send('Program not found'); 
         }
 
-        // Update the program
-        const updatedProgram = await Program.findByIdAndUpdate(program_id, {
-            name: programName,
-            program_type: programType,
-            frequency: programFrequency,
-            assistance_type: assistanceType
-        }, { new: true });
+        existingProgram.name = programName;
+        existingProgram.program_type = programType;
+        existingProgram.frequency = programFrequency;
+        existingProgram.assistance_type = assistanceType;
 
-        if (!updatedProgram) {
-            return res.status(404).send('Program not found after update attempt'); // Handle if somehow update fails
-        }
-
-        return res.sendStatus(200); // HTTP 200: OK
+        await existingProgram.save();
+        
+        return res.sendStatus(200);
     } catch (error) {
         console.error('Error updating program:', error);
-        return res.status(500).send('Error updating program'); // HTTP 500: Internal Server Error
+        return res.status(500).send('Error updating program'); 
     }
 }));
+
 
 // GET request for deleting program
 router.get('/:id/delete', asyncHandler(async (req, res) => {
@@ -95,7 +89,7 @@ router.get('/:id/delete', asyncHandler(async (req, res) => {
 router.post('/delete', asyncHandler(async (req, res) => {
     await Program.deleteOne({ _id: req.body.program_id });
     console.log(`Program ID ${req.body.program_id} has been deleted.`);
-    res.sendStatus(200); // HTTP 200: OK
+    res.sendStatus(200); 
 }));
 
 // GET request for one program
