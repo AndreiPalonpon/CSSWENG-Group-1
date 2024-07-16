@@ -21,7 +21,7 @@ router.use(requireAuth);
 
 // GET request to list all benefits
 router.get('/', asyncHandler(async (req, res) => {
-    const benefits = await Benefit.find().populate("benefactor").exec();
+    const benefits = await Benefit.find().populate("benefactor").sort({ name: 1 }).exec();
     const benefactors = await Benefactor.find().exec();
 
     console.log(benefits, benefactors);
