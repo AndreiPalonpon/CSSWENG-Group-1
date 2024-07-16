@@ -189,24 +189,21 @@
                     </thead>
                     <tbody>
                         <!-- Program rows will be populated here -->
-                        <!--
                         {{#each programs}}
                         <tr data-program-id="{{this._id}}">
                             <td class="program-index">{{incremented @index}}</td>
-                            <td class="program-name"><a href="/people/{{this._id}}">{{this.name}}</a></td>
-                            <td class="program-lastupdate-date">{{this.recent_update_date}}</td>
-                            <td class="program-creation-date">{{this.creation_date}}</td>
+                            <td class="program-name"><a href="/beneficiaries/{{this._id}}">{{this.name}}</a></td>
+                            <td class="program-lastupdate-date">{{formatDate this.recent_update_date}}</td>
+                            <td class="program-creation-date">{{formatDate this.creation_date}}</td>
                             <td class="program-type">{{this.program_type}}</td>
                             <td class="program-frequency">{{this.frequency}}</td>
                             <td class="program-assistance-type">{{this.assistance_type}}</td>
                             <td class="program-controls">
                                 <button class="editBtn" data-bs-toggle="modal" data-bs-target="#modal-program-edit"><i class="bi bi-pencil"></i></button>
-                                <button class="deleteBtn"><i class="bi bi-trash"></i></button>
+                                <button class="deleteBtn" data-id="{{this._id}}"><i class="bi bi-trash"></i></button>
                             </td>
                         </tr>
-
                         {{/each}}
-                        -->
                     </tbody>
                 </table>
             </div>
@@ -245,8 +242,8 @@
                             </select>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="frequency">Frequency</label>
-                                    <select name="frequency" class="form-control" required>
+                                    <label for="programFrequency">Frequency</label>
+                                    <select name="programFrequency" class="form-control" required>
                                 <option value="" selected disabled>Choose...</option>
                                 <option value="Monthly">Monthly</option>
                                 <option value="Quarterly">Quarterly</option>
@@ -293,30 +290,30 @@
                                 <div class="form-group col-md-6">
                                     <label for="editProgramType" class="form-label">Program Type</label>
                                     <select class="form-control" id="editProgramType" name="programType">
-                    <option value="Assistance">Assistance</option>
-                    <option value="Initiative">Initiative</option>
-                    <option value="Service">Service</option>
-                    <option value="Program">Program</option>
-                    </select>
+                                        <option value="Assistance">Assistance</option>
+                                        <option value="Initiative">Initiative</option>
+                                        <option value="Service">Service</option>
+                                        <option value="Program">Program</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="editFrequency" class="form-label">Frequency</label>
-                                    <select class="form-control" id="editFrequency" name="frequency">
-                    <option value="Monthly">Monthly</option>
-                    <option value="Quarterly">Quarterly</option>
-                    <option value="Semi-Annual">Semi-Annual</option>
-                    <option value="Yearly">Yearly</option>
-                    </select>
+                                    <select class="form-control" id="editFrequency" name="programFrequency">
+                                        <option value="Monthly">Monthly</option>
+                                        <option value="Quarterly">Quarterly</option>
+                                        <option value="Semi-Annual">Semi-Annual</option>
+                                        <option value="Yearly">Yearly</option>
+                                    </select>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="editAssistanceType" class="form-label">Assistance Type</label>
                                     <select class="form-control" id="editAssistanceType" name="assistanceType">
-                    <option value="Educational">Educational</option>
-                    <option value="Financial">Financial</option>
-                    <option value="Medical">Medical</option>
-                    </select>
+                                        <option value="Educational">Educational</option>
+                                        <option value="Financial">Financial</option>
+                                        <option value="Medical">Medical</option>
+                                    </select>
                                 </div>
                         </form>
                         </div>
@@ -327,12 +324,145 @@
                 </div>
             </div>
 
-            <!-- JQuery -->
-            <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-            <!-- Bootstrap JS -->
-            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-            <script src="/js/program-list.js"></script> 
+<!-- JQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById("menu-toggle").addEventListener("click", function() {
+            document.getElementById("wrapper").classList.toggle("toggled");
+            document.querySelector(".main-content").classList.toggle("toggled");
+            document.querySelector(".header-right").classList.toggle("toggled");
+        });
+
+        const newMemberAddBtn = document.querySelector('.addProgramBtn button'),
+            darkBg = document.querySelector('.dark_bg'),
+            popupForm = document.querySelector('.popup'),
+            crossBtn = document.querySelector('.btn-close'),
+            submitBtn = document.querySelector('.submitBtn'),
+            modalTitle = document.querySelector('.modal-title'),
+            form = document.querySelector('#programForm'),
+            formInputFields = document.querySelectorAll('#programForm input, #programForm select'),
+            resetFiltersButton = document.getElementById('resetFiltersButton');
+
+        let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
+        let getData = [...originalData];
+
+        let isEdit = false,
+            editId;
+
+        newMemberAddBtn.addEventListener('click', () => {
+            isEdit = false;
+            submitBtn.innerHTML = "Submit";
+            modalTitle.innerHTML = "Fill the Form";
+            form.reset();
+            formInputFields.forEach(input => input.disabled = false);
+            submitBtn.style.display = "block";
+        });
+
+        crossBtn.addEventListener('click', () => {
+            form.reset();
+            submitBtn.style.display = "block";
+            formInputFields.forEach(input => input.disabled = false);
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const now = new Date();
+            const program = {
+                id: Date.now(),
+                programName: form.programName.value,
+                programType: form.programType.value,
+                programFrequency: form.programFrequency.value,
+                assistanceType: form.assistanceType.value,
+                dateCreated: now.toLocaleDateString(),
+                lastUpdated: now.toLocaleDateString() + ' ' + now.toLocaleTimeString()
+            };
+
+            if (!isEdit) {
+                originalData.push(program);
+            } else {
+                originalData[editId] = program;
+            }
+
+            $.post("/programs/create", program, (data, status, xhr) => {
+                if (status === "success" && xhr.status === 201) {
+                    alert("Program " + program.programName + " has been created.");
+                }
+            });
+
+            localStorage.setItem('programs', JSON.stringify(originalData));
+            getData = [...originalData];
+
+            location.reload();
+            darkBg.classList.remove('active');
+            popupForm.classList.remove('active');
+            form.reset();
+        });
+
+        function addEventListeners() {
+            document.querySelectorAll('.deleteBtn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const id = e.currentTarget.getAttribute('data-id');
+                    deleteInfo(id, e);
+                });
+            });
+        }
+
+        function deleteInfo(id, e) {
+            if (confirm("Are you sure you want to delete this program?")) {
+                originalData = originalData.filter(item => item.id !== id);
+                localStorage.setItem('programs', JSON.stringify(originalData));
+
+                $.post(`/programs/delete`, { program_id: id })
+                    .done((data, status, xhr) => {
+                        if (status === "success" && xhr.status === 200) {
+                            alert("Program has been deleted.");
+                            location.reload();
+                        } else {
+                            alert("Failed to delete program. Please try again.");
+                        }
+                    }).fail((xhr, status, error) => {
+                        alert("Error deleting program. Please try again later.");
+                        console.error(error);
+                    });
+            }
+        }
+
+        addEventListeners();
+    });
+
+    function downloadCSV(csv, filename) {
+        let csvFile;
+        let downloadLink;
+        csvFile = new Blob([csv], { type: 'text/csv' });
+
+        downloadLink = document.createElement('a');
+        downloadLink.download = filename;
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+        downloadLink.style.display = 'none';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+    }
+
+    function exportTableToCSV(filename) {
+        const rows = document.querySelectorAll('.table-container table tr');
+        let csv = [];
+        for (let i = 0; i < rows.length; i++) {
+            const row = [],
+                cols = rows[i].querySelectorAll('td, th');
+            for (let j = 0; j < cols.length; j++) {
+                const data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ');
+                row.push('"' + data + '"');
+            }
+            csv.push(row.join(','));
+        }
+        downloadCSV(csv.join('\n'), filename);
+    }
+</script>
+
 </body>
 
 </html>

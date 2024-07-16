@@ -41,11 +41,49 @@ router.get('/', asyncHandler(async (req, res) => {
     });
 }));
 
+router.get('/:id', asyncHandler(async (req, res) => {
+    const programId = req.params.id; // Correctly extract the program ID from URL parameter
+    const program = await Program.findById(programId); // Assuming Program model is used
+
+    if (!program) {
+        // Handle if program is not found, perhaps redirect or show an error
+        return res.status(404).send('Program not found');
+    }
+
+    const people = await Person.find().sort({ first_name: 1, last_name: 1 }).exec();
+    const programs = await Program.find().sort({ name: 1 }).exec();
+    const benefits = await Benefit.find().sort({ name: 1 }).exec();
+
+    // Find beneficiaries where program_enrolled matches the program ID
+    const beneficiaries = await Beneficiary.find({ program_enrolled: programId })
+                                           .populate("person_registered")
+                                           .populate("program_enrolled")
+                                           .populate("benefit_delivered")
+                                           .exec();
+
+    res.render("beneficiary-list", {
+        program,
+        people,
+        programs,
+        benefits,
+        beneficiaries
+    });
+}));
+
+
+
 // POST request for creating beneficiary
 router.post('/create', asyncHandler(async (req, res) => {
+    const programId = req.body.programEnrolled; // Extract programEnrolled from req.body
+    const program = await Program.findById(programId); // Assuming Program model is used
+
+    if (!program) {
+        // Handle if program is not found, perhaps show an error or redirect
+        return res.status(404).send('Program not found');
+    }
+
     const {
         personRegistered,
-        programEnrolled,
         status,
         benefitDelivered,
         date_received
@@ -55,7 +93,7 @@ router.post('/create', asyncHandler(async (req, res) => {
 
     const newBeneficiary = new Beneficiary({
         person_registered: personRegistered,
-        program_enrolled: programEnrolled,
+        program_enrolled: programEnrolled, // Use programId here
         status,
         benefit_delivered: benefitDelivered,
         date_received
@@ -64,9 +102,11 @@ router.post('/create', asyncHandler(async (req, res) => {
     await newBeneficiary.save();
 
     console.log("New beneficiary instance saved.");
-    res.redirect('/beneficiaries');
-    res.sendStatus(201); // HTTP 201: Created
+    
+    // Redirect to the beneficiaries page with the programId parameter
+    res.redirect(`/beneficiaries/${programId}`);
 }));
+
 
 // POST request for editing beneficiary
 router.post('/edit', asyncHandler(async (req, res) => {
@@ -98,27 +138,6 @@ router.post('/delete', asyncHandler(async (req, res) => {
     await Beneficiary.deleteOne({ _id: req.body.beneficiary_id });
     console.log(`Beneficiary ID ${req.body.beneficiary_id} has been deleted.`);
     res.sendStatus(200); // HTTP 200: OK
-}));
-
-// GET request for beneficiaries based on program ID
-router.get('/:id', asyncHandler(async (req, res) => {
-    const programId = req.params.id; // Extract the program ID from URL parameter
-    const people = await Person.find().sort({ first_name: 1, last_name: 1 }).exec();
-    const programs = await Program.find().sort({ name: 1 }).exec();
-    const benefits = await Benefit.find().sort({ name: 1 }).exec();
-    const beneficiaries = await Beneficiary.find()
-                                           .populate("person_registered")
-                                           .populate("program_enrolled")
-                                           .populate("benefit_delivered")
-                                           .exec();
-
-    console.log(beneficiaries);
-    res.render("beneficiary-list", {
-        people,
-        programs,
-        benefits,
-        beneficiaries
-    });
 }));
 
 

@@ -31,15 +31,16 @@ router.get('/create', asyncHandler(async (req, res) => {
 
 // POST request for creating program
 router.post('/create', asyncHandler(async (req, res) => {
-    const { programName, programType, frequency, assistanceType } = req.body;
+    const { programName, programType, programFrequency, assistanceType } = req.body;
 
-    const program = {
+    const program = ({
         name: programName,
         program_type: programType,
-        frequency,
+        frequency: programFrequency,
         assistance_type: assistanceType
-    };
-
+    });
+    
+    console.log(program);
     await Program.create(program);
     console.log("New program instance saved.");
     res.sendStatus(201); // HTTP 201: Created
@@ -52,22 +53,37 @@ router.get('/:id/edit', asyncHandler(async (req, res) => {
 
 // POST request for editing program
 router.post('/edit', asyncHandler(async (req, res) => {
-    const { program_id, program_name, program_type, program_frequency, program_assistance_type } = req.body;
+    const { program_id, programName, programType, programFrequency, assistanceType } = req.body;
 
-    if (!program_name) {
-        res.sendStatus(400); // HTTP 400: Bad Request
-        return;
+    // Check if programName is provided
+    if (!programName) {
+        return res.status(400).send('Program Name is required'); // HTTP 400: Bad Request
     }
 
-    const program = {
-        name: program_name,
-        program_type,
-        frequency: program_frequency,
-        assistance_type: program_assistance_type
-    };
+    try {
+        // Check if the program exists
+        const existingProgram = await Program.findById(program_id);
+        if (!existingProgram) {
+            return res.status(404).send('Program not found'); // HTTP 404: Not Found
+        }
 
-    await Program.updateOne({ _id: program_id }, program);
-    res.sendStatus(200); // HTTP 200: OK
+        // Update the program
+        const updatedProgram = await Program.findByIdAndUpdate(program_id, {
+            name: programName,
+            program_type: programType,
+            frequency: programFrequency,
+            assistance_type: assistanceType
+        }, { new: true });
+
+        if (!updatedProgram) {
+            return res.status(404).send('Program not found after update attempt'); // Handle if somehow update fails
+        }
+
+        return res.sendStatus(200); // HTTP 200: OK
+    } catch (error) {
+        console.error('Error updating program:', error);
+        return res.status(500).send('Error updating program'); // HTTP 500: Internal Server Error
+    }
 }));
 
 // GET request for deleting program
