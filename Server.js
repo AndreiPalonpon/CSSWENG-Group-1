@@ -20,6 +20,7 @@ const benefitRouter = require("./routes/benefits");
 const peopleRouter = require("./routes/people");
 const documentationRouter = require("./routes/documentation");
 const settingsRouter = require("./routes/settings");
+const summaryRouter = require("./routes/summary");
 const changePasswordRouter = require("./routes/change-password");
 const securityQuestionRouter = require("./routes/security-questions");
 const aboutRouter = require("./routes/about");
@@ -32,8 +33,13 @@ const Benefactor = require("./models/benefactor");
 const Benefit = require("./models/benefit");
 const Documentation = require("./models/documentation");
 
+const dotenv = require("dotenv");
+const dotenvExpand = require("dotenv-expand");
+
+dotenvExpand.expand(dotenv.config());
+
 const app = express();
-const mongoDB = "mongodb+srv://andreipalonpon:Ftlpn7UeDQfci6uG@appcluster.00tewof.mongodb.net/main?retryWrites=true&w=majority&appName=AppCluster";
+const mongoDB = process.env.MONGO_DATABASE_URI;
 
 async function main() {
   await mongoose.connect(mongoDB);
@@ -84,6 +90,7 @@ app.use("/benefactors", benefactorRouter);
 app.use("/benefits", benefitRouter);
 app.use("/people", peopleRouter);
 app.use("/documentation", documentationRouter);
+app.use("/summary", summaryRouter);
 app.use("/settings", settingsRouter);
 app.use("/change-password", changePasswordRouter);
 app.use("/security-question", securityQuestionRouter);
