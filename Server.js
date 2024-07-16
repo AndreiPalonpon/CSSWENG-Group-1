@@ -32,8 +32,13 @@ const Benefactor = require("./models/benefactor");
 const Benefit = require("./models/benefit");
 const Documentation = require("./models/documentation");
 
+const dotenv = require("dotenv");
+const dotenvExpand = require("dotenv-expand");
+
+dotenvExpand.expand(dotenv.config());
+
 const app = express();
-const mongoDB = "mongodb+srv://andreipalonpon:Ftlpn7UeDQfci6uG@appcluster.00tewof.mongodb.net/main?retryWrites=true&w=majority&appName=AppCluster";
+const mongoDB = process.env.MONGO_DATABASE_URI;
 
 async function main() {
   await mongoose.connect(mongoDB);
