@@ -1,6 +1,6 @@
 const express = require("express");
-const path = require("path");
 const router = express.Router();
+const path = require("path");
 
 // Session Authenticator
 function requireAuth(req, res, next) {

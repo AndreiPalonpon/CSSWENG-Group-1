@@ -8,7 +8,7 @@ function requireAuth(req, res, next) {
     console.log("Checking authentication...");
     if (req.session.user && req.session.user.authenticated) {
         console.log("User is authenticated. Proceeding to benefactors page...");
-        next(); 
+        next();
     } else {
         console.log("User is not authenticated. Redirecting to login page...");
         res.redirect('/login');
@@ -18,17 +18,14 @@ function requireAuth(req, res, next) {
 router.use(requireAuth);
 
 // GET request to list all benefactors
-router.get('/', asyncHandler(async (req, res, next) => {
-    const benefactors = await Benefactor.find()
-                                        .sort({ name: 1 })
-                                        .exec();
-
+router.get('/', asyncHandler(async (req, res) => {
+    const benefactors = await Benefactor.find().sort({ name: 1 }).exec();
     console.log(benefactors);
-    res.render("benefactor-list", { benefactors: benefactors });
+    res.render("benefactor-list", { benefactors });
 }));
 
-// POST request for creating benefactor.
-router.post('/create', asyncHandler(async (req, res, next) => {
+// POST request for creating benefactor
+router.post('/create', asyncHandler(async (req, res) => {
     const { benefactorName, benefactorType } = req.body;
 
     const newBenefactor = new Benefactor({
@@ -41,7 +38,7 @@ router.post('/create', asyncHandler(async (req, res, next) => {
     await newBenefactor.save();
 
     console.log("New benefactor instance saved.");
-    res.sendStatus(201); 
+    res.sendStatus(201); // HTTP 201: Created
 }));
 
 // POST request for editing benefactor
@@ -69,7 +66,7 @@ router.post('/edit', asyncHandler(async (req, res) => {
         }
 
         console.log("Benefactor updated successfully:", benefactor_id);
-        res.sendStatus(200);
+        res.sendStatus(200); // HTTP 200: OK
     } catch (error) {
         console.error("Error updating benefactor:", error);
         res.status(500).json({ message: "Internal server error" });
@@ -77,15 +74,15 @@ router.post('/edit', asyncHandler(async (req, res) => {
 }));
 
 // POST request for deleting benefactor
-router.post('/delete', asyncHandler(async (req, res, next) => {
-    //Check first if there are benefits from the current benefactor. If there are, he or she cannot be deleted.
-    await Benefactor.deleteOne({_id: req.body.benefactor_id});
-    console.log("Benefactor ID " + req.body.benefactor_id + " has been deleted.");
-    res.sendStatus(200);
+router.post('/delete', asyncHandler(async (req, res) => {
+    // Check first if there are benefits from the current benefactor. If there are, he or she cannot be deleted.
+    await Benefactor.deleteOne({ _id: req.body.benefactor_id });
+    console.log(`Benefactor ID ${req.body.benefactor_id} has been deleted.`);
+    res.sendStatus(200); // HTTP 200: OK
 }));
 
-// GET request for one benefactor.
-router.get('/:id', asyncHandler(async (req, res, next) => {
+// GET request for one benefactor
+router.get('/:id', asyncHandler(async (req, res) => {
     res.send("NOT IMPLEMENTED: Benefactor detail");
 }));
 

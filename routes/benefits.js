@@ -10,7 +10,7 @@ function requireAuth(req, res, next) {
     console.log("Checking authentication...");
     if (req.session.user && req.session.user.authenticated) {
         console.log("User is authenticated. Proceeding to benefits page...");
-        next(); 
+        next();
     } else {
         console.log("User is not authenticated. Redirecting to login page...");
         res.redirect('/login');
@@ -19,74 +19,73 @@ function requireAuth(req, res, next) {
 
 router.use(requireAuth);
 
-// GET request to list all equipment
-router.get('/', asyncHandler(async (req, res, next) => {
-    const benefits = await Benefit.find()
-                                  .populate("benefactor")
-                                  .exec();
-
-    const benefactors = await Benefactor.find()
-                                        .exec();
+// GET request to list all benefits
+router.get('/', asyncHandler(async (req, res) => {
+    const benefits = await Benefit.find().populate("benefactor").exec();
+    const benefactors = await Benefactor.find().exec();
 
     console.log(benefits, benefactors);
-    res.render("benefit-list", { benefactors: benefactors, benefits: benefits });
+    res.render("benefit-list", { benefactors, benefits });
 }));
- 
-// POST request for creating beneficiary
-router.post('/create', asyncHandler(async (req, res, next) => {
+
+// POST request for creating benefit
+router.post('/create', asyncHandler(async (req, res) => {
     const { benefitName, benefitDesc, quantity, dateReceived, benefactor } = req.body;
 
     const newBenefit = new Benefit({
         name: benefitName,
         description: benefitDesc,
-        quantity: quantity,
+        quantity,
         date_received: dateReceived,
-        benefactor: benefactor
+        benefactor
     });
 
     await newBenefit.save();
 
     console.log("New benefit instance saved.");
     res.redirect('/benefits');
-    res.sendStatus(201);
+    res.sendStatus(201); // HTTP 201: Created
 }));
 
-// POST request for editing item
-router.post('/edit', asyncHandler(async (req, res, next) => { //Change to post. POST will be used.
-    const {benefit_id, name, description, 
-           quantity, date_received, 
-           benefactor } = req.body;
+// POST request for editing benefit
+router.post('/edit', asyncHandler(async (req, res) => {
+    const {
+        benefit_id,
+        name,
+        description,
+        quantity,
+        date_received,
+        benefactor
+    } = req.body;
 
-    if  (name === "") {
+    if (name === "") {
         res.sendStatus(400); // HTTP 400: Bad Request
     }
 
     const benefit = {
-        name: name,
-        description: description,
-        quantity: quantity,
-        date_received: date_received,
-        benefactor: benefactor
+        name,
+        description,
+        quantity,
+        date_received,
+        benefactor
     };
 
-    await Program.updateOne({_id: benefit_id}, benefit);
+    await Benefit.updateOne({ _id: benefit_id }, benefit);
 
-    res.sendStatus(200);
+    res.sendStatus(200); // HTTP 200: OK
 }));
 
-
-// POST request for deleting item
-router.post('/delete', asyncHandler(async (req, res, next) => {
-    //Check first if there are beneficiaries with the current benefit. If there are, it cannot be deleted.
-    
-    await Benefit.deleteOne({_id: req.body.benefit_id});
-    console.log("Benefit ID " + req.body.benefit_id + " has been deleted.");
-    res.sendStatus(200);
+// POST request for deleting benefit
+router.post('/delete', asyncHandler(async (req, res) => {
+    // Check first if there are beneficiaries with the current benefit. If there are, it cannot be deleted.
+    await Benefit.deleteOne({ _id: req.body.benefit_id });
+    console.log(`Benefit ID ${req.body.benefit_id} has been deleted.`);
+    res.sendStatus(200); // HTTP 200: OK
 }));
 
-// GET request for one item.
-router.get('/:id', asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Item detail");
+// GET request for one benefit
+router.get('/:id', asyncHandler(async (req, res) => {
+    res.send("NOT IMPLEMENTED: Benefit detail");
 }));
 
 module.exports = router;

@@ -1,10 +1,9 @@
 const express = require("express");
+const router = express.Router();
 const asyncHandler = require("express-async-handler");
 const json = require("json");
 const Person = require("../models/person");
 const Program = require("../models/program"); //?
-
-const router = express.Router();
 
 // Session Authenticator
 function requireAuth(req, res, next) {
