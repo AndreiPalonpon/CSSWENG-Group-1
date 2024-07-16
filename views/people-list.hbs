@@ -92,9 +92,26 @@
                         <label for="barangay">Barangay</label>
                         <select id="barangay" name="barangay" class="form-control" required>
                             <option value="" selected disabled>Choose...</option>
-                            {{#each barangayCodes}}
-                                <option value="{{this}}">{{this}}</option>
-                            {{/each}}
+                            <option value="Almanza Uno" value="Almanza Uno">Almanza Uno</option>
+                            <option value="Daniel Fajardo">Daniel Fajardo</option>
+                            <option value="Elias Aldana">Elias Aldana</option>
+                            <option value="Ilaya">Ilaya</option>
+                            <option value="Manuyo Uno">Manuyo Uno</option>
+                            <option value="Pamplona Uno">Pamplona Uno</option>
+                            <option value="Pulanglupa Uno">Pulanglupa Uno</option>
+                            <option value="Talon Uno">Talon Uno</option>
+                            <option value="Zapote">Zapote</option>
+                            <option value="Almanza Dos">Almanza Dos</option>
+                            <option value="BF International/CAA">BF International/CAA</option>
+                            <option value="Manuyo Dos">Manuyo Dos</option>
+                            <option value="Pamplona Dos">Pamplona Dos</option>
+                            <option value="Pamplona Tres">Pamplona Tres</option>
+                            <option value="Pilar">Pilar</option>
+                            <option value="Pulanglupa Dos">Pulanglupa Dos</option>
+                            <option value="Talon Dos">Talon Dos</option>
+                            <option value="Talon Tres">Talon Tres</option>
+                            <option value="Talon Kuartro">Talon Kuartro</option>
+                            <option value="Talon Singko">Talon Singko</option>
                         </select>
                     </div>
                     <div class="form-group col-md-6">
@@ -364,27 +381,26 @@
                     </thead>
                     <tbody>
                         <!-- Table rows go here -->
-                        {{#each programs}}
+                        {{#each people}}
                         <tr>
                             <td>{{incremented @index}}</td>
                             <td>{{this.first_name}}</td>
                             <td>{{this.last_name}}</td>
                             <td>{{this.gender}}</td>
-                            <td>{{this.birthdate}}</td>
+                            <td>{{formatDate this.birthdate}}</td>
                             <td>{{this.address}}</td>
                             <td>{{this.barangay}}</td>
                             <td>{{this.contact_number}}</td>
                             <td>{{this.disability_type}}</td>
                             <td>{{this.disability}}</td>
                             <td>{{this.pwd_card_id_no}}</td>
-                            <td>{{this.recent_pwd_id_update_date}}</td>
+                            <td>{{formatDate this.recent_pwd_id_update_date}}</td>
                             <td>
                                 <button class="editBtn" data-id="{{this._id}}"><i class="bi bi-pencil"></i></button>
                                 <button class="deleteBtn" data-id="{{this._id}}"><i class="bi bi-trash"></i></button>
                             </td>
                         </tr>
                         {{/each}}
-
                     </tbody>
                 </table>
             </div>
@@ -408,15 +424,6 @@
                     document.getElementById("wrapper").classList.toggle("toggled");
                     document.querySelector(".main-content").classList.toggle("toggled");
                     document.querySelector(".header-right").classList.toggle("toggled");
-                });
-
-                $(document).ready(function() {
-                    $("#myInput").on("keyup", function() {
-                        var value = $(this).val().toLowerCase();
-                        $(".dropdown-menu li").filter(function() {
-                            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                        });
-                    });
                 });
 
                 var newMemberAddBtn = document.querySelector('.addPeopleBtn button'),
@@ -478,209 +485,18 @@
                         originalData[editId] = person;
                     }
 
+                    $.post("/people/create", program, (data, status, xhr) => {
+                        if (status === "success" && xhr.status === 201) {
+                            alert("Person has been created.");
+                        }
+                    });
+
                     localStorage.setItem('people', JSON.stringify(originalData));
                     getData = [...originalData];
-                    showInfo();
                     darkBg.classList.remove('active');
                     popupForm.classList.remove('active');
                     form.reset();
                 });
-
-                function showInfo() {
-                    displayRows(getData, currentPage);
-                    displayPagination(getData.length);
-                    addEventListeners();
-                }
-
-                let currentPage = 1;
-                const rowsPerPage = 5;
-
-                function displayPagination(totalRows) {
-                    const pagination = document.querySelector('.pagination');
-                    const totalPages = Math.ceil(totalRows / rowsPerPage);
-
-                    pagination.innerHTML = `
-                         <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-                             <a class="page-link" href="#" aria-label="Previous" id="prevButton">
-                                 <span aria-hidden="true">&laquo;</span>
-                             </a>
-                         </li>
-                         `;
-
-                    for (let i = 1; i <= totalPages; i++) {
-                        pagination.innerHTML += `
-                         <li class="page-item ${currentPage === i ? 'active' : ''}">
-                             <a class="page-link paginationButton" href="#">${i}</a>
-                         </li>
-                         `;
-                    }
-
-                    pagination.innerHTML += `
-                     <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-                         <a class="page-link" href="#" aria-label="Next" id="nextButton">
-                             <span aria-hidden="true">&raquo;</span>
-                         </a>
-                     </li>
-                     `;
-
-                    document.getElementById("prevButton").addEventListener("click", prevPage);
-                    document.getElementById("nextButton").addEventListener("click", nextPage);
-
-                    const paginationButtons = document.getElementsByClassName("paginationButton");
-                    for (let i = 0; i < paginationButtons.length; i++) {
-                        paginationButtons[i].addEventListener("click", function(event) {
-                            event.preventDefault();
-                            goToPage(parseInt(this.textContent));
-                        });
-                    }
-                }
-
-                function displayRows(rows, page = 1) {
-                    const start = (page - 1) * rowsPerPage;
-                    const end = start + rowsPerPage;
-                    const paginatedRows = rows.slice(start, end);
-                    const peopleInfo = document.querySelector('.peopleInfo');
-                    peopleInfo.innerHTML = '';
-                    paginatedRows.forEach((people, index) => {
-                        const row = `
-                             <tr>
-                                 <td>${start + index + 1}</td>
-                                 <td>${capitalizeFirstLetter(people.first_name)}</td>
-                                 <td>${capitalizeFirstLetter(people.last_name)}</td>
-                                 <td>${people.gender}</td>
-                                 <td>${people.birthdate}</td>
-                                 <td>${people.address}</td>
-                                 <td>${people.barangay}</td>
-                                 <td>${people.contact_number}</td>
-                                 <td>${people.disability_type}</td>
-                                 <td>${people.disability}</td>
-                                 <td>${people.pwd_card_id_no}</td>
-                                 <td>${people.recent_pwd_id_update_date}</td>
-                                 <td>
-                                     <button class="editBtn" data-id="${people.id}"><i class="bi bi-pencil"></i></button>
-                                     <button class="deleteBtn" data-id="${people.id}"><i class="bi bi-trash"></i></button>
-                                 </td>
-                             </tr>
-                             `;
-                        peopleInfo.innerHTML += row;
-                    });
-
-                    function capitalizeFirstLetter(string) {
-                        return string.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
-                    }
-                }
-
-                function addEventListeners() {
-                    // Event listeners for sorting and filtering
-                    document.querySelectorAll('input[name="firstNameSort"], input[name="lastNameSort"], input[name="birthdateSort"]').forEach(radio => {
-                        radio.addEventListener('change', () => {
-                            sortData();
-                            displayRows(getData, currentPage);
-                            displayPagination(getData.length);
-                        });
-                    });
-                    document.querySelectorAll('input[name="genderFilter"], input[name="barangayFilter"], input[name="disabilityTypeFilter"]').forEach(checkbox => {
-                        checkbox.addEventListener('change', () => {
-                            filterData();
-                            displayRows(getData, currentPage);
-                            displayPagination(getData.length);
-                        });
-                    });
-                }
-
-                function prevPage(event) {
-                    event.preventDefault();
-                    if (currentPage > 1) {
-                        currentPage--;
-                        displayRows(getData, currentPage);
-                        displayPagination(getData.length);
-                    }
-                }
-
-                function nextPage(event) {
-                    event.preventDefault();
-                    const totalPages = Math.ceil(getData.length / rowsPerPage);
-                    if (currentPage < totalPages) {
-                        currentPage++;
-                        displayRows(getData, currentPage);
-                        displayPagination(getData.length);
-                    }
-                }
-
-                function goToPage(page) {
-                    currentPage = page;
-                    displayRows(getData, currentPage);
-                    displayPagination(getData.length);
-                }
-
-                function sortData() {
-                    const selectedFirstNameSort = document.querySelector('input[name="firstNameSort"]:checked') ? document.querySelector('input[name="firstNameSort"]:checked').value : null;
-                    const selectedLastNameSort = document.querySelector('input[name="lastNameSort"]:checked') ? document.querySelector('input[name="lastNameSort"]:checked').value : null;
-                    const selectedBirthdateSort = document.querySelector('input[name="birthdateSort"]:checked') ? document.querySelector('input[name="birthdateSort"]:checked').value : null;
-
-                    getData.sort((a, b) => {
-                        // Sort by First Name 
-                        if (selectedFirstNameSort) {
-                            if (selectedFirstNameSort === 'az') {
-                                return a.first_name.localeCompare(b.first_name);
-                            } else {
-                                return b.first_name.localeCompare(a.first_name);
-                            }
-                        }
-
-                        // Sort by Last Name 
-                        if (selectedLastNameSort) {
-                            if (selectedLastNameSort === 'az') {
-                                return a.last_name.localeCompare(b.last_name);
-                            } else {
-                                return b.last_name.localeCompare(a.last_name);
-                            }
-                        }
-
-                        // Sort by Birthdate
-                        if (selectedBirthdateSort) {
-                            if (selectedBirthdateSort === 'newest') {
-                                return new Date(b.birthdate) - new Date(a.birthdate);
-                            } else {
-                                return new Date(a.birthdate) - new Date(b.birthdate);
-                            }
-                        }
-                    });
-                    showInfo();
-                }
-
-                function filterData() {
-                    let filteredData = [...originalData];
-                    const selectedGender = Array.from(document.querySelectorAll('input[name="genderFilter"]:checked')).map(check => check.value);
-                    if (selectedGender.length > 0) {
-                        filteredData = filteredData.filter(person => selectedGender.includes(person.gender));
-                    }
-
-                    const selectedBarangay = Array.from(document.querySelectorAll('input[name="barangayFilter"]:checked')).map(check => check.value);
-                    if (selectedBarangay.length > 0) {
-                        filteredData = filteredData.filter(person => selectedBarangay.includes(person.barangay));
-                    }
-
-                    const selectedDisabilityType = Array.from(document.querySelectorAll('input[name="disabilityTypeFilter"]:checked')).map(check => check.value);
-                    if (selectedDisabilityType.length > 0) {
-                        filteredData = filteredData.filter(person => selectedDisabilityType.includes(person.disability_type));
-                    }
-
-                    getData = filteredData;
-                    showInfo();
-                }
-
-                resetFiltersButton.addEventListener('click', () => {
-                    document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
-                        input.checked = false;
-                    });
-                    getData = [...originalData];
-                    showInfo();
-                });
-
-                displayRows(getData, currentPage);
-                displayPagination(getData.length);
-                addEventListeners();
             });
 
             /* Exporting to CSV function */

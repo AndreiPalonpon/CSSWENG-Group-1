@@ -124,7 +124,7 @@ router.post('/create', asyncHandler(async(req, res, next) => {
     });
 
     await newPerson.save();
-    res.redirect('/'); // Redirect to home page or any other appropriate page after saving.
+    
 
     console.log("New person instance saved.");
 }));
