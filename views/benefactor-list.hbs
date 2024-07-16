@@ -68,34 +68,34 @@
         <!-- End of header section -->
 
         <!-- Modal form for adding/editing benefactors -->
-<!--        <div class="popup">-->
-<!--            <header>-->
-<!--                <h2 class="modalTitle">Fill the Form</h2>-->
-<!--                <span class="closeBtn">&times;</span>-->
-<!--                &lt;!&ndash; Close button for modal &ndash;&gt;-->
-<!--            </header>-->
-<!--            <form id="benefactorForm" action="/benefactors/create" method="POST" onsubmit="setTimeout(function(){window.location.reload();},100);">-->
-<!--                &lt;!&ndash; Form for submitting benefactor information &ndash;&gt;-->
-<!--                <div class="form-row">-->
-<!--                    <div class="form-group col-md-6">-->
-<!--                        <label for="benefactorName">Benefactor Name</label>-->
-<!--                        <input type="text" class="form-control" id="benefactorName" name="benefactorName" placeholder="Benefactor Name" required>-->
-<!--                    </div>-->
+        <!--        <div class="popup">-->
+        <!--            <header>-->
+        <!--                <h2 class="modalTitle">Fill the Form</h2>-->
+        <!--                <span class="closeBtn">&times;</span>-->
+        <!--                &lt;!&ndash; Close button for modal &ndash;&gt;-->
+        <!--            </header>-->
+        <!--            <form id="benefactorForm" action="/benefactors/create" method="POST" onsubmit="setTimeout(function(){window.location.reload();},100);">-->
+        <!--                &lt;!&ndash; Form for submitting benefactor information &ndash;&gt;-->
+        <!--                <div class="form-row">-->
+        <!--                    <div class="form-group col-md-6">-->
+        <!--                        <label for="benefactorName">Benefactor Name</label>-->
+        <!--                        <input type="text" class="form-control" id="benefactorName" name="benefactorName" placeholder="Benefactor Name" required>-->
+        <!--                    </div>-->
 
-<!--                    <div class="form-group col-md-6">-->
-<!--                        <label for="benefactorType">Benefactor Type</label>-->
-<!--                        <select class="form-control" id="benefactorType" name="benefactorType" required>-->
-<!--                            <option value="" selected disabled>Choose...</option>-->
-<!--                            <option value="Type1">Type 1</option>-->
-<!--                            <option value="Type2">Type 2</option>-->
-<!--                            <option value="Type3">Type 3</option>-->
-<!--                            <option value="Type4">Type 4</option>-->
-<!--                        </select>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <input type="submit" class="submitBenefactorBtn" value="Submit">-->
-<!--            </form>-->
-<!--        </div>-->
+        <!--                    <div class="form-group col-md-6">-->
+        <!--                        <label for="benefactorType">Benefactor Type</label>-->
+        <!--                        <select class="form-control" id="benefactorType" name="benefactorType" required>-->
+        <!--                            <option value="" selected disabled>Choose...</option>-->
+        <!--                            <option value="Type1">Type 1</option>-->
+        <!--                            <option value="Type2">Type 2</option>-->
+        <!--                            <option value="Type3">Type 3</option>-->
+        <!--                            <option value="Type4">Type 4</option>-->
+        <!--                        </select>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--                <input type="submit" class="submitBenefactorBtn" value="Submit">-->
+        <!--            </form>-->
+        <!--        </div>-->
 
         <!-- Main content section -->
         <main class="main-content">
@@ -141,36 +141,27 @@
                                     <ul class="dropdown-menu" aria-labelledby="typeDropdown">
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="type1" id="type1Check" name="typeFilter">
-                                                <label class="form-check-label" for="type1Check">Type 1</label>
+                                                <input class="form-check-input" type="checkbox" value="Individual" id="type1Check" name="typeFilter">
+                                                <label class="form-check-label" for="type1Check">Individual</label>
                                             </div>
                                         </li>
-
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="type2" id="type2Check" name="typeFilter">
-                                                <label class="form-check-label" for="type2Check">Type 2</label>
+                                                <input class="form-check-input" type="checkbox" value="Organization" id="type2Check" name="typeFilter">
+                                                <label class="form-check-label" for="type2Check">Organization</label>
                                             </div>
                                         </li>
-
-                                         <li>
+                                        <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="type3" id="type3Check" name="typeFilter">
-                                                <label class="form-check-label" for="type3Check">Type 3</label>
+                                                <input class="form-check-input" type="checkbox" value="Government" id="type3Check" name="typeFilter">
+                                                <label class="form-check-label" for="type3Check">Government</label>
                                             </div>
                                         </li>
-
-                                         <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="type4" id="type4Check" name="typeFilter">
-                                                <label class="form-check-label" for="type4Check">Type 4</label>
-                                            </div>
-                                        </li>
-
                                     </ul>
                                 </div>
                             </th>
                             <th scope="col">Actions</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -182,7 +173,7 @@
                             <td class="benefactor-type">{{this.type}}</td>
                             <td>
                                 <button class="editBenefactorBtn" data-bs-toggle="modal" data-bs-target="#modal-benefactor-edit"><i class="bi bi-pencil"></i></button>
-                               <button class="deleteBtn" data-id="{{this._id}}"><i class="bi bi-trash"></i></button>
+                                <button class="deleteBtn" data-id="{{this._id}}"><i class="bi bi-trash"></i></button>
                             </td>
                         </tr>
                         {{/each}}
@@ -190,7 +181,7 @@
                 </table>
             </div>
         </main>
-        
+
         <nav aria-label="page-navigation">
             <ul class="pagination">
                 <!-- Pagination items will be dynamically added here -->
@@ -269,8 +260,6 @@
                 </div>
             </div>
         </div>
-
-
 
         <!-- Scripts for functionality and interactivity -->
         <!-- JQuery -->
