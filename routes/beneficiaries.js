@@ -93,7 +93,7 @@ router.post('/create', asyncHandler(async (req, res) => {
 
     const newBeneficiary = new Beneficiary({
         person_registered: personRegistered,
-        program_enrolled: programEnrolled, // Use programId here
+        program_enrolled: programId, // Use programId here
         status,
         benefit_delivered: benefitDelivered,
         date_received
