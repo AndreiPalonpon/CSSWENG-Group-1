@@ -21,16 +21,17 @@ function requireAuth(req, res, next) {
 
 router.use(requireAuth);
 
-// GET request to list all beneficiaries
-router.get('/', asyncHandler(async (req, res) => {
+/ GET request to list all beneficiaries
+/*
+router.get('/', asyncHandler(async(req, res) => {
     const people = await Person.find().sort({ first_name: 1, last_name: 1 }).exec();
     const programs = await Program.find().sort({ name: 1 }).exec();
     const benefits = await Benefit.find().sort({ name: 1 }).exec();
     const beneficiaries = await Beneficiary.find()
-                                           .populate("person_registered")
-                                           .populate("program_enrolled")
-                                           .populate("benefit_delivered")
-                                           .exec();
+        .populate("person_registered")
+        .populate("program_enrolled")
+        .populate("benefit_delivered")
+        .exec();
 
     console.log(beneficiaries);
     res.render("beneficiary-list", {
@@ -40,8 +41,56 @@ router.get('/', asyncHandler(async (req, res) => {
         beneficiaries
     });
 }));
+*/
 
-router.get('/:id', asyncHandler(async (req, res) => {
+// GET request to list all beneficiaries with sorting and filtering
+router.get('/', asyncHandler(async(req, res) => {
+    const { recipientSort, statusFilter, benefitSort, dateSort, programId } = req.query;
+
+    let sortOptions = {};
+    let filterOptions = { program_enrolled: programId };
+
+    if (recipientSort) {
+        sortOptions['person_registered.name'] = recipientSort === 'az' ? 1 : -1;
+    }
+
+    if (statusFilter) {
+        filterOptions.status = { $in: statusFilter.split(',') };
+    }
+
+    if (benefitSort) {
+        sortOptions['benefit_delivered.name'] = benefitSort === 'az' ? 1 : -1;
+    }
+
+    if (dateSort) {
+        sortOptions.date_received = dateSort === 'newest' ? -1 : 1;
+    }
+
+    // Logging for debugging
+    console.log('Filter Options:', filterOptions);
+    console.log('Sort Options:', sortOptions);
+
+    const people = await Person.find().sort({ first_name: 1, last_name: 1 }).exec();
+    const programs = await Program.find().sort({ name: 1 }).exec();
+    const benefits = await Benefit.find().sort({ name: 1 }).exec();
+    const beneficiaries = await Beneficiary.find(filterOptions)
+        .populate("person_registered")
+        .populate("program_enrolled")
+        .populate("benefit_delivered")
+        .sort(sortOptions)
+        .exec();
+
+    console.log('Filtered Beneficiaries:', beneficiaries);
+
+    res.render("beneficiary-list", {
+        people,
+        programs,
+        benefits,
+        beneficiaries
+    });
+}));
+
+router.get('/:id', asyncHandler(async(req, res) => {
     const programId = req.params.id; // Correctly extract the program ID from URL parameter
     const program = await Program.findById(programId); // Assuming Program model is used
 
@@ -56,10 +105,10 @@ router.get('/:id', asyncHandler(async (req, res) => {
 
     // Find beneficiaries where program_enrolled matches the program ID
     const beneficiaries = await Beneficiary.find({ program_enrolled: programId })
-                                           .populate("person_registered")
-                                           .populate("program_enrolled")
-                                           .populate("benefit_delivered")
-                                           .exec();
+        .populate("person_registered")
+        .populate("program_enrolled")
+        .populate("benefit_delivered")
+        .exec();
 
     res.render("beneficiary-list", {
         program,
@@ -69,8 +118,6 @@ router.get('/:id', asyncHandler(async (req, res) => {
         beneficiaries
     });
 }));
-
-
 
 // POST request for creating beneficiary
 router.post('/create', asyncHandler(async (req, res) => {
