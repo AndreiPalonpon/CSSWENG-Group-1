@@ -492,6 +492,7 @@
             $.post("/people/create", person, (data, status, xhr) => {
                 if (status === "success" && xhr.status === 201) {
                     alert("Person has been created.");
+                    location.reload();
                 }
             });
 
