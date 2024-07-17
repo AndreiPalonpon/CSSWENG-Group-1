@@ -69,6 +69,7 @@
 
             <!---TABLE LISTS-->
             <div class="table-container">
+                <form id="filter-form">
                 <button id="resetFiltersButton" class="btn btn-secondary">Reset Filters</button>
                 <table class="table table-bordered table-hover">
                     <caption>List of Programs</caption>
@@ -206,6 +207,7 @@
                         {{/each}}
                     </tbody>
                 </table>
+                </form>
             </div>
         </main>
 
@@ -329,13 +331,35 @@
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+<!-- <script src="/public/js/program-list.js"></script>--> 
+<!-- IM NOT SURE IF THE JS IS CONNECTED, I TESTED THIS JS OUT WHEN I PUT THE JS CODE HERE IN THIS FILE, NOT IN A SEPARATE ONE -->
+<!--I ALSO PUT ALL THE OLD PUSHED CODE IN THE JS SCRIPT FILE -->
+ <script>
+        document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("menu-toggle").addEventListener("click", function() {
             document.getElementById("wrapper").classList.toggle("toggled");
             document.querySelector(".main-content").classList.toggle("toggled");
             document.querySelector(".header-right").classList.toggle("toggled");
         });
+
+        // Add event listeners to filter elements
+    document.querySelectorAll('input[name="nameSort"]').forEach(input => {
+        input.addEventListener('change', applyFiltersAndSort);
+    });
+    document.querySelectorAll('input[name="typeFilter"]').forEach(input => {
+        input.addEventListener('change', applyFiltersAndSort);
+    });
+    document.querySelectorAll('input[name="frequencyFilter"]').forEach(input => {
+        input.addEventListener('change', applyFiltersAndSort);
+    });
+    document.querySelectorAll('input[name="assistanceTypeFilter"]').forEach(input => {
+        input.addEventListener('change', applyFiltersAndSort);
+    });
+
+    $('#resetFiltersButton').on('click', function() {
+        $('#filter-form')[0].reset();
+        applyFiltersAndSort();
+    });
 
         const newMemberAddBtn = document.querySelector('.addProgramBtn button'),
             darkBg = document.querySelector('.dark_bg'),
@@ -404,6 +428,12 @@
         });
 
         function addEventListeners() {
+            document.querySelectorAll('.editBtn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const id = e.currentTarget.closest("tr").getAttribute('data-program-id');
+                editInfo(id, e);
+            });
+        });
             document.querySelectorAll('.deleteBtn').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const id = e.currentTarget.getAttribute('data-id');
@@ -411,6 +441,76 @@
                 });
             });
         }
+
+        document.getElementById("editProgramForm").addEventListener('submit', (e) => {
+        let program_id = document.getElementById("editProgramId").value;
+        let program_name = document.getElementById("editProgramName").value;
+        let program_type = document.getElementById("editProgramType").value;
+        let program_frequency = document.getElementById("editFrequency").value;
+        let program_assistance_type = document.getElementById("editAssistanceType").value;
+
+        let program = {
+            program_id: program_id,
+            program_name: program_name,
+            program_type: program_type,
+            program_frequency: program_frequency,
+            program_assistance_type: program_assistance_type
+        };
+
+        e.preventDefault();
+
+        $.post("/programs/edit", program, (data, status, xhr) => {
+            if (status === "success" && xhr.status === 200) {
+                let modalInstance = bootstrap.Modal.getInstance(document.getElementById("modal-program-edit"));
+                modalInstance.hide(); // Hide the modal
+                alert("Update program successfully.");
+            } else {
+                alert("Error updating program");
+            }
+        }).fail(() => {
+            alert("Error updating program");
+        });
+    });
+
+    function onBtnEditClick(e) {
+        let program_id = e.currentTarget.closest("tr").getAttribute("data-program-id");
+        let program_name = e.currentTarget.closest("tr").querySelector(".program-name > a").textContent;
+        let program_type = e.currentTarget.closest("tr").querySelector(".program-type").textContent;
+        let program_frequency = e.currentTarget.closest("tr").querySelector(".program-frequency").textContent;
+        let program_assistance_type = e.currentTarget.closest("tr").querySelector(".program-assistance-type").textContent;
+
+        let modal_edit = document.getElementById("modal-program-edit");
+        let modal_edit_id = modal_edit.querySelector("#editProgramId");
+        let modal_edit_name = modal_edit.querySelector("#editProgramName");
+        let modal_edit_type = modal_edit.querySelector("#editProgramType");
+        let modal_edit_frequency = modal_edit.querySelector("#editFrequency");
+        let modal_edit_assistance_type = modal_edit.querySelector("#editAssistanceType");
+
+        modal_edit_id.value = program_id;
+        modal_edit_name.value = program_name;
+        modal_edit_type.value = program_type;
+        modal_edit_frequency.value = program_frequency;
+        modal_edit_assistance_type.value = program_assistance_type;
+    }
+
+    function editInfo(id, e) {
+        onBtnEditClick(e);
+        isEdit = true;
+        editId = getData.findIndex(item => item.id === id);
+        const program = getData[editId];
+        if (program) {
+            form.programName.value = program.programName;
+            form.programType.value = program.programType;
+            form.frequency.value = program.frequency;
+            form.assistanceType.value = program.assistanceType;
+            modalTitle.innerHTML = "Edit Program";
+            formInputFields.forEach(input => input.disabled = false);
+            submitBtn.style.display = "block";
+            submitBtn.innerHTML = "Update";
+            darkBg.classList.add('active');
+            popupForm.classList.add('active');
+        }
+    }
 
         function deleteInfo(id, e) {
             if (confirm("Are you sure you want to delete this program?")) {
@@ -431,7 +531,34 @@
                     });
             }
         }
+        function applyFiltersAndSort() {
+        const nameSort = $('input[name="nameSort"]:checked').val();
+        const typeFilter = $('input[name="typeFilter"]:checked').map(function() { return this.value; }).get();
+        const frequencyFilter = $('input[name="frequencyFilter"]:checked').map(function() { return this.value; }).get();
+        const assistanceTypeFilter = $('input[name="assistanceTypeFilter"]:checked').map(function() { return this.value; }).get();
 
+        let query = [];
+
+        if (nameSort) query.push(`nameSort=${nameSort}`);
+        if (typeFilter.length) query.push(`typeFilter=${typeFilter.join(',')}`);
+        if (frequencyFilter.length) query.push(`frequencyFilter=${frequencyFilter.join(',')}`);
+        if (assistanceTypeFilter.length) query.push(`assistanceTypeFilter=${assistanceTypeFilter.join(',')}`);
+
+        const queryString = query.length > 0 ? `?${query.join('&')}` : '';
+
+        console.log('Query String:', queryString);
+
+        fetch(`/programs${queryString}`)
+            .then(response => response.text())
+            .then(html => {
+                console.log('Received HTML:', html);
+                const newDoc = new DOMParser().parseFromString(html, 'text/html');
+                const newTableBody = newDoc.querySelector('tbody').innerHTML;
+                document.querySelector('tbody').innerHTML = newTableBody;
+                addEventListeners();
+            })
+            .catch(error => console.error('Error fetching filtered data:', error));
+    }
         addEventListeners();
     });
 
@@ -462,7 +589,7 @@
         }
         downloadCSV(csv.join('\n'), filename);
     }
-</script>
+ </script>
 
 </body>
 
