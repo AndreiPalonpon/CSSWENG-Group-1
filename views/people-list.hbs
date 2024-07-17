@@ -7,7 +7,7 @@
     <title>LPPWDFI | People Lists</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="/css/program-list-style.css">
+    <link rel="stylesheet" href="/css/people-list-style.css">
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 </head>
 
@@ -50,100 +50,12 @@
                 </div>
 
                 <div class="addPeopleBtn">
-                    <button>Create</button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#modal-people-create">Create</button>
                 </div>
 
             </header>
         </div>
 
-        <!--MODAL FORM-->
-        <div class="popup">
-            <header>
-                <h2 class="modalTitle">Fill the Form</h2>
-                <span class="closeBtn">&times;</span>
-            </header>
-            <form id="peopleForm" action="/people/create" method="POST">
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="firstName">First Name</label>
-                        <input type="text" class="form-control" id="firstName" name="first_name" placeholder="First Name" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="lastName">Last Name</label>
-                        <input type="text" class="form-control" id="lastName" name="last_name" placeholder="Last Name" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="gender">Gender</label>
-                        <select id="gender" name="gender" class="form-control" required>
-                            <option value="" selected disabled>Choose...</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="birthdate">Birthdate</label>
-                        <input type="date" id="birthdate" name="birthdate" class="form-control" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="address">Address</label>
-                        <input type="text" class="form-control" id="address" name="address" placeholder="Address" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="barangay">Barangay</label>
-                        <select id="barangay" name="barangay" class="form-control" required>
-                            <option value="" selected disabled>Choose...</option>
-                            <option value="Almanza Uno" value="Almanza Uno">Almanza Uno</option>
-                            <option value="Daniel Fajardo">Daniel Fajardo</option>
-                            <option value="Elias Aldana">Elias Aldana</option>
-                            <option value="Ilaya">Ilaya</option>
-                            <option value="Manuyo Uno">Manuyo Uno</option>
-                            <option value="Pamplona Uno">Pamplona Uno</option>
-                            <option value="Pulanglupa Uno">Pulanglupa Uno</option>
-                            <option value="Talon Uno">Talon Uno</option>
-                            <option value="Zapote">Zapote</option>
-                            <option value="Almanza Dos">Almanza Dos</option>
-                            <option value="BF International/CAA">BF International/CAA</option>
-                            <option value="Manuyo Dos">Manuyo Dos</option>
-                            <option value="Pamplona Dos">Pamplona Dos</option>
-                            <option value="Pamplona Tres">Pamplona Tres</option>
-                            <option value="Pilar">Pilar</option>
-                            <option value="Pulanglupa Dos">Pulanglupa Dos</option>
-                            <option value="Talon Dos">Talon Dos</option>
-                            <option value="Talon Tres">Talon Tres</option>
-                            <option value="Talon Kuartro">Talon Kuartro</option>
-                            <option value="Talon Singko">Talon Singko</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="contactNumber">Contact Number</label>
-                        <input type="text" class="form-control" id="contactNumber" name="contact_number" placeholder="Contact Number" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="disabilityType">Disability Type</label>
-                        <select id="disabilityType" name="disability_type" class="form-control" required>
-                            <option value="" selected disabled>Choose...</option>
-                            <option value="Physical">Physical</option>
-                            <option value="Sensory">Sensory</option>
-                            <option value="Intellectual">Intellectual</option>
-                            <option value="Mental">Mental</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="disability">Disability</label>
-                        <input type="text" class="form-control" id="disability" name="disability" placeholder="Disability" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="pwdCardIdNo">PWD Card ID No.</label>
-                        <input class="form-control" id="pwdCardIdNo" name="pwd_card_id_no" placeholder="PWD Card ID No." required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="recentPwdIdUpdateDate">Recent PWD ID Update Date</label>
-                        <input type="date" id="recentPwdIdUpdateDate" name="recent_pwd_id_update_date" class="form-control" required>
-                    </div>
-                </div>
-                <input type="submit" class="submitPeopleBtn" value="Submit">
-            </form>
-        </div>
         <!--2nd Header-->
         <main class="main-content">
             <h2 class="main-title">People List</h2>
@@ -412,125 +324,246 @@
             </ul>
         </nav>
 
-        <!-- JQuery -->
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                document.getElementById("menu-toggle").addEventListener("click", function() {
-                    document.getElementById("wrapper").classList.toggle("toggled");
-                    document.querySelector(".main-content").classList.toggle("toggled");
-                    document.querySelector(".header-right").classList.toggle("toggled");
-                });
+        
+<!-- Modal -->
+<div class="modal fade" id="modal-people-create">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add a Person</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="peopleForm" action="/people/create" method="POST">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="firstName">First Name</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="gender">Gender</label>
+                            <select id="gender" name="gender" class="form-control" required>
+                                <option value="" selected disabled>Choose...</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="birthdate">Birthdate</label>
+                            <input type="date" id="birthdate" name="birthdate" class="form-control" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="address">Address</label>
+                            <input type="text" class="form-control" id="address" name="address" placeholder="Address" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="barangay">Barangay</label>
+                            <select id="barangay" name="barangay" class="form-control" required>
+                                <option value="" selected disabled>Choose...</option>
+                                <option value="Almanza Uno">Almanza Uno</option>
+                                <option value="Daniel Fajardo">Daniel Fajardo</option>
+                                <option value="Elias Aldana">Elias Aldana</option>
+                                <option value="Ilaya">Ilaya</option>
+                                <option value="Manuyo Uno">Manuyo Uno</option>
+                                <option value="Pamplona Uno">Pamplona Uno</option>
+                                <option value="Pulanglupa Uno">Pulanglupa Uno</option>
+                                <option value="Talon Uno">Talon Uno</option>
+                                <option value="Zapote">Zapote</option>
+                                <option value="Almanza Dos">Almanza Dos</option>
+                                <option value="BF International/CAA">BF International/CAA</option>
+                                <option value="Manuyo Dos">Manuyo Dos</option>
+                                <option value="Pamplona Dos">Pamplona Dos</option>
+                                <option value="Pamplona Tres">Pamplona Tres</option>
+                                <option value="Pilar">Pilar</option>
+                                <option value="Pulanglupa Dos">Pulanglupa Dos</option>
+                                <option value="Talon Dos">Talon Dos</option>
+                                <option value="Talon Tres">Talon Tres</option>
+                                <option value="Talon Kuartro">Talon Kuartro</option>
+                                <option value="Talon Singko">Talon Singko</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="contactNumber">Contact Number</label>
+                            <input type="text" class="form-control" id="contactNumber" name="contactNumber" placeholder="Contact Number" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="disabilityType">Disability Type</label>
+                            <select id="disabilityType" name="disabilityType" class="form-control" required>
+                                <option value="" selected disabled>Choose...</option>
+                                <option value="Physical">Physical</option>
+                                <option value="Sensory">Sensory</option>
+                                <option value="Intellectual">Intellectual</option>
+                                <option value="Mental">Mental</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="disability">Disability</label>
+                            <input type="text" class="form-control" id="disability" name="disability" placeholder="Disability" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pwdCardIdNo">PWD Card ID No.</label>
+                            <input class="form-control" id="pwdCardIdNo" name="pwd_card_id_no" placeholder="PWD Card ID No." required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="recentPwdIdUpdateDate">Recent PWD ID Update Date</label>
+                            <input type="date" id="recentPwdIdUpdateDate" name="recent_pwd_id_update_date" class="form-control" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="submitPeopleBtn" form="peopleForm">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
-                var newMemberAddBtn = document.querySelector('.addPeopleBtn button'),
-                    darkBg = document.querySelector('.dark_bg'),
-                    popupForm = document.querySelector('.popup'),
-                    crossBtn = document.querySelector('.closeBtn'),
-                    submitPeopleBtn = document.querySelector('.submitPeopleBtn'),
-                    modalTitle = document.querySelector('.modalTitle'),
-                    form = document.querySelector('#peopleForm'),
-                    formInputFields = document.querySelectorAll('#peopleForm input, #peopleForm select'),
-                    peopleInfo = document.querySelector('.peopleInfo'),
-                    resetFiltersButton = document.getElementById('resetFiltersButton');
 
-                let originalData = localStorage.getItem('people') ? JSON.parse(localStorage.getItem('people')) : [];
-                let getData = [...originalData];
+<!-- JQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById("menu-toggle").addEventListener("click", function() {
+            document.getElementById("wrapper").classList.toggle("toggled");
+            document.querySelector(".main-content").classList.toggle("toggled");
+            document.querySelector(".header-right").classList.toggle("toggled");
+        });
 
-                let isEdit = false,
-                    editId;
+        const newMemberAddBtn = document.querySelector('.addPeopleBtn button'),
+            darkBg = document.querySelector('.dark_bg'),
+            popupForm = document.querySelector('.popup'),
+            crossBtn = document.querySelector('.btn-close'),
+            submitBtn = document.querySelector('.submitPeopleBtn'),
+            modalTitle = document.querySelector('.modal-title'),
+            form = document.querySelector('#peopleForm'),
+            formInputFields = document.querySelectorAll('#peopleForm input, #peopleForm select'),
+            resetFiltersButton = document.getElementById('resetFiltersButton');
 
-                newMemberAddBtn.addEventListener('click', () => {
-                    isEdit = false;
-                    submitPeopleBtn.innerHTML = "Submit";
-                    modalTitle.innerHTML = "Fill the Form";
-                    form.reset();
-                    formInputFields.forEach(input => input.disabled = false);
-                    submitPeopleBtn.style.display = "block";
-                    darkBg.classList.add('active');
-                    popupForm.classList.add('active');
-                });
+        let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
+        let getData = [...originalData];
 
-                crossBtn.addEventListener('click', () => {
-                    darkBg.classList.remove('active');
-                    popupForm.classList.remove('active');
-                    form.reset();
-                    submitPeopleBtn.style.display = "block";
-                    formInputFields.forEach(input => input.disabled = false);
-                });
+        let isEdit = false,
+            editId;
 
-                form.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const person = {
-                        id: Date.now(),
-                        first_name: form.first_name.value,
-                        last_name: form.last_name.value,
-                        gender: form.gender.value,
-                        birthdate: form.birthdate.value,
-                        address: form.address.value,
-                        barangay: form.barangay.value,
-                        contact_number: form.contact_number.value,
-                        disability_type: form.disability_type.value,
-                        disability: form.disability.value,
-                        pwd_card_id_no: form.pwd_card_id_no.value,
-                        recent_pwd_id_update_date: form.recent_pwd_id_update_date.value
-                    };
+        newMemberAddBtn.addEventListener('click', () => {
+            isEdit = false;
+            submitBtn.innerHTML = "Submit";
+            modalTitle.innerHTML = "Fill the Form";
+            form.reset();
+            formInputFields.forEach(input => input.disabled = false);
+            submitBtn.style.display = "block";
+        });
 
-                    if (!isEdit) {
-                        originalData.push(person);
-                    } else {
-                        originalData[editId] = person;
-                    }
+        crossBtn.addEventListener('click', () => {
+            form.reset();
+            submitBtn.style.display = "block";
+            formInputFields.forEach(input => input.disabled = false);
+        });
 
-                    $.post("/people/create", program, (data, status, xhr) => {
-                        if (status === "success" && xhr.status === 201) {
-                            alert("Person has been created.");
-                        }
-                    });
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const now = new Date();
+            const person = {
+                id: Date.now(),
+                firstName: form.firstName.value,
+                lastName: form.lastName.value,
+                gender: form.gender.value,
+                birthdate: form.birthdate.value,
+                address: form.address.value,
+                barangay: form.barangay.value,
+                contactNumber: form.contactNumber.value,
+                disabilityType: form.disabilityType.value,
+                disability: form.disability.value,
+                pwd_card_id_no: form.pwd_card_id_no.value,
+                recent_pwd_id_update_date: form.recent_pwd_id_update_date.value,
+            };
 
-                    localStorage.setItem('people', JSON.stringify(originalData));
-                    getData = [...originalData];
-                    darkBg.classList.remove('active');
-                    popupForm.classList.remove('active');
-                    form.reset();
-                });
+            if (!isEdit) {
+                originalData.push(person);
+            } else {
+                originalData[editId] = person;
+            }
+
+            $.post("/people/create", person, (data, status, xhr) => {
+                if (status === "success" && xhr.status === 201) {
+                    alert("Person has been created.");
+                }
             });
 
-            /* Exporting to CSV function */
-            function downloadCSV(csv, filename) {
-                let csvFile;
-                let downloadLink;
-                csvFile = new Blob([csv], {
-                    type: 'text/csv'
+            localStorage.setItem('person', JSON.stringify(originalData));
+            getData = [...originalData];
+
+            location.reload();
+            darkBg.classList.remove('active');
+            popupForm.classList.remove('active');
+            form.reset();
+        });
+
+        function addEventListeners() {
+            document.querySelectorAll('.deleteBtn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const id = e.currentTarget.getAttribute('data-id');
+                    deleteInfo(id, e);
                 });
+            });
+        }
 
-                downloadLink = document.createElement('a');
-                downloadLink.download = filename;
-                downloadLink.href = window.URL.createObjectURL(csvFile);
-                downloadLink.style.display = 'none';
-                document.body.appendChild(downloadLink);
-                downloadLink.click();
-            }
+        function deleteInfo(id, e) {
+            if (confirm("Are you sure you want to delete this person?")) {
+                originalData = originalData.filter(item => item.id !== id);
+                localStorage.setItem('people', JSON.stringify(originalData));
 
-            function exportTableToCSV(filename) {
-                const rows = document.querySelectorAll('.table-container table tr');
-                let csv = [];
-                for (let i = 0; i < rows.length; i++) {
-                    const row = [],
-                        cols = rows[i].querySelectorAll('td, th');
-                    for (let j = 0; j < cols.length; j++) {
-                        const data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ');
-                        row.push('"' + data + '"');
-                    }
-                    csv.push(row.join(','));
-                }
-                downloadCSV(csv.join('\n'), filename);
+                $.post(`/people/delete`, { person_id: id })
+                    .done((data, status, xhr) => {
+                        if (status === "success" && xhr.status === 200) {
+                            alert("Person has been deleted.");
+                            location.reload();
+                        } else {
+                            alert("Failed to delete person. Please try again.");
+                        }
+                    }).fail((xhr, status, error) => {
+                        alert("Error deleting person. Please try again later.");
+                        console.error(error);
+                    });
             }
-        </script>
-    </div>
+        }
+
+        addEventListeners();
+    });
+
+    function downloadCSV(csv, filename) {
+        let csvFile;
+        let downloadLink;
+        csvFile = new Blob([csv], { type: 'text/csv' });
+
+        downloadLink = document.createElement('a');
+        downloadLink.download = filename;
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+        downloadLink.style.display = 'none';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+    }
+
+    function exportTableToCSV(filename) {
+        const rows = document.querySelectorAll('.table-container table tr');
+        let csv = [];
+        for (let i = 0; i < rows.length; i++) {
+            const row = [],
+                cols = rows[i].querySelectorAll('td, th');
+            for (let j = 0; j < cols.length; j++) {
+                const data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ');
+                row.push('"' + data + '"');
+            }
+            csv.push(row.join(','));
+        }
+        downloadCSV(csv.join('\n'), filename);
+    }
+</script>
 </body>
 
 </html>
