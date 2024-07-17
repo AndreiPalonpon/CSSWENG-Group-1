@@ -81,7 +81,11 @@
 
                     <div class="form-group col-md-6">
                         <label for="programEnrolled">Program Enrolled</label>
-                        <input type="text" class="form-control" id="programEnrolled" name="programEnrolled" value="{{program.name}}" readonly>
+                            <!-- Hidden input to hold the program ID -->
+                                <input type="hidden" id="programEnrolled" name="programEnrolled" value="{{program._id}}">
+                            <!-- Visible, disabled input to display the program name -->
+                                <input type="text" class="form-control" value="{{program.name}}" readonly>
+
                     </div>
 
                      <div class="form-group col-md-6">
