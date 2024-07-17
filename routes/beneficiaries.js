@@ -21,7 +21,7 @@ function requireAuth(req, res, next) {
 
 router.use(requireAuth);
 
-/ GET request to list all beneficiaries
+// GET request to list all beneficiaries
 /*
 router.get('/', asyncHandler(async(req, res) => {
     const people = await Person.find().sort({ first_name: 1, last_name: 1 }).exec();
