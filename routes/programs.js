@@ -18,10 +18,40 @@ function requireAuth(req, res, next) {
 
 router.use(requireAuth);
 
-// GET request to list all programs
-router.get('/', asyncHandler(async (req, res) => {
-    const programs = await Program.find().sort({ name: 1 }).exec();
-    res.render("program-list", { programs });
+// GET request to list all programs with sorting and filtering
+router.get('/', asyncHandler(async(req, res) => {
+    const { nameSort, typeFilter, frequencyFilter, assistanceTypeFilter } = req.query;
+
+    let sortOptions = {};
+    let filterOptions = {};
+
+    if (nameSort) {
+        sortOptions['name'] = nameSort === 'az' ? 1 : -1;
+    }
+
+    if (typeFilter) {
+        filterOptions.program_type = { $in: typeFilter.split(',') };
+    }
+
+    if (frequencyFilter) {
+        filterOptions.frequency = { $in: frequencyFilter.split(',') };
+    }
+
+    if (assistanceTypeFilter) {
+        filterOptions.assistance_type = { $in: assistanceTypeFilter.split(',') };
+    }
+
+    // Logging for debugging
+    console.log('Filter Options:', filterOptions);
+    console.log('Sort Options:', sortOptions);
+
+    const programs = await Program.find(filterOptions).sort(sortOptions).exec();
+
+    console.log('Filtered Programs:', programs);
+
+    res.render("program-list", {
+        programs
+    });
 }));
 
 // GET request for creating program
