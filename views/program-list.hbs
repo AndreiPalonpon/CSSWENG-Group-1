@@ -390,6 +390,7 @@
             $.post("/programs/create", program, (data, status, xhr) => {
                 if (status === "success" && xhr.status === 201) {
                     alert("Program has been created.");
+                    location.reload();
                 }
             });
 
