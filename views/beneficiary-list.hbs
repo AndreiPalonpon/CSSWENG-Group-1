@@ -128,17 +128,96 @@
 
             <!---TABLE LISTS-->
             <div class="table-container">
+                <form id="filter-form">
                 <button id="resetFiltersButton" class="btn btn-secondary">Reset Filters</button>
                 <table class="table table-bordered table-hover">
                     <caption>List of Beneficiaries</caption>
                     <thead class="thead-light">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Recipient</th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="recipientDropdown" data-bs-toggle="dropdown" aria-expanded="false">Recipient</a>
+                                    <ul class="dropdown-menu" aria-labelledby="recipientDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="recipientSort" value="az" id="recipientSortAZ">
+                                                <label class="form-check-label" for="recipientSortAZ">A-Z</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="recipientSort" value="za" id="recipientSortZA">
+                                                <label class="form-check-label" for="recipientSortZA">Z-A</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
                             <th scope="col">Program Enrolled</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Benefit</th>
-                            <th scope="col">Date Received</th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">Status</a>
+                                    <ul class="dropdown-menu" aria-labelledby="statusDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Active" id="activeStatus" name="statusFilter">
+                                                <label class="form-check-label" for="activeStatus">Active</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Terminated" id="terminatedStatus" name="statusFilter">
+                                                <label class="form-check-label" for="terminatedStatus">Terminated</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Suspended" id="suspendedStatus" name="statusFilter">
+                                                <label class="form-check-label" for="suspendedStatus">Suspended</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="benefitDropdown" data-bs-toggle="dropdown" aria-expanded="false">Benefit</a>
+                                    <ul class="dropdown-menu" aria-labelledby="benefitDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="benefitSort" value="az" id="benefitSortAZ">
+                                                <label class="form-check-label" for="benefitSortAZ">A-Z</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="benefitSort" value="za" id="benefitSortZA">
+                                                <label class="form-check-label" for="benefitSortZA">Z-A</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="dateDropdown" data-bs-toggle="dropdown" aria-expanded="false">Date Received</a>
+                                    <ul class="dropdown-menu" aria-labelledby="dateDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="dateSort" value="newest" id="dateSortNewest">
+                                                <label class="form-check-label" for="dateSortNewest">Newest</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="dateSort" value="oldest" id="dateSortOldest">
+                                                <label class="form-check-label" for="dateSortOldest">Oldest</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -153,7 +232,6 @@
                             <td>{{this.benefit_delivered.name}}</td>
                             <td>{{formatDate this.date_received}}</td>
                             <td>
-                                <button class="viewBtn" data-id="{{this._id}}"><i class="bi bi-eye"></i></button>
                                 <button class="editBtn" data-id="{{this._id}}"><i class="bi bi-pencil"></i></button>
                                 <button class="deleteBtn" data-id="{{this._id}}"><i class="bi bi-trash"></i></button>
                             </td>
@@ -161,6 +239,7 @@
                         {{/each}}
                     </tbody>
                 </table>
+                </form>
             </div>
         </main>
 
@@ -183,6 +262,25 @@
                     document.getElementById("wrapper").classList.toggle("toggled");
                     document.querySelector(".main-content").classList.toggle("toggled");
                     document.querySelector(".header-right").classList.toggle("toggled");
+                });
+
+                // Add event listeners to filter elements
+                document.querySelectorAll('input[name="recipientSort"]').forEach(input => {
+                    input.addEventListener('change', applyFiltersAndSort);
+                });
+                document.querySelectorAll('input[name="statusFilter"]').forEach(input => {
+                    input.addEventListener('change', applyFiltersAndSort);
+                });
+                document.querySelectorAll('input[name="benefitSort"]').forEach(input => {
+                    input.addEventListener('change', applyFiltersAndSort);
+                });
+                document.querySelectorAll('input[name="dateSort"]').forEach(input => {
+                    input.addEventListener('change', applyFiltersAndSort);
+                });
+
+                $('#resetFiltersButton').on('click', function() {
+                    $('#filter-form')[0].reset();
+                    applyFiltersAndSort();
                 });
 
                 $(document).ready(function() {
@@ -230,118 +328,6 @@
                     formInputFields.forEach(input => input.disabled = false);
                 });
 
-                /*
-                form.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const program = {
-                        id: Date.now(),
-                        firstName: form.firstName.value,
-                        lastName: form.lastName.value,
-                        dob: form.dob.value,
-                        gender: form.gender.value,
-                        contactNo: form.contactNo.value,
-                        barangay: form.barangay.value,
-                        disabilityType: form.disabilityType.value,
-                        comorbidities: form.comorbidities.value,
-                        pwdIdCardNo: form.pwdIdCardNo.value
-                    };
-
-                    if (!isEdit) {
-                        originalData.push(program);
-                    } else {
-                        originalData[editId] = program;
-                    }
-                    localStorage.setItem('programs', JSON.stringify(originalData));
-                    getData = [...originalData];
-                    showInfo();
-                    darkBg.classList.remove('active');
-                    popupForm.classList.remove('active');
-                    form.reset();
-                });
-                */
-
-                function showInfo() {
-                    //displayRows(getData, currentPage);
-                    displayPagination(getData.length);
-                    addEventListeners();
-                }
-
-                let currentPage = 1;
-                const rowsPerPage = 10;
-
-                function displayPagination(totalRows) {
-                    const pagination = document.querySelector('.pagination');
-                    const totalPages = Math.ceil(totalRows / rowsPerPage);
-
-                    pagination.innerHTML = `
-                        <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-                            <a class="page-link" href="#" aria-label="Previous" id="prevButton">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>`;
-
-                    for (let i = 1; i <= totalPages; i++) {
-                        pagination.innerHTML += `
-                            <li class="page-item ${currentPage === i ? 'active' : ''}">
-                                <a class="page-link paginationButton" href="#">${i}</a>
-                            </li>`;
-                    }
-
-                    pagination.innerHTML += `
-                        <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-                            <a class="page-link" href="#" aria-label="Next" id="nextButton">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>`;
-
-                    document.getElementById("prevButton").addEventListener("click", prevPage);
-                    document.getElementById("nextButton").addEventListener("click", nextPage);
-
-                    const paginationButtons = document.getElementsByClassName("paginationButton");
-                    for (let i = 0; i < paginationButtons.length; i++) {
-                        paginationButtons[i].addEventListener("click", function(event) {
-                            event.preventDefault();
-                            goToPage(parseInt(this.textContent));
-                        });
-                    }
-                }
-
-                /* Disabled displayRows function using a comment to make the table display work.
-                function displayRows(rows, page = 1) {
-                    const start = (page - 1) * rowsPerPage;
-                    const end = start + rowsPerPage;
-                    const paginatedRows = rows.slice(start, end);
-                    programInfo.innerHTML = '';
-
-                    paginatedRows.forEach((program, index) => {
-                        const row = `
-                            <tr>
-                                <td>${start + index + 1}</td>
-                                <td>${program.firstName}</td>
-                                <td>${program.lastName}</td>
-                                <td>${program.dob}</td>
-                                <td>${program.gender}</td>
-                                <td>${program.contactNo}</td>
-                                <td>${program.barangay}</td>
-                                <td>${capitalizeFirstLetter(program.disabilityType)}</td>
-                                <td>${capitalizeFirstLetter(program.comorbidities)}</td>
-                                <td>${program.pwdIdCardNo}</td>
-                                <td>
-                                    <button class="viewBtn" data-id="${program.id}"><i class="bi bi-eye"></i></button>
-                                    <button class="editBtn" data-id="${program.id}"><i class="bi bi-pencil"></i></button>
-                                    <button class="deleteBtn" data-id="${program.id}"><i class="bi bi-trash"></i></button>
-                                </td>
-                            </tr>
-                        `;
-                        programInfo.innerHTML += row;
-                    });
-
-                    function capitalizeFirstLetter(string) {
-                        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-                    }
-                }
-                */
-
                 function addEventListeners() {
                     document.querySelectorAll('.viewBtn').forEach(button => {
                         button.addEventListener('click', (e) => {
@@ -363,80 +349,6 @@
                             deleteInfo(id, e);
                         });
                     });
-
-                    // Event listeners for sorting and filtering
-                    document.querySelectorAll('input[name="nameSort"]').forEach(radio => {
-                        radio.addEventListener('change', () => {
-                            sortData();
-                            //displayRows(getData, currentPage);
-                            displayPagination(getData.length);
-                        });
-                    });
-
-                    document.querySelectorAll('input[name="typeFilter"], input[name="frequencyFilter"], input[name="assistanceFilter"]').forEach(checkbox => {
-                        checkbox.addEventListener('change', () => {
-                            filterData();
-                            //displayRows(getData, currentPage);
-                            displayPagination(getData.length);
-                        });
-                    });
-
-                    document.querySelectorAll('input[name="dobSort"]').forEach((element) => {
-                        element.addEventListener('change', sortDOB);
-                    });
-
-
-                    document.querySelectorAll('input[name="genderFilter"]').forEach((element) => {
-                        element.addEventListener('change', filterGender);
-                    });
-
-                    document.querySelectorAll('input[name="barangayFilter"]').forEach((checkbox) => {
-                        checkbox.addEventListener('change', filterBarangay);
-                    });
-
-                }
-
-                function prevPage() {
-                    if (currentPage > 1) {
-                        currentPage--;
-                        //displayRows(getData, currentPage);
-                        displayPagination(getData.length);
-                    }
-                }
-
-                function nextPage() {
-                    const totalPages = Math.ceil(getData.length / rowsPerPage);
-                    if (currentPage < totalPages) {
-                        currentPage++;
-                        //displayRows(getData, currentPage);
-                        displayPagination(getData.length);
-                    }
-                }
-
-                function goToPage(page) {
-                    currentPage = page;
-                    //displayRows(getData, currentPage);
-                    displayPagination(getData.length);
-                }
-
-                function readInfo(id) {
-                    const beneficiary = getData.find(item => item.id === id);
-                    if (beneficiary) {
-                        form.firstName.value = beneficiary.firstName;
-                        form.lastName.value = beneficiary.lastName;
-                        form.dob.value = beneficiary.dob;
-                        form.gen.value = beneficiary.gen;
-                        form.contactNo.value = beneficiary.contactNo;
-                        form.brgy.value = beneficiary.brgy;
-                        form.disability.value = beneficiary.disability;
-                        form.comor.value = beneficiary.comor;
-                        form.pwdIdCardNo.value = beneficiary.pwdIdCardNo;
-                        modalTitle.innerHTML = "View Beneficiary";
-                        formInputFields.forEach(input => input.disabled = true);
-                        submitBeneficiaryBtn.style.display = "none";
-                        darkBg.classList.add('active');
-                        popupForm.classList.add('active');
-                    }
                 }
 
                 function editInfo(id) {
@@ -467,7 +379,6 @@
                         originalData = originalData.filter(item => item.id !== id);
                         localStorage.setItem('programs', JSON.stringify(originalData));
                         getData = [...originalData];
-                        //showInfo();
                         let index = e?.currentTarget?.closest("tr")?.querySelector("td:first-child")?.textContent;
                         console.log("Deleting the selected beneficiary...");
                         $.post(`/beneficiaries/delete`, {beneficiary_id: id}, (data, status, xhr) => {
@@ -482,95 +393,44 @@
                     }
                 }
 
-                function sortData() {
-                    const selectedSortElement = document.querySelector('input[name="nameSort"]:checked');
-                    const selectedSort = selectedSortElement.value;
-                    const criterion = selectedSortElement.getAttribute('data-criterion');
-
-                    getData.sort((a, b) => {
-                        if (selectedSort === 'az') {
-                            return a[criterion].localeCompare(b[criterion]);
-                        } else {
-                            return b[criterion].localeCompare(a[criterion]);
-                        }
-                    });
-                    showInfo();
-                }
-
-                function sortDOB() {
-                    const selectedSort = document.querySelector('input[name="dobSort"]:checked').value;
-                    getData.sort((a, b) => {
-                        const dateA = new Date(a.dob);
-                        const dateB = new Date(b.dob);
-                        if (selectedSort === 'asc') {
-                            return dateA - dateB;
-                        } else {
-                            return dateB - dateA;
-                        }
-                    });
-                    showInfo();
-                }
-
-                function filterGender() {
-                    const selectedGender = document.querySelector('input[name="genderFilter"]:checked').value;
-
-                    if (selectedGender === 'all') {
-                        getData = [...originalData]; // Reset to original data
-                    } else {
-                        getData = originalData.filter(item => item.gender.toLowerCase() === selectedGender);
-                    }
-
-                    showInfo();
-                }
-
-                function filterBarangay() {
-                    let filteredData = [...originalData];
-                    const selectedBarangays = Array.from(document.querySelectorAll('input[name="barangayFilter"]:checked')).map(check => check.value);
-
-                    if (selectedBarangays.length === 0) {
-                        filteredData = [...originalData];
-                    } else {
-                        filteredData = filteredData.filter(program => selectedBarangays.includes(program.brgy));
-                    }
-
-                    getData = [...filteredData];
-                    showInfo();
-                }
-
-
-                function filterData() {
-                    let filteredData = [...originalData];
-
-                    const selectedTypes = Array.from(document.querySelectorAll('input[name="typeFilter"]:checked')).map(check => check.value);
-                    if (selectedTypes.length > 0) {
-                        filteredData = filteredData.filter(program => selectedTypes.includes(program.programType));
-                    }
-
-                    const selectedFrequencies = Array.from(document.querySelectorAll('input[name="frequencyFilter"]:checked')).map(check => check.value);
-                    if (selectedFrequencies.length > 0) {
-                        filteredData = filteredData.filter(program => selectedFrequencies.includes(program.frequency));
-                    }
-
-                    const selectedAssistances = Array.from(document.querySelectorAll('input[name="assistanceFilter"]:checked')).map(check => check.value);
-                    if (selectedAssistances.length > 0) {
-                        filteredData = filteredData.filter(program => selectedAssistances.includes(program.assistanceType));
-                    }
-
-                    getData = filteredData;
-                    showInfo();
-                }
-
                 resetFiltersButton.addEventListener('click', () => {
                     document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
                         input.checked = false;
                     });
-
                     getData = [...originalData];
-                    showInfo();
+                    applyFiltersAndSort();
                 });
 
-                //displayRows(getData, currentPage);
-                displayPagination(getData.length);
+                function applyFiltersAndSort() {
+                    const recipientSort = $('input[name="recipientSort"]:checked').val();
+                    const statusFilter = $('input[name="statusFilter"]:checked').map(function() { return this.value; }).get();
+                    const benefitSort = $('input[name="benefitSort"]:checked').val();
+                    const dateSort = $('input[name="dateSort"]:checked').val();
+                    const programId = '{{program._id}}'; // Adjust this as necessary
+
+                    let query = [];
+
+                    if (recipientSort) query.push(`recipientSort=${recipientSort}`);
+                    if (statusFilter.length) query.push(`statusFilter=${statusFilter.join(',')}`);
+                    if (benefitSort) query.push(`benefitSort=${benefitSort}`);
+                    if (dateSort) query.push(`dateSort=${dateSort}`);
+                    if (programId) query.push(`programId=${programId}`);
+
+                    const queryString = query.length > 0 ? `?${query.join('&')}` : '';
+
+                    console.log('Query String:', queryString);
+
+                    fetch(`/beneficiaries${queryString}`)
+                        .then(response => response.text())
+                        .then(html => {
+                            console.log('Received HTML:', html);
+                            const newDoc = new DOMParser().parseFromString(html, 'text/html');
+                            const newTableBody = newDoc.querySelector('.programInfo').innerHTML;
+                            document.querySelector('.programInfo').innerHTML = newTableBody;
+                            addEventListeners();
+                        })
+                        .catch(error => console.error('Error fetching filtered data:', error));
+                }
                 addEventListeners();
             });
 
@@ -605,71 +465,6 @@
                 }
                 downloadCSV(csv.join('\n'), filename);
             }
-
-            /**Contact Number**/
-            document.addEventListener('DOMContentLoaded', function() {
-                var contactNoInput = document.getElementById('contactNo');
-
-                contactNoInput.addEventListener('focus', function() {
-                    if (!contactNoInput.value.startsWith('+63')) {
-                        contactNoInput.value = '+63 ';
-                    }
-                });
-
-                contactNoInput.addEventListener('input', function() {
-                    if (!contactNoInput.value.startsWith('+63')) {
-                        contactNoInput.value = '+63 ' + contactNoInput.value.replace(/^\+63\s*/, '');
-                    }
-                    if (contactNoInput.value.length > 14) {
-                        contactNoInput.value = contactNoInput.value.slice(0, 14);
-                    }
-                });
-            });
-
-            /*Barangay Dropdown*/
-            document.addEventListener('DOMContentLoaded', function() {
-                const barangays = [
-                    "ALMANZA UNO",
-                    "B. F. INTERNATIONAL/CAA",
-                    "DANIEL FAJARDO",
-                    "ILAYA",
-                    "MANUYO UNO",
-                    "MANUYO DOS",
-                    "PAMPLONA UNO",
-                    "PAMPLONA DOS",
-                    "PAMPLONA TRES",
-                    "PILAR",
-                    "PULANGLUPA UNO",
-                    "PULANGLUPA DOS",
-                    "TALON UNO",
-                    "TALON DOS",
-                    "TALON TRES",
-                    "TALON KUATRO",
-                    "TALON SINGKO"
-                ];
-
-                const barangaySelect = document.getElementById('brgy');
-                const barangayDropdownMenu = document.getElementById('barangayDropdownMenu');
-
-                barangays.forEach((brgy, index) => {
-                    const option = document.createElement('option');
-                    option.value = brgy;
-                    option.textContent = brgy;
-                    barangaySelect.appendChild(option);
-
-                    // Populate checkbox list
-                    const listItem = document.createElement('li');
-                    listItem.innerHTML = `
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="${brgy}" id="barangayCheck${index}" name="barangayFilter">
-                            <label class="form-check-label" for="barangayCheck${index}">
-                                ${brgy}
-                            </label>
-                        </div>
-                    `;
-                    barangayDropdownMenu.appendChild(listItem);
-                });
-            });
         </script>
 </body>
 
