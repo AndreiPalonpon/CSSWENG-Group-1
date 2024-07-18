@@ -1,12 +1,27 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Menu toggle functionality
+    // Variables declaration
+    const newMemberAddBtn = document.querySelector('.addProgramBtn button'),
+        darkBg = document.querySelector('.dark_bg'),
+        popupForm = document.querySelector('.popup'),
+        crossBtn = document.querySelector('.btn-close'),
+        submitBtn = document.querySelector('.submitBtn'),
+        modalTitle = document.querySelector('.modal-title'),
+        form = document.querySelector('#createProgramForm'),
+        formInputFields = document.querySelectorAll('#createProgramForm input, #createProgramForm select');
+
+    let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
+    let getData = [...originalData];
+
+    let isEdit = false,
+        editId;
+
+    // Event listeners setup
     document.getElementById("menu-toggle").addEventListener("click", function() {
         document.getElementById("wrapper").classList.toggle("toggled");
         document.querySelector(".main-content").classList.toggle("toggled");
         document.querySelector(".header-right").classList.toggle("toggled");
     });
 
-    // Filter and sort event listeners
     document.querySelectorAll('input[name="nameSort"]').forEach(input => {
         input.addEventListener('change', applyFiltersAndSort);
     });
@@ -20,29 +35,11 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('change', applyFiltersAndSort);
     });
 
-    // Reset filters button
     $('#resetFiltersButton').on('click', function() {
         $('#filter-form')[0].reset();
         applyFiltersAndSort();
     });
 
-    // Modal and form variables
-    const newMemberAddBtn = document.querySelector('.addProgramBtn button'),
-        darkBg = document.querySelector('.dark_bg'),
-        popupForm = document.querySelector('.popup'),
-        crossBtn = document.querySelector('.btn-close'),
-        submitBtn = document.querySelector('.submitBtn'),
-        modalTitle = document.querySelector('.modal-title'),
-        form = document.querySelector('#programForm'),
-        formInputFields = document.querySelectorAll('#programForm input, #programForm select');
-
-    let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
-    let getData = [...originalData];
-
-    let isEdit = false,
-        editId;
-
-    // Open the add new member modal
     newMemberAddBtn.addEventListener('click', () => {
         isEdit = false;
         submitBtn.innerHTML = "Submit";
@@ -52,14 +49,12 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.style.display = "block";
     });
 
-    // Close the modal form
     crossBtn.addEventListener('click', () => {
         form.reset();
         submitBtn.style.display = "block";
         formInputFields.forEach(input => input.disabled = false);
     });
 
-    // Form submit handler
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         const now = new Date();
@@ -95,23 +90,6 @@ document.addEventListener('DOMContentLoaded', function() {
         form.reset();
     });
 
-    // Add event listeners to edit and delete buttons
-    function addEventListeners() {
-        document.querySelectorAll('.editBtn').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const id = e.currentTarget.closest("tr").getAttribute('data-program-id');
-                editInfo(id, e);
-            });
-        });
-        document.querySelectorAll('.deleteBtn').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const id = e.currentTarget.getAttribute('data-id');
-                deleteInfo(id, e);
-            });
-        });
-    }
-
-    // Edit form submit handler
     document.getElementById("editProgramForm").addEventListener('submit', (e) => {
         e.preventDefault(); // Prevent default form submission
         let program_id = document.getElementById("editProgramId").value;
@@ -142,7 +120,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Edit button click handler
+    // Edit and delete event handlers
+    function addEventListeners() {
+        document.querySelectorAll('.editBtn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const id = e.currentTarget.closest("tr").getAttribute('data-program-id');
+                editInfo(id, e);
+            });
+        });
+        document.querySelectorAll('.deleteBtn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const id = e.currentTarget.getAttribute('data-id');
+                deleteInfo(id, e);
+            });
+        });
+    }
+
     function onBtnEditClick(e) {
         e.preventDefault(); // Prevent default form submission
         let program_id = e.currentTarget.closest("tr").getAttribute("data-id");
@@ -165,7 +158,6 @@ document.addEventListener('DOMContentLoaded', function() {
         modal_edit_assistance_type.value = program_assistance_type;
     }
 
-    // Edit info handler
     function editInfo(id, e) {
         onBtnEditClick(e);
         isEdit = true;
@@ -185,7 +177,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Delete info handler
     function deleteInfo(id, e) {
         if (confirm("Are you sure you want to delete this program?")) {
             originalData = originalData.filter(item => item.id !== id);
@@ -206,6 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Filter and sort function
     function applyFiltersAndSort() {
         const nameSort = $('input[name="nameSort"]:checked').val();
         const typeFilter = $('input[name="typeFilter"]:checked').map(function() { return this.value; }).get();
@@ -235,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error fetching filtered data:', error));
     }
 
-    // Function to download CSV
+    // CSV export functions
     function downloadCSV(csv, filename) {
         let csvFile;
         let downloadLink;
@@ -249,7 +241,6 @@ document.addEventListener('DOMContentLoaded', function() {
         downloadLink.click();
     }
 
-    // Function to export table to CSV
     function exportTableToCSV(filename) {
         const rows = document.querySelectorAll('.table-container table tr');
         let csv = [];
