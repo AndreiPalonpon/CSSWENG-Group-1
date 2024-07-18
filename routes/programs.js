@@ -81,31 +81,39 @@ router.get('/:id/edit', asyncHandler(async (req, res) => {
     res.send("NOT IMPLEMENTED: Program edit GET");
 }));
 
-// POST request for editing program
-router.post('/edit', asyncHandler(async (req, res) => {
-    const { program_id, programName, programType, programFrequency, assistanceType } = req.body;
 
-    if (!programName) {
-        return res.status(400).send('Program Name is required'); 
+
+router.post('/edit', asyncHandler(async (req, res) => {
+    const { id, name, program_type, frequency, assistance_type } = req.body;
+
+    console.log("Received data:", req.body);
+
+    if (!id || !name || !program_type || !frequency || !assistance_type) {
+        console.log("Missing fields:", req.body);
+        return res.status(400).json({ message: "All fields are required" });
     }
 
+    const updateData = {
+        name: name,
+        program_type: program_type,
+        frequency: frequency,
+        assistance_type: assistance_type
+    };
+
     try {
-        const existingProgram = await Program.findById(program_id);
-        if (!existingProgram) {
-            return res.status(404).send('Program not found'); 
+        const result = await Program.updateOne({ _id: id }, updateData);
+
+        if (result.nModified === 0) {
+            console.log("No changes made or program not found:", id);
+            return res.status(404).json({ message: "Program not found or no changes made" });
         }
 
-        existingProgram.name = programName;
-        existingProgram.program_type = programType;
-        existingProgram.frequency = programFrequency;
-        existingProgram.assistance_type = assistanceType;
-
-        await existingProgram.save();
-        
-        return res.sendStatus(200);
+        console.log("Program updated successfully:", id);
+        res.sendStatus(200);
     } catch (error) {
-        console.error('Error updating program:', error);
-        return res.status(500).send('Error updating program'); 
+        console.error("Error updating program:", error);
+        res.status(500).json({ message: "Internal server error" });
+
     }
 }));
 
