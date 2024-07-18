@@ -34,7 +34,7 @@
                 <li class="logout-link">
                     <form action="/logout" method="POST">
                         <button type="submit" class="btn btn-link logout-btn">
-                            <i class="bi bi-box-arrow-right"></i> 
+                            <i class="bi bi-box-arrow-right"></i>
                             Logout
                         </button>
                     </form>
@@ -67,146 +67,145 @@
                 <button class="btn export-btn" onclick="exportTableToCSV('Programs.csv')">Export to CSV</button>
             </div>
 
-            <!---TABLE LISTS-->
+            <!---Table List-->
             <div class="table-container">
                 <form id="filter-form">
-                <button id="resetFiltersButton" class="btn btn-secondary">Reset Filters</button>
-                <table class="table table-bordered table-hover">
-                    <caption>List of Programs</caption>
-                    <thead class="thead-light">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle" id="nameDropdown" data-bs-toggle="dropdown" aria-expanded="false">Program Name</a>
-                                    <ul class="dropdown-menu" aria-labelledby="nameDropdown">
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="nameSort" value="az" id="nameSortAZ">
-                                                <label class="form-check-label" for="nameSortAZ">A-Z</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="nameSort" value="za" id="nameSortZA">
-                                                <label class="form-check-label" for="nameSortZA">Z-A</label>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </th>
-                            <th scope="col">Last Updated</th>
-                            <th scope="col">Date Program Created</th>
-                            <th scope="col">
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle" id="typeDropdown" data-bs-toggle="dropdown" aria-expanded="false">Type of Program</a>
-                                    <ul class="dropdown-menu" aria-labelledby="typeDropdown">
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Assistance" id="assistanceCheck" name="typeFilter">
-                                                <label class="form-check-label" for="assistanceCheck">Assistance</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Initiative" id="initiativeCheck" name="typeFilter">
-                                                <label class="form-check-label" for="initiativeCheck">Initiative</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Service" id="serviceCheck" name="typeFilter">
-                                                <label class="form-check-label" for="serviceCheck">Service</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Program" id="programCheck" name="typeFilter">
-                                                <label class="form-check-label" for="programCheck">Program</label>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </th>
-                            <th scope="col">
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle" id="frequencyDropdown" data-bs-toggle="dropdown" aria-expanded="false">Frequency</a>
-                                    <ul class="dropdown-menu" aria-labelledby="frequencyDropdown">
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Monthly" id="monthlyCheck" name="frequencyFilter">
-                                                <label class="form-check-label" for="monthlyCheck">Monthly</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Quarterly" id="quarterlyCheck" name="frequencyFilter">
-                                                <label class="form-check-label" for="quarterlyCheck">Quarterly</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Semi-Annual" id="semiAnnualCheck" name="frequencyFilter">
-                                                <label class="form-check-label" for="semiAnnualCheck">Semi-Annual</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Yearly" id="yearlyCheck" name="frequencyFilter">
-                                                <label class="form-check-label" for="yearlyCheck">Yearly</label>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </th>
-                            <th scope="col">
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle" id="assistanceTypeDropdown" data-bs-toggle="dropdown" aria-expanded="false">Assistance Type</a>
-                                    <ul class="dropdown-menu" aria-labelledby="assistanceTypeDropdown">
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Educational" id="educationalCheck" name="assistanceTypeFilter">
-                                                <label class="form-check-label" for="educationalCheck">Educational</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Financial" id="financialCheck" name="assistanceTypeFilter">
-                                                <label class="form-check-label" for="financialCheck">Financial</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Medical" id="medicalCheck" name="assistanceTypeFilter">
-                                                <label class="form-check-label" for="medicalCheck">Medical</label>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </th>
-
-                            <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Program rows will be populated here -->
-                        {{#each programs}}
-                        <tr data-id="{{this._id}}">
-                            <td class="program-index">{{incremented @index}}</td>
-                            <td class="program-name"><a href="/beneficiaries/{{this._id}}">{{this.name}}</a></td>
-                            <td class="program-lastupdate-date">{{formatDate this.recent_update_date}}</td>
-                            <td class="program-creation-date">{{formatDate this.creation_date}}</td>
-                            <td class="program-type">{{this.program_type}}</td>
-                            <td class="program-frequency">{{this.frequency}}</td>
-                            <td class="program-assistance-type">{{this.assistance_type}}</td>
-                            <td class="program-controls">
-                                <button class="editBtn" data-bs-toggle="modal" data-bs-target="#modal-program-edit"><i class="bi bi-pencil"></i></button>
-                                <button class="deleteBtn" data-id="{{this._id}}"><i class="bi bi-trash"></i></button>
-                            </td>
-                        </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
+                    <button id="resetFiltersButton" class="btn btn-secondary">Reset Filters</button>
+                    <table class="table table-bordered table-hover">
+                        <caption>List of Programs</caption>
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" id="nameDropdown" data-bs-toggle="dropdown" aria-expanded="false">Program Name</a>
+                                        <ul class="dropdown-menu" aria-labelledby="nameDropdown">
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="nameSort" value="az" id="nameSortAZ">
+                                                    <label class="form-check-label" for="nameSortAZ">A-Z</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="nameSort" value="za" id="nameSortZA">
+                                                    <label class="form-check-label" for="nameSortZA">Z-A</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </th>
+                                <th scope="col">Last Updated</th>
+                                <th scope="col">Date Program Created</th>
+                                <th scope="col">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" id="typeDropdown" data-bs-toggle="dropdown" aria-expanded="false">Type of Program</a>
+                                        <ul class="dropdown-menu" aria-labelledby="typeDropdown">
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="Assistance" id="assistanceCheck" name="typeFilter">
+                                                    <label class="form-check-label" for="assistanceCheck">Assistance</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="Initiative" id="initiativeCheck" name="typeFilter">
+                                                    <label class="form-check-label" for="initiativeCheck">Initiative</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="Service" id="serviceCheck" name="typeFilter">
+                                                    <label class="form-check-label" for="serviceCheck">Service</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="Program" id="programCheck" name="typeFilter">
+                                                    <label class="form-check-label" for="programCheck">Program</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </th>
+                                <th scope="col">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" id="frequencyDropdown" data-bs-toggle="dropdown" aria-expanded="false">Frequency</a>
+                                        <ul class="dropdown-menu" aria-labelledby="frequencyDropdown">
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="Monthly" id="monthlyCheck" name="frequencyFilter">
+                                                    <label class="form-check-label" for="monthlyCheck">Monthly</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="Quarterly" id="quarterlyCheck" name="frequencyFilter">
+                                                    <label class="form-check-label" for="quarterlyCheck">Quarterly</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="Semi-Annual" id="semiAnnualCheck" name="frequencyFilter">
+                                                    <label class="form-check-label" for="semiAnnualCheck">Semi-Annual</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="Yearly" id="yearlyCheck" name="frequencyFilter">
+                                                    <label class="form-check-label" for="yearlyCheck">Yearly</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </th>
+                                <th scope="col">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" id="assistanceTypeDropdown" data-bs-toggle="dropdown" aria-expanded="false">Assistance Type</a>
+                                        <ul class="dropdown-menu" aria-labelledby="assistanceTypeDropdown">
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="Educational" id="educationalCheck" name="assistanceTypeFilter">
+                                                    <label class="form-check-label" for="educationalCheck">Educational</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="Financial" id="financialCheck" name="assistanceTypeFilter">
+                                                    <label class="form-check-label" for="financialCheck">Financial</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="Medical" id="medicalCheck" name="assistanceTypeFilter">
+                                                    <label class="form-check-label" for="medicalCheck">Medical</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Program rows will be populated here -->
+                            {{#each programs}}
+                            <tr data-id="{{this._id}}">
+                                <td class="program-index">{{incremented @index}}</td>
+                                <td class="program-name"><a href="/beneficiaries/{{this._id}}">{{this.name}}</a></td>
+                                <td class="program-lastupdate-date">{{formatDate this.recent_update_date}}</td>
+                                <td class="program-creation-date">{{formatDate this.creation_date}}</td>
+                                <td class="program-type">{{this.program_type}}</td>
+                                <td class="program-frequency">{{this.frequency}}</td>
+                                <td class="program-assistance-type">{{this.assistance_type}}</td>
+                                <td class="program-controls">
+                                    <button class="editBtn" data-bs-toggle="modal" data-bs-target="#modal-program-edit"><i class="bi bi-pencil"></i></button>
+                                    <button class="deleteBtn" data-id="{{this._id}}"><i class="bi bi-trash"></i></button>
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
                 </form>
             </div>
         </main>
@@ -217,7 +216,7 @@
             </ul>
         </nav>
 
-        <!-- Modal -->
+        <!-- Create Program Modal -->
         <div class="modal fade" id="modal-program-create">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
@@ -232,38 +231,36 @@
                                     <label for="programName">Program Name</label>
                                     <input type="text" class="form-control" name="programName" placeholder="Program Name" required>
                                 </div>
-
                                 <div class="form-group col-md-6">
                                     <label for="programType">Type of Program</label>
                                     <select name="programType" class="form-control" required>
-                                <option value="" selected disabled>Choose...</option>
-                                <option value="Assistance">Assistance</option>
-                                <option value="Initiative">Initiative</option>
-                                <option value="Service">Service</option>
-                                <option value="Program">Program</option>
-                            </select>
+                                        <option value="" selected disabled>Choose...</option>
+                                        <option value="Assistance">Assistance</option>
+                                        <option value="Initiative">Initiative</option>
+                                        <option value="Service">Service</option>
+                                        <option value="Program">Program</option>
+                                    </select>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="programFrequency">Frequency</label>
                                     <select name="programFrequency" class="form-control" required>
-                                <option value="" selected disabled>Choose...</option>
-                                <option value="Monthly">Monthly</option>
-                                <option value="Quarterly">Quarterly</option>
-                                <option value="Semi-Annual">Semi-Annual</option>
-                                <option value="Yearly">Yearly</option>
-                            </select>
+                                        <option value="" selected disabled>Choose...</option>
+                                        <option value="Monthly">Monthly</option>
+                                        <option value="Quarterly">Quarterly</option>
+                                        <option value="Semi-Annual">Semi-Annual</option>
+                                        <option value="Yearly">Yearly</option>
+                                    </select>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="assistanceType">Assistance Type</label>
                                     <select name="assistanceType" class="form-control" required>
-                                <option value="" selected disabled>Choose...</option>
-                                <option value="Educational">Educational</option>
-                                <option value="Financial">Financial</option>
-                                <option value="Medical">Medical</option>
-                            </select>
+                                        <option value="" selected disabled>Choose...</option>
+                                        <option value="Educational">Educational</option>
+                                        <option value="Financial">Financial</option>
+                                        <option value="Medical">Medical</option>
+                                    </select>
                                 </div>
                             </div>
-
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -298,8 +295,6 @@
                                         <option value="Program">Program</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="editFrequency" class="form-label">Frequency</label>
                                     <select class="form-control" id="editFrequency" name="programFrequency">
@@ -317,26 +312,23 @@
                                         <option value="Medical">Medical</option>
                                     </select>
                                 </div>
+                            </div>
                         </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="submitBtn" form="editProgramForm">Update</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="submitBtn" form="editProgramForm">Update</button>
                     </div>
                 </div>
             </div>
         </div>
 
-<!-- JQuery -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="/js/program-list.js"></script>
-<!-- IM NOT SURE IF THE JS IS CONNECTED, I TESTED THIS JS OUT WHEN I PUT THE JS CODE HERE IN THIS FILE, NOT IN A SEPARATE ONE -->
-<!--I ALSO PUT ALL THE OLD PUSHED CODE IN THE JS SCRIPT FILE -->
- 
-
+        <!-- JQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="/js/program-list.js"></script>
+    </div>
 </body>
 
 </html>
