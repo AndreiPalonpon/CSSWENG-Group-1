@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-
     document.getElementById("menu-toggle").addEventListener("click", function() {
         document.getElementById("wrapper").classList.toggle("toggled");
         document.querySelector(".main-content").classList.toggle("toggled");

@@ -16,7 +16,6 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
         if (response.ok) {
             if (data.message === 'Login successful') {
-                // Redirect to home page or another authorized page
                 window.location.href = '/';
             } else {
                 alert('Invalid Password. Please try again');
