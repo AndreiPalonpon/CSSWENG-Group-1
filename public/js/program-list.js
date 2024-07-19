@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Variables declaration
-    const newMemberAddBtn = document.querySelector('.addProgramBtn button'),
+    const newMemberAddBtn = document.querySelector('.createBtn button'),
         darkBg = document.querySelector('.dark_bg'),
         popupForm = document.querySelector('.popup'),
         crossBtn = document.querySelector('.btn-close'),

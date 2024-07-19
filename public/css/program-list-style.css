@@ -96,16 +96,13 @@ header .container {
 
 /*-------------------------------*/
 
-.addProgramBtn,
-.addPeopleBtn  {
+.createBtn  {
     margin-bottom: 15px;
     position: absolute;
     right: 48px;
     transform: translateY(50%);
 }
-
-.addProgramBtn button,
-.addPeopleBtn button {
+.createBtn button {
     font-family: 'Garet', sans-serif;
     font-weight: bold;
     background-color: var(--color3);
@@ -116,8 +113,7 @@ header .container {
     border: none;
 }
 
-.addProgramBtn button:hover,
-.addPeopleBtn button:hover {
+.createBtn button:hover {
     background: darkorange;
 }
 
