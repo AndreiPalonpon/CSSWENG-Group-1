@@ -180,7 +180,25 @@
                                     </ul>
                                 </div>
                             </th>
-                            <th scope="col">Benefit</th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="benefitDropdown" data-bs-toggle="dropdown" aria-expanded="false">Benefit</a>
+                                    <ul class="dropdown-menu" aria-labelledby="benefitDropdown">
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="benefitSort" value="az" id="benefitSortAZ">
+                                                <label class="form-check-label" for="benefitSortAZ">A-Z</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="benefitSort" value="za" id="benefitSortZA">
+                                                <label class="form-check-label" for="benefitSortZA">Z-A</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
                             <th scope="col">
                                 <div class="dropdown">
                                     <a class="dropdown-toggle" id="dateDropdown" data-bs-toggle="dropdown" aria-expanded="false">Date Received</a>

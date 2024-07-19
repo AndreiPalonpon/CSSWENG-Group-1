@@ -21,6 +21,28 @@ function requireAuth(req, res, next) {
 
 router.use(requireAuth);
 
+// GET request to list all beneficiaries
+/*
+router.get('/', asyncHandler(async(req, res) => {
+    const people = await Person.find().sort({ first_name: 1, last_name: 1 }).exec();
+    const programs = await Program.find().sort({ name: 1 }).exec();
+    const benefits = await Benefit.find().sort({ name: 1 }).exec();
+    const beneficiaries = await Beneficiary.find()
+        .populate("person_registered")
+        .populate("program_enrolled")
+        .populate("benefit_delivered")
+        .exec();
+
+    console.log(beneficiaries);
+    res.render("beneficiary-list", {
+        people,
+        programs,
+        benefits,
+        beneficiaries
+    });
+}));
+*/
+
 // GET request to list all beneficiaries with sorting and filtering
 router.get('/', asyncHandler(async(req, res) => {
     const { recipientSort, statusFilter, benefitSort, dateSort, programId } = req.query;

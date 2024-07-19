@@ -72,13 +72,13 @@
                 <button class="btn export-btn" onclick="exportTableToCSV('Benefits.csv')">Export to CSV</button> <!--CHANGE-->
             </div>
 
+            <!---TABLE LISTS-->
             <div class="table-container">
-                <form id="filter-form">
-                    <button id="resetFiltersButton" class="btn btn-secondary">Reset Filters</button>
-                    <table class="table table-bordered table-hover">
-                        <caption>List of Benefits</caption>
-                        <thead class="thead-light">
-                            <tr>
+                <button id="resetFiltersButton" class="btn btn-secondary">Reset Filters</button>
+                <table class="table table-bordered table-hover">
+                    <caption>List of Benefits</caption>
+                    <thead class="thead-light">
+                       <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">
                                     <div class="dropdown">
@@ -139,45 +139,27 @@
                                     </div>
                                 </th>
                                 <th scope="col">Benefactor</th>
-                                <!--
-                                <th scope="col">
-                                    <div class="dropdown">
-                                        <a class="dropdown-toggle" id="benefactorDropdown" data-bs-toggle="dropdown" aria-expanded="false">Benefactor</a>
-                                        <ul class="dropdown-menu" aria-labelledby="benefactorDropdown">
-                                            {{#each benefactors}}
-                                            <li>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="{{this.name}}" id="benefactor{{this._id}}" name="benefactorFilter">
-                                                    <label class="form-check-label" for="benefactor{{this._id}}">{{this.name}}</label>
-                                                </div>
-                                            </li>
-                                            {{/each}}
-                                        </ul>
-                                    </div>
-                                </th>
-                                -->
                                 <th scope="col">Actions</th>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Benefit rows will be populated here -->
-                            {{#each benefits}}
-                            <tr data-benefit-id="{{this._id}}">
-                                <td class="benefit-index">{{incremented @index}}</td>
-                                <td class="benefit-name">{{this.name}}</td>
-                                <td class="benefit-description">{{this.description}}</td>
-                                <td class="benefit-quantity">{{this.quantity}}</td>
-                                <td class="benefit-date-received">{{formatDate this.date_received}}</td>
-                                <td class="benefit-benefactor">{{this.benefactor.name}}</td>
-                                <td class="benefit-controls">
-                                    <button class="editBtn" data-bs-toggle="modal" data-bs-target="#modal-benefit-edit"><i class="bi bi-pencil"></i></button>
-                                    <button class="deleteBtn" data-id="{{this._id}}"><i class="bi bi-trash"></i></button>
-                                </td>
-                            </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
-                </form>
+                    </thead>
+                    <tbody class="programInfo">
+                        <!-- Program rows will be populated here -->
+                        {{#each benefits}}
+                        <tr data-benefit-id="{{this.id}}">
+                            <th scope="row">{{incremented @index}}</th>
+                            <td>{{this.name}}</td>
+                            <td>{{this.description}}</td>
+                            <td>{{this.quantity}}</td>
+                            <td>{{formatDate this.date_received}}</td>
+                            <td>{{this.benefactor.name}}</td>
+                            <td>
+                                <button class="editBtn" data-bs-toggle="modal" data-bs-target="#modal-benefit-edit"><i class="bi bi-pencil"></i></button>
+                                <button class="deleteBtn" data-id="{{this._id}}"><i class="bi bi-trash"></i></button>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
             </div>
         </main>
 
@@ -210,7 +192,7 @@
 
                                 <div class="form-group col-md-6">
                                     <label for="quantity">Quantity</label>
-                                    <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Quantity" required>
+                                    <input type="text" class="form-control" id="quantity" name="quantity" placeholder="Quantity" required>
                                 </div>
 
                                 <div class="form-group col-md-6">
@@ -259,7 +241,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="editQuantity" class="form-label">Quantity</label>
-                                    <input type="number" class="form-control" id="editQuantity" name="quantity" required>
+                                    <input type="text" class="form-control" id="editQuantity" name="quantity" required>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="editDateReceived" class="form-label">Date Received</label>

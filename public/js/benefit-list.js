@@ -40,6 +40,15 @@ document.addEventListener('DOMContentLoaded', function() {
         applyFiltersAndSort();
     });
 
+    $(document).ready(function() {
+        $("#myInput").on("keyup", function() {
+            let value = $(this).val().toLowerCase();
+            $(".dropdown-menu li").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+    });
+
     let newMemberAddBtn = document.querySelector('.addBenefitBtn button'),
         darkBg = document.querySelector('.dark_bg'),
         popupForm = document.querySelector('.popup'),
@@ -188,19 +197,28 @@ document.addEventListener('DOMContentLoaded', function() {
         if (confirm("Are you sure you want to delete this benefit?")) {
             originalData = originalData.filter(item => item.id !== id);
             localStorage.setItem('benefits', JSON.stringify(originalData));
+            getData = [...originalData];
 
             $.post(`/benefits/delete`, { benefit_id: id })
                 .done((data, status, xhr) => {
                     if (status === "success" && xhr.status === 200) {
-                        alert("Benefit has been deleted.");
-                        location.reload();
+                        let index = e?.currentTarget?.closest("tr")?.querySelector("td:first-child")?.textContent;
+                        if (index) {
+                            alert("Benefit with ID " + index + " has been deleted");
+                            location.reload();
+                        }
                     } else {
                         alert("Failed to delete benefit. Please try again.");
                     }
-                }).fail((xhr, status, error) => {
+                })
+                .fail((xhr, status, error) => {
                     alert("Error deleting benefit. Please try again later.");
                     console.error(error);
                 });
+
+            if (e?.currentTarget) {
+                e.currentTarget.closest("tr").remove();
+            }
         }
     }
 
