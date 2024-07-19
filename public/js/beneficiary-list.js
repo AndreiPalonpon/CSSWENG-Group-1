@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
         form = document.querySelector('#createBeneficiaryForm'),
         formInputFields = document.querySelectorAll('#createBeneficiaryForm input, #createBeneficiaryForm select'),
         programInfo = document.querySelector('.programInfo');
-    resetFiltersButton = document.getElementById('resetFiltersButton');
+        resetFiltersButton = document.getElementById('resetFiltersButton');
 
     let originalData = localStorage.getItem('beneficiaries') ? JSON.parse(localStorage.getItem('beneficiaries')) : [];
     let getData = [...originalData];
@@ -50,65 +50,25 @@ document.addEventListener('DOMContentLoaded', function() {
     let isEdit = false,
         editId;
 
-        
+    newMemberAddBtn.addEventListener('click', () => {
+        isEdit = false;
+        submitBtn.innerHTML = "Submit";
+        modalTitle.innerHTML = "Fill the Form";
+        form.reset();
+        formInputFields.forEach(input => input.disabled = false);
+        submitBtn.style.display = "block";
+        darkBg.classList.add('active');
+        popupForm.classList.add('active');
+    });
 
-   form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const now = new Date();
-        const benefactor = {
-            id: Date.now(),
-            benefactorName: form.benefactorName.value,
-            benefactorType: form.benefactorType.value
-        };
-
-        if (!isEdit) {
-            originalData.push(benefactor);
-        } else {
-            originalData[editId] = benefactor;
-        }
-
-        $.post("/benefactors/create", benefactor, (data, status, xhr) => {
-            if (status === "success" && xhr.status === 201) {
-                alert("Program \"" + benefactor.benefactorName + "\" has been created.");
-                bootstrap.Modal.getInstance(document.getElementById("modal-benefactor-create")).hide();
-            }
-        });
-
-        localStorage.setItem('benefactors', JSON.stringify(originalData));
-        getData = [...originalData];
-
-        location.reload();
+    crossBtn.addEventListener('click', () => {
         darkBg.classList.remove('active');
         popupForm.classList.remove('active');
         form.reset();
+        submitBtn.style.display = "block";
+        formInputFields.forEach(input => input.disabled = false);
     });
 
-    document.getElementById("editBenefactorForm").addEventListener('submit', (e) => {
-        let benefactor_id = document.getElementById("editBenefactorId").value;
-        let benefactor_name = document.getElementById("editBenefactorName").value;
-        let benefactor_type = document.getElementById("editBenefactorType").value;
-
-        let benefactor = {
-            benefactor_id: benefactor_id,
-            benefactor_name: benefactor_name,
-            benefactor_type: benefactor_type
-        };
-        console.log(benefactor_id);
-        e.preventDefault();
-
-        $.post("/benefactors/edit", benefactor, (data, status, xhr) => {
-            if (status === "success" && xhr.status === 200) {
-                let modalInstance = bootstrap.Modal.getInstance(document.getElementById("modal-benefactor-edit"));
-                modalInstance.hide();  // Hide the modal
-                alert("Update benefactor successfully.");
-                location.reload();
-            } else {
-                alert("Error updating benefactor");
-            }
-        }).fail(() => {
-            alert("Error updating benefactor");
-        });
-    });
     function addEventListeners() {
         document.querySelectorAll('.viewBtn').forEach(button => {
             button.addEventListener('click', (e) => {
