@@ -19,17 +19,42 @@ function requireAuth(req, res, next) {
 
 router.use(requireAuth);
 
-// GET request to list all equipment
-router.get('/', asyncHandler(async (req, res, next) => {
-    const benefits = await Benefit.find()
-                                  .populate("benefactor")
-                                  .exec();
+// GET request to list all benefits with sorting and filtering
+router.get('/', asyncHandler(async(req, res) => {
+    const { nameSort, quantitySort, dateSort, benefactorFilter } = req.query;
 
-    const benefactors = await Benefactor.find()
-                                        .exec();
+    let sortOptions = {};
+    let filterOptions = {};
 
-    console.log(benefits, benefactors);
-    res.render("benefit-list", { benefactors: benefactors, benefits: benefits });
+    if (nameSort) {
+        sortOptions['name'] = nameSort === 'az' ? 1 : -1;
+    }
+
+    if (quantitySort) {
+        sortOptions['quantity'] = quantitySort === 'asc' ? 1 : -1;
+    }
+
+    if (dateSort) {
+        sortOptions['date_received'] = dateSort === 'newest' ? -1 : 1;
+    }
+
+    if (benefactorFilter) {
+        filterOptions['benefactor.name'] = { $in: benefactorFilter.split(',') };
+    }
+
+    // Logging for debugging
+    console.log('Filter Options:', filterOptions);
+    console.log('Sort Options:', sortOptions);
+
+    const benefits = await Benefit.find(filterOptions).populate("benefactor").sort(sortOptions).exec();
+    const benefactors = await Benefactor.find().exec();
+
+    console.log('Filtered Benefits:', benefits);
+
+    res.render("benefit-list", {
+        benefactors,
+        benefits
+    });
 }));
  
 // POST request for creating beneficiary
