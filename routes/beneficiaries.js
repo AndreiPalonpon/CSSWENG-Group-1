@@ -23,7 +23,7 @@ router.use(requireAuth);
 
 // GET request to list all beneficiaries with sorting and filtering
 router.get('/', asyncHandler(async(req, res) => {
-    const { recipientSort, statusFilter, benefitSort, dateSort, programId } = req.query;
+    const { recipientSort, statusFilter, dateSort, programId } = req.query;
 
     let sortOptions = {};
     let filterOptions = { program_enrolled: programId };
