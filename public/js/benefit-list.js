@@ -21,13 +21,23 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelector(".header-right").classList.toggle("toggled");
     });
 
-    $(document).ready(function() {
-        $("#myInput").on("keyup", function() {
-            let value = $(this).val().toLowerCase();
-            $(".dropdown-menu li").filter(function() {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-            });
-        });
+    // Add event listeners to filter elements
+    document.querySelectorAll('input[name="nameSort"]').forEach(input => {
+        input.addEventListener('change', applyFiltersAndSort);
+    });
+    document.querySelectorAll('input[name="quantitySort"]').forEach(input => {
+        input.addEventListener('change', applyFiltersAndSort);
+    });
+    document.querySelectorAll('input[name="dateSort"]').forEach(input => {
+        input.addEventListener('change', applyFiltersAndSort);
+    });
+    document.querySelectorAll('input[name="benefactorFilter"]').forEach(input => {
+        input.addEventListener('change', applyFiltersAndSort);
+    });
+
+    $('#resetFiltersButton').on('click', function() {
+        $('#filter-form')[0].reset();
+        applyFiltersAndSort();
     });
 
     let newMemberAddBtn = document.querySelector('.addBenefitBtn button'),
@@ -178,29 +188,46 @@ document.addEventListener('DOMContentLoaded', function() {
         if (confirm("Are you sure you want to delete this benefit?")) {
             originalData = originalData.filter(item => item.id !== id);
             localStorage.setItem('benefits', JSON.stringify(originalData));
-            getData = [...originalData];
 
             $.post(`/benefits/delete`, { benefit_id: id })
                 .done((data, status, xhr) => {
                     if (status === "success" && xhr.status === 200) {
-                        let index = e?.currentTarget?.closest("tr")?.querySelector("td:first-child")?.textContent;
-                        if (index) {
-                            alert("Benefit with ID " + index + " has been deleted");
-                            location.reload();
-                        }
+                        alert("Benefit has been deleted.");
+                        location.reload();
                     } else {
                         alert("Failed to delete benefit. Please try again.");
                     }
-                })
-                .fail((xhr, status, error) => {
+                }).fail((xhr, status, error) => {
                     alert("Error deleting benefit. Please try again later.");
                     console.error(error);
                 });
-
-            if (e?.currentTarget) {
-                e.currentTarget.closest("tr").remove();
-            }
         }
+    }
+
+    function applyFiltersAndSort() {
+        const nameSort = $('input[name="nameSort"]:checked').val();
+        const quantitySort = $('input[name="quantitySort"]:checked').val();
+        const dateSort = $('input[name="dateSort"]:checked').val();
+        const benefactorFilter = $('input[name="benefactorFilter"]:checked').map(function() { return this.value; }).get();
+
+        let query = [];
+
+        if (nameSort) query.push(`nameSort=${nameSort}`);
+        if (quantitySort) query.push(`quantitySort=${quantitySort}`);
+        if (dateSort) query.push(`dateSort=${dateSort}`);
+        if (benefactorFilter.length) query.push(`benefactorFilter=${benefactorFilter.join(',')}`);
+
+        const queryString = query.length > 0 ? `?${query.join('&')}` : '';
+
+        fetch(`/benefits${queryString}`)
+            .then(response => response.text())
+            .then(html => {
+                const newDoc = new DOMParser().parseFromString(html, 'text/html');
+                const newTableBody = newDoc.querySelector('tbody').innerHTML;
+                document.querySelector('tbody').innerHTML = newTableBody;
+                addEventListeners();
+            })
+            .catch(error => console.error('Error fetching filtered data:', error));
     }
 
     addEventListeners();
