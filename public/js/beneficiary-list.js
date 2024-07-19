@@ -12,9 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('input[name="statusFilter"]').forEach(input => {
         input.addEventListener('change', applyFiltersAndSort);
     });
-    document.querySelectorAll('input[name="benefitSort"]').forEach(input => {
-        input.addEventListener('change', applyFiltersAndSort);
-    });
     document.querySelectorAll('input[name="dateSort"]').forEach(input => {
         input.addEventListener('change', applyFiltersAndSort);
     });
@@ -22,15 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
     $('#resetFiltersButton').on('click', function() {
         $('#filter-form')[0].reset();
         applyFiltersAndSort();
-    });
-
-    $(document).ready(function() {
-        $("#myInput").on("keyup", function() {
-            var value = $(this).val().toLowerCase();
-            $(".dropdown-menu li").filter(function() {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
-        });
     });
 
     var newMemberAddBtn = document.querySelector('.createBtn button'),
@@ -42,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
         form = document.querySelector('#createBeneficiaryForm'),
         formInputFields = document.querySelectorAll('#createBeneficiaryForm input, #createBeneficiaryForm select'),
         programInfo = document.querySelector('.programInfo');
-        resetFiltersButton = document.getElementById('resetFiltersButton');
+    resetFiltersButton = document.getElementById('resetFiltersButton');
 
     let originalData = localStorage.getItem('beneficiaries') ? JSON.parse(localStorage.getItem('beneficiaries')) : [];
     let getData = [...originalData];
@@ -70,13 +58,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function addEventListeners() {
-        document.querySelectorAll('.viewBtn').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const id = parseInt(e.currentTarget.getAttribute('data-id'));
-                readInfo(id);
-            });
-        });
-
         document.querySelectorAll('.editBtn').forEach(button => {
             button.addEventListener('click', (e) => {
                 const id = parseInt(e.currentTarget.getAttribute('data-id'));
@@ -121,9 +102,9 @@ document.addEventListener('DOMContentLoaded', function() {
             originalData = originalData.filter(item => item.id !== id);
             localStorage.setItem('programs', JSON.stringify(originalData));
             getData = [...originalData];
-            let index = e?.currentTarget?.closest("tr")?.querySelector("td:first-child")?.textContent;
+            let index = e ? .currentTarget ? .closest("tr") ? .querySelector("td:first-child") ? .textContent;
             console.log("Deleting the selected beneficiary...");
-            $.post(`/beneficiaries/delete`, {beneficiary_id: id}, (data, status, xhr) => {
+            $.post(`/beneficiaries/delete`, { beneficiary_id: id }, (data, status, xhr) => {
                 if (status === "success" && xhr.status === 200) {
                     alert("Beneficiary with ID " + index + " has been deleted");
                 } else {
@@ -135,18 +116,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    resetFiltersButton.addEventListener('click', () => {
-        document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
-            input.checked = false;
-        });
-        getData = [...originalData];
-        applyFiltersAndSort();
-    });
-
     function applyFiltersAndSort() {
         const recipientSort = $('input[name="recipientSort"]:checked').val();
         const statusFilter = $('input[name="statusFilter"]:checked').map(function() { return this.value; }).get();
-        const benefitSort = $('input[name="benefitSort"]:checked').val();
         const dateSort = $('input[name="dateSort"]:checked').val();
         const programId = '{{program._id}}'; // Adjust this as necessary
 
@@ -154,7 +126,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (recipientSort) query.push(`recipientSort=${recipientSort}`);
         if (statusFilter.length) query.push(`statusFilter=${statusFilter.join(',')}`);
-        if (benefitSort) query.push(`benefitSort=${benefitSort}`);
         if (dateSort) query.push(`dateSort=${dateSort}`);
         if (programId) query.push(`programId=${programId}`);
 

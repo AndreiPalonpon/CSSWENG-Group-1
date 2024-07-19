@@ -21,31 +21,9 @@ function requireAuth(req, res, next) {
 
 router.use(requireAuth);
 
-// GET request to list all beneficiaries
-/*
-router.get('/', asyncHandler(async(req, res) => {
-    const people = await Person.find().sort({ first_name: 1, last_name: 1 }).exec();
-    const programs = await Program.find().sort({ name: 1 }).exec();
-    const benefits = await Benefit.find().sort({ name: 1 }).exec();
-    const beneficiaries = await Beneficiary.find()
-        .populate("person_registered")
-        .populate("program_enrolled")
-        .populate("benefit_delivered")
-        .exec();
-
-    console.log(beneficiaries);
-    res.render("beneficiary-list", {
-        people,
-        programs,
-        benefits,
-        beneficiaries
-    });
-}));
-*/
-
 // GET request to list all beneficiaries with sorting and filtering
 router.get('/', asyncHandler(async(req, res) => {
-    const { recipientSort, statusFilter, benefitSort, dateSort, programId } = req.query;
+    const { recipientSort, statusFilter, dateSort, programId } = req.query;
 
     let sortOptions = {};
     let filterOptions = { program_enrolled: programId };
@@ -116,7 +94,7 @@ router.get('/:id', asyncHandler(async(req, res) => {
 }));
 
 // POST request for creating beneficiary
-router.post('/create', asyncHandler(async (req, res) => {
+router.post('/create', asyncHandler(async(req, res) => {
     const programId = req.body.programEnrolled; // Extract programEnrolled from req.body
     const program = await Program.findById(programId); // Assuming Program model is used
 
@@ -145,14 +123,14 @@ router.post('/create', asyncHandler(async (req, res) => {
     await newBeneficiary.save();
 
     console.log("New beneficiary instance saved.");
-    
+
     // Redirect to the beneficiaries page with the programId parameter
     res.redirect(`/beneficiaries/${programId}`);
 }));
 
 
 // POST request for editing beneficiary
-router.post('/edit', asyncHandler(async (req, res) => {
+router.post('/edit', asyncHandler(async(req, res) => {
     const {
         id,
         person_registered,
@@ -176,7 +154,7 @@ router.post('/edit', asyncHandler(async (req, res) => {
 }));
 
 // POST request for deleting beneficiary
-router.post('/delete', asyncHandler(async (req, res) => {
+router.post('/delete', asyncHandler(async(req, res) => {
     console.log(req.body.beneficiary_id);
     await Beneficiary.deleteOne({ _id: req.body.beneficiary_id });
     console.log(`Beneficiary ID ${req.body.beneficiary_id} has been deleted.`);
