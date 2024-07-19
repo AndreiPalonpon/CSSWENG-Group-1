@@ -171,7 +171,7 @@
                                     </ul>
                                 </div>
                             </th>
-                            <th scope="col">
+                                                        <th scope="col">
                                 <div class="dropdown">
                                     <a class="dropdown-toggle" id="addressDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                         Address
@@ -189,19 +189,18 @@
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="barangayDropdown">
                                         {{#each barangayCodes}}
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="{{this}}" id="{{@key}}Check" name="barangayFilter">
-                                                <label class="form-check-label" for="{{@key}}Check">
-                                                    {{this}}
-                                                </label>
-                                            </div>
-                                        </li>
+                                            <li>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="{{this}}" id="{{@key}}Check" name="barangayFilter">
+                                                    <label class="form-check-label" for="{{@key}}Check">
+                                                        {{this}}
+                                                    </label>
+                                                </div>
+                                            </li>
                                         {{/each}}
                                     </ul>
                                 </div>
                             </th>
-
                             <th scope="col">
                                 <div class="dropdown">
                                     <a class="dropdown-toggle" id="contactNumberDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -213,7 +212,6 @@
                                     -->
                                 </div>
                             </th>
-
                             <th scope="col">
                                 <div class="dropdown">
                                     <a class="dropdown-toggle" id="disabilityTypeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -230,6 +228,22 @@
                                         </li>
                                         <li>
                                             <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Sensory" id="sensoryCheck" name="disabilityTypeFilter">
+                                                <label class="form-check-label" for="sensoryCheck">
+                                                    Sensory
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Intellectual" id="intellectualCheck" name="disabilityTypeFilter">
+                                                <label class="form-check-label" for="intellectualCheck">
+                                                    Intellectual
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" value="Mental" id="mentalCheck" name="disabilityTypeFilter">
                                                 <label class="form-check-label" for="mentalCheck">
                                                     Mental
@@ -241,97 +255,160 @@
                             </th>
                             <th scope="col">
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle" id="createdAtDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Created At
+                                    <a class="dropdown-toggle" id="disabilityDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Disability
                                     </a>
-                                    <ul class="dropdown-menu" aria-labelledby="createdAtDropdown">
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="createdAtSort" value="newest" id="createdAtSortNewest">
-                                                <label class="form-check-label" for="createdAtSortNewest">
-                                                    Newest
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="createdAtSort" value="oldest" id="createdAtSortOldest">
-                                                <label class="form-check-label" for="createdAtSortOldest">
-                                                    Oldest
-                                                </label>
-                                            </div>
-                                        </li>
+                                    <!-- <ul class="dropdown-menu" aria-labelledby="disabilityDropdown">
+                                         Add disability filtering options if needed 
                                     </ul>
+                                    -->
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="pwdCardIdNoDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        PWD Card ID No.
+                                    </a>
+                                    <!-- <ul class="dropdown-menu" aria-labelledby="pwdCardIdNoDropdown">
+                                         Add PWD Card ID No. filtering options if needed 
+                                    </ul>
+                                    -->
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="recentPwdIdUpdateDateDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Recent PWD ID Date
+                                    </a>
+                                    <!--  <ul class="dropdown-menu" aria-labelledby="recentPwdIdUpdateDateDropdown">
+                                        Add recent PWD ID date filtering options if needed 
+                                    </ul>
+                                    -->
                                 </div>
                             </th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="peopleTableBody">
-                        <!-- Data Rows Will Be Injected Here -->
+                    <tbody>
+                        <!-- Table rows go here -->
+                        {{#each people}}
+                        <tr>
+                            <td>{{incremented @index}}</td>
+                            <td>{{this.first_name}}</td>
+                            <td>{{this.last_name}}</td>
+                            <td>{{this.gender}}</td>
+                            <td>{{formatDate this.birthdate}}</td>
+                            <td>{{this.address}}</td>
+                            <td>{{this.barangay}}</td>
+                            <td>{{this.contact_number}}</td>
+                            <td>{{this.disability_type}}</td>
+                            <td>{{this.disability}}</td>
+                            <td>{{this.pwd_card_id_no}}</td>
+                            <td>{{formatDate this.recent_pwd_id_update_date}}</td>
+                            <td>
+                                <button class="editBtn" data-id="{{this._id}}"><i class="bi bi-pencil"></i></button>
+                                <button class="deleteBtn" data-id="{{this._id}}"><i class="bi bi-trash"></i></button>
+                            </td>
+                        </tr>
+                        {{/each}}
                     </tbody>
                 </table>
             </div>
 
-            <!-- Modal for Creating a New Person -->
-            <div class="modal fade" id="modal-people-create" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Create New Person</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <!-- Modal -->
+<div class="modal fade" id="modal-people-create">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add a Person</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createPeopleForm" action="/people/create" method="POST">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="firstName">First Name</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" required>
                         </div>
-                        <div class="modal-body">
-                            <form id="form-people-create">
-                                <div class="mb-3">
-                                    <label for="firstName" class="form-label">First Name</label>
-                                    <input type="text" class="form-control" id="firstName" name="firstName" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="lastName" class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" id="lastName" name="lastName" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="gender" class="form-label">Gender</label>
-                                    <select class="form-select" id="gender" name="gender" required>
-                                        <option value="" disabled selected>Select Gender</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="birthdate" class="form-label">Birthdate</label>
-                                    <input type="date" class="form-control" id="birthdate" name="birthdate" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="address" class="form-label">Address</label>
-                                    <input type="text" class="form-control" id="address" name="address" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="barangay" class="form-label">Barangay</label>
-                                    <input type="text" class="form-control" id="barangay" name="barangay" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="contactNumber" class="form-label">Contact Number</label>
-                                    <input type="text" class="form-control" id="contactNumber" name="contactNumber" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="disabilityType" class="form-label">Disability Type</label>
-                                    <select class="form-select" id="disabilityType" name="disabilityType" required>
-                                        <option value="" disabled selected>Select Disability Type</option>
-                                        <option value="Physical">Physical</option>
-                                        <option value="Mental">Mental</option>
-                                    </select>
-                                </div>
-                            </form>
+                        <div class="form-group col-md-6">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" required>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" form="form-people-create">Save changes</button>
+                        <div class="form-group col-md-6">
+                            <label for="gender">Gender</label>
+                            <select id="gender" name="gender" class="form-control" required>
+                                <option value="" selected disabled>Choose...</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="birthdate">Birthdate</label>
+                            <input type="date" id="birthdate" name="birthdate" class="form-control" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="address">Address</label>
+                            <input type="text" class="form-control" id="address" name="address" placeholder="Address" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="barangay">Barangay</label>
+                            <select id="barangay" name="barangay" class="form-control" required>
+                                <option value="" selected disabled>Choose...</option>
+                                <option value="Almanza Uno">Almanza Uno</option>
+                                <option value="Daniel Fajardo">Daniel Fajardo</option>
+                                <option value="Elias Aldana">Elias Aldana</option>
+                                <option value="Ilaya">Ilaya</option>
+                                <option value="Manuyo Uno">Manuyo Uno</option>
+                                <option value="Pamplona Uno">Pamplona Uno</option>
+                                <option value="Pulanglupa Uno">Pulanglupa Uno</option>
+                                <option value="Talon Uno">Talon Uno</option>
+                                <option value="Zapote">Zapote</option>
+                                <option value="Almanza Dos">Almanza Dos</option>
+                                <option value="BF International/CAA">BF International/CAA</option>
+                                <option value="Manuyo Dos">Manuyo Dos</option>
+                                <option value="Pamplona Dos">Pamplona Dos</option>
+                                <option value="Pamplona Tres">Pamplona Tres</option>
+                                <option value="Pilar">Pilar</option>
+                                <option value="Pulanglupa Dos">Pulanglupa Dos</option>
+                                <option value="Talon Dos">Talon Dos</option>
+                                <option value="Talon Tres">Talon Tres</option>
+                                <option value="Talon Kuartro">Talon Kuartro</option>
+                                <option value="Talon Singko">Talon Singko</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="contactNumber">Contact Number</label>
+                            <input type="text" class="form-control" id="contactNumber" name="contactNumber" placeholder="Contact Number" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="disabilityType">Disability Type</label>
+                            <select id="disabilityType" name="disabilityType" class="form-control" required>
+                                <option value="" selected disabled>Choose...</option>
+                                <option value="Physical">Physical</option>
+                                <option value="Sensory">Sensory</option>
+                                <option value="Intellectual">Intellectual</option>
+                                <option value="Mental">Mental</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="disability">Disability</label>
+                            <input type="text" class="form-control" id="disability" name="disability" placeholder="Disability" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pwdCardIdNo">PWD Card ID No.</label>
+                            <input class="form-control" id="pwdCardIdNo" name="pwd_card_id_no" placeholder="PWD Card ID No." required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="recentPwdIdUpdateDate">Recent PWD ID Update Date</label>
+                            <input type="date" id="recentPwdIdUpdateDate" name="recent_pwd_id_update_date" class="form-control" required>
                         </div>
                     </div>
-                </div>
+                    <button type="submit" class="submitBtn" form="createPeopleForm">Submit</button>
+                </form>
             </div>
-            
+        </div>
+    </div>
+</div>
 
         </main>
 

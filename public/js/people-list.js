@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', function() {
         crossBtn = document.querySelector('.btn-close'),
         submitBtn = document.querySelector('.submitBtn'),
         modalTitle = document.querySelector('.modal-title'),
-        form = document.querySelector('#peopleForm'),
-        formInputFields = document.querySelectorAll('#peopleForm input, #peopleForm select'),
+        form = document.querySelector('#createPeopleForm'),
+        formInputFields = document.querySelectorAll('#createPeopleForm input, #createPeopleForm select'),
         resetFiltersButton = document.getElementById('resetFiltersButton');
 
     let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
