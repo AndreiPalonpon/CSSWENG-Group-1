@@ -96,7 +96,7 @@ header .container {
 
 /*-------------------------------*/
 
-.addPeopleBtn  {
+.addPeopleBtn {
     margin-bottom: 15px;
     position: absolute;
     right: 48px;
@@ -132,7 +132,8 @@ header .container {
     border-radius: 5px;
 }
 
-.popup .submitPeopleBtn, .submitPeopleBtn {
+.popup .submitPeopleBtn,
+.submitPeopleBtn {
     padding: 9px 14px;
     color: var(--color2);
     font-size: 16px;
@@ -142,10 +143,11 @@ header .container {
     border: 1px solid var(--dark6);
     background: var(--color3);
     border-radius: 5px;
-    margin-left: 550px;
+    margin-left: 680px;
 }
 
-.popup .submitPeopleBtn:hover, .submitPeopleBtn:hover {
+.popup .submitPeopleBtn:hover,
+.submitPeopleBtn:hover {
     background: darkorange;
 }
 
@@ -614,7 +616,6 @@ hr.vertical-solid {
     max-height: 200px;
     overflow-y: auto;
 }
-
 
 
 /*-------------------------------*/
