@@ -19,16 +19,53 @@ function requireAuth(req, res, next) {
 
 router.use(requireAuth);
 
-//GET request to list all people
+// GET request to list all people with sorting and filtering
 router.get('/', asyncHandler(async(req, res) => {
-    const people = await Person.find()
-                               .sort({ first_name: 1, last_name: 1 })
-                               .exec();
-    
+    const { firstNameSort, lastNameSort, genderFilter, birthdateSort, barangayFilter, disabilityTypeFilter } = req.query;
 
-    console.log(people[0].age);
-    console.log(people);
-    res.render("people-list", { people: people });
+    let sortOptions = {};
+    let filterOptions = {};
+
+    if (firstNameSort) {
+        sortOptions['first_name'] = firstNameSort === 'az' ? 1 : -1;
+    }
+
+    if (lastNameSort) {
+        sortOptions['last_name'] = lastNameSort === 'az' ? 1 : -1;
+    }
+
+    if (genderFilter) {
+        filterOptions.gender = genderFilter;
+    }
+
+    if (birthdateSort) {
+        sortOptions['birthdate'] = birthdateSort === 'newest' ? -1 : 1;
+    }
+
+    if (barangayFilter) {
+        filterOptions.barangay = { $in: barangayFilter.split(',') };
+    }
+
+    if (disabilityTypeFilter) {
+        filterOptions.disability_type = { $in: disabilityTypeFilter.split(',') };
+    }
+
+    // Logging for debugging
+    console.log('Filter Options:', filterOptions);
+    console.log('Sort Options:', sortOptions);
+
+    const people = await Person.find(filterOptions).sort(sortOptions).exec();
+
+    // Fetch unique barangay codes
+    const barangayCodes = await Person.distinct("barangay").exec();
+
+    console.log('Filtered People:', people);
+    console.log('Barangay Codes:', barangayCodes);
+
+    res.render("people-list", {
+        people,
+        barangayCodes
+    });
 }));
 
 // POST request for creating people.
