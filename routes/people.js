@@ -107,34 +107,70 @@ router.post('/create', asyncHandler(async (req, res) => {
 
 
 // POST request for updating person
-router.get('/edit', asyncHandler(async (req, res, next) => { //Change to post. POST will be used.
-    const { id, first_name, last_name, gender,
+router.post('/edit', asyncHandler(async (req, res, next) => {
+    const { id, first_name, last_name, gender, 
             birthdate, address, barangay,
             contact_number, disability_type,
             disability, pwd_card_id_no, 
             recent_pwd_id_update_date } = req.body;
 
-    if (first_name === "" || last_name === "") {
-        res.sendStatus(400); // HTTP 400: Bad Request
+    // Validate required fields
+    if (!first_name || !last_name || !gender || !birthdate || 
+        !address || !barangay || !contact_number || 
+        !disability_type || !disability || !pwd_card_id_no || 
+        !recent_pwd_id_update_date) {
+        return res.status(400).send('All fields are required'); // HTTP 400: Bad Request
     }
 
+    // Check if the provided barangay is valid
+    const validBarangays = [
+        "Almanza Uno", "Daniel Fajardo", "Elias Aldana", "Ilaya", 
+        "Manuyo Uno", "Pamplona Uno", "Pulanglupa Uno", "Talon Uno", 
+        "Zapote", "Almanza Dos", "BF International/CAA", "Manuyo Dos", 
+        "Pamplona Dos", "Pamplona Tres", "Pilar", "Pulanglupa Dos", 
+        "Talon Dos", "Talon Tres", "Talos Kuartro", "Talon Singko"
+    ];
+
+    if (!validBarangays.includes(barangay)) {
+        return res.status(400).send('Invalid barangay'); // HTTP 400: Bad Request
+    }
+
+    // Convert birthdate and recent_pwd_id_update_date to Date objects
+    let birthdateDate, recentPwdUpdateDate;
+    try {
+        birthdateDate = new Date(birthdate);
+        recentPwdUpdateDate = new Date(recent_pwd_id_update_date);
+    } catch (error) {
+        return res.status(400).send('Invalid date format'); // HTTP 400: Bad Request
+    }
+
+    // Prepare the person object for update
     const person = {
-        first_name: first_name,
-        last_name: last_name,
-        gender: gender,
-        birthdate: birthdate, 
-        address: address,
-        barangay: barangay,
-        contact_number: contact_number,
-        disability_type: disability_type,
-        disability: disability,
-        pwd_card_id_no: pwd_card_id_no,
-        recent_pwd_id_update_date: recent_pwd_id_update_date,
+        first_name,
+        last_name,
+        gender,
+        birthdate: birthdateDate,
+        address,
+        barangay,
+        contact_number,
+        disability_type,
+        disability,
+        pwd_card_id_no,
+        recent_pwd_id_update_date: recentPwdUpdateDate,
     };
 
-    await Program.updateOne({_id: id}, person);
+    try {
+        // Perform the update operation
+        const result = await Person.updateOne({ _id: id }, person);
 
-    res.sendStatus(200);
+        if (result.nModified === 0) {
+            return res.status(404).send('Person not found'); // HTTP 404: Not Found
+        }
+
+        res.sendStatus(200); // HTTP 200: OK
+    } catch (error) {
+        next(error); // Pass the error to the error handler middleware
+    }
 }));
 
 // GET request for fetching people list under a specific program

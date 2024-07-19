@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     function addEventListeners() {
-        document.querySelectorAll('.editBenefactorBtn').forEach(button => {
+        document.querySelectorAll('.editBtn').forEach(button => {
             button.addEventListener('click', (e) => {
                 const id = e.currentTarget.closest("tr").getAttribute('data-benefactor-id');
                 console.log(id);

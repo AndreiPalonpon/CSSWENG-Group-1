@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let getData = [...originalData];
     
     let isEdit = false,
-    editId;
-    
+        editId;
+
     document.getElementById("menu-toggle").addEventListener("click", function() {
         document.getElementById("wrapper").classList.toggle("toggled");
         document.querySelector(".main-content").classList.toggle("toggled");
@@ -52,12 +52,16 @@ document.addEventListener('DOMContentLoaded', function() {
         form.reset();
         formInputFields.forEach(input => input.disabled = false);
         submitBtn.style.display = "block";
+        darkBg.classList.add('active');
+        popupForm.classList.add('active');
     });
 
     crossBtn.addEventListener('click', () => {
         form.reset();
         submitBtn.style.display = "block";
         formInputFields.forEach(input => input.disabled = false);
+        darkBg.classList.remove('active');
+        popupForm.classList.remove('active');
     });
 
     form.addEventListener('submit', (e) => {
@@ -91,16 +95,65 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        localStorage.setItem('person', JSON.stringify(originalData));
+        localStorage.setItem('programs', JSON.stringify(originalData));
         getData = [...originalData];
 
-        location.reload();
         darkBg.classList.remove('active');
         popupForm.classList.remove('active');
         form.reset();
     });
 
+    document.getElementById("editPeopleForm").addEventListener('submit', (e) => {
+        e.preventDefault();
+        let people_id = document.getElementById("editPeopleId").value;
+        let people_firstName = document.getElementById("editFirstName").value;
+        let people_lastName = document.getElementById("editLastName").value;
+        let people_gender = document.getElementById("editGender").value;
+        let people_birthdate = document.getElementById("editBirthdate").value;
+        let people_address = document.getElementById("editAddress").value;
+        let people_barangay = document.getElementById("editBarangay").value;
+        let people_contactNumber = document.getElementById("editContactNumber").value;
+        let people_disabilityType = document.getElementById("editDisabilityType").value;
+        let people_disability = document.getElementById("editDisability").value;
+        let people_pwd_card_id_no = document.getElementById("editPwdCardIdNo").value;
+        let people_recent_pwd_id_update_date = document.getElementById("editRecentPwdIdUpdateDate").value;
+
+        let people = {
+            id: people_id,
+            firstName: people_firstName,
+            lastName: people_lastName,
+            gender: people_gender,
+            birthdate: people_birthdate,
+            address: people_address,
+            barangay: people_barangay,
+            contactNumber: people_contactNumber,
+            disabilityType: people_disabilityType,
+            disability: people_disability,
+            pwd_card_id_no: people_pwd_card_id_no,
+            recent_pwd_id_update_date: people_recent_pwd_id_update_date,
+        };
+
+        $.post("/people/edit", people, (data, status, xhr) => {
+            if (status === "success" && xhr.status === 200) {
+                let modalInstance = bootstrap.Modal.getInstance(document.getElementById("modal-people-edit"));
+                modalInstance.hide();  // Hide the modal
+                alert("Update person successfully.");
+                location.reload();
+            } else {
+                alert("Error updating person");
+            }
+        }).fail(() => {
+            alert("Error updating person");
+        });
+    });
+
     function addEventListeners() {
+        document.querySelectorAll('.editBtn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const id = e.currentTarget.closest("tr").getAttribute('data-person-id');
+                editInfo(id, e);
+            });
+        });
         document.querySelectorAll('.deleteBtn').forEach(button => {
             button.addEventListener('click', (e) => {
                 const id = e.currentTarget.getAttribute('data-id');
@@ -109,10 +162,77 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    function onBtnEditClick(e) {
+        let people_id = e.currentTarget.closest("tr").getAttribute("data-person-id");
+        let people_firstName = e.currentTarget.closest("tr").querySelector(".people-firstName").textContent;
+        let people_lastName = e.currentTarget.closest("tr").querySelector(".people-lastName").textContent;
+        let people_gender = e.currentTarget.closest("tr").querySelector(".people-gender").textContent;
+        let people_birthdate = e.currentTarget.closest("tr").querySelector(".people-birthdate").textContent;
+        let people_address = e.currentTarget.closest("tr").querySelector(".people-address").textContent;
+        let people_barangay = e.currentTarget.closest("tr").querySelector(".people-barangay").textContent;
+        let people_contactNumber = e.currentTarget.closest("tr").querySelector(".people-contactNumber").textContent;
+        let people_disabilityType = e.currentTarget.closest("tr").querySelector(".people-disabilityType").textContent;
+        let people_disability = e.currentTarget.closest("tr").querySelector(".people-disability").textContent;
+        let people_pwd_card_id_no = e.currentTarget.closest("tr").querySelector(".people-pwd_card_id_no").textContent;
+        let people_recent_pwd_id_update_date = e.currentTarget.closest("tr").querySelector(".people-recent_pwd_id_update_date").textContent;
+
+        let modal_edit = document.getElementById("modal-people-edit");
+        let modal_edit_id = modal_edit.querySelector("#editPeopleId");
+        let modal_edit_firstName = modal_edit.querySelector("#editFirstName");
+        let modal_edit_lastName = modal_edit.querySelector("#editLastName");
+        let modal_edit_gender = modal_edit.querySelector("#editGender");
+        let modal_edit_birthdate = modal_edit.querySelector("#editBirthdate");
+        let modal_edit_address = modal_edit.querySelector("#editAddress");
+        let modal_edit_barangay = modal_edit.querySelector("#editBarangay");
+        let modal_edit_contactNumber = modal_edit.querySelector("#editContactNumber");
+        let modal_edit_disabilityType = modal_edit.querySelector("#editDisabilityType");
+        let modal_edit_disability = modal_edit.querySelector("#editDisability");
+        let modal_edit_pwd_card_id_no = modal_edit.querySelector("#editPwdCardIdNo");
+        let modal_edit_recent_pwd_id_update_date = modal_edit.querySelector("#editRecentPwdIdUpdateDate");
+
+        modal_edit_id.value = people_id;
+        modal_edit_firstName.value = people_firstName;
+        modal_edit_lastName.value = people_lastName;
+        modal_edit_gender.value = people_gender;
+        modal_edit_birthdate.value = people_birthdate;
+        modal_edit_address.value = people_address;
+        modal_edit_barangay.value = people_barangay;
+        modal_edit_contactNumber.value = people_contactNumber;
+        modal_edit_disabilityType.value = people_disabilityType;
+        modal_edit_disability.value = people_disability;
+        modal_edit_pwd_card_id_no.value = people_pwd_card_id_no;
+        modal_edit_recent_pwd_id_update_date.value = people_recent_pwd_id_update_date;
+    }
+
+    function editInfo(id, e) {
+        onBtnEditClick(e);
+        isEdit = true;
+        editId = getData.findIndex(item => item.id === parseInt(id, 10));
+        const person = getData[editId];
+        if (person) {
+            form.firstName.value = person.firstName;
+            form.lastName.value = person.lastName;
+            form.gender.value = person.gender;
+            form.birthdate.value = person.birthdate;
+            form.address.value = person.address;
+            form.barangay.value = person.barangay;
+            form.contactNumber.value = person.contactNumber;
+            form.disabilityType.value = person.disabilityType;
+            form.disability.value = person.disability;
+            form.pwd_card_id_no.value = person.pwd_card_id_no;
+            form.recent_pwd_id_update_date.value = person.recent_pwd_id_update_date;
+            modalTitle.innerHTML = "Edit Person";
+            formInputFields.forEach(input => input.disabled = false);
+            submitBtn.innerHTML = "Update";
+            darkBg.classList.add('active');
+            popupForm.classList.add('active');
+        }
+    }
+
     function deleteInfo(id, e) {
         if (confirm("Are you sure you want to delete this person?")) {
-            originalData = originalData.filter(item => item.id !== id);
-            localStorage.setItem('people', JSON.stringify(originalData));
+            originalData = originalData.filter(item => item.id !== parseInt(id, 10));
+            localStorage.setItem('programs', JSON.stringify(originalData));
 
             $.post(`/people/delete`, { person_id: id })
                 .done((data, status, xhr) => {

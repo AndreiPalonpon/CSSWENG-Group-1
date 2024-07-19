@@ -93,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function editInfo(id) {
+        
         isEdit = true;
         editId = getData.findIndex(item => item.id === id);
         const beneficiary = getData[editId];

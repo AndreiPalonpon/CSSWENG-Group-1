@@ -251,8 +251,8 @@
                             <td>{{this.pwd_card_id_no}}</td>
                             <td>{{formatDate this.recent_pwd_id_update_date}}</td>
                             <td>
-                                <button class="editBtn" data-id="{{this._id}}"><i class="bi bi-pencil"></i></button>
-                                <button class="deleteBtn" data-id="{{this._id}}"><i class="bi bi-trash"></i></button>
+                                <button class="editBtn" data-bs-toggle="modal" data-bs-target="#modal-people-edit"><i class="bi bi-pencil"></i></button>
+                                    <button class="deleteBtn" data-id="{{this._id}}"><i class="bi bi-trash"></i></button>
                             </td>
                         </tr>
                         {{/each}}
@@ -260,7 +260,7 @@
                 </table>
             </div>
 
-            <!-- Modal -->
+            <!-- Create People Modal -->
 <div class="modal fade" id="modal-people-create">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
@@ -350,6 +350,104 @@
                     </div>
                     <button type="submit" class="submitBtn" form="createPeopleForm">Submit</button>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+       <!-- Edit People Modal -->
+<div class="modal fade" id="modal-people-edit" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Person</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editPeopleForm" action="/people/edit" method="POST">
+                    <input type="hidden" id="editPeopleId" name="id">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="editFirstName">First Name</label>
+                            <input type="text" class="form-control" id="editFirstName" name="firstName" placeholder="First Name" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="editLastName">Last Name</label>
+                            <input type="text" class="form-control" id="editLastName" name="lastName" placeholder="Last Name" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="editGender">Gender</label>
+                            <select id="editGender" name="gender" class="form-control" required>
+                                <option value="" selected disabled>Choose...</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="editBirthdate">Birthdate</label>
+                            <input type="date" id="editBirthdate" name="birthdate" class="form-control" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="editAddress">Address</label>
+                            <input type="text" class="form-control" id="editAddress" name="address" placeholder="Address" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="editBarangay">Barangay</label>
+                            <select id="editBarangay" name="barangay" class="form-control" required>
+                                <option value="" selected disabled>Choose...</option>
+                                <option value="Almanza Uno">Almanza Uno</option>
+                                <option value="Daniel Fajardo">Daniel Fajardo</option>
+                                <option value="Elias Aldana">Elias Aldana</option>
+                                <option value="Ilaya">Ilaya</option>
+                                <option value="Manuyo Uno">Manuyo Uno</option>
+                                <option value="Pamplona Uno">Pamplona Uno</option>
+                                <option value="Pulanglupa Uno">Pulanglupa Uno</option>
+                                <option value="Talon Uno">Talon Uno</option>
+                                <option value="Zapote">Zapote</option>
+                                <option value="Almanza Dos">Almanza Dos</option>
+                                <option value="BF International/CAA">BF International/CAA</option>
+                                <option value="Manuyo Dos">Manuyo Dos</option>
+                                <option value="Pamplona Dos">Pamplona Dos</option>
+                                <option value="Pamplona Tres">Pamplona Tres</option>
+                                <option value="Pilar">Pilar</option>
+                                <option value="Pulanglupa Dos">Pulanglupa Dos</option>
+                                <option value="Talon Dos">Talon Dos</option>
+                                <option value="Talon Tres">Talon Tres</option>
+                                <option value="Talon Kuartro">Talon Kuartro</option>
+                                <option value="Talon Singko">Talon Singko</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="editContactNumber">Contact Number</label>
+                            <input type="text" class="form-control" id="editContactNumber" name="contactNumber" placeholder="Contact Number" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="editDisabilityType">Disability Type</label>
+                            <select id="editDisabilityType" name="disabilityType" class="form-control" required>
+                                <option value="" selected disabled>Choose...</option>
+                                <option value="Physical">Physical</option>
+                                <option value="Sensory">Sensory</option>
+                                <option value="Intellectual">Intellectual</option>
+                                <option value="Mental">Mental</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="editDisability">Disability</label>
+                            <input type="text" class="form-control" id="editDisability" name="disability" placeholder="Disability" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="editPwdCardIdNo">PWD Card ID No.</label>
+                            <input class="form-control" id="editPwdCardIdNo" name="pwd_card_id_no" placeholder="PWD Card ID No." required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="editRecentPwdIdUpdateDate">Recent PWD ID Update Date</label>
+                            <input type="date" id="editRecentPwdIdUpdateDate" name="recent_pwd_id_update_date" class="form-control" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="submitBtn" form="editPeopleForm">Update</button>
             </div>
         </div>
     </div>
