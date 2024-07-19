@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         $.post("/benefactors/create", benefactor, (data, status, xhr) => {
             if (status === "success" && xhr.status === 201) {
-                alert("Program \"" + benefactor.benefactorName + "\" has been created.");
+                alert("Benefactor has been added.");
                 bootstrap.Modal.getInstance(document.getElementById("modal-benefactor-create")).hide();
             }
         });
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (status === "success" && xhr.status === 200) {
                 let modalInstance = bootstrap.Modal.getInstance(document.getElementById("modal-benefactor-edit"));
                 modalInstance.hide();  // Hide the modal
-                alert("Update benefactor successfully.");
+                alert("Updated benefactor successfully.");
                 location.reload();
             } else {
                 alert("Error updating benefactor");
@@ -91,82 +91,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-
-    function showInfo() {
-        displayRows(getData, currentPage);
-        displayPagination(getData.length);
-        addEventListeners();
-    }
-
-    let currentPage = 1;
-    const rowsPerPage = 5;
-
-    function displayPagination(totalRows) {
-        const pagination = document.querySelector('.pagination');
-        const totalPages = Math.ceil(totalRows / rowsPerPage);
-
-        pagination.innerHTML = `
-                        <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-                            <a class="page-link" href="#" aria-label="Previous" id="prevButton">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        `;
-
-        for (let i = 1; i <= totalPages; i++) {
-            pagination.innerHTML += `
-                        <li class="page-item ${currentPage === i ? 'active' : ''}">
-                            <a class="page-link paginationButton" href="#">${i}</a>
-                        </li>
-                        `;
-        }
-
-        pagination.innerHTML += `
-                    <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-                        <a class="page-link" href="#" aria-label="Next" id="nextButton">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                    `;
-
-        document.getElementById("prevButton").addEventListener("click", prevPage);
-        document.getElementById("nextButton").addEventListener("click", nextPage);
-
-        const paginationButtons = document.getElementsByClassName("paginationButton");
-        for (let i = 0; i < paginationButtons.length; i++) {
-            paginationButtons[i].addEventListener("click", function(event) {
-                event.preventDefault();
-                goToPage(parseInt(this.textContent));
-            });
-        }
-    }
-
-    function displayRows(rows, page = 1) {
-        const start = (page - 1) * rowsPerPage;
-        const end = start + rowsPerPage;
-        const paginatedRows = rows.slice(start, end);
-        const benefactorInfo = document.querySelector('.benefactorInfo');
-        benefactorInfo.innerHTML = '';
-        paginatedRows.forEach((benefactor, index) => {
-            const row = `
-                <tr>
-                    <td>${start + index + 1}</td>
-                    <td class="benefactor-name">${benefactor.benefactorName}</td>
-                    <td class="benefactor-type">${benefactor.benefactorType}</td>
-                    <td>
-                        <button class="viewBtn" data-id="${benefactor.id}"><i class="bi bi-eye"></i></button>
-                        <button class="editBtn" data-id="${benefactor.id}"><i class="bi bi-pencil"></i></button>
-                        <button class="deleteBtn" data-id="${benefactor.id}"><i class="bi bi-trash"></i></button>
-                    </td>
-                </tr>
-                `;
-            benefactorInfo.innerHTML += row;
-        });
-
-        function capitalizeFirstLetter(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-        }
-    }
 
     function addEventListeners() {
         document.querySelectorAll('.editBenefactorBtn').forEach(button => {
@@ -185,44 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function prevPage(event) {
-        event.preventDefault();
-        if (currentPage > 1) {
-            currentPage--;
-            displayRows(getData, currentPage);
-            displayPagination(getData.length);
-        }
-    }
-
-    function nextPage(event) {
-        event.preventDefault();
-        const totalPages = Math.ceil(getData.length / rowsPerPage);
-        if (currentPage < totalPages) {
-            currentPage++;
-            displayRows(getData, currentPage);
-            displayPagination(getData.length);
-        }
-    }
-
-    function goToPage(page) {
-        currentPage = page;
-        displayRows(getData, currentPage);
-        displayPagination(getData.length);
-    }
-
-    function readInfo(id) {
-        const benefactor = getData.find(item => item.id === id);
-        if (benefactor) {
-            form.benefactorName.value = benefactor.benefactorName;
-            form.benefactorType.value = benefactor.benefactorType;
-            modalTitle.innerHTML = "View Benefactor";
-            formInputFields.forEach(input => input.disabled = true);
-            submitBtn.style.display = "none";
-            darkBg.classList.add('active');
-            popupForm.classList.add('active');
-        }
-    }
-
+   
     function onBtnEditClick(e) {
         let benefactor_id = e.currentTarget.closest("tr").getAttribute("data-benefactor-id");
         let benefactor_name = e.currentTarget.closest("tr").querySelector(".benefactor-name").textContent;
@@ -273,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Display success message
                         let index = e?.currentTarget?.closest("tr")?.querySelector("td:first-child")?.textContent;
                         if (index) {
-                            alert("Benefactor with ID " + index + " has been deleted");
+                            alert("Benefactor has been deleted");
                             location.reload();
                         }
                     } else {
@@ -293,29 +180,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function sortData() {
-        const selectedSort = document.querySelector('input[name="nameSort"]:checked').value;
-        getData.sort((a, b) => {
-            if (selectedSort === 'az') {
-                return a.benefactorName.localeCompare(b.benefactorName);
-            } else {
-                return b.benefactorName.localeCompare(a.benefactorName);
-            }
-        });
-        showInfo();
-    }
-
-
-    resetFiltersButton.addEventListener('click', () => {
-        document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
-            input.checked = false;
-        });
-        getData = [...originalData];
-        showInfo();
-    });
-
-    //displayRows(getData, currentPage);
-    displayPagination(getData.length);
     addEventListeners();
 });
 

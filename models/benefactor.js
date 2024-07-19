@@ -6,7 +6,7 @@ const BenefactorSchema = new Schema({
     type: {
         type: String,
         required: true,
-        enum: ["Individual", "Organizational", "Government"],
+        enum: ["Individual", "Organization", "Government"],
     },
 });
 
