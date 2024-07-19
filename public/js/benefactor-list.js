@@ -15,14 +15,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    var newMemberAddBtn = document.querySelector('.addBenefactorBtn button'),
+    var newMemberAddBtn = document.querySelector('.createBtn button'),
         darkBg = document.querySelector('.dark_bg'),
         popupForm = document.querySelector('.popup'),
         crossBtn = document.querySelector('.closeBtn'),
         submitBenefactorBtn = document.querySelector('.submitBenefactorBtn'),
         modalTitle = document.querySelector('.modalTitle'),
-        form = document.querySelector('#benefactorForm'),
-        formInputFields = document.querySelectorAll('#benefactorForm input, #benefactorForm select'),
+        form = document.querySelector('#createBenefactorForm'),
+        formInputFields = document.querySelectorAll('#createBenefactorForm input, #createBenefactorForm select'),
         benefactorInfo = document.querySelector('.benefactorInfo');
     resetFiltersButton = document.getElementById('resetFiltersButton');
 
@@ -57,9 +57,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         localStorage.setItem('benefactors', JSON.stringify(originalData));
         getData = [...originalData];
-        //showInfo();
-        //darkBg.classList.remove('active');
-        //popupForm.classList.remove('active');
+
+        location.reload();
+        darkBg.classList.remove('active');
+        popupForm.classList.remove('active');
         form.reset();
     });
 
@@ -81,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 let modalInstance = bootstrap.Modal.getInstance(document.getElementById("modal-benefactor-edit"));
                 modalInstance.hide();  // Hide the modal
                 alert("Update benefactor successfully.");
-                window.location.href = "/benefactors";
+                location.reload();
             } else {
                 alert("Error updating benefactor");
             }
@@ -302,9 +303,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         let index = e?.currentTarget?.closest("tr")?.querySelector("td:first-child")?.textContent;
                         if (index) {
                             alert("Benefactor with ID " + index + " has been deleted");
+                            location.reload();
                         }
-                        // Reload the page after deletion
-                        location.reload();
                     } else {
                         // Handle deletion failure
                         alert("Failed to delete benefactor. Please try again.");

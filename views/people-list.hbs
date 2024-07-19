@@ -7,7 +7,7 @@
     <title>LPPWDFI | People Lists</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="/css/people-list-style.css">
+    <link rel="stylesheet" href="/css/List-style.css">
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 </head>
 
@@ -49,7 +49,7 @@
                     </div>
                 </div>
 
-                <div class="addPeopleBtn">
+                <div class="createBtn">
                     <button type="button" data-bs-toggle="modal" data-bs-target="#modal-people-create">Create</button>
                 </div>
 
@@ -413,7 +413,7 @@
                             <input type="date" id="recentPwdIdUpdateDate" name="recent_pwd_id_update_date" class="form-control" required>
                         </div>
                     </div>
-                    <button type="submit" class="submitPeopleBtn" form="peopleForm">Submit</button>
+                    <button type="submit" class="submitBtn" form="peopleForm">Submit</button>
                 </form>
             </div>
         </div>
@@ -434,11 +434,11 @@
             document.querySelector(".header-right").classList.toggle("toggled");
         });
 
-        const newMemberAddBtn = document.querySelector('.addPeopleBtn button'),
+        const newMemberAddBtn = document.querySelector('.createBtn button'),
             darkBg = document.querySelector('.dark_bg'),
             popupForm = document.querySelector('.popup'),
             crossBtn = document.querySelector('.btn-close'),
-            submitBtn = document.querySelector('.submitPeopleBtn'),
+            submitBtn = document.querySelector('.submitBtn'),
             modalTitle = document.querySelector('.modal-title'),
             form = document.querySelector('#peopleForm'),
             formInputFields = document.querySelectorAll('#peopleForm input, #peopleForm select'),
@@ -460,9 +460,9 @@
         });
 
         crossBtn.addEventListener('click', () => {
-            form.reset();
-            submitBtn.style.display = "block";
-            formInputFields.forEach(input => input.disabled = false);
+        form.reset();
+        submitBtn.style.display = "block";
+        formInputFields.forEach(input => input.disabled = false);
         });
 
         form.addEventListener('submit', (e) => {
