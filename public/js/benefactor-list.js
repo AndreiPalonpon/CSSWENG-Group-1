@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
         darkBg = document.querySelector('.dark_bg'),
         popupForm = document.querySelector('.popup'),
         crossBtn = document.querySelector('.closeBtn'),
-        submitBenefactorBtn = document.querySelector('.submitBenefactorBtn'),
+        submitBtn = document.querySelector('.submitBtn'),
         modalTitle = document.querySelector('.modalTitle'),
         form = document.querySelector('#createBenefactorForm'),
         formInputFields = document.querySelectorAll('#createBenefactorForm input, #createBenefactorForm select'),
@@ -170,19 +170,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function addEventListeners() {
-        document.querySelectorAll('.viewBtn').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const id = parseInt(e.currentTarget.getAttribute('data-id'));
-                readInfo(id);
-            });
-        });
-
-        document.querySelectorAll('.viewBtn').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const id = parseInt(e.currentTarget.getAttribute('data-id'));
-                readInfo(id);
-            });
-        });
         document.querySelectorAll('.editBenefactorBtn').forEach(button => {
             button.addEventListener('click', (e) => {
                 const id = e.currentTarget.closest("tr").getAttribute('data-benefactor-id');
@@ -196,21 +183,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 deleteInfo(id, e);
             });
 
-        });
-        // Event listeners for sorting and filtering
-        document.querySelectorAll('input[name="nameSort"]').forEach(radio => {
-            radio.addEventListener('change', () => {
-                sortData();
-                displayRows(getData, currentPage);
-                displayPagination(getData.length);
-            });
-        });
-        document.querySelectorAll('input[name="typeFilter"], input[name="frequencyFilter"], input[name="assistanceFilter"]').forEach(checkbox => {
-            checkbox.addEventListener('change', () => {
-                filterData();
-                displayRows(getData, currentPage);
-                displayPagination(getData.length);
-            });
         });
     }
 

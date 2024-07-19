@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', function() {
         crossBtn = document.querySelector('.closeBtn'),
         submitBtn = document.querySelector('.submitBtn'),
         modalTitle = document.querySelector('.modalTitle'),
-        form = document.querySelector('#benefitForm'),
-        formInputFields = document.querySelectorAll('#benefitForm input, #benefitForm select'),
+        form = document.querySelector('#createBenefitForm'),
+        formInputFields = document.querySelectorAll('#createBenefitForm input, #createBenefitForm select'),
         benefitInfo = document.querySelector('.benefitInfo'),
         resetFiltersButton = document.getElementById('resetFiltersButton');
 
