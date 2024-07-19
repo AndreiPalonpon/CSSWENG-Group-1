@@ -225,8 +225,11 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => console.error('Error fetching filtered data:', error));
     }
+    // Initialize event listeners
+    addEventListeners();
+});
 
-    // CSV export functions
+// CSV export functions
     function downloadCSV(csv, filename) {
         let csvFile;
         let downloadLink;
@@ -254,7 +257,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         downloadCSV(csv.join('\n'), filename);
     }
-
-    // Initialize event listeners
-    addEventListeners();
-});

@@ -17,11 +17,34 @@ function requireAuth(req, res, next) {
 
 router.use(requireAuth);
 
-// GET request to list all benefactors
-router.get('/', asyncHandler(async (req, res) => {
-    const benefactors = await Benefactor.find().sort({ name: 1 }).exec();
-    console.log(benefactors);
-    res.render("benefactor-list", { benefactors });
+// GET request to list all benefactors with sorting and filtering
+router.get('/', asyncHandler(async(req, res) => {
+    const { nameSort, typeFilter } = req.query;
+
+    let sortOptions = {};
+    let filterOptions = {};
+
+    if (nameSort) {
+        sortOptions['name'] = nameSort === 'az' ? 1 : -1;
+    }
+
+    if (typeFilter) {
+        filterOptions.type = { $in: typeFilter.split(',') };
+    }
+
+    // Logging for debugging
+    console.log('Filter Options:', filterOptions);
+    console.log('Sort Options:', sortOptions);
+
+    const benefactors = await Benefactor.find(filterOptions)
+        .sort(sortOptions)
+        .exec();
+
+    console.log('Filtered Benefactors:', benefactors);
+
+    res.render("benefactor-list", {
+        benefactors
+    });
 }));
 
 // POST request for creating benefactor
