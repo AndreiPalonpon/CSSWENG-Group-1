@@ -12,15 +12,15 @@ document.addEventListener('DOMContentLoaded', function() {
     let getData = [...originalData];
 
     let isEdit = false,
-        editId;
+    editId;
 
-    // Event listeners setup
     document.getElementById("menu-toggle").addEventListener("click", function() {
         document.getElementById("wrapper").classList.toggle("toggled");
         document.querySelector(".main-content").classList.toggle("toggled");
         document.querySelector(".header-right").classList.toggle("toggled");
     });
 
+    // Add event listeners to filter elements
     document.querySelectorAll('input[name="nameSort"]').forEach(input => {
         input.addEventListener('change', applyFiltersAndSort);
     });
