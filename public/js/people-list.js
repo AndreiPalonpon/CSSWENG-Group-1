@@ -1,3 +1,10 @@
+function formatDate(date) {
+    let d = new Date(date);
+    let fullMonth = d.getMonth() < 10 ? "0" + d.getMonth() : d.getMonth();
+    let fullDate = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
+    return d.getFullYear() + '-' + fullMonth + '-' + fullDate;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const newMemberAddBtn = document.querySelector('.createBtn button'),
         darkBg = document.querySelector('.dark_bg'),
@@ -104,7 +111,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.getElementById("editPeopleForm").addEventListener('submit', (e) => {
-        e.preventDefault();
         let people_id = document.getElementById("editPeopleId").value;
         let people_firstName = document.getElementById("editFirstName").value;
         let people_lastName = document.getElementById("editLastName").value;
@@ -120,25 +126,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let people = {
             id: people_id,
-            firstName: people_firstName,
-            lastName: people_lastName,
+            first_name: people_firstName,
+            last_name: people_lastName,
             gender: people_gender,
             birthdate: people_birthdate,
             address: people_address,
             barangay: people_barangay,
-            contactNumber: people_contactNumber,
-            disabilityType: people_disabilityType,
+            contact_number: people_contactNumber,
+            disability_type: people_disabilityType,
             disability: people_disability,
             pwd_card_id_no: people_pwd_card_id_no,
             recent_pwd_id_update_date: people_recent_pwd_id_update_date,
         };
 
+        e.preventDefault();
+
+
         $.post("/people/edit", people, (data, status, xhr) => {
             if (status === "success" && xhr.status === 200) {
-                let modalInstance = bootstrap.Modal.getInstance(document.getElementById("modal-people-edit"));
-                modalInstance.hide();  // Hide the modal
-                alert("Update person successfully.");
-                location.reload();
+                alert("Person updated successfully.");
+                location.reload(); 
             } else {
                 alert("Error updating person");
             }
@@ -164,17 +171,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function onBtnEditClick(e) {
         let people_id = e.currentTarget.closest("tr").getAttribute("data-person-id");
-        let people_firstName = e.currentTarget.closest("tr").querySelector(".people-firstName").textContent;
-        let people_lastName = e.currentTarget.closest("tr").querySelector(".people-lastName").textContent;
-        let people_gender = e.currentTarget.closest("tr").querySelector(".people-gender").textContent;
-        let people_birthdate = e.currentTarget.closest("tr").querySelector(".people-birthdate").textContent;
-        let people_address = e.currentTarget.closest("tr").querySelector(".people-address").textContent;
-        let people_barangay = e.currentTarget.closest("tr").querySelector(".people-barangay").textContent;
-        let people_contactNumber = e.currentTarget.closest("tr").querySelector(".people-contactNumber").textContent;
-        let people_disabilityType = e.currentTarget.closest("tr").querySelector(".people-disabilityType").textContent;
-        let people_disability = e.currentTarget.closest("tr").querySelector(".people-disability").textContent;
-        let people_pwd_card_id_no = e.currentTarget.closest("tr").querySelector(".people-pwd_card_id_no").textContent;
-        let people_recent_pwd_id_update_date = e.currentTarget.closest("tr").querySelector(".people-recent_pwd_id_update_date").textContent;
+        let people_firstName = e.currentTarget.closest("tr").querySelector("td:nth-child(2)").textContent;
+        let people_lastName = e.currentTarget.closest("tr").querySelector("td:nth-child(3)").textContent;
+        let people_gender = e.currentTarget.closest("tr").querySelector("td:nth-child(4)").textContent;
+        let people_birthdate = e.currentTarget.closest("tr").querySelector("td:nth-child(5)").textContent;
+        let people_address = e.currentTarget.closest("tr").querySelector("td:nth-child(6)").textContent;
+        let people_barangay = e.currentTarget.closest("tr").querySelector("td:nth-child(7)").textContent;
+        let people_contactNumber = e.currentTarget.closest("tr").querySelector("td:nth-child(8)").textContent;
+        let people_disabilityType = e.currentTarget.closest("tr").querySelector("td:nth-child(9)").textContent;
+        let people_disability = e.currentTarget.closest("tr").querySelector("td:nth-child(10)").textContent;
+        let people_pwd_card_id_no = e.currentTarget.closest("tr").querySelector("td:nth-child(11)").textContent;
+        let people_recent_pwd_id_update_date = e.currentTarget.closest("tr").querySelector("td:nth-child(12)").textContent;
 
         let modal_edit = document.getElementById("modal-people-edit");
         let modal_edit_id = modal_edit.querySelector("#editPeopleId");
@@ -194,14 +201,14 @@ document.addEventListener('DOMContentLoaded', function() {
         modal_edit_firstName.value = people_firstName;
         modal_edit_lastName.value = people_lastName;
         modal_edit_gender.value = people_gender;
-        modal_edit_birthdate.value = people_birthdate;
+        modal_edit_birthdate.value = formatDate(people_birthdate);
         modal_edit_address.value = people_address;
         modal_edit_barangay.value = people_barangay;
         modal_edit_contactNumber.value = people_contactNumber;
         modal_edit_disabilityType.value = people_disabilityType;
         modal_edit_disability.value = people_disability;
         modal_edit_pwd_card_id_no.value = people_pwd_card_id_no;
-        modal_edit_recent_pwd_id_update_date.value = people_recent_pwd_id_update_date;
+        modal_edit_recent_pwd_id_update_date.value = formatDate(people_recent_pwd_id_update_date);
     }
 
     function editInfo(id, e) {

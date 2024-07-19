@@ -114,26 +114,8 @@ router.post('/edit', asyncHandler(async (req, res, next) => {
             disability, pwd_card_id_no, 
             recent_pwd_id_update_date } = req.body;
 
-    // Validate required fields
-    if (!first_name || !last_name || !gender || !birthdate || 
-        !address || !barangay || !contact_number || 
-        !disability_type || !disability || !pwd_card_id_no || 
-        !recent_pwd_id_update_date) {
-        return res.status(400).send('All fields are required'); // HTTP 400: Bad Request
-    }
 
-    // Check if the provided barangay is valid
-    const validBarangays = [
-        "Almanza Uno", "Daniel Fajardo", "Elias Aldana", "Ilaya", 
-        "Manuyo Uno", "Pamplona Uno", "Pulanglupa Uno", "Talon Uno", 
-        "Zapote", "Almanza Dos", "BF International/CAA", "Manuyo Dos", 
-        "Pamplona Dos", "Pamplona Tres", "Pilar", "Pulanglupa Dos", 
-        "Talon Dos", "Talon Tres", "Talos Kuartro", "Talon Singko"
-    ];
-
-    if (!validBarangays.includes(barangay)) {
-        return res.status(400).send('Invalid barangay'); // HTTP 400: Bad Request
-    }
+    
 
     // Convert birthdate and recent_pwd_id_update_date to Date objects
     let birthdateDate, recentPwdUpdateDate;
@@ -149,27 +131,26 @@ router.post('/edit', asyncHandler(async (req, res, next) => {
         first_name,
         last_name,
         gender,
-        birthdate: birthdateDate,
+        birthdate,
         address,
         barangay,
         contact_number,
         disability_type,
         disability,
         pwd_card_id_no,
-        recent_pwd_id_update_date: recentPwdUpdateDate,
+        recent_pwd_id_update_date,
     };
 
     try {
-        // Perform the update operation
         const result = await Person.updateOne({ _id: id }, person);
 
         if (result.nModified === 0) {
             return res.status(404).send('Person not found'); // HTTP 404: Not Found
         }
-
+        console.log("People updated successfully:", id);
         res.sendStatus(200); // HTTP 200: OK
     } catch (error) {
-        next(error); // Pass the error to the error handler middleware
+        next(error); 
     }
 }));
 
