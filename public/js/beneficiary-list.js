@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', function() {
         modalTitle = document.querySelector('.modalTitle'),
         form = document.querySelector('#createBeneficiaryForm'),
         formInputFields = document.querySelectorAll('#createBeneficiaryForm input, #createBeneficiaryForm select'),
-        programInfo = document.querySelector('.programInfo');
-    resetFiltersButton = document.getElementById('resetFiltersButton');
+        programInfo = document.querySelector('.programInfo'),
+        resetFiltersButton = document.getElementById('resetFiltersButton');
 
     let originalData = localStorage.getItem('beneficiaries') ? JSON.parse(localStorage.getItem('beneficiaries')) : [];
     let getData = [...originalData];
@@ -74,7 +74,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function editInfo(id) {
-        
         isEdit = true;
         editId = getData.findIndex(item => item.id === id);
         const beneficiary = getData[editId];
@@ -97,22 +96,42 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    
     function deleteInfo(id, e) {
         if (confirm("Are you sure you want to delete this beneficiary?")) {
+            console.log(id);
+            // Remove item from localStorage
             originalData = originalData.filter(item => item.id !== id);
-            localStorage.setItem('programs', JSON.stringify(originalData));
-            getData = [...originalData];
-            let index = e ? .currentTarget ? .closest("tr") ? .querySelector("td:first-child") ? .textContent;
-            console.log("Deleting the selected beneficiary...");
-            $.post(`/beneficiaries/delete`, { beneficiary_id: id }, (data, status, xhr) => {
-                if (status === "success" && xhr.status === 200) {
-                    alert("Beneficiary with ID " + index + " has been deleted");
-                } else {
-                    alert("Error: Beneficiary with ID " + index + " cannot be deleted");
-                }
-                location.reload();
-            });
-            e.currentTarget.closest("tr").remove();
+            localStorage.setItem('beneficiaries', JSON.stringify(originalData));
+
+            // Make a copy of originalData if needed
+            let getData = [...originalData];
+
+            // Handle deletion via AJAX request
+            $.post(`/beneficiaries/delete`, {beneficiary_id: id})
+                .done((data, status, xhr) => {
+                    // Check if deletion was successful
+                    if (status === "success" && xhr.status === 200) {
+                        // Display success message
+                        let index = e?.currentTarget?.closest("tr")?.querySelector("td:first-child")?.textContent;
+                        if (index) {
+                            alert("Beneficiary has been deleted");
+                            location.reload();
+                        }
+                    } else {
+                        // Handle deletion failure
+                        alert("Failed to delete beneficiary. Please try again.");
+                    }
+                })
+                .fail((xhr, status, error) => {
+                    // Handle AJAX request failure
+                    alert("Error deleting beneficiary. Please try again later.");
+                    console.error(error);
+                });
+            // Remove the table row from the UI
+            if (e?.currentTarget) {
+                e.currentTarget.closest("tr").remove();
+            }
         }
     }
 
