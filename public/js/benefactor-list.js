@@ -62,8 +62,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         $.post("/benefactors/create", benefactor, (data, status, xhr) => {
             if (status === "success" && xhr.status === 201) {
-                alert("Program \"" + benefactor.benefactorName + "\" has been created.");
+                alert("Benefactor has been created.");
                 bootstrap.Modal.getInstance(document.getElementById("modal-benefactor-create")).hide();
+                location.reload();
             }
         });
 
