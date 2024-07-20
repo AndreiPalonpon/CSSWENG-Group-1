@@ -57,6 +57,25 @@ router.get('/', asyncHandler(async(req, res) => {
     });
 }));
 
+router.post('/create', asyncHandler(async (req, res, next) => {
+    const { benefitName, benefitDesc, quantity, dateReceived, benefactor } = req.body;
+
+    const newBenefit = new Benefit({
+        name: benefitName,
+        description: benefitDesc,
+        quantity: quantity,
+        date_received: dateReceived,
+        benefactor: benefactor
+    });
+
+    await newBenefit.save();
+
+    console.log("New benefit instance saved.");
+    res.redirect('/benefits');
+    res.sendStatus(201);
+}));
+
+
 // POST request for editing item
 // router.post('/edit', asyncHandler(async (req, res, next) => { //Change to post. POST will be used.
 //     const {benefit_id, name, description,

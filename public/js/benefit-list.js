@@ -86,8 +86,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         $.post("/benefits/create", benefit, (data, status, xhr) => {
             if (status === "success" && xhr.status === 201) {
-                alert("Benefits \"" + benefit.benefitName + "\" has been created.");
+                alert("Benefits has been created.");
                 bootstrap.Modal.getInstance(document.getElementById("modal-benefit-create")).hide();
+                location.reload();
             }
         });
 
