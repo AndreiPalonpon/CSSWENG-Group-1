@@ -1,18 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
     const newMemberAddBtn = document.querySelector('.createBtn button'),
-        darkBg = document.querySelector('.dark_bg'),
-        popupForm = document.querySelector('.popup'),
-        crossBtn = document.querySelector('.btn-close'),
-        submitBtn = document.querySelector('.submitBtn'),
-        modalTitle = document.querySelector('.modal-title'),
-        form = document.querySelector('#createProgramForm'),
-        formInputFields = document.querySelectorAll('#createProgramForm input, #createProgramForm select');
+          darkBg = document.querySelector('.dark_bg'),
+          popupForm = document.querySelector('.popup'),
+          crossBtn = document.querySelector('.btn-close'),
+          submitBtn = document.querySelector('.submitBtn'),
+          modalTitle = document.querySelector('.modal-title'),
+          form = document.querySelector('#createProgramForm'),
+          formInputFields = document.querySelectorAll('#createProgramForm input, #createProgramForm select');
 
     let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
     let getData = [...originalData];
 
     let isEdit = false,
-    editId;
+        editId;
 
     document.getElementById("menu-toggle").addEventListener("click", function() {
         document.getElementById("wrapper").classList.toggle("toggled");
@@ -189,7 +189,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     } else {
                         alert("Failed to delete program. Please try again.");
                     }
-                }).fail((xhr, status, error) => {
+                })
+                .fail((xhr, status, error) => {
                     alert("Error deleting program. Please try again later.");
                     console.error(error);
                 });
@@ -226,6 +227,10 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error fetching filtered data:', error));
     }
 
+    // Initialize event listeners
+    addEventListeners();
+});
+
     // CSV export functions
     function downloadCSV(csv, filename) {
         let csvFile;
@@ -245,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let csv = [];
         for (let i = 0; i < rows.length; i++) {
             const row = [],
-                cols = rows[i].querySelectorAll('td, th');
+                  cols = rows[i].querySelectorAll('td, th');
             for (let j = 0; j < cols.length; j++) {
                 const data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ');
                 row.push('"' + data + '"');
@@ -254,7 +259,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         downloadCSV(csv.join('\n'), filename);
     }
-
-    // Initialize event listeners
-    addEventListeners();
-});

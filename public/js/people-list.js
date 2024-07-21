@@ -111,6 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.getElementById("editPeopleForm").addEventListener('submit', (e) => {
+        e.preventDefault(); // Prevent default form submission
         let people_id = document.getElementById("editPeopleId").value;
         let people_firstName = document.getElementById("editFirstName").value;
         let people_lastName = document.getElementById("editLastName").value;
@@ -139,12 +140,11 @@ document.addEventListener('DOMContentLoaded', function() {
             recent_pwd_id_update_date: people_recent_pwd_id_update_date,
         };
 
-        e.preventDefault();
-
-
         $.post("/people/edit", people, (data, status, xhr) => {
             if (status === "success" && xhr.status === 200) {
-                alert("Person updated successfully.");
+                let modalInstance = bootstrap.Modal.getInstance(document.getElementById("modal-people-edit"));
+                modalInstance.hide(); // Hide the modal
+                alert("Update person successfully.");
                 location.reload(); 
             } else {
                 alert("Error updating person");
@@ -170,6 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function onBtnEditClick(e) {
+        e.preventDefault(); // Prevent default form submission
         let people_id = e.currentTarget.closest("tr").getAttribute("data-person-id");
         let people_firstName = e.currentTarget.closest("tr").querySelector("td:nth-child(2)").textContent;
         let people_lastName = e.currentTarget.closest("tr").querySelector("td:nth-child(3)").textContent;
@@ -239,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function deleteInfo(id, e) {
         if (confirm("Are you sure you want to delete this person?")) {
             originalData = originalData.filter(item => item.id !== parseInt(id, 10));
-            localStorage.setItem('programs', JSON.stringify(originalData));
+            localStorage.setItem('people', JSON.stringify(originalData));
 
             $.post(`/people/delete`, { person_id: id })
                 .done((data, status, xhr) => {
@@ -285,7 +286,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => console.error('Error fetching filtered data:', error));
     }
-
+    // Initialize event listeners
     addEventListeners();
 });
 

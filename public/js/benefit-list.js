@@ -15,6 +15,21 @@ function setSelectedValue(selectObj, valueToSet) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    const newMemberAddBtn = document.querySelector('.createBtn button'),
+        darkBg = document.querySelector('.dark_bg'),
+        popupForm = document.querySelector('.popup'),
+        crossBtn = document.querySelector('.closeBtn'),
+        submitBtn = document.querySelector('.submitBtn'),
+        modalTitle = document.querySelector('.modalTitle'),
+        form = document.querySelector('#createBenefitForm'),
+        formInputFields = document.querySelectorAll('#createBenefitForm input, #createBenefitForm select');
+
+    let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
+    let getData = [...originalData];
+
+    let isEdit = false,
+        editId;
+
     document.getElementById("menu-toggle").addEventListener("click", function() {
         document.getElementById("wrapper").classList.toggle("toggled");
         document.querySelector(".main-content").classList.toggle("toggled");
@@ -40,31 +55,20 @@ document.addEventListener('DOMContentLoaded', function() {
         applyFiltersAndSort();
     });
 
-    $(document).ready(function() {
-        $("#myInput").on("keyup", function() {
-            let value = $(this).val().toLowerCase();
-            $(".dropdown-menu li").filter(function() {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-            });
-        });
+    newMemberAddBtn.addEventListener('click', () => {
+        isEdit = false;
+        submitBtn.innerHTML = "Submit";
+        modalTitle.innerHTML = "Fill the Form";
+        form.reset();
+        formInputFields.forEach(input => input.disabled = false);
+        submitBtn.style.display = "block";
     });
 
-    let newMemberAddBtn = document.querySelector('.addBenefitBtn button'),
-        darkBg = document.querySelector('.dark_bg'),
-        popupForm = document.querySelector('.popup'),
-        crossBtn = document.querySelector('.closeBtn'),
-        submitBtn = document.querySelector('.submitBtn'),
-        modalTitle = document.querySelector('.modalTitle'),
-        form = document.querySelector('#createBenefitForm'),
-        formInputFields = document.querySelectorAll('#createBenefitForm input, #createBenefitForm select'),
-        benefitInfo = document.querySelector('.benefitInfo'),
-        resetFiltersButton = document.getElementById('resetFiltersButton');
-
-    let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
-    let getData = [...originalData];
-
-    let isEdit = false,
-        editId;
+    crossBtn.addEventListener('click', () => {
+        form.reset();
+        submitBtn.style.display = "block";
+        formInputFields.forEach(input => input.disabled = false);
+    });
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -87,7 +91,6 @@ document.addEventListener('DOMContentLoaded', function() {
         $.post("/benefits/create", benefit, (data, status, xhr) => {
             if (status === "success" && xhr.status === 201) {
                 alert("Benefits has been created.");
-                bootstrap.Modal.getInstance(document.getElementById("modal-benefit-create")).hide();
                 location.reload();
             }
         });
@@ -102,6 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.getElementById("editBenefitForm").addEventListener('submit', (e) => {
+        e.preventDefault(); // Prevent default form submission
         let benefit_id = document.getElementById("editBenefitId").value;
         let benefit_name = document.getElementById("editBenefitName").value;
         let benefit_desc = document.getElementById("editBenefitDesc").value;
@@ -118,28 +122,26 @@ document.addEventListener('DOMContentLoaded', function() {
             benefactor: benefit_benefactor
         };
 
-        e.preventDefault();
-
         $.post("/benefits/edit", benefit, (data, status, xhr) => {
             if (status === "success" && xhr.status === 200) {
                 let modalInstance = bootstrap.Modal.getInstance(document.getElementById("modal-benefit-edit"));
                 modalInstance.hide();
-                alert("Benefit updated successfully.");
+                alert("Update benefit successfully.");
                 location.reload();
             } else {
-                console.log(benefit);
+                alert("Error updating benefit");
             }
         }).fail(() => {
             alert("Error updating benefit");
-            console.log(benefit);
         });
     });
 
+    // Edit and delete event handlers
     function addEventListeners() {
         document.querySelectorAll('.editBtn').forEach(button => {
             button.addEventListener('click', (e) => {
                 const id = e.currentTarget.closest("tr").getAttribute('data-benefit-id');
-                editBenefitInfo(id, e);
+                editInfo(id, e);
             });
         });
         document.querySelectorAll('.deleteBtn').forEach(button => {
@@ -174,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setSelectedValue(modal_edit_benefactor, benefit_benefactor);
     }
 
-    function editBenefitInfo(id, e) {
+    function editInfo(id, e) {
         onBtnEditClick(e);
         isEdit = true;
         editId = getData.findIndex(item => item.id === id);
@@ -198,16 +200,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (confirm("Are you sure you want to delete this benefit?")) {
             originalData = originalData.filter(item => item.id !== id);
             localStorage.setItem('benefits', JSON.stringify(originalData));
-            getData = [...originalData];
 
             $.post(`/benefits/delete`, { benefit_id: id })
                 .done((data, status, xhr) => {
                     if (status === "success" && xhr.status === 200) {
                         let index = e?.currentTarget?.closest("tr")?.querySelector("td:first-child")?.textContent;
-                        if (index) {
-                            alert("Benefit with ID " + index + " has been deleted");
-                            location.reload();
-                        }
+                        alert("Benefit has been deleted");
+                        location.reload();
                     } else {
                         alert("Failed to delete benefit. Please try again.");
                     }
@@ -216,13 +215,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     alert("Error deleting benefit. Please try again later.");
                     console.error(error);
                 });
-
-            if (e?.currentTarget) {
-                e.currentTarget.closest("tr").remove();
-            }
         }
     }
 
+    // Filter and sort function
     function applyFiltersAndSort() {
         const nameSort = $('input[name="nameSort"]:checked').val();
         const quantitySort = $('input[name="quantitySort"]:checked').val();
@@ -249,33 +245,34 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error fetching filtered data:', error));
     }
 
+    // Initialize event listeners
     addEventListeners();
 });
 
-function downloadCSV(csv, filename) {
-    let csvFile;
-    let downloadLink;
-    csvFile = new Blob([csv], { type: 'text/csv' });
+    function downloadCSV(csv, filename) {
+        let csvFile;
+        let downloadLink;
+        csvFile = new Blob([csv], { type: 'text/csv' });
 
-    downloadLink = document.createElement('a');
-    downloadLink.download = filename;
-    downloadLink.href = window.URL.createObjectURL(csvFile);
-    downloadLink.style.display = 'none';
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-}
-
-function exportTableToCSV(filename) {
-    const rows = document.querySelectorAll('.table-container table tr');
-    let csv = [];
-    for (let i = 0; i < rows.length; i++) {
-        const row = [];
-        const cols = rows[i].querySelectorAll('td, th');
-        for (let j = 0; j < cols.length; j++) {
-            const data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ');
-            row.push('"' + data + '"');
-        }
-        csv.push(row.join(','));
+        downloadLink = document.createElement('a');
+        downloadLink.download = filename;
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+        downloadLink.style.display = 'none';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
     }
-    downloadCSV(csv.join('\n'), filename);
-}
+
+    function exportTableToCSV(filename) {
+        const rows = document.querySelectorAll('.table-container table tr');
+        let csv = [];
+        for (let i = 0; i < rows.length; i++) {
+            const row = [];
+            const cols = rows[i].querySelectorAll('td, th');
+            for (let j = 0; j < cols.length; j++) {
+                const data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ');
+                row.push('"' + data + '"');
+            }
+            csv.push(row.join(','));
+        }
+        downloadCSV(csv.join('\n'), filename);
+    }
