@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const newMemberAddBtn = document.querySelector('.createBtn button'),
         darkBg = document.querySelector('.dark_bg'),
         popupForm = document.querySelector('.popup'),
-        crossBtn = document.querySelector('.btn-close'),
+        crossBtn = document.querySelector('.closeBtn'),
         submitBtn = document.querySelector('.submitBtn'),
         modalTitle = document.querySelector('.modal-title'),
         form = document.querySelector('#createPeopleForm'),
@@ -59,16 +59,12 @@ document.addEventListener('DOMContentLoaded', function() {
         form.reset();
         formInputFields.forEach(input => input.disabled = false);
         submitBtn.style.display = "block";
-        darkBg.classList.add('active');
-        popupForm.classList.add('active');
     });
 
     crossBtn.addEventListener('click', () => {
         form.reset();
         submitBtn.style.display = "block";
         formInputFields.forEach(input => input.disabled = false);
-        darkBg.classList.remove('active');
-        popupForm.classList.remove('active');
     });
 
     form.addEventListener('submit', (e) => {
