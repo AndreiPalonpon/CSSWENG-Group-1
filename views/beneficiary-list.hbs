@@ -15,7 +15,6 @@
 <body>
     <div id="wrapper">
         <div class="overlay dark_bg"></div>
-        <!-- Modal Background -->
 
          <!-- Sidebar -->
         <nav class="navbar navbar-inverse fixed-top" id="sidebar-wrapper" role="navigation">
@@ -42,9 +41,8 @@
                 </li>
             </ul>
         </nav>
-        <!-- /#sidebar-wrapper -->
 
-        <!-- HEADER -->
+        <!-- Header -->
         <div class="bg-half-gradient">
             <header class="bg-gradient">
                 <div class="container d-flex align-items-center">
@@ -63,64 +61,8 @@
             </header>
         </div>
 
-        <!--MODAL FORM-->
-        <div class="popup">
-            <header>
-                <h2 class="modalTitle">Fill the Form</h2>
-                <span class="closeBtn">&times;</span>
-            </header>
-            <form id="createBeneficiaryForm" action="/beneficiaries/create" method="POST">
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="personRegistered">Person Registered</label>
-                        <select class="form-control" id="personRegistered" name="personRegistered" required>
-                            <option value="" selected disabled>Choose...</option>
-                            {{#each people}}
-                            <option value="{{this._id}}">{{this.name}}</option>
-                            {{/each}}
-                        </select>
-                    </div>
 
-                    <div class="form-group col-md-6">
-                        <label for="programEnrolled">Program Enrolled</label>
-                            <!-- Hidden input to hold the program ID -->
-                                <input type="hidden" id="programEnrolled" name="programEnrolled" value="{{program._id}}">
-                            <!-- Visible, disabled input to display the program name -->
-                                <input type="text" class="form-control" value="{{program.name}}" readonly>
-
-                    </div>
-
-                     <div class="form-group col-md-6">
-                        <label for="status">Status</label>
-                        <select class="form-control" id="status" name="status" required>
-                            <option value="" selected disabled>Choose...</option>
-                            <!-- Not final. The options can be changed. -->
-                            <option value="Active">Active</option>
-                            <option value="Suspended">Suspended</option>
-                            <option value="Terminated">Terminated</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group col-md-6">
-                        <label for="benefitDelivered">Benefit Delivered</label>
-                        <select class="form-control" id="benefitDelivered" name="benefitDelivered" required>
-                            <option value="" selected disabled>Choose...</option>
-                            {{#each benefits}}
-                            <option value="{{this._id}}">{{this.name}}</option>
-                            {{/each}}
-                        </select>
-                    </div>
-
-                    <div class="form-group col-md-6">
-                        <label for="date_received">Date Received</label>
-                        <input type="date" class="form-control" id="date_received" name="date_received" placeholder="Date" required>
-                    </div>
-                </div>
-                <input type="submit" class="submitBtn" value="Submit">
-            </form>
-        </div>
-
-        <!--2nd Header-->
+        <!-- Main Content -->
         <main class="main-content">
             <h2 class="main-title">Beneficiaries for <a href="/documentation/{{program._id}}">{{program.name}}</a></h2>
 
@@ -128,7 +70,7 @@
                 <button class="btn export-btn" onclick="exportTableToCSV('Beneficiaries.csv')">Export to CSV</button>
             </div>
 
-            <!---TABLE LISTS-->
+            <!-- Table List -->
             <div class="table-container">
                 <form id="filter-form">
                 <button id="resetFiltersButton" class="btn btn-secondary">Reset Filters</button>
@@ -205,18 +147,18 @@
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="programInfo">
+                    <tbody>
                         <!-- Program rows will be populated here -->
                         {{#each beneficiaries}}
-                        <tr>
+                        <tr data-beneficiary-id="{{this._id}}">
                             <th scope="row">{{incremented @index}}</th>
-                            <td>{{this.person_registered.name}}</td>
-                            <td>{{this.program_enrolled.name}}</td>
-                            <td>{{this.status}}</td>
-                            <td>{{this.benefit_delivered.name}}</td>
-                            <td>{{formatDate this.date_received}}</td>
+                            <td class="beneficiary-name">{{this.person_registered.name}}</td>
+                            <td class="program-enrolled">{{this.program_enrolled.name}}</td>
+                            <td class="status">{{this.status}}</td>
+                            <td class="benefit-delivered">{{this.benefit_delivered.name}}</td>
+                            <td class="date-received">{{formatDate this.date_received}}</td>
                             <td>
-                                <button class="editBtn" data-id="{{this._id}}"><i class="bi bi-pencil"></i></button>
+                                <button class="editBtn" data-bs-toggle="modal" data-bs-target="#modal-beneficiary-edit"><i class="bi bi-pencil"></i></button>
                                 <button class="deleteBtn" data-id="{{this._id}}"><i class="bi bi-trash"></i></button>
                             </td>
                         </tr>
@@ -232,6 +174,141 @@
                 <!-- Pagination items will be dynamically added here -->
             </ul>
         </nav>
+
+        <!-- Create Beneficiary Modal -->
+<div class="modal fade" id="modal-beneficiary-create">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Fill the Form</h2>
+                <button type="button" class="closeBtn" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="createBeneficiaryForm" action="/beneficiaries/create" method="POST">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="personRegistered">Person Registered</label>
+                            <select class="form-control" id="personRegistered" name="personRegistered" required>
+                                <option value="" selected disabled>Choose...</option>
+                                {{#each people}}
+                                <option value="{{this._id}}">{{this.name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="programEnrolled">Program Enrolled</label>
+                            <!-- Hidden input to hold the program ID -->
+                            <input type="hidden" id="programEnrolled" name="programEnrolled" value="{{program._id}}">
+                            <!-- Visible, disabled input to display the program name -->
+                            <input type="text" class="form-control" value="{{program.name}}" readonly>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="status">Status</label>
+                            <select class="form-control" id="status" name="status" required>
+                                <option value="" selected disabled>Choose...</option>
+                                <!-- Not final. The options can be changed. -->
+                                <option value="Active">Active</option>
+                                <option value="Suspended">Suspended</option>
+                                <option value="Terminated">Terminated</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="benefitDelivered">Benefit Delivered</label>
+                            <select class="form-control" id="benefitDelivered" name="benefitDelivered" required>
+                                <option value="" selected disabled>Choose...</option>
+                                {{#each benefits}}
+                                <option value="{{this._id}}">{{this.name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="dateReceived">Date Received</label>
+                            <input type="date" class="form-control" id="dateReceived" name="dateReceived" placeholder="Date" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="submitBtn" form="createBeneficiaryForm">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Beneficiary Modal -->
+<div class="modal fade" id="modal-beneficiary-edit" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="editBeneficiaryModalLabel">Edit Beneficiary</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editBeneficiaryForm" action="/beneficiaries/edit" method="POST">
+                    <input type="hidden" id="editBeneficiaryId" name="id">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="editPersonRegistered" class="form-label">Person Registered</label>
+                            <select class="form-control" id="editPersonRegistered" name="personRegistered" required>
+                                <option value="" selected disabled>Choose...</option>
+                                {{#each people}}
+                                <option value="{{this._id}}">{{this.name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+    <label for="editProgramEnrolled" class="form-label">Program Enrolled</label>
+    <!-- Dropdown to select the program -->
+    <select class="form-control" id="editProgramEnrolled" name="programEnrolled">
+        <option value="" disabled selected>Select a program</option>
+        <!-- Add options dynamically here -->
+        {{#each programs}}
+                                <option value="{{this._id}}">{{this.name}}</option>
+                                {{/each}}
+        <!-- Continue adding more options as needed -->
+    </select>
+</div>
+
+
+                        <div class="form-group col-md-6">
+                            <label for="editStatus" class="form-label">Status</label>
+                            <select class="form-control" id="editStatus" name="status" required>
+                                <option value="" selected disabled>Choose...</option>
+                                <option value="Active">Active</option>
+                                <option value="Suspended">Suspended</option>
+                                <option value="Terminated">Terminated</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="editBenefitDelivered" class="form-label">Benefit Delivered</label>
+                            <select class="form-control" id="editBenefitDelivered" name="benefitDelivered" required>
+                                <option value="" selected disabled>Choose...</option>
+                                {{#each benefits}}
+                                <option value="{{this._id}}">{{this.name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="editDateReceived" class="form-label">Date Received</label>
+                            <input type="date" class="form-control" id="editDateReceived" name="date_received" placeholder="Date" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="submitBtn" form="editBeneficiaryForm">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
         <!-- JQuery -->
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

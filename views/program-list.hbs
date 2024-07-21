@@ -67,7 +67,7 @@
                 <button class="btn export-btn" onclick="exportTableToCSV('Programs.csv')">Export to CSV</button>
             </div>
 
-            <!---Table List-->
+            <!-- Table List -->
             <div class="table-container">
                 <form id="filter-form">
                     <button id="resetFiltersButton" class="btn btn-secondary">Reset Filters</button>
@@ -192,7 +192,7 @@
                             {{#each programs}}
                             <tr data-id="{{this._id}}">
                                 <td class="program-index">{{incremented @index}}</td>
-                                <td class="program-name"><a href="/beneficiaries/{{this._id}}">{{this.name}}</a></td>
+                                <td dateReceiveddateReceived><a href="/beneficiaries/{{this._id}}">{{this.name}}</a></td>
                                 <td class="program-lastupdate-date">{{formatDate this.recent_update_date}}</td>
                                 <td class="program-creation-date">{{formatDate this.creation_date}}</td>
                                 <td class="program-type">{{this.program_type}}</td>

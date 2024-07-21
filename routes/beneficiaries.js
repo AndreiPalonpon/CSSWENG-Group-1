@@ -107,7 +107,7 @@ router.post('/create', asyncHandler(async(req, res) => {
         personRegistered,
         status,
         benefitDelivered,
-        date_received
+        dateReceived
     } = req.body;
 
     console.log(personRegistered);
@@ -117,7 +117,7 @@ router.post('/create', asyncHandler(async(req, res) => {
         program_enrolled: programId, // Use programId here
         status,
         benefit_delivered: benefitDelivered,
-        date_received
+        date_received: dateReceived
     });
 
     await newBeneficiary.save();
@@ -130,7 +130,7 @@ router.post('/create', asyncHandler(async(req, res) => {
 
 
 // POST request for editing beneficiary
-router.post('/edit', asyncHandler(async(req, res) => {
+router.post('/edit', asyncHandler(async (req, res) => {
     const {
         id,
         person_registered,
@@ -140,18 +140,33 @@ router.post('/edit', asyncHandler(async(req, res) => {
         date_received
     } = req.body;
 
-    const beneficiary = {
-        person_registered,
-        program_enrolled,
-        status,
-        benefit_delivered,
-        date_received
-    };
+    try {
+        const beneficiaryUpdateResult = await Beneficiary.updateOne(
+            { _id: id },
+            {
+                person_registered,
+                program_enrolled,
+                status,
+                benefit_delivered,
+                date_received
+            }
+        );
 
-    await Program.updateOne({ _id: id }, beneficiary);
+        console.log('Beneficiary Update Result:', beneficiaryUpdateResult);
 
-    res.sendStatus(200); // HTTP 200: OK
+        if (beneficiaryUpdateResult.nModified === 0) {
+            console.log('Beneficiary not found or no changes made:', id);
+            return res.status(404).send('Beneficiary not found or no changes made');
+        }
+
+        res.sendStatus(200);
+    } catch (error) {
+        console.error('Error updating beneficiary:', error);
+        res.status(500).send('Internal Server Error');
+    }
 }));
+
+
 
 // POST request for deleting beneficiary
 router.post('/delete', asyncHandler(async(req, res) => {

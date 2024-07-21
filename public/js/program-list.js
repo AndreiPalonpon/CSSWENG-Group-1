@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function onBtnEditClick(e) {
         e.preventDefault(); // Prevent default form submission
-        let program_id = e.currentTarget.closest("tr").getAttribute("data-id");
+        let program_id = e.currentTarget.closest("tr").getAttribute("data-program-id");
         let program_name = e.currentTarget.closest("tr").querySelector("td:nth-child(2)").textContent;
         let program_type = e.currentTarget.closest("tr").querySelector(".program-type").textContent;
         let program_frequency = e.currentTarget.closest("tr").querySelector(".program-frequency").textContent;
