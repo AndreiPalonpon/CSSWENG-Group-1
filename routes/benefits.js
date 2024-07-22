@@ -10,7 +10,7 @@ function requireAuth(req, res, next) {
     console.log("Checking authentication...");
     if (req.session.user && req.session.user.authenticated) {
         console.log("User is authenticated. Proceeding to benefits page...");
-        next(); 
+        next();
     } else {
         console.log("User is not authenticated. Redirecting to login page...");
         res.redirect('/login');
@@ -21,7 +21,7 @@ router.use(requireAuth);
 
 // GET request to list all benefits with sorting and filtering
 router.get('/', asyncHandler(async(req, res) => {
-    const { nameSort, quantitySort, dateSort, benefactorFilter } = req.query;
+    const { nameSort, quantitySort, dateSort, benefactorFilter, page = 1, limit = 20 } = req.query;
 
     let sortOptions = {};
     let filterOptions = {};
@@ -46,18 +46,27 @@ router.get('/', asyncHandler(async(req, res) => {
     console.log('Filter Options:', filterOptions);
     console.log('Sort Options:', sortOptions);
 
-    const benefits = await Benefit.find(filterOptions).populate("benefactor").sort(sortOptions).exec();
+    const totalBenefits = await Benefit.countDocuments(filterOptions);
+    const benefits = await Benefit.find(filterOptions).populate("benefactor")
+        .sort(sortOptions)
+        .skip((page - 1) * limit)
+        .limit(parseInt(limit))
+        .exec();
+
     const benefactors = await Benefactor.find().exec();
 
     console.log('Filtered Benefits:', benefits);
 
     res.render("benefit-list", {
         benefactors,
-        benefits
+        benefits,
+        currentPage: page,
+        totalPages: Math.ceil(totalBenefits / limit),
+        totalBenefits
     });
 }));
 
-router.post('/create', asyncHandler(async (req, res, next) => {
+router.post('/create', asyncHandler(async(req, res, next) => {
     const { benefitName, benefitDesc, quantity, dateReceived, benefactor } = req.body;
 
     const newBenefit = new Benefit({
@@ -100,7 +109,7 @@ router.post('/create', asyncHandler(async (req, res, next) => {
 // }));
 
 // POST request for editing a benefit
-router.post('/edit', asyncHandler(async (req, res) => {
+router.post('/edit', asyncHandler(async(req, res) => {
     const { id, name, description, quantity, date_received, benefactor } = req.body;
 
     console.log("Received data:", req.body);
@@ -138,16 +147,16 @@ router.post('/edit', asyncHandler(async (req, res) => {
 
 
 // POST request for deleting item
-router.post('/delete', asyncHandler(async (req, res, next) => {
+router.post('/delete', asyncHandler(async(req, res, next) => {
     //Check first if there are beneficiaries with the current benefit. If there are, it cannot be deleted.
-    
-    await Benefit.deleteOne({_id: req.body.benefit_id});
+
+    await Benefit.deleteOne({ _id: req.body.benefit_id });
     console.log("Benefit ID " + req.body.benefit_id + " has been deleted.");
     res.sendStatus(200);
 }));
 
 // GET request for one item.
-router.get('/:id', asyncHandler(async (req, res, next) => {
+router.get('/:id', asyncHandler(async(req, res, next) => {
     res.send("NOT IMPLEMENTED: Item detail");
 }));
 

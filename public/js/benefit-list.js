@@ -15,6 +15,12 @@ function setSelectedValue(selectObj, valueToSet) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById("menu-toggle").addEventListener("click", function() {
+        document.getElementById("wrapper").classList.toggle("toggled");
+        document.querySelector(".main-content").classList.toggle("toggled");
+        document.querySelector(".header-right").classList.toggle("toggled");
+    });
+
     const newMemberAddBtn = document.querySelector('.createBtn button'),
         darkBg = document.querySelector('.dark_bg'),
         popupForm = document.querySelector('.popup'),
@@ -24,17 +30,18 @@ document.addEventListener('DOMContentLoaded', function() {
         form = document.querySelector('#createBenefitForm'),
         formInputFields = document.querySelectorAll('#createBenefitForm input, #createBenefitForm select');
 
+    const itemsDiv = document.getElementById('items');
+    const prevButton = document.getElementById('prev');
+    const nextButton = document.getElementById('next');
+    const pageInfo = document.getElementById('page-info');
+    let currentPage = 1;
+    const limit = 20;
+
     let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
     let getData = [...originalData];
 
     let isEdit = false,
         editId;
-
-    document.getElementById("menu-toggle").addEventListener("click", function() {
-        document.getElementById("wrapper").classList.toggle("toggled");
-        document.querySelector(".main-content").classList.toggle("toggled");
-        document.querySelector(".header-right").classList.toggle("toggled");
-    });
 
     // Add event listeners to filter elements
     document.querySelectorAll('input[name="nameSort"]').forEach(input => {
@@ -245,8 +252,49 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error fetching filtered data:', error));
     }
 
+    function fetchItems(page = 1) {
+        fetch(`/benefits?page=${page}&limit=${limit}`)
+            .then(response => response.text())
+            .then(html => {
+                const newDoc = new DOMParser().parseFromString(html, 'text/html');
+                const newTableBody = newDoc.querySelector('tbody').innerHTML;
+                document.querySelector('tbody').innerHTML = newTableBody;
+                const totalPeople = parseInt(newDoc.querySelector('#totalBenefits').value);
+                const totalPages = Math.ceil(totalPeople / limit);
+                updatePaginationControls(page, totalPages);
+                updateRowNumbers(page, limit);
+                addEventListeners();
+            })
+            .catch(error => console.error('Error fetching items:', error));
+    }
+
+    function updatePaginationControls(page, totalPages) {
+        currentPage = page;
+        pageInfo.textContent = `Page ${page} of ${totalPages}`;
+        prevButton.disabled = page <= 1;
+        nextButton.disabled = page >= totalPages;
+    }
+
+    function updateRowNumbers(page, limit) {
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach((row, index) => {
+            row.querySelector('.benefit-index').textContent = (page - 1) * limit + index + 1;
+        });
+    }
+
+    prevButton.addEventListener('click', () => {
+        if (currentPage > 1) {
+            fetchItems(currentPage - 1);
+        }
+    });
+
+    nextButton.addEventListener('click', () => {
+        fetchItems(currentPage + 1);
+    });
+
     // Initialize event listeners
     addEventListeners();
+    fetchItems();
 });
 
 function downloadCSV(csv, filename) {
