@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
     let getData = [...originalData];
-    
+
     let isEdit = false,
         editId;
 
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 let modalInstance = bootstrap.Modal.getInstance(document.getElementById("modal-people-edit"));
                 modalInstance.hide(); // Hide the modal
                 alert("Update person successfully.");
-                location.reload(); 
+                location.reload();
             } else {
                 alert("Error updating person");
             }
@@ -289,7 +289,10 @@ document.addEventListener('DOMContentLoaded', function() {
 function downloadCSV(csv, filename) {
     let csvFile;
     let downloadLink;
-    csvFile = new Blob([csv], { type: 'text/csv' });
+
+    csvFile = new Blob([csv], {
+        type: 'text/csv'
+    });
 
     downloadLink = document.createElement('a');
     downloadLink.download = filename;
@@ -303,9 +306,9 @@ function exportTableToCSV(filename) {
     const rows = document.querySelectorAll('.table-container table tr');
     let csv = [];
     for (let i = 0; i < rows.length; i++) {
-        const row = [],
-            cols = rows[i].querySelectorAll('td, th');
-        for (let j = 0; j < cols.length; j++) {
+        const row = [];
+        const cols = rows[i].querySelectorAll('td, th');
+        for (let j = 0; j < cols.length - 1; j++) { // Skip the last column
             const data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ');
             row.push('"' + data + '"');
         }

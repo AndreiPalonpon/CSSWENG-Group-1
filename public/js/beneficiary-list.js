@@ -271,9 +271,9 @@ function exportTableToCSV(filename) {
     const rows = document.querySelectorAll('.table-container table tr');
     let csv = [];
     for (let i = 0; i < rows.length; i++) {
-        const row = [],
-            cols = rows[i].querySelectorAll('td, th');
-        for (let j = 0; j < cols.length; j++) {
+        const row = [];
+        const cols = rows[i].querySelectorAll('td, th');
+        for (let j = 0; j < cols.length - 1; j++) { // Skip the last column
             const data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ');
             row.push('"' + data + '"');
         }

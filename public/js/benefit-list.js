@@ -204,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function() {
             $.post(`/benefits/delete`, { benefit_id: id })
                 .done((data, status, xhr) => {
                     if (status === "success" && xhr.status === 200) {
-                        let index = e?.currentTarget?.closest("tr")?.querySelector("td:first-child")?.textContent;
+                        let index = e ? .currentTarget ? .closest("tr") ? .querySelector("td:first-child") ? .textContent;
                         alert("Benefit has been deleted");
                         location.reload();
                     } else {
@@ -249,30 +249,33 @@ document.addEventListener('DOMContentLoaded', function() {
     addEventListeners();
 });
 
-    function downloadCSV(csv, filename) {
-        let csvFile;
-        let downloadLink;
-        csvFile = new Blob([csv], { type: 'text/csv' });
+function downloadCSV(csv, filename) {
+    let csvFile;
+    let downloadLink;
 
-        downloadLink = document.createElement('a');
-        downloadLink.download = filename;
-        downloadLink.href = window.URL.createObjectURL(csvFile);
-        downloadLink.style.display = 'none';
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-    }
+    csvFile = new Blob([csv], {
+        type: 'text/csv'
+    });
 
-    function exportTableToCSV(filename) {
-        const rows = document.querySelectorAll('.table-container table tr');
-        let csv = [];
-        for (let i = 0; i < rows.length; i++) {
-            const row = [];
-            const cols = rows[i].querySelectorAll('td, th');
-            for (let j = 0; j < cols.length; j++) {
-                const data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ');
-                row.push('"' + data + '"');
-            }
-            csv.push(row.join(','));
+    downloadLink = document.createElement('a');
+    downloadLink.download = filename;
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+    downloadLink.style.display = 'none';
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+}
+
+function exportTableToCSV(filename) {
+    const rows = document.querySelectorAll('.table-container table tr');
+    let csv = [];
+    for (let i = 0; i < rows.length; i++) {
+        const row = [];
+        const cols = rows[i].querySelectorAll('td, th');
+        for (let j = 0; j < cols.length - 1; j++) { // Skip the last column
+            const data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ');
+            row.push('"' + data + '"');
         }
-        downloadCSV(csv.join('\n'), filename);
+        csv.push(row.join(','));
     }
+    downloadCSV(csv.join('\n'), filename);
+}
