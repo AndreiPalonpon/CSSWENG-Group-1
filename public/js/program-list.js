@@ -8,6 +8,13 @@ document.addEventListener('DOMContentLoaded', function() {
         form = document.querySelector('#createProgramForm'),
         formInputFields = document.querySelectorAll('#createProgramForm input, #createProgramForm select');
 
+    const itemsDiv = document.getElementById('items');
+    const prevButton = document.getElementById('prev');
+    const nextButton = document.getElementById('next');
+    const pageInfo = document.getElementById('page-info');
+    let currentPage = 1;
+    const limit = 5;
+
     let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
     let getData = [...originalData];
 
@@ -227,8 +234,65 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error fetching filtered data:', error));
     }
 
+    function fetchItems(page = 1) {
+        fetch(`/programs?page=${page}&limit=${limit}`)
+            .then(response => response.text())
+            .then(html => {
+                const newDoc = new DOMParser().parseFromString(html, 'text/html');
+                const newTableBody = newDoc.querySelector('tbody').innerHTML;
+                document.querySelector('tbody').innerHTML = newTableBody;
+                const totalPrograms = parseInt(newDoc.querySelector('#totalPrograms').value);
+                const totalPages = Math.ceil(totalPrograms / limit);
+                updatePaginationControls(page, totalPages);
+                updateRowNumbers(page, limit);
+                addEventListeners();
+            })
+            .catch(error => console.error('Error fetching items:', error));
+    }
+
+    function fetchItems(page = 1) {
+        fetch(`/programs?page=${page}&limit=${limit}`)
+            .then(response => response.text())
+            .then(html => {
+                const newDoc = new DOMParser().parseFromString(html, 'text/html');
+                const newTableBody = newDoc.querySelector('tbody').innerHTML;
+                document.querySelector('tbody').innerHTML = newTableBody;
+                const totalPrograms = parseInt(newDoc.querySelector('#totalPrograms').value);
+                const totalPages = Math.ceil(totalPrograms / limit);
+                updatePaginationControls(page, totalPages);
+                updateRowNumbers(page, limit);
+                addEventListeners();
+            })
+            .catch(error => console.error('Error fetching items:', error));
+    }
+
+    function updatePaginationControls(page, totalPages) {
+        currentPage = page;
+        pageInfo.textContent = `Page ${page} of ${totalPages}`;
+        prevButton.disabled = page <= 1;
+        nextButton.disabled = page >= totalPages;
+    }
+
+    function updateRowNumbers(page, limit) {
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach((row, index) => {
+            row.querySelector('.program-index').textContent = (page - 1) * limit + index + 1;
+        });
+    }
+
+    prevButton.addEventListener('click', () => {
+        if (currentPage > 1) {
+            fetchItems(currentPage - 1);
+        }
+    });
+
+    nextButton.addEventListener('click', () => {
+        fetchItems(currentPage + 1);
+    });
+
     // Initialize event listeners
     addEventListeners();
+    fetchItems();
 });
 
 // CSV export functions

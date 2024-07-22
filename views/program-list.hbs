@@ -216,6 +216,25 @@
             </ul>
         </nav>
 
+        <nav aria-label="page-navigation">
+    <ul class="pagination">
+        <li class="page-item">
+            <button class="page-link" id="prev">Previous</button>
+        </li>
+        <li class="page-item">
+            <span class="page-link" id="page-info"></span>
+        </li>
+        <li class="page-item">
+            <button class="page-link" id="next">Next</button>
+        </li>
+    </ul>
+</nav>
+
+<input type="hidden" id="totalPrograms" value="{{totalPrograms}}">
+
+
+
+
         <!-- Create Program Modal -->
         <div class="modal fade" id="modal-program-create">
             <div class="modal-dialog modal-dialog-centered modal-lg">

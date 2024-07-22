@@ -20,7 +20,7 @@ router.use(requireAuth);
 
 // GET request to list all programs with sorting and filtering
 router.get('/', asyncHandler(async(req, res) => {
-    const { nameSort, typeFilter, frequencyFilter, assistanceTypeFilter } = req.query;
+    const { nameSort, typeFilter, frequencyFilter, assistanceTypeFilter, page = 1, limit = 5 } = req.query;
 
     let sortOptions = {};
     let filterOptions = {};
@@ -45,22 +45,31 @@ router.get('/', asyncHandler(async(req, res) => {
     console.log('Filter Options:', filterOptions);
     console.log('Sort Options:', sortOptions);
 
-    const programs = await Program.find(filterOptions).sort(sortOptions).exec();
+    const totalPrograms = await Program.countDocuments(filterOptions);
+    //const programs = await Program.find(filterOptions).sort(sortOptions).exec();
+    const programs = await Program.find(filterOptions)
+        .sort(sortOptions)
+        .skip((page - 1) * limit)
+        .limit(parseInt(limit))
+        .exec();
 
     console.log('Filtered Programs:', programs);
 
     res.render("program-list", {
-        programs
+        programs,
+        currentPage: page,
+        totalPages: Math.ceil(totalPrograms / limit),
+        totalPrograms
     });
 }));
 
 // GET request for creating program
-router.get('/create', asyncHandler(async (req, res) => {
+router.get('/create', asyncHandler(async(req, res) => {
     res.send("NOT IMPLEMENTED: Program create GET");
 }));
 
 // POST request for creating program
-router.post('/create', asyncHandler(async (req, res) => {
+router.post('/create', asyncHandler(async(req, res) => {
     const { programName, programType, programFrequency, assistanceType } = req.body;
 
     const newProgram = ({
@@ -69,7 +78,7 @@ router.post('/create', asyncHandler(async (req, res) => {
         frequency: programFrequency,
         assistance_type: assistanceType
     });
-    
+
     console.log(newProgram);
     await Program.create(newProgram);
     console.log("New program instance saved.");
@@ -77,13 +86,13 @@ router.post('/create', asyncHandler(async (req, res) => {
 }));
 
 // GET request for editing program
-router.get('/:id/edit', asyncHandler(async (req, res) => {
+router.get('/:id/edit', asyncHandler(async(req, res) => {
     res.send("NOT IMPLEMENTED: Program edit GET");
 }));
 
 
 
-router.post('/edit', asyncHandler(async (req, res) => {
+router.post('/edit', asyncHandler(async(req, res) => {
     const { id, name, program_type, frequency, assistance_type } = req.body;
 
     console.log("Received data:", req.body);
@@ -119,19 +128,19 @@ router.post('/edit', asyncHandler(async (req, res) => {
 
 
 // GET request for deleting program
-router.get('/:id/delete', asyncHandler(async (req, res) => {
+router.get('/:id/delete', asyncHandler(async(req, res) => {
     res.send("NOT IMPLEMENTED: Program delete GET");
 }));
 
 // POST request for deleting program
-router.post('/delete', asyncHandler(async (req, res) => {
+router.post('/delete', asyncHandler(async(req, res) => {
     await Program.deleteOne({ _id: req.body.program_id });
     console.log(`Program ID ${req.body.program_id} has been deleted.`);
-    res.sendStatus(200); 
+    res.sendStatus(200);
 }));
 
 // GET request for one program
-router.get('/:id', asyncHandler(async (req, res) => {
+router.get('/:id', asyncHandler(async(req, res) => {
     res.send("NOT IMPLEMENTED: Program detail");
 }));
 
