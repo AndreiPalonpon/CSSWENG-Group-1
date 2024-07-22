@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const nextButton = document.getElementById('next');
     const pageInfo = document.getElementById('page-info');
     let currentPage = 1;
-    const limit = 5;
+    const limit = 20;
 
     let originalData = localStorage.getItem('programs') ? JSON.parse(localStorage.getItem('programs')) : [];
     let getData = [...originalData];

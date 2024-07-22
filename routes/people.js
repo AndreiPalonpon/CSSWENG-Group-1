@@ -10,7 +10,7 @@ function requireAuth(req, res, next) {
     console.log("Checking authentication...");
     if (req.session.user && req.session.user.authenticated) {
         console.log("User is authenticated. Proceeding to people page...");
-        next(); 
+        next();
     } else {
         console.log("User is not authenticated. Redirecting to login page...");
         res.redirect('/login');
@@ -21,7 +21,7 @@ router.use(requireAuth);
 
 // GET request to list all people with sorting and filtering
 router.get('/', asyncHandler(async(req, res) => {
-    const { firstNameSort, lastNameSort, genderFilter, birthdateSort, barangayFilter, disabilityTypeFilter, page = 1, limit = 5 } = req.query;
+    const { firstNameSort, lastNameSort, genderFilter, birthdateSort, barangayFilter, disabilityTypeFilter, page = 1, limit = 20 } = req.query;
 
     let sortOptions = {};
     let filterOptions = {};
@@ -77,11 +77,11 @@ router.get('/', asyncHandler(async(req, res) => {
 }));
 
 // POST request for creating people.
-router.post('/create', asyncHandler(async (req, res) => {
-    const { 
-        firstName, 
-        lastName, 
-        gender, 
+router.post('/create', asyncHandler(async(req, res) => {
+    const {
+        firstName,
+        lastName,
+        gender,
         birthdate,
         address,
         barangay,
@@ -90,8 +90,8 @@ router.post('/create', asyncHandler(async (req, res) => {
         disabilityType,
         pwd_card_id_no,
         recent_pwd_id_update_date
-     } = req.body;
-    
+    } = req.body;
+
     const newPerson = new Person({
         first_name: firstName,
         last_name: lastName,
@@ -107,23 +107,32 @@ router.post('/create', asyncHandler(async (req, res) => {
     });
 
     await newPerson.save();
-    
+
     await Person.create(newPerson);
     console.log("New person instance saved.");
-    res.sendStatus(201); 
+    res.sendStatus(201);
 }));
 
 
 // POST request for updating person
-router.post('/edit', asyncHandler(async (req, res, next) => {
-    const { id, first_name, last_name, gender, 
-            birthdate, address, barangay,
-            contact_number, disability_type,
-            disability, pwd_card_id_no, 
-            recent_pwd_id_update_date } = req.body;
+router.post('/edit', asyncHandler(async(req, res, next) => {
+    const {
+        id,
+        first_name,
+        last_name,
+        gender,
+        birthdate,
+        address,
+        barangay,
+        contact_number,
+        disability_type,
+        disability,
+        pwd_card_id_no,
+        recent_pwd_id_update_date
+    } = req.body;
 
 
-    
+
 
     // Convert birthdate and recent_pwd_id_update_date to Date objects
     let birthdateDate, recentPwdUpdateDate;
@@ -158,7 +167,7 @@ router.post('/edit', asyncHandler(async (req, res, next) => {
         console.log("People updated successfully:", id);
         res.sendStatus(200); // HTTP 200: OK
     } catch (error) {
-        next(error); 
+        next(error);
     }
 }));
 
@@ -188,7 +197,7 @@ router.get('/:id', asyncHandler(async(req, res, next) => {
 
 
 //POST request for deleting person
-router.post('/delete', asyncHandler(async (req, res) => {
+router.post('/delete', asyncHandler(async(req, res) => {
     await Person.deleteOne({ _id: req.body.person_id });
     console.log(`Person ID ${req.body.person_id} has been deleted.`);
     res.sendStatus(200);

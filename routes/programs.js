@@ -20,7 +20,7 @@ router.use(requireAuth);
 
 // GET request to list all programs with sorting and filtering
 router.get('/', asyncHandler(async(req, res) => {
-    const { nameSort, typeFilter, frequencyFilter, assistanceTypeFilter, page = 1, limit = 5 } = req.query;
+    const { nameSort, typeFilter, frequencyFilter, assistanceTypeFilter, page = 1, limit = 20 } = req.query;
 
     let sortOptions = {};
     let filterOptions = {};
