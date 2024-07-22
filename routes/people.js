@@ -21,7 +21,7 @@ router.use(requireAuth);
 
 // GET request to list all people with sorting and filtering
 router.get('/', asyncHandler(async(req, res) => {
-    const { firstNameSort, lastNameSort, genderFilter, birthdateSort, barangayFilter, disabilityTypeFilter } = req.query;
+    const { firstNameSort, lastNameSort, genderFilter, birthdateSort, barangayFilter, disabilityTypeFilter, page = 1, limit = 5 } = req.query;
 
     let sortOptions = {};
     let filterOptions = {};
@@ -54,7 +54,12 @@ router.get('/', asyncHandler(async(req, res) => {
     console.log('Filter Options:', filterOptions);
     console.log('Sort Options:', sortOptions);
 
-    const people = await Person.find(filterOptions).sort(sortOptions).exec();
+    const totalPeople = await Person.countDocuments(filterOptions);
+    const people = await Person.find(filterOptions).sort(sortOptions)
+        .sort(sortOptions)
+        .skip((page - 1) * limit)
+        .limit(parseInt(limit))
+        .exec();
 
     // Fetch unique barangay codes
     const barangayCodes = await Person.distinct("barangay").exec();
@@ -64,7 +69,10 @@ router.get('/', asyncHandler(async(req, res) => {
 
     res.render("people-list", {
         people,
-        barangayCodes
+        barangayCodes,
+        currentPage: page,
+        totalPages: Math.ceil(totalPeople / limit),
+        totalPeople
     });
 }));
 
