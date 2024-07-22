@@ -239,7 +239,7 @@
                         <!-- Table rows go here -->
                         {{#each people}}
                         <tr data-person-id="{{this.id}}">
-                            <td>{{incremented @index}}</td>
+                            <td class="people-index">{{incremented @index}}</td>
                             <td>{{this.first_name}}</td>
                             <td>{{this.last_name}}</td>
                             <td>{{this.gender}}</td>
@@ -261,6 +261,22 @@
                 </table>
                 </form>
             </div>
+        
+         <nav aria-label="page-navigation">
+    <ul class="pagination">
+        <li class="page-item">
+            <button class="page-link" id="prev">Previous</button>
+        </li>
+        <li class="page-item">
+            <span class="page-link" id="page-info"></span>
+        </li>
+        <li class="page-item">
+            <button class="page-link" id="next">Next</button>
+        </li>
+    </ul>
+</nav>
+
+<input type="hidden" id="totalPeople" value="{{totalPeople}}">
 
             <!-- Create People Modal -->
 <div class="modal fade" id="modal-people-create">
@@ -319,7 +335,7 @@
                                 <option value="Pulanglupa Dos">Pulanglupa Dos</option>
                                 <option value="Talon Dos">Talon Dos</option>
                                 <option value="Talon Tres">Talon Tres</option>
-                                <option value="Talon Kuartro">Talon Kuartro</option>
+                                <option value="Talon Kuatro">Talon Kuatro</option>
                                 <option value="Talon Singko">Talon Singko</option>
                             </select>
                         </div>
@@ -415,7 +431,7 @@
                                 <option value="Pulanglupa Dos">Pulanglupa Dos</option>
                                 <option value="Talon Dos">Talon Dos</option>
                                 <option value="Talon Tres">Talon Tres</option>
-                                <option value="Talon Kuartro">Talon Kuartro</option>
+                                <option value="Talon Kuatro">Talon Kuatro</option>
                                 <option value="Talon Singko">Talon Singko</option>
                             </select>
                         </div>
