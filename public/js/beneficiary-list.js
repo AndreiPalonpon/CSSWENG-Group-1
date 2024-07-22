@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let status = document.getElementById("editStatus").value;
         let benefit_delivered = document.getElementById("editBenefitDelivered").value;
         let date_received = document.getElementById("editDateReceived").value;
-    
+
         let beneficiary = {
             id: beneficiary_id,
             person_registered: person_registered,
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
             benefit_delivered: benefit_delivered,
             date_received: date_received
         };
-    
+
         $.post("/beneficiaries/edit", beneficiary, (data, status, xhr) => {
             if (status === "success" && xhr.status === 200) {
                 let modalInstance = bootstrap.Modal.getInstance(document.getElementById("modal-beneficiary-edit"));
@@ -134,7 +134,6 @@ document.addEventListener('DOMContentLoaded', function() {
             alert("Error updating beneficiary");
         });
     });
-    
 
     // Edit and delete event handlers
     function addEventListeners() {
@@ -160,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let status = e.currentTarget.closest("tr").querySelector("td:nth-child(4)").textContent;
         let benefit_delivered = e.currentTarget.closest("tr").querySelector("td:nth-child(5)").textContent;
         let date_received = e.currentTarget.closest("tr").querySelector("td:nth-child(6)").textContent;
-    
+
         let modal_edit = document.getElementById("modal-beneficiary-edit");
         let modal_edit_id = modal_edit.querySelector("#editBeneficiaryId");
         let modal_edit_person_registered = modal_edit.querySelector("#editPersonRegistered");
@@ -168,7 +167,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let modal_edit_status = modal_edit.querySelector("#editStatus");
         let modal_edit_benefit_delivered = modal_edit.querySelector("#editBenefitDelivered");
         let modal_edit_date_received = modal_edit.querySelector("#editDateReceived");
-    
+
         modal_edit_id.value = beneficiary_id;
         modal_edit_person_registered.value = person_registered;
         modal_edit_program_enrolled.value = program_enrolled;
@@ -178,11 +177,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         setSelectedValue(modal_edit_person_registered, person_registered);
         setSelectedValue(modal_edit_benefit_delivered, benefit_delivered);
-        setSelectedValue(modal_edit_program_enrolled, program_enrolled); 
+        setSelectedValue(modal_edit_program_enrolled, program_enrolled);
     }
-    
 
-    
+
+
     function editInfo(id, e) {
         onBtnEditClick(e); // Populate form fields
         isEdit = true;
@@ -202,18 +201,18 @@ document.addEventListener('DOMContentLoaded', function() {
             popupForm.classList.add('active');
         }
     }
-    
-    
+
+
     function deleteInfo(id, e) {
         if (confirm("Are you sure you want to delete this beneficiary?")) {
             originalData = originalData.filter(item => item.id !== id);
             localStorage.setItem('beneficiaries', JSON.stringify(originalData));
 
-            $.post(`/beneficiaries/delete`, {beneficiary_id: id})
+            $.post(`/beneficiaries/delete`, { beneficiary_id: id })
                 .done((data, status, xhr) => {
                     if (status === "success" && xhr.status === 200) {
-                            alert("Beneficiary has been deleted");
-                            location.reload();
+                        alert("Beneficiary has been deleted");
+                        location.reload();
                     } else {
                         alert("Failed to delete beneficiary. Please try again.");
                     }
@@ -226,19 +225,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function applyFiltersAndSort() {
-        const recipientSort = $('input[name="recipientSort"]:checked').val();
-        const statusFilter = $('input[name="statusFilter"]:checked').map(function() { return this.value; }).get();
-        const dateSort = $('input[name="dateSort"]:checked').val();
+        const recipientSort = $('input[name="recipientSort"]:checked').val() || '';
+        const statusFilter = $('input[name="statusFilter"]:checked').map(function() { return this.value; }).get().join(',');
+        const dateSort = $('input[name="dateSort"]:checked').val() || '';
         const programId = '{{program._id}}'; // Adjust this as necessary
 
-        let query = [];
-
-        if (recipientSort) query.push(`recipientSort=${recipientSort}`);
-        if (statusFilter.length) query.push(`statusFilter=${statusFilter.join(',')}`);
-        if (dateSort) query.push(`dateSort=${dateSort}`);
-        if (programId) query.push(`programId=${programId}`);
-
-        const queryString = query.length > 0 ? `?${query.join('&')}` : '';
+        let queryString = `?recipientSort=${recipientSort}&statusFilter=${statusFilter}&dateSort=${dateSort}&programId=${programId}`;
 
         console.log('Query String:', queryString);
 
