@@ -20,7 +20,7 @@ const barangayCodes = {
         "016": "Pulanglupa Dos",
         "017": "Talon Dos",
         "018": "Talon Tres",
-        "019": "Talos Kuartro",
+        "019": "Talon Kuatro",
         "020": "Talon Singko"
     };
 
@@ -56,7 +56,7 @@ const PersonSchema = new Schema({
             "Pulanglupa Dos", 
             "Talon Dos", 
             "Talon Tres", 
-            "Talos Kuartro", 
+            "Talon Kuatro", 
             "Talon Singko"
         ] //Object.values(barangayCodes),
     },
