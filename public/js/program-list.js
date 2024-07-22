@@ -250,22 +250,6 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error fetching items:', error));
     }
 
-    function fetchItems(page = 1) {
-        fetch(`/programs?page=${page}&limit=${limit}`)
-            .then(response => response.text())
-            .then(html => {
-                const newDoc = new DOMParser().parseFromString(html, 'text/html');
-                const newTableBody = newDoc.querySelector('tbody').innerHTML;
-                document.querySelector('tbody').innerHTML = newTableBody;
-                const totalPrograms = parseInt(newDoc.querySelector('#totalPrograms').value);
-                const totalPages = Math.ceil(totalPrograms / limit);
-                updatePaginationControls(page, totalPages);
-                updateRowNumbers(page, limit);
-                addEventListeners();
-            })
-            .catch(error => console.error('Error fetching items:', error));
-    }
-
     function updatePaginationControls(page, totalPages) {
         currentPage = page;
         pageInfo.textContent = `Page ${page} of ${totalPages}`;
