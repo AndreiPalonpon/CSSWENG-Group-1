@@ -28,10 +28,6 @@ router.get('/', asyncHandler(async(req, res) => {
     let sortOptions = {};
     let filterOptions = { program_enrolled: programId };
 
-    if (recipientSort) {
-        sortOptions['person_registered.last_name'] = recipientSort === 'az' ? 1 : -1;
-    }
-
     if (statusFilter) {
         filterOptions.status = { $in: statusFilter.split(',') };
     }
@@ -44,24 +40,46 @@ router.get('/', asyncHandler(async(req, res) => {
     console.log('Filter Options:', filterOptions);
     console.log('Sort Options:', sortOptions);
 
-    const people = await Person.find().sort({ first_name: 1, last_name: 1 }).exec();
-    const programs = await Program.find().sort({ name: 1 }).exec();
-    const benefits = await Benefit.find().sort({ name: 1 }).exec();
-    const beneficiaries = await Beneficiary.find(filterOptions)
-        .populate("person_registered")
-        .populate("program_enrolled")
-        .populate("benefit_delivered")
-        .sort(sortOptions)
-        .exec();
+    try {
+        const beneficiaries = await Beneficiary.find(filterOptions)
+            .populate("person_registered")
+            .populate("program_enrolled")
+            .populate("benefit_delivered")
+            .sort(sortOptions)
+            .exec();
 
-    console.log('Filtered Beneficiaries:', beneficiaries);
+        // Sorting by recipient last name in JavaScript
+        if (recipientSort) {
+            const sortOrder = recipientSort === 'az' ? 1 : -1;
+            beneficiaries.sort((a, b) => {
+                const nameA = a.person_registered.last_name.toUpperCase();
+                const nameB = b.person_registered.last_name.toUpperCase();
+                if (nameA < nameB) {
+                    return -1 * sortOrder;
+                }
+                if (nameA > nameB) {
+                    return 1 * sortOrder;
+                }
+                return 0;
+            });
+        }
 
-    res.render("beneficiary-list", {
-        people,
-        programs,
-        benefits,
-        beneficiaries
-    });
+        console.log('Filtered Beneficiaries:', beneficiaries);
+
+        const people = await Person.find().sort({ first_name: 1, last_name: 1 }).exec();
+        const programs = await Program.find().sort({ name: 1 }).exec();
+        const benefits = await Benefit.find().sort({ name: 1 }).exec();
+
+        res.render("beneficiary-list", {
+            people,
+            programs,
+            benefits,
+            beneficiaries
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
 }));
 
 router.get('/:id', asyncHandler(async(req, res) => {
@@ -130,7 +148,7 @@ router.post('/create', asyncHandler(async(req, res) => {
 
 
 // POST request for editing beneficiary
-router.post('/edit', asyncHandler(async (req, res) => {
+router.post('/edit', asyncHandler(async(req, res) => {
     const {
         id,
         person_registered,
@@ -141,16 +159,13 @@ router.post('/edit', asyncHandler(async (req, res) => {
     } = req.body;
 
     try {
-        const beneficiaryUpdateResult = await Beneficiary.updateOne(
-            { _id: id },
-            {
-                person_registered,
-                program_enrolled,
-                status,
-                benefit_delivered,
-                date_received
-            }
-        );
+        const beneficiaryUpdateResult = await Beneficiary.updateOne({ _id: id }, {
+            person_registered,
+            program_enrolled,
+            status,
+            benefit_delivered,
+            date_received
+        });
 
         console.log('Beneficiary Update Result:', beneficiaryUpdateResult);
 
