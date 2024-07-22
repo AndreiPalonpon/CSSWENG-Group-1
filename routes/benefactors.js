@@ -19,7 +19,7 @@ router.use(requireAuth);
 
 // GET request to list all benefactors with sorting and filtering
 router.get('/', asyncHandler(async(req, res) => {
-    const { nameSort, typeFilter } = req.query;
+    const { nameSort, typeFilter, page = 1, limit = 5 } = req.query;
 
     let sortOptions = {};
     let filterOptions = {};
@@ -36,19 +36,25 @@ router.get('/', asyncHandler(async(req, res) => {
     console.log('Filter Options:', filterOptions);
     console.log('Sort Options:', sortOptions);
 
+    const totalBenefactors = await Benefactor.countDocuments(filterOptions);
     const benefactors = await Benefactor.find(filterOptions)
         .sort(sortOptions)
+        .skip((page - 1) * limit)
+        .limit(parseInt(limit))
         .exec();
 
     console.log('Filtered Benefactors:', benefactors);
 
     res.render("benefactor-list", {
-        benefactors
+        benefactors,
+        currentPage: page,
+        totalPages: Math.ceil(totalBenefactors / limit),
+        totalBenefactors
     });
 }));
 
 // POST request for creating benefactor
-router.post('/create', asyncHandler(async (req, res) => {
+router.post('/create', asyncHandler(async(req, res) => {
     const { benefactorName, benefactorType } = req.body;
 
     const newBenefactor = new Benefactor({
@@ -65,7 +71,7 @@ router.post('/create', asyncHandler(async (req, res) => {
 }));
 
 // POST request for editing benefactor
-router.post('/edit', asyncHandler(async (req, res) => {
+router.post('/edit', asyncHandler(async(req, res) => {
     const { benefactor_id, benefactor_name, benefactor_type } = req.body;
 
     console.log("Received data:", req.body);
@@ -97,7 +103,7 @@ router.post('/edit', asyncHandler(async (req, res) => {
 }));
 
 // POST request for deleting benefactor
-router.post('/delete', asyncHandler(async (req, res) => {
+router.post('/delete', asyncHandler(async(req, res) => {
     // Check first if there are benefits from the current benefactor. If there are, he or she cannot be deleted.
     await Benefactor.deleteOne({ _id: req.body.benefactor_id });
     console.log(`Benefactor ID ${req.body.benefactor_id} has been deleted.`);
@@ -105,7 +111,7 @@ router.post('/delete', asyncHandler(async (req, res) => {
 }));
 
 // GET request for one benefactor
-router.get('/:id', asyncHandler(async (req, res) => {
+router.get('/:id', asyncHandler(async(req, res) => {
     res.send("NOT IMPLEMENTED: Benefactor detail");
 }));
 

@@ -127,7 +127,7 @@
                     <tbody>
                         {{#each benefactors}}
                         <tr data-benefactor-id="{{this.id}}">
-                            <th scope="row">{{incremented @index}}</th>
+                            <td class="benefactor-index">{{incremented @index}}</td>
                             <!-- Benefactor data -->
                             <td class="benefactor-name">{{this.name}}</td>
                             <td class="benefactor-type">{{this.type}}</td>
@@ -141,13 +141,21 @@
                 </table>
                 </form>
             </div>
-        </main>
 
         <nav aria-label="page-navigation">
-            <ul class="pagination">
-                <!-- Pagination items will be dynamically added here -->
-            </ul>
-        </nav>
+    <ul class="pagination">
+        <li class="page-item">
+            <button class="page-link" id="prev">Previous</button>
+        </li>
+        <li class="page-item">
+            <span class="page-link" id="page-info"></span>
+        </li>
+        <li class="page-item">
+            <button class="page-link" id="next">Next</button>
+        </li>
+    </ul>
+</nav>
+<input type="hidden" id="totalBenefactors" value="{{totalBenefactors}}">
 
         <!-- Create Benefactor Modal -->
         <div class="modal fade" id="modal-benefactor-create">
@@ -218,6 +226,7 @@
                 </div>
             </div>
         </div>
+    </main>
 
         <!-- JQuery -->
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
