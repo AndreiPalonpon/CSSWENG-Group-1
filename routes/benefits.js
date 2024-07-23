@@ -123,7 +123,7 @@ router.post('/edit', asyncHandler(async(req, res) => {
         name: name,
         description: description,
         quantity: quantity,
-        date_received: new Date(date_received), // Assuming dateReceived is in ISO string format
+        date_received: new Date(date_received), 
         benefactor: benefactor
     };
 

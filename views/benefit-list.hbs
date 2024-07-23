@@ -315,7 +315,7 @@ document.addEventListener('DOMContentLoaded', function() {
         popupForm = document.querySelector('.popup'),
         crossBtn = document.querySelector('.closeBtn'),
         submitBtn = document.querySelector('.submitBtn'),
-        modalTitle = document.querySelector('.modalTitle'),
+        modalTitle = document.querySelector('.modal-title'),
         form = document.querySelector('#createBenefitForm'),
         formInputFields = document.querySelectorAll('#createBenefitForm input, #createBenefitForm select');
     
@@ -448,6 +448,7 @@ document.getElementById("editBenefitForm").addEventListener('submit', (e) => {
     }
 
     function onBtnEditClick(e) {
+        e.preventDefault(); // Prevent default form submission
         let benefit_id = e.currentTarget.closest("tr").getAttribute("data-benefit-id");
         let benefit_name = e.currentTarget.closest("tr").querySelector("td:nth-child(2)").textContent;
         let benefit_desc = e.currentTarget.closest("tr").querySelector("td:nth-child(3)").textContent;

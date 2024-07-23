@@ -160,6 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function onBtnEditClick(e) {
+        e.preventDefault(); // Prevent default form submission
         let benefit_id = e.currentTarget.closest("tr").getAttribute("data-benefit-id");
         let benefit_name = e.currentTarget.closest("tr").querySelector("td:nth-child(2)").textContent;
         let benefit_desc = e.currentTarget.closest("tr").querySelector("td:nth-child(3)").textContent;
@@ -211,7 +212,6 @@ document.addEventListener('DOMContentLoaded', function() {
             $.post(`/benefits/delete`, { benefit_id: id })
                 .done((data, status, xhr) => {
                     if (status === "success" && xhr.status === 200) {
-                        let index = e ? .currentTarget ? .closest("tr") ? .querySelector("td:first-child") ? .textContent;
                         alert("Benefit has been deleted");
                         location.reload();
                     } else {

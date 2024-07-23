@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
         $.post("/programs/edit", program, (data, status, xhr) => {
             if (status === "success" && xhr.status === 200) {
                 let modalInstance = bootstrap.Modal.getInstance(document.getElementById("modal-program-edit"));
-                modalInstance.hide(); // Hide the modal
+                modalInstance.hide();
                 alert("Update program successfully.");
                 location.reload();
             } else {
