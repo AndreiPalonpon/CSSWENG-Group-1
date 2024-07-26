@@ -24,6 +24,8 @@ document.addEventListener('DOMContentLoaded', function() {
         form = document.querySelector('#createBeneficiaryForm'),
         formInputFields = document.querySelectorAll('#createBeneficiaryForm input, #createBeneficiaryForm select');
 
+    const limit = 20;
+
     let originalData = localStorage.getItem('beneficiaries') ? JSON.parse(localStorage.getItem('beneficiaries')) : [];
     let getData = [...originalData];
 
@@ -246,11 +248,63 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error fetching filtered data:', error));
     }
 
+    function fetchItems(page = 1) {
+        const recipientSort = $('input[name="recipientSort"]:checked').val() || '';
+        const statusFilter = $('input[name="statusFilter"]:checked').map(function() { return this.value; }).get().join(',');
+        const dateSort = $('input[name="dateSort"]:checked').val() || '';
+        const programId = '{{program._id}}'; // Adjust this as necessary
+
+        let queryString = `?recipientSort=${recipientSort}&statusFilter=${statusFilter}&dateSort=${dateSort}&programId=${programId}&page=${page}&limit=${limit}`;
+
+        fetch(`/beneficiaries${queryString}`)
+            .then(response => response.text())
+            .then(html => {
+                const newDoc = new DOMParser().parseFromString(html, 'text/html');
+                const newTableBody = newDoc.querySelector('.programInfo').innerHTML;
+                document.querySelector('.programInfo').innerHTML = newTableBody;
+                const totalBeneficiaries = parseInt(newDoc.getElementById('totalBeneficiaries').value, 10);
+                const totalPages = Math.ceil(totalBeneficiaries / limit);
+                updatePaginationControls(page, totalPages);
+                updateRowNumbers(page, limit);
+                addEventListeners();
+            })
+            .catch(error => console.error('Error fetching items:', error));
+    }
+
+    function updatePaginationControls(page, totalPages) {
+        document.getElementById('page-info').textContent = `Page ${page} of ${totalPages}`;
+    }
+
+    document.getElementById('prev').addEventListener('click', function() {
+        const currentPage = parseInt(document.getElementById('page-info').textContent.split(' ')[1], 10);
+        if (currentPage > 1) {
+            fetchItems(currentPage - 1);
+        }
+    });
+
+    document.getElementById('next').addEventListener('click', function() {
+        const currentPage = parseInt(document.getElementById('page-info').textContent.split(' ')[1], 10);
+        const totalPages = parseInt(document.getElementById('page-info').textContent.split(' ')[3], 10);
+        if (currentPage < totalPages) {
+            fetchItems(currentPage + 1);
+        }
+    });
+
+    function updateRowNumbers(page, limit) {
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach((row, index) => {
+            const indexCell = row.querySelector('.beneficiary-index');
+            if (indexCell) {
+                indexCell.textContent = (page - 1) * limit + index + 1;
+            }
+        });
+    }
     // Initialize event listeners
-    addEventListeners();
+    //addEventListeners();
+    applyFiltersAndSort();
+    fetchItems();
 });
 
-/* Exporting to CSV function */
 function downloadCSV(csv, filename) {
     let csvFile;
     let downloadLink;

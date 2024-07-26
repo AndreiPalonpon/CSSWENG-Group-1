@@ -151,7 +151,7 @@
                         <!-- Program rows will be populated here -->
                         {{#each beneficiaries}}
                         <tr data-beneficiary-id="{{this._id}}">
-                            <th scope="row">{{incremented @index}}</th>
+                            <td class="beneficiary-index">{{incremented @index}}</th>
                             <td class="beneficiary-name">{{this.person_registered.name}}</td>
                             <td class="program-enrolled">{{this.program_enrolled.name}}</td>
                             <td class="status">{{this.status}}</td>
@@ -170,10 +170,20 @@
         </main>
 
         <nav aria-label="page-navigation">
-            <ul class="pagination">
-                <!-- Pagination items will be dynamically added here -->
-            </ul>
-        </nav>
+    <ul class="pagination">
+        <li class="page-item">
+            <button class="page-link" id="prev">Previous</button>
+        </li>
+        <li class="page-item">
+            <span class="page-link" id="page-info">Page {{currentPage}} of {{totalPages}}</span>
+        </li>
+        <li class="page-item">
+            <button class="page-link" id="next">Next</button>
+        </li>
+    </ul>
+</nav>
+
+<input type="hidden" id="totalBeneficiaries" value="{{totalBeneficiaries}}">
 
         <!-- Create Beneficiary Modal -->
 <div class="modal fade" id="modal-beneficiary-create">
@@ -343,6 +353,8 @@ document.addEventListener('DOMContentLoaded', function() {
         modalTitle = document.querySelector('.modal-title'),
         form = document.querySelector('#createBeneficiaryForm'),
         formInputFields = document.querySelectorAll('#createBeneficiaryForm input, #createBeneficiaryForm select');
+
+    const limit = 20;
 
     let originalData = localStorage.getItem('beneficiaries') ? JSON.parse(localStorage.getItem('beneficiaries')) : [];
     let getData = [...originalData];
@@ -565,8 +577,62 @@ function applyFiltersAndSort() {
         })
         .catch(error => console.error('Error fetching filtered data:', error));
 }
+
+function fetchItems(page = 1) {
+    const recipientSort = $('input[name="recipientSort"]:checked').val() || '';
+    const statusFilter = $('input[name="statusFilter"]:checked').map(function() { return this.value; }).get().join(',');
+    const dateSort = $('input[name="dateSort"]:checked').val() || '';
+    const programId = '{{program._id}}'; // Adjust this as necessary
+
+    let queryString = `?recipientSort=${recipientSort}&statusFilter=${statusFilter}&dateSort=${dateSort}&programId=${programId}&page=${page}&limit=${limit}`;
+
+    fetch(`/beneficiaries${queryString}`)
+        .then(response => response.text())
+        .then(html => {
+            const newDoc = new DOMParser().parseFromString(html, 'text/html');
+            const newTableBody = newDoc.querySelector('.programInfo').innerHTML;
+            document.querySelector('.programInfo').innerHTML = newTableBody;
+            const totalBeneficiaries = parseInt(newDoc.getElementById('totalBeneficiaries').value, 10);
+            const totalPages = Math.ceil(totalBeneficiaries / limit);
+            updatePaginationControls(page, totalPages);
+            updateRowNumbers(page, limit);
+            addEventListeners();
+        })
+        .catch(error => console.error('Error fetching items:', error));
+}
+
+    function updatePaginationControls(page, totalPages) {
+    document.getElementById('page-info').textContent = `Page ${page} of ${totalPages}`;
+}
+
+document.getElementById('prev').addEventListener('click', function() {
+    const currentPage = parseInt(document.getElementById('page-info').textContent.split(' ')[1], 10);
+    if (currentPage > 1) {
+        fetchItems(currentPage - 1);
+    }
+});
+
+document.getElementById('next').addEventListener('click', function() {
+    const currentPage = parseInt(document.getElementById('page-info').textContent.split(' ')[1], 10);
+    const totalPages = parseInt(document.getElementById('page-info').textContent.split(' ')[3], 10);
+    if (currentPage < totalPages) {
+        fetchItems(currentPage + 1);
+    }
+});
+
+function updateRowNumbers(page, limit) {
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach((row, index) => {
+        const indexCell = row.querySelector('.beneficiary-index');
+        if (indexCell) {
+            indexCell.textContent = (page - 1) * limit + index + 1;
+        }
+    });
+}
     // Initialize event listeners
-    addEventListeners();
+    //addEventListeners();
+    applyFiltersAndSort();
+    fetchItems();
 });
 
 function downloadCSV(csv, filename) {

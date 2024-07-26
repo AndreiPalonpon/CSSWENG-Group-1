@@ -23,7 +23,7 @@ router.use(requireAuth);
 
 // GET request to list all beneficiaries with sorting and filtering
 router.get('/', asyncHandler(async(req, res) => {
-    const { recipientSort, statusFilter, dateSort, programId } = req.query;
+    const { recipientSort, statusFilter, dateSort, programId, page = 1, limit = 20 } = req.query;
 
     let sortOptions = {};
     let filterOptions = { program_enrolled: programId };
@@ -41,11 +41,17 @@ router.get('/', asyncHandler(async(req, res) => {
     console.log('Sort Options:', sortOptions);
 
     try {
+        const totalBeneficiaries = await Beneficiary.countDocuments(filterOptions);
+        const totalPages = Math.ceil(totalBeneficiaries / limit);
+        const currentPage = parseInt(page, 10) || 1;
+
         const beneficiaries = await Beneficiary.find(filterOptions)
             .populate("person_registered")
             .populate("program_enrolled")
             .populate("benefit_delivered")
             .sort(sortOptions)
+            .skip((page - 1) * limit)
+            .limit(limit)
             .exec();
 
         // Sorting by recipient last name in JavaScript
@@ -74,7 +80,10 @@ router.get('/', asyncHandler(async(req, res) => {
             people,
             programs,
             benefits,
-            beneficiaries
+            beneficiaries,
+            totalBeneficiaries,
+            totalPages,
+            currentPage
         });
     } catch (err) {
         console.error(err);
