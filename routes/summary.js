@@ -10,6 +10,19 @@ const Benefactor = require("../models/benefactor");
 const Benefit = require("../models/benefit");
 const Documentation = require("../models/documentation");
 
+function requireAuth(req, res, next) {
+    console.log("Checking authentication...");
+    if (req.session.user && req.session.user.authenticated) {
+        console.log("User is authenticated. Proceeding to benefactors page...");
+        next();
+    } else {
+        console.log("User is not authenticated. Redirecting to login page...");
+        res.redirect('/login');
+    }
+}
+
+router.use(requireAuth);
+
 // Get request for summary.
 router.get('/', asyncHandler(async(req, res) => {
     const totalProgramCount = await Program.find().count();
