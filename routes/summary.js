@@ -16,8 +16,15 @@ router.get('/', asyncHandler(async (req, res) => {
     const totalBenefitCount = await Benefit.find().count();
     const totalBenefactorCount = await Benefactor.find().count();
 
+    const totalCounts = {
+        programs: await Program.find().count(),
+        benefits: await Benefit.find().count(),
+        people: await People.find().count(),
+        benefactors: await Benefactor.find().count()
+    }
+
     //Program count by program type.
-    const programCountByType = {
+    const programCountsByType = {
         assistance: await Program.find({ program_type: "Assistance"}).count(), 
         initiative: await Program.find({ program_type: "Initiative"}).count(), 
         service:    await Program.find({ program_type: "Service"}).count(), 
@@ -38,17 +45,6 @@ router.get('/', asyncHandler(async (req, res) => {
         financial:   await Program.find({ assistance_type: "Financial"}).count(), 
         medical:     await Program.find({ assistance_type: "Medical"}).count()
     };
-
-    //List of programs with aggregates.
-    
-
-    //Console log for testing.
-    /*
-    console.log(totalProgramCount, totalBenefitCount, totalBenefactorCount);
-    console.log(programCountByType);
-    console.log(programCountByFrequency);
-    console.log(programCountByAssistance);
-    */
 
     const programs = await Program.find()
                                 .sort({ name: 1 })
@@ -132,7 +128,13 @@ router.get('/', asyncHandler(async (req, res) => {
         program.benefactor_count = benefactor_counts[0].benefactor_count;
 
         console.log(programs);
-        //res.render("summary", { programs })
+        
+        res.render("summary", { 
+                   totalCounts, 
+                   programCountsByType, 
+                   programCountByFrequency,
+                   programCountByAssistance,
+                   programs });
     }
 }));
 
