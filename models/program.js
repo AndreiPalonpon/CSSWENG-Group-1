@@ -23,6 +23,12 @@ const ProgramSchema = new Schema({
     },
 });
 
+ProgramSchema.virtual("code_matched").get(function () {
+    const code = this.pwd_card_id_no.slice(0, 3);
+    //console.log(barangayCodes[code], this.barangay); For debugging...
 
+    return (barangayCodes[code] === this.barangay) ?
+            true : false;
+});
 
 module.exports = mongoose.model("Program", ProgramSchema, 'programs');

@@ -43,12 +43,97 @@ router.get('/', asyncHandler(async (req, res) => {
     
 
     //Console log for testing.
+    /*
     console.log(totalProgramCount, totalBenefitCount, totalBenefactorCount);
     console.log(programCountByType);
     console.log(programCountByFrequency);
     console.log(programCountByAssistance);
+    */
 
-    //res.render("summary", { });
+    const programs = await Program.find()
+                                .sort({ name: 1 })
+                                .lean()
+                                .exec();
+    
+    for (const program of programs) {
+        const beneficiary_counts = await Beneficiary.aggregate([
+                                    {
+                                        $match: {
+                                            program_enrolled: program._id,
+                                        },
+                                    },
+                                    {
+                                        $count: "beneficiary_count"
+                                    }
+                                ]);
+        
+        const benefit_counts = await Beneficiary.aggregate([
+                                    {
+                                        $match: {
+                                            program_enrolled: program._id,
+                                        },
+                                    },
+                                    {
+                                        $group: {
+                                            _id: "$benefit_delivered"
+                                        }
+                                    },
+                                    {
+                                        $count: "benefit_count"
+                                    }
+                                ]);
+        
+        const people_counts = await Beneficiary.aggregate([
+                                    {
+                                        $match: {
+                                            program_enrolled: program._id,
+                                        },
+                                    },
+                                    {
+                                        $group: {
+                                            _id: "$person_registered"
+                                        }
+                                    },
+                                    {
+                                        $count: "people_count"
+                                    }
+                                ]);
+
+        const benefactor_counts = await Beneficiary.aggregate([
+                                {
+                                    $match: {
+                                        program_enrolled: program._id,
+                                    }
+                                },
+                                {
+                                    $lookup: {
+                                        from: "benefits",
+                                        localField: "benefit_delivered",
+                                        foreignField: "_id",
+                                        as: "benefit",
+                                    },
+                                },
+                                {
+                                    $unwind: "$benefit",
+                                },
+                                {
+                                    $group: {
+                                        _id: "$benefit.benefactor",
+                                    }
+                                },
+                                {
+                                    $count: "benefactor_count"
+                                }
+                            ]);
+
+        program.beneficiary_count = beneficiary_counts[0].beneficiary_count;
+        program.benefit_count = benefit_counts[0].benefit_count;
+        program.people_count = people_counts[0].people_count;
+        program.benefactor_count = benefactor_counts[0].benefactor_count;
+
+        console.log(programs);
+        //res.render("summary", { programs })
+    }
 }));
 
 module.exports = router;
