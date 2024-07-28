@@ -4,6 +4,7 @@ const asyncHandler = require("express-async-handler");
 const json = require("json");
 const Benefit = require("../models/benefit");
 const Benefactor = require("../models/benefactor");
+const Beneficiary = require("../models/beneficiary");
 
 // Session Authenticator
 function requireAuth(req, res, next) {
@@ -148,16 +149,18 @@ router.post('/edit', asyncHandler(async(req, res) => {
 
 // POST request for deleting item
 router.post('/delete', asyncHandler(async(req, res, next) => {
-    //Check first if there are beneficiaries with the current benefit. If there are, it cannot be deleted.
+    const beneficiaries = await Beneficiary.find({ benefit_delivered: req.body.benefit_id  }).exec();
 
-    await Benefit.deleteOne({ _id: req.body.benefit_id });
-    console.log("Benefit ID " + req.body.benefit_id + " has been deleted.");
-    res.sendStatus(200);
-}));
+    console.log(`Beneficiaries: ${beneficiaries}`);
 
-// GET request for one item.
-router.get('/:id', asyncHandler(async(req, res, next) => {
-    res.send("NOT IMPLEMENTED: Item detail");
+    if (beneficiaries.length > 0) {
+        console.log("Benefit ID " + req.body.benefit_id + " cannot be deleted.");
+        res.sendStatus(409)
+    } else {
+        await Benefit.deleteOne({ _id: req.body.benefit_id });
+        console.log("Benefit ID " + req.body.benefit_id + " has been deleted.");
+        res.sendStatus(200);
+    }
 }));
 
 module.exports = router;
