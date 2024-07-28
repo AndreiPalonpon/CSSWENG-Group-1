@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const asyncHandler = require("express-async-handler");
 const Benefactor = require("../models/benefactor");
+const Benefit = require("../models/benefit");
 
 // Session Authenticator
 function requireAuth(req, res, next) {
@@ -104,15 +105,18 @@ router.post('/edit', asyncHandler(async(req, res) => {
 
 // POST request for deleting benefactor
 router.post('/delete', asyncHandler(async(req, res) => {
-    // Check first if there are benefits from the current benefactor. If there are, he or she cannot be deleted.
-    await Benefactor.deleteOne({ _id: req.body.benefactor_id });
-    console.log(`Benefactor ID ${req.body.benefactor_id} has been deleted.`);
-    res.sendStatus(200); // HTTP 200: OK
-}));
+    const benefits = await Benefit.find({ benefactor: req.body.benefactor_id }).exec();
 
-// GET request for one benefactor
-router.get('/:id', asyncHandler(async(req, res) => {
-    res.send("NOT IMPLEMENTED: Benefactor detail");
+    console.log(`Benefits: ${benefits}`);
+
+    if (benefits.length > 0) {
+        console.log(`Benefactor ID ${req.body.benefactor_id} cannot be deleted.`);
+        res.sendStatus(409)
+    } else {
+        await Benefactor.deleteOne({ _id: req.body.benefactor_id });
+        console.log(`Benefactor ID ${req.body.benefactor_id} has been deleted.`);
+        res.sendStatus(200); // HTTP 200: OK
+    }
 }));
 
 module.exports = router;
