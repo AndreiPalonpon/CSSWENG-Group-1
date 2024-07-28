@@ -3,6 +3,7 @@ const router = express.Router();
 const asyncHandler = require("express-async-handler");
 const json = require("json");
 const Program = require("../models/program");
+const Beneficiary = require("../models/beneficiary");
 
 // Session Authenticator
 function requireAuth(req, res, next) {
@@ -126,17 +127,20 @@ router.post('/edit', asyncHandler(async(req, res) => {
     }
 }));
 
-
-// GET request for deleting program
-router.get('/:id/delete', asyncHandler(async(req, res) => {
-    res.send("NOT IMPLEMENTED: Program delete GET");
-}));
-
 // POST request for deleting program
 router.post('/delete', asyncHandler(async(req, res) => {
-    await Program.deleteOne({ _id: req.body.program_id });
-    console.log(`Program ID ${req.body.program_id} has been deleted.`);
-    res.sendStatus(200);
+    const beneficiaries = await Beneficiary.find({ program_enrolled: req.body.program_id  }).exec();
+
+    console.log(beneficiaries.length <= 0);
+    console.log(beneficiaries);
+    if (beneficiaries.length > 0) {
+        console.log(`Program ID ${req.body.program_id} cannot be deleted.`);
+        res.sendStatus(409)
+    } else {
+        await Program.deleteOne({ _id: req.body.program_id });
+        console.log(`Program ID ${req.body.program_id} has been deleted.`);
+        res.sendStatus(200);
+    }
 }));
 
 // GET request for one program
