@@ -3,7 +3,8 @@ const router = express.Router();
 const asyncHandler = require("express-async-handler");
 const json = require("json");
 const Person = require("../models/person");
-const Program = require("../models/program"); //?
+const Program = require("../models/program");
+const Beneficiary = require("../models/beneficiary");
 
 // Session Authenticator
 function requireAuth(req, res, next) {
@@ -198,9 +199,17 @@ router.get('/:id', asyncHandler(async(req, res, next) => {
 
 //POST request for deleting person
 router.post('/delete', asyncHandler(async(req, res) => {
-    await Person.deleteOne({ _id: req.body.person_id });
-    console.log(`Person ID ${req.body.person_id} has been deleted.`);
-    res.sendStatus(200);
+    const beneficiaries = await Beneficiary.find({ person_registered: req.body.person_id  }).exec();
+
+    console.log(`Beneficiaries: ${beneficiaries}`)
+    if (beneficiaries.length > 0) {
+        console.log(`Person ID ${req.body.person_id} cannot be deleted.`);
+        res.sendStatus(409);
+    } else {
+        await Person.deleteOne({ _id: req.body.person_id });
+        console.log(`Person ID ${req.body.person_id} has been deleted.`);
+        res.sendStatus(200);
+    }
 }));
 
 module.exports = router;
