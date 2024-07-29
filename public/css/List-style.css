@@ -96,12 +96,13 @@ header .container {
 
 /*-------------------------------*/
 
-.createBtn  {
+.createBtn {
     margin-bottom: 15px;
     position: absolute;
     right: 48px;
     transform: translateY(50%);
 }
+
 .createBtn button {
     font-family: 'Garet', sans-serif;
     font-weight: bold;
@@ -130,7 +131,8 @@ header .container {
     border-radius: 5px;
 }
 
-.popup .submitBtn, .submitBtn {
+.popup .submitBtn,
+.submitBtn {
     padding: 9px 14px;
     color: var(--color2);
     font-size: 16px;
@@ -143,7 +145,8 @@ header .container {
     margin-left: 550px;
 }
 
-.popup .submitBtn:hover, .submitBtn:hover {
+.popup .submitBtn:hover,
+.submitBtn:hover {
     background: darkorange;
 }
 
@@ -338,7 +341,16 @@ hr.vertical-solid {
 .nav.sidebar-nav .logout-link {
     font-size: medium;
     font-weight: bold;
-    margin-top: 310px;
+    margin-top: 250px;
+}
+
+.logout-link button {
+    color: white;
+}
+
+.logout-link button:hover {
+    color: white;
+    text-decoration: none;
 }
 
 .sidebar-nav {
@@ -612,7 +624,6 @@ hr.vertical-solid {
     max-height: 200px;
     overflow-y: auto;
 }
-
 
 
 /*-------------------------------*/
