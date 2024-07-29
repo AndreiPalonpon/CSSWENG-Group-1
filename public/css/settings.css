@@ -97,7 +97,7 @@ header .container {
 /*-------------------------------*/
 
 .addProgramBtn,
-.addPeopleBtn  {
+.addPeopleBtn {
     margin-bottom: 15px;
     position: absolute;
     right: 48px;
@@ -342,7 +342,16 @@ hr.vertical-solid {
 .nav.sidebar-nav .logout-link {
     font-size: medium;
     font-weight: bold;
-    margin-top: 310px;
+    margin-top: 200px;
+}
+
+.logout-link button {
+    color: white;
+}
+
+.logout-link button:hover {
+    color: white;
+    text-decoration: none;
 }
 
 .sidebar-nav {
